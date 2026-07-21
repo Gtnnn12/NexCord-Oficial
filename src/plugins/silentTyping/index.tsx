@@ -357,9 +357,12 @@ export default definePlugin({
                     required: false,
                     type: ApplicationCommandOptionType.STRING,
                     choices: [
-                        { name: "Global", label: "Global", value: "global" },
-                        { name: "Channel", label: "Channel", value: "channel" },
-                        { name: "Guild", label: "Guild", value: "guild" },
+                        { name: "Global",
+     label: "Global", value: "global" },
+                        { name: "Channel",
+     label: "Channel", value: "channel" },
+                        { name: "Guild",
+     label: "Guild", value: "guild" },
                     ]
                 },
                 {

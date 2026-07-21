@@ -81,10 +81,10 @@ function isUncategorized(objChannel: { channel: Channel; comparator: number; }) 
 
 export default definePlugin({
     name: "ShowHiddenChannels",
+    enabledByDefault: true,
     description: "Show channels that you do not have access to view.",
     tags: ["Servers", "Utility"],
     authors: [Devs.BigDuck, Devs.AverageReactEnjoyer, Devs.D3SOX, Devs.Ven, Devs.Nuckyz, Devs.Nickyux, Devs.dzshn, EquicordDevs.Oggetto],
-    enabledByDefault: true,
     isModified: true,
     settings,
 

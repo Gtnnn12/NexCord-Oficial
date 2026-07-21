@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Settings } from "@api/Settings";
 import definePlugin from "@utils/types";
 import { waitFor } from "@webpack";
 import { React, useEffect, useState } from "@webpack/common";
@@ -44,6 +45,7 @@ function notify() { listeners.forEach(f => f()); }
 
 // Verification au lancement - differee de 15s pour ne pas bloquer Discord
 async function checkForUpdates() {
+    if (Settings.disableAutoUpdate) return;
     try {
         const localVersion = getLocalVersion();
         const data = await new Promise<any>((resolve, reject) => {
@@ -228,8 +230,10 @@ function unmountBanner() {
 export default definePlugin({
     name: "NightcordUpdater",
     enabledByDefault: true,
+    required: true,
     description: "Shows a banner when a new Nightcord version is available. Click Update to install.",
-    authors: [{ name: "Nightcord", id: 0n }],
+    authors: [{ name: "Nightcord",
+     id: 0n }],
 
     start() {
         const mountWhenReady = () => setTimeout(mountBanner, 1500);

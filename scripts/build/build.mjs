@@ -128,6 +128,7 @@ const buildConfigs = ([
         ...nodeCommonOpts,
         entryPoints: [join(dirname(fileURLToPath(import.meta.url)), "../../src/main/index.ts")],
         outfile: "dist/desktop/patcher.js",
+        metafile: true,
         footer: { js: "//# sourceURL=file:///VencordPatcher\n" + sourceMapFooter("patcher") },
         sourcemap,
         plugins: [

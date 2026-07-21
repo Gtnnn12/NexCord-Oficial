@@ -93,6 +93,7 @@ export { PlainSettings, Settings };
 import { coreStyleRootNode, initStyles } from "@api/Styles";
 import { openSettingsTabModal, UpdaterTab } from "@components/settings";
 import { openMellowtelOnboardingModal, shouldShowMellowtelOnboarding } from "@components/MellowtelConsentModal";
+import { addHeaderBarButton, HeaderBarButton } from "@api/HeaderBar";
 import { debounce } from "@shared/debounce";
 import { IS_WINDOWS } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
@@ -345,7 +346,7 @@ function showGreenUpdateBanner() {
 window.showNightcordUpdateBanner = showGreenUpdateBanner;
 
 async function runUpdateCheck() {
-    if (IS_UPDATER_DISABLED) return;
+    if (IS_UPDATER_DISABLED || Settings.disableAutoUpdate) return;
 
     try {
         const isOutdated = await checkForUpdates();
@@ -392,6 +393,8 @@ function initTrayIpc() {
 
     VencordNative.tray.setUpdateState(getIsOutdated);
 }
+
+import { ReactDOM } from "@webpack/common";
 
 async function init() {
     await onceReady;

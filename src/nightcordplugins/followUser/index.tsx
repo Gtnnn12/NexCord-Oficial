@@ -58,6 +58,8 @@ async function persist() {
     await DataStore.set(DS_KEY, followedId ? { id: followedId, name: followedName } : null);
 }
 
+let fastCheckInterval: ReturnType<typeof setInterval> | null = null;
+
 function getChannelOf(userId: string): string | null {
     try {
         const all: any = VoiceStateStore?.getAllVoiceStates?.() ?? {};
@@ -71,15 +73,14 @@ function getChannelOf(userId: string): string | null {
 function joinChannel(channelId: string) {
     try {
         const ch = ChannelStore?.getChannel?.(channelId);
-        // Utilisation de setTimeout pour eviter de dispatch pendant un cycle de dispatch de Discord
-        // ce qui cause le "dispatch during dispatch" error et fait crash/refresh le client
-        setTimeout(() => {
+        // Instant microtask execution so follow happens in 0ms without artificial delay or dispatch-in-dispatch error
+        queueMicrotask(() => {
             FluxDispatcher?.dispatch?.({
                 type: "VOICE_CHANNEL_SELECT",
                 channelId,
                 guildId: ch?.guild_id ?? null,
             });
-        }, 100);
+        });
     } catch { }
 }
 
@@ -121,7 +122,28 @@ function getCurrentUserChannel(): string | null {
     } catch { return null; }
 }
 
-
+function checkFollowedUser() {
+    if (!followedId) return;
+    const newCh = getChannelOf(followedId);
+    if (newCh !== followedChannel) {
+        followedChannel = newCh;
+        if (newCh) {
+            resetInactivityTimer();
+            const myCh = getCurrentUserChannel();
+            if (myCh !== newCh) {
+                if (isUserStreaming()) {
+                    Toasts.show({
+                        message: `Suivi suspendu : impossible de rejoindre ${followedName} pendant que vous streamez`,
+                        type: Toasts.Type.FAILURE,
+                        id: Toasts.genId()
+                    });
+                } else {
+                    joinChannel(newCh);
+                }
+            }
+        }
+    }
+}
 
 // ── Listener voix ─────────────────────────────────────────────────────────────
 function onVoiceStateUpdates(data: any) {
@@ -134,7 +156,7 @@ function onVoiceStateUpdates(data: any) {
         if (newCh !== followedChannel) {
             followedChannel = newCh;
             if (newCh) {
-                resetInactivityTimer(); // activite detectee, on repart pour 30min
+                resetInactivityTimer();
                 const myCh = getCurrentUserChannel();
                 if (myCh !== newCh) {
                     if (isUserStreaming()) {
@@ -150,14 +172,31 @@ function onVoiceStateUpdates(data: any) {
             }
         }
     }
+    checkFollowedUser();
 }
 
 function startFlux() {
     if (fluxUnsub) return;
-    FluxDispatcher?.subscribe?.("VOICE_STATE_UPDATES", onVoiceStateUpdates);
-    fluxUnsub = () => FluxDispatcher?.unsubscribe?.("VOICE_STATE_UPDATES", onVoiceStateUpdates);
+    const handler = (data: any) => onVoiceStateUpdates(data);
+    FluxDispatcher?.subscribe?.("VOICE_STATE_UPDATES", handler);
+    FluxDispatcher?.subscribe?.("VOICE_STATE_UPDATE", handler);
+    try { VoiceStateStore?.addChangeListener?.(checkFollowedUser); } catch { }
+
+    if (fastCheckInterval) clearInterval(fastCheckInterval);
+    fastCheckInterval = setInterval(checkFollowedUser, 50);
+
+    fluxUnsub = () => {
+        FluxDispatcher?.unsubscribe?.("VOICE_STATE_UPDATES", handler);
+        FluxDispatcher?.unsubscribe?.("VOICE_STATE_UPDATE", handler);
+        try { VoiceStateStore?.removeChangeListener?.(checkFollowedUser); } catch { }
+        if (fastCheckInterval) { clearInterval(fastCheckInterval); fastCheckInterval = null; }
+    };
 }
-function stopFlux() { fluxUnsub?.(); fluxUnsub = null; }
+function stopFlux() {
+    fluxUnsub?.();
+    fluxUnsub = null;
+    if (fastCheckInterval) { clearInterval(fastCheckInterval); fastCheckInterval = null; }
+}
 
 // ── Follow / Unfollow ─────────────────────────────────────────────────────────
 export async function follow(userId: string) {
@@ -277,7 +316,8 @@ export default definePlugin({
     name: "FollowUser",
     enabledByDefault: true,
     description: "Follows a user in voice channels. Right-click user → Follow User. White heart in header = active following (left-click = join voice channel, right-click = unfollow). Auto-unfollows after inactivity.",
-    authors: [{ name: "Nightcord", id: 0n }],
+    authors: [{ name: "Nightcord",
+     id: 0n }],
     settings,
 
     headerBarButton: {

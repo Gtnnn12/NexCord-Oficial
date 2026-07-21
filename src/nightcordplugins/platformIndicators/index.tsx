@@ -199,7 +199,6 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "PlatformIndicators",
-    enabledByDefault: false,
     description: "Adds platform indicators (Desktop, Mobile, Web...) to users",
     authors: [Devs.kemo, Devs.TheSun, Devs.Nuckyz, Devs.Ven, EquicordDevs.neoarz],
     isModified: true,

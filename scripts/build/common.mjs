@@ -456,8 +456,22 @@ export const commonOpts = {
         "@webpack/patcher": "./src/webpack/patchWebpack",
         "@webpack": "./src/webpack/webpack",
         "@nightcordplugins": "./src/nightcordplugins",
+        "@Nightcord/types/webpack/common": "./src/webpack/common",
+        "@Nightcord/types/webpack": "./src/webpack/webpack",
+        "@Nightcord/types/utils": "./src/utils",
+        "@Nightcord/types/components": "./src/components",
+        "@Nightcord/types/api": "./src/api",
+        "@Nightcord/types/plugins": "./src/plugins",
+        "@Nightcord/types": "./src",
+        "@equicord/types/webpack/common": "./src/webpack/common",
+        "@equicord/types/webpack": "./src/webpack/webpack",
+        "@equicord/types/utils": "./src/utils",
+        "@equicord/types/components": "./src/components",
+        "@equicord/types/api": "./src/api",
+        "@equicord/types": "./src",
     }
 };
+
 
 export const commonRendererPlugins = [
     banImportPlugin(/^react$/, "Cannot import from react. React and hooks should be imported from @webpack/common"),

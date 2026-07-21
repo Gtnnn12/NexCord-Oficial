@@ -324,6 +324,13 @@ function EquicordSettings() {
                 restartRequired: false,
                 warning: { enabled: false },
             },
+            !IS_WEB && {
+                key: "disableAutoUpdate",
+                title: t("Disable Automatic Updates"),
+                description: t("Prevent Nightcord from automatically checking, downloading, or prompting for updates on startup. You can still update manually in the \"Updater\" settings tab."),
+                restartRequired: false,
+                warning: { enabled: false },
+            },
         ];
 
     return (

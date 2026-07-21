@@ -48,13 +48,15 @@ export async function rebuild(): Promise<boolean> {
     return Unwrap(VencordNative.updater.rebuild());
 }
 
+import { Settings } from "@api/Settings";
+
 export const getRepo = () => Unwrap(VencordNative.updater.getRepo());
 
 /**
  * Vérifie les mises à jour au démarrage et propose à l'utilisateur de mettre à jour.
  */
 export async function maybePromptToUpdate(confirmMessage: string, checkForDev = false) {
-    if (IS_WEB || IS_UPDATER_DISABLED) return;
+    if (IS_WEB || IS_UPDATER_DISABLED || Settings.disableAutoUpdate) return;
     if (checkForDev && IS_DEV) return;
 
     try {

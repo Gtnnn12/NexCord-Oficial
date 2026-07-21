@@ -334,10 +334,11 @@ const AutoResponderButton = () => {
 
 export default definePlugin({
     name: "AutoResponder",
-    description: "Automatically reply to DMs using AI to match your writing style.",
-    authors: [{ name: "Nightcord", id: 0n }],
-    settings,
     enabledByDefault: true,
+    description: "Automatically reply to DMs using AI to match your writing style.",
+    authors: [{ name: "Nightcord",
+     id: 0n }],
+    settings,
     chatBarButton: {
         icon: KeyboardIcon,
         render: AutoResponderButton,

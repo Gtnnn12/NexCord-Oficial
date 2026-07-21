@@ -741,7 +741,8 @@ async function sendIncomingMessageRequest(user: any) {
             id: channelId, type: 1, flags: 0,
             guild_id: null, guildId: null,
             lastMessageId: msgId, lastPinTimestamp: null,
-            name: "", icon: null, ownerId: null, applicationId: null,
+            name: "",
+     icon: null, ownerId: null, applicationId: null,
             recipients: [user.id], recipientIDs: [user.id],
             rawRecipients: [makeUserPayload(user)],
             nicks: {},
@@ -881,7 +882,8 @@ export default definePlugin({
     name: "FakeFriends",
     enabledByDefault: true,
     description: "Locally simulates Discord friends and requests. Persistent between reloads.",
-    authors: [{ name: "Nightcord", id: 0n }],
+    authors: [{ name: "Nightcord",
+     id: 0n }],
     dependencies: ["ContextMenuAPI"],
 
     async start() {

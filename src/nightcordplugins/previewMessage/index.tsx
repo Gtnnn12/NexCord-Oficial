@@ -272,10 +272,11 @@ function _onDocMouseLeave(e: Event) {
 
 export default definePlugin({
     name: "PreviewMessage",
-    description: "Hover over a DM in your inbox to preview unread messages without opening the conversation. Only shows when there are unread messages.",
-    authors: [{ name: "nightcord", id: 0n }],
-    tags: ["Chat", "Utility"],
     enabledByDefault: true,
+    description: "Hover over a DM in your inbox to preview unread messages without opening the conversation. Only shows when there are unread messages.",
+    authors: [{ name: "nightcord",
+     id: 0n }],
+    tags: ["Chat", "Utility"],
 
     start() {
         startObserver();

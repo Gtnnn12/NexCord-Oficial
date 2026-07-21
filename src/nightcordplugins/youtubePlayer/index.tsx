@@ -179,7 +179,8 @@ export default definePlugin({
     name: "YoutubeInDiscord",
     enabledByDefault: true,
     description: "Watch real YouTube inside Discord, with videos, comments, and full functionality.",
-    authors: [{ name: "Nightcord", id: 0n }],
+    authors: [{ name: "Nightcord",
+     id: 0n }],
     settings,
 
     headerBarButton: { icon: YoutubeIconComponent, render: YTHeaderBarButton },

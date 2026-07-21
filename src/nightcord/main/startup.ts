@@ -23,6 +23,7 @@ import { isDeckGameMode } from "./utils/steamOS";
 console.log("Nightcord v" + app.getVersion());
 
 process.env.Nightcord_USER_DATA_DIR = DATA_DIR;
+process.env.NIGHTCORD_USER_DATA_DIR = DATA_DIR;
 
 const isLinux = process.platform === "linux";
 
