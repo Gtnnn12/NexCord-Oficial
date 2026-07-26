@@ -28,6 +28,7 @@ import overlayStyle from "./deleteStyleOverlay.css?managed";
 import textStyle from "./deleteStyleText.css?managed";
 import { createMessageDiff, DiffPart } from "./diffUtils";
 import { openHistoryModal } from "./HistoryModal";
+import { t } from "../autoTranslateNightcord";
 import { startEnhanced, stopEnhanced, Native } from "./enhancedLogic";
 export { Native };
 
@@ -84,7 +85,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (
             <Menu.MenuItem
                 id={TOGGLE_DELETE_STYLE_ID}
                 key={TOGGLE_DELETE_STYLE_ID}
-                label="Toggle Deleted Highlight"
+                label={t("Toggle Deleted Highlight")}
                 action={() => domElement.classList.toggle("messagelogger-deleted")}
             />,
         );
@@ -98,7 +99,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (
             <Menu.MenuItem
                 id={TOGGLE_DIFF_VIEW_ID}
                 key={TOGGLE_DIFF_VIEW_ID}
-                label={isDisabled ? "Enable Diff View" : "Disable Diff View"}
+                label={isDisabled ? t("Enable Diff View") : t("Disable Diff View")}
                 color="danger"
                 action={() => {
                     if (isDisabled) disabledDiffMessages.delete(id);
@@ -116,9 +117,9 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (
     let label;
 
     if (!isPluginEnabled("MessageLoggerEnhanced")) {
-        label = "Remove Message History";
+        label = t("Remove Message History");
     } else {
-        label = "Remove Message (Temporary)";
+        label = t("Remove Message (Temporary)");
     }
 
     children.push(
@@ -172,7 +173,7 @@ const patchChannelContextMenu: NavContextMenuPatchCallback = (
     group.push(
         <Menu.MenuItem
             id="vc-ml-clear-channel"
-            label="Clear Message Log"
+            label={t("Clear Message Log")}
             color="danger"
             action={() => {
                 const affectedIds = new Set<string>();
@@ -206,6 +207,14 @@ const patchChannelContextMenu: NavContextMenuPatchCallback = (
                         });
                     })
                 );
+
+                // Also clear from IndexedDB so they don't reappear when scrolling up
+                import("./db").then(async ({ getMessagesForChannelIDB, deleteMessagesBulkIDB }) => {
+                    const channelMessages = await getMessagesForChannelIDB(channel.id);
+                    if (channelMessages.length > 0) {
+                        await deleteMessagesBulkIDB(channelMessages.map(m => m.message_id));
+                    }
+                });
             }}
         />,
     );

@@ -6,60 +6,49 @@
 
 import { execFileSync } from "child_process";
 import * as crypto from "crypto";
-import { safeStorage } from "electron";
-import { existsSync, readdirSync,readFileSync } from "fs";
-import { request } from "https";
+import { net, safeStorage } from "electron";
+import { existsSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 
-const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) discord/1.0.9175 Chrome/128.0.6613.186 Electron/32.2.7 Safari/537.36";
-const X_SUPER_PROPERTIES = "eyJvcyI6IldpbmRvd3MiLCJicm93c2VyIjoiRGlzY29yZCBDbGllbnQiLCJyZWxlYXNlX2NoYW5uZWwiOiJzdGFibGUiLCJjbGllbnRfdmVyc2lvbiI6IjEuMC45MTc1IiwiaGFzX2NsaWVudF9tb2RzIjpmYWxzZX0=";
-
-// Verification token
+// Verification token via Electron net.request (utilise le moteur réseau Chromium d'Electron avec le bon fingerprint TLS)
 export async function checkToken(_: any, token: string): Promise<{ valid: boolean; user?: any; error?: string; }> {
     return new Promise(resolve => {
-        const req = request({
-            hostname: "discord.com",
-            path: "/api/v9/users/@me",
-            method: "GET",
-            headers: {
-                "Authorization": token,
-                "User-Agent": USER_AGENT,
-                "Content-Type": "application/json",
-                "X-Super-Properties": X_SUPER_PROPERTIES,
-                "X-Discord-Locale": "en-US",
-                "X-Debug-Options": "bugReporterEnabled",
-                "Accept": "*/*",
-                "Accept-Language": "en-US,en;q=0.9",
-                "Connection": "keep-alive",
-            }
-        }, res => {
-            let data = "";
-            res.on("data", (chunk: Buffer) => { data += chunk.toString(); });
-            res.on("end", () => {
-                if (res.statusCode === 200) {
-                    try { resolve({ valid: true, user: JSON.parse(data) }); }
-                    catch { resolve({ valid: false, error: "parse_error" }); }
-                } else if (res.statusCode === 401 || res.statusCode === 403) {
-                    // Token vraiment invalid/révoqué
-                    resolve({ valid: false, error: "unauthorized" });
-                } else if (res.statusCode === 429) {
-                    // Rate limited — pas invalid, juste throttlé
-                    resolve({ valid: false, error: "rate_limited" });
-                } else {
-                    resolve({ valid: false, error: `http_${res.statusCode}` });
-                }
+        try {
+            const req = net.request({
+                method: "GET",
+                url: "https://discord.com/api/v9/users/@me"
             });
-        });
-        req.on("error", (e: any) => {
-            console.error("[TokenImporter] req error:", e?.message);
-            resolve({ valid: false, error: "network_error" });
-        });
-        req.setTimeout(15000, () => {
-            req.destroy();
-            console.warn("[TokenImporter] timeout for token", token.slice(0, 15));
-            resolve({ valid: false, error: "timeout" });
-        });
-        req.end();
+
+            req.setHeader("Authorization", token);
+            req.setHeader("Content-Type", "application/json");
+
+            req.on("response", res => {
+                let data = "";
+                res.on("data", (chunk: Buffer) => { data += chunk.toString(); });
+                res.on("end", () => {
+                    if (res.statusCode === 200) {
+                        try { resolve({ valid: true, user: JSON.parse(data) }); }
+                        catch { resolve({ valid: false, error: "parse_error" }); }
+                    } else if (res.statusCode === 401 || res.statusCode === 403) {
+                        resolve({ valid: false, error: "unauthorized" });
+                    } else if (res.statusCode === 429) {
+                        resolve({ valid: false, error: "rate_limited" });
+                    } else {
+                        resolve({ valid: false, error: `http_${res.statusCode}` });
+                    }
+                });
+            });
+
+            req.on("error", (e: any) => {
+                console.error("[TokenImporter] net req error:", e?.message);
+                resolve({ valid: false, error: "network_error" });
+            });
+
+            req.end();
+        } catch (err: any) {
+            console.error("[TokenImporter] net exception:", err);
+            resolve({ valid: false, error: "exception" });
+        }
     });
 }
 

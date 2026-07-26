@@ -8,7 +8,7 @@ import "./styles.css";
 
 import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
-import { t } from "@api/i18n";
+import { t } from "../autoTranslateNightcord";
 import { FormSwitch } from "@components/FormSwitch";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
@@ -480,8 +480,7 @@ function ServerClonerUI({ initialSourceId = "" }: { initialSourceId?: string }) 
         if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
     }, [_logs.length]);
 
-    const allGuilds = useMemo(() =>
-        Object.values(GuildStore.getGuilds() as Record<string, any>)
+    const allGuilds = useMemo(() => Object.values(GuildStore.getGuilds() as Record<string, any>)
             .sort((a, b) => a.name.localeCompare(b.name))
             .map(g => ({ label: g.name, value: g.id })),
         []);
@@ -641,7 +640,7 @@ const patchGuildContext: NavContextMenuPatchCallback = (children, { guild }) => 
             <Menu.MenuItem
                 id="server-cloner"
                 key="server-cloner"
-                label="ServerCloner"
+                label={t("Server Cloner")}
                 action={() => openModal(props => <ServerClonerModal rootProps={props} guildId={guild.id} />)}
             />
         );

@@ -10,7 +10,7 @@ import * as DataStore from "@api/DataStore";
 import { HeaderBarButton } from "@api/HeaderBar";
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
+import { t } from "../autoTranslateNightcord";
 import { findByPropsLazy } from "@webpack";
 import {
     createRoot,
@@ -661,10 +661,10 @@ function openLocker(type: LockType, button: HTMLElement | null, onSuccess?: (new
                         data.salt = salt;
                         data.iterations = iterations;
                         saveData();
-                        showToast("Passcode has been updated!", Toasts.Type.SUCCESS);
+                        showToast(t("Passcode has been updated!"), Toasts.Type.SUCCESS);
                     }).catch(e => {
                         console.error("[PasscodeLock] hashCode failed", e);
-                        showToast("Failed to save passcode, please try again.", Toasts.Type.FAILURE);
+                        showToast(t("Failed to save passcode, please try again."), Toasts.Type.FAILURE);
                     });
                 }
                 if (success) onSuccess?.(newCode);
@@ -690,7 +690,7 @@ function lock(button: HTMLElement | null = document.body) {
         console.error("[PasscodeLock] lock() failed to open the overlay", e);
         isLocked = false;
         forceReset("lock() threw while opening the overlay");
-        showToast("PasscodeLock failed to open — check the console for details.", Toasts.Type.FAILURE);
+        showToast(t("PasscodeLock failed to open — check the console for details."), Toasts.Type.FAILURE);
     }
 }
 
@@ -720,7 +720,7 @@ export default definePlugin({
                     ref={ref as any}
                     icon={LockIcon}
                     iconSize={20}
-                    tooltip="Lock Discord"
+                    tooltip={t("Lock Discord")}
                     onClick={() => {
                         // If a previous overlay somehow got stuck (root still set but
                         // nothing visible / unresponsive), this button doubles as a
@@ -749,7 +749,7 @@ export default definePlugin({
                         openLocker("editor", document.body, () => force(n => n + 1));
                     }}
                 >
-                    {data.hash ? "Edit Passcode" : "Set Up Passcode"}
+                    {data.hash ? t("Edit Passcode") : t("Set Up Passcode")}
                 </button>
                 <button
                     style={{ padding: "8px 14px", borderRadius: "4px", background: "transparent", color: "var(--text-normal, #fff)", border: "1px solid var(--background-modifier-accent, #555)", cursor: "pointer" }}
@@ -759,7 +759,7 @@ export default definePlugin({
                         }
                         lock(document.body);
                     }}>
-                    Lock Discord Now
+                    {t("Lock Discord Now")}
                 </button>
             </div>
         );
@@ -775,8 +775,8 @@ export default definePlugin({
             originalShowNotification = NotificationModule.showNotification;
             NotificationModule.showNotification = function (...args: any[]) {
                 args[0] = Gifs.LOCKED_SHAKE;
-                args[1] = "New notification";
-                args[2] = "You have 1 new notification!";
+                args[1] = t("New notification");
+                args[2] = t("You have 1 new notification!");
                 if (args[4]?.onClick) args[4].onClick = () => {};
                 return originalShowNotification.apply(this, args);
             };

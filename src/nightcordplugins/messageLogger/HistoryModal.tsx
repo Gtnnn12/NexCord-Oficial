@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
@@ -47,7 +48,7 @@ export function HistoryModal({ modalProps, message }: { modalProps: ModalProps; 
             </ModalHeader>
 
             <ModalContent className={cl("contents")}>
-                <FormSwitch title="Show Diff" value={showDiff} onChange={setShowDiff} />
+                <FormSwitch title={t("Show Diff")} value={showDiff} onChange={setShowDiff} />
                 <TabBar
                     type="top"
                     look="brand"

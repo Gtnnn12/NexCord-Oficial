@@ -375,16 +375,12 @@ function StereoInstallerPanel() {
                                 color={Button.Colors.PRIMARY}
                                 size={Button.Sizes.SMALL}
                                 onClick={openDiscordAudioCollectiveSource}
-                            >
-                                Discord Audio Collective
-                            </Button>
+                            >{t("Discord Audio Collective")}</Button>
                             <Button
                                 color={Button.Colors.PRIMARY}
                                 size={Button.Sizes.SMALL}
                                 onClick={openVoicePlaygroundSource}
-                            >
-                                Voice Playground
-                            </Button>
+                            >{t("Voice Playground")}</Button>
                         </div>
                     </div>
                 </div>
@@ -399,24 +395,18 @@ function StereoInstallerPanel() {
                                 color={Button.Colors.PRIMARY}
                                 size={Button.Sizes.SMALL}
                                 onClick={openVoicePlaygroundSource}
-                            >
-                                Voice Playground source
-                            </Button>
+                            >{t("Voice Playground source")}</Button>
                             <Button
                                 color={Button.Colors.PRIMARY}
                                 size={Button.Sizes.SMALL}
                                 onClick={openMethod2Tutorial}
-                            >
-                                Corruption fix tutorial
-                            </Button>
+                            >{t("Corruption fix tutorial")}</Button>
                             <Button
                                 color={Button.Colors.RED}
                                 size={Button.Sizes.SMALL}
                                 disabled={busy}
                                 onClick={confirmMethod2IndexPatch}
-                            >
-                                Replace index.js
-                            </Button>
+                            >{t("Replace index.js")}</Button>
                         </div>
                     </div>
                 )}
@@ -433,33 +423,25 @@ function StereoInstallerPanel() {
                         size={Button.Sizes.SMALL}
                         disabled={busy}
                         onClick={() => void autoDetect()}
-                    >
-                        Auto-detect
-                    </Button>
+                    >{t("Auto-detect")}</Button>
                     <Button
                         color={Button.Colors.PRIMARY}
                         size={Button.Sizes.SMALL}
                         disabled={busy}
                         onClick={() => void browse()}
-                    >
-                        Browse
-                    </Button>
+                    >{t("Browse")}</Button>
                     <Button
                         color={Button.Colors.GREEN}
                         size={Button.Sizes.SMALL}
                         disabled={busy}
                         onClick={confirmPatch}
-                    >
-                        Patch Discord voice
-                    </Button>
+                    >{t("Patch Discord voice")}</Button>
                     <Button
                         color={Button.Colors.RED}
                         size={Button.Sizes.SMALL}
                         disabled={busy}
                         onClick={() => void runAction("revert")}
-                    >
-                        Revert to backup
-                    </Button>
+                    >{t("Revert to backup")}</Button>
                 </div>
             </div>
 
@@ -537,7 +519,7 @@ export default definePlugin({
         if (!SettingsPlugin.customEntries.some(entry => entry.key === SETTINGS_ENTRY_KEY)) {
             SettingsPlugin.customEntries.push({
                 key: SETTINGS_ENTRY_KEY,
-                title: "StereoInstaller",
+                title: t("StereoInstaller"),
                 Component: ErrorBoundary.wrap(StereoInstallerPage, { noop: true }),
                 Icon: HeadphonesIcon,
             });

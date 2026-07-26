@@ -16,12 +16,13 @@ import { classNameFactory } from "@utils/css";
 import { useFixedTimer } from "@utils/react";
 import { formatDurationMs } from "@utils/text";
 import definePlugin, { OptionType } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
+import { t } from "../autoTranslateNightcord";
 import type { Message, Stream } from "@vencord/discord-types";
 import { ApplicationStreamingStore, ChannelStore, Clickable, FluxDispatcher, GuildMemberStore, IconUtils, MediaEngineStore, MessageStore, ReactDOM, RelationshipStore, SelectedChannelStore, useEffect, useRef, UserGuildSettingsStore, UserStore, useState, useStateFromStores, VoiceStateStore } from "@webpack/common";
 import { findByPropsLazy } from "@webpack";
 import type { MouseEvent, PointerEvent, ReactNode, SVGProps } from "react";
 import { follow, unfollow, useFollowId } from "../followUser";
+const IS_WEB = typeof window !== "undefined" && typeof (window as any).VencordNative === "undefined";
 
 const IslandVoiceActions = findByPropsLazy("toggleSelfMute");
 const IslandChannelActions = findByPropsLazy("selectVoiceChannel");
@@ -347,10 +348,10 @@ function SpotifySection() {
                 </div>
             </div>
             <div className={cl("controls")}>
-                <ControlButton label="Previous track" onClick={() => SpotifyStore.prev()}>
+                <ControlButton label={t("Previous track")} onClick={() => SpotifyStore.prev()}>
                     <Glyph path="M6 5h2v14H6V5Zm3 7 9-7v14l-9-7Z" />
                 </ControlButton>
-                <ControlButton label={isPlaying ? "Pause" : "Play"} active={isPlaying} onClick={() => SpotifyStore.setPlaying(!isPlaying)}>
+                <ControlButton label={isPlaying ? t("Pause") : t("Play")} active={isPlaying} onClick={() => SpotifyStore.setPlaying(!isPlaying)}>
                     <Glyph path={isPlaying ? "M6 5h4v14H6V5Zm8 0h4v14h-4V5Z" : "M8 5v14l11-7L8 5Z"} />
                 </ControlButton>
                 <ControlButton label={t("Next track")} onClick={() => SpotifyStore.next()}>
@@ -548,7 +549,7 @@ function VoiceSection({ channelId }: { channelId: string; }) {
                 </div>
                 {showCallControls && (
                     <div className={cl("controls")}>
-                        <ControlButton label={isMuted ? "Unmute" : "Mute"} danger={isMuted} onClick={() => IslandVoiceActions.toggleSelfMute()}>
+                        <ControlButton label={isMuted ? t("Unmute") : t("Mute")} danger={isMuted} onClick={() => IslandVoiceActions.toggleSelfMute()}>
                             <VoiceIcon slashed={isMuted}><Microphone /></VoiceIcon>
                         </ControlButton>
                         <ControlButton label={isDeafened ? t("Undeafen") : t("Deafen")} danger={isDeafened} onClick={() => IslandVoiceActions.toggleSelfDeaf()}>
@@ -608,6 +609,7 @@ function ScreenShareSection({ startedAt, stream }: { startedAt: number; stream: 
 function DynamicIsland({ onlySoundCord }: { onlySoundCord?: boolean }) {
     if (!isDynamicIslandActive && !onlySoundCord) return null;
     const [expanded, setExpanded] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const [notification, setNotification] = useState(runtime.notification);
     const [primaryIsland, setPrimaryIsland] = useState<IslandType>(IslandType.ScreenShare);
     const [spotifyIdle, setSpotifyIdle] = useState(false);
@@ -765,13 +767,17 @@ function DynamicIsland({ onlySoundCord }: { onlySoundCord?: boolean }) {
     const dateString = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
 
     return (
-        <div className={cl("root", `color-${islandColor}`, {
-            "root-expanded": expanded,
-            "root-idle": idle,
-            "root-notification": notification != null,
-            "root-playing": primaryIsPlaying && (primary === IslandType.Spotify || primary === IslandType.SoundCord),
-            "root-sharing": primary === IslandType.ScreenShare
-        })}>
+        <div 
+            className={cl("root", `color-${islandColor}`, {
+                "root-expanded": expanded || isHovered,
+                "root-idle": idle,
+                "root-notification": notification != null,
+                "root-playing": primaryIsPlaying && (primary === IslandType.Spotify || primary === IslandType.SoundCord),
+                "root-sharing": primary === IslandType.ScreenShare
+            })}
+            onMouseEnter={() => IS_WEB && setIsHovered(true)}
+            onMouseLeave={() => IS_WEB && setIsHovered(false)}
+        >
             <Clickable
                 className={cl("summary")}
                 aria-expanded={expanded}
@@ -793,7 +799,7 @@ function DynamicIsland({ onlySoundCord }: { onlySoundCord?: boolean }) {
                 <div key={notification?.id ?? primary ?? "idle"} className={cl("summary-copy")}>
                     <strong>{notification?.title ?? (primaryStream ? t("You are sharing your screen") : primaryTrack?.name ?? primarySoundCord?.title ?? (primaryChannelId ? t("Discord call") : (idle ? timeString : t("Dynamic Island"))))}</strong>
                     <span>{notification?.body ?? (primaryStream
-                        ? <>Live for <ScreenShareTimer startedAt={streamStartedAt} /></>
+                        ? <>{t("Live for")}<ScreenShareTimer startedAt={streamStartedAt} /></>
                         : primaryTrack
                             ? primaryTrack.artists.map(artist => artist.name).join(", ")
                             : primarySoundCord
@@ -825,7 +831,7 @@ function DynamicIsland({ onlySoundCord }: { onlySoundCord?: boolean }) {
                         {track && <SpotifySection />}
                         {scTrack && <SoundCordSection sc={soundCordState} />}
                         {channelId && <VoiceSection channelId={channelId} />}
-                        {idle && <div className={cl("empty")}>Enable an Island type, play music, or join a call to show controls.</div>}
+                        {idle && <div className={cl("empty")}>{t("Enable an Island type, play music, or join a call to show controls.")}</div>}
                     </div>
                 </div>
             </div>

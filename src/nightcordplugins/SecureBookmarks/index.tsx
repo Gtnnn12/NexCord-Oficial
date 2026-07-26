@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
@@ -35,7 +36,7 @@ function SecureBookmarksButton() {
     return (
         <HeaderBarButton
             icon={BookmarkIcon}
-            tooltip="SecureBookmarks"
+            tooltip={t("SecureBookmarks")}
             onClick={openSecureBookmarksModal}
         />
     );

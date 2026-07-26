@@ -8,7 +8,7 @@ import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatc
 import { HeaderBarButton } from "@api/HeaderBar";
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
-import { t } from "@api/i18n";
+import { t } from "../autoTranslateNightcord";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy, findStoreLazy } from "@webpack";
 import { Menu, React, Toasts, useEffect,useState } from "@webpack/common";
@@ -133,7 +133,7 @@ function checkFollowedUser() {
             if (myCh !== newCh) {
                 if (isUserStreaming()) {
                     Toasts.show({
-                        message: `Suivi suspendu : impossible de rejoindre ${followedName} pendant que vous streamez`,
+                        message: t("Follow suspended: cannot join {name} while streaming").replace("{name}", followedName),
                         type: Toasts.Type.FAILURE,
                         id: Toasts.genId()
                     });
@@ -290,7 +290,7 @@ function FollowHeaderButton() {
     return (
         <HeaderBarButton
             icon={() => <HeartIcon filled={true} />}
-            tooltip={`${followedName} — Clic: rejoindre vocal | Clic droit: unfollow`}
+            tooltip={t("{name} — Clic: join voice | Right click: unfollow").replace("{name}", followedName)}
             onClick={handleClick}
             onContextMenu={handleClick}
         />
@@ -305,7 +305,7 @@ const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
     children.push(
         <Menu.MenuCheckboxItem
             id="follow-user-ctx"
-            label={isFollowed ? "Unfollow User" : "Follow User"}
+            label={isFollowed ? t("Unfollow User") : t("Follow User")}
             checked={isFollowed}
             action={() => { if (isFollowed) unfollow(); else follow(userId); }}
         />

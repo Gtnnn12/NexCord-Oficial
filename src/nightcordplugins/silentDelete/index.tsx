@@ -10,7 +10,7 @@ import { addMessagePopoverButton as addButton, removeMessagePopoverButton as rem
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
 import { ChannelStore, Constants, Menu, RestAPI, UserStore } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
+import { t } from "../autoTranslateNightcord";
 
 const settings = definePluginSettings({
     replacementText: {
@@ -37,18 +37,11 @@ const settings = definePluginSettings({
         type: OptionType.NUMBER,
         description: t("Delay in milliseconds between each message deletion during /silentpurge (recommended: 500-1000 to avoid rate limits)."),
         default: 500
-    },
-    accentColor: {
-        type: OptionType.STRING,
-        description: t("Accent color for the Silent Delete icon (hex code)."),
-        default: "#ed4245"
     }
 });
 
-const getAccentColor = () => settings.store.accentColor || "#ed4245";
-
 const SilentDeleteIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill={getAccentColor()}>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
         <path d="M15 3.999V2H9V3.999H3V5.999H21V3.999H15Z" />
         <path d="M5 6.99902V18.999C5 20.101 5.897 20.999 7 20.999H17C18.103 20.999 19 20.101 19 18.999V6.99902H5ZM11 17H9V11H11V17ZM15 17H13V11H15V17Z" />
     </svg>
@@ -87,14 +80,15 @@ async function silentDeleteMessage(channelId: string, messageId: string, deleteO
 }
 
 const messageContextMenuPatch: NavContextMenuPatchCallback = (children, { message }) => {
-    if (!message || message.author.id !== UserStore.getCurrentUser().id || !message.deleted) return;
+    if (!message || message.author?.id !== UserStore.getCurrentUser()?.id) return;
 
-    const group = findGroupChildrenByChildId("remove-message-history", children) ?? children;
+    const group = findGroupChildrenByChildId("edit", children) ?? children;
     group.push(
         <Menu.MenuItem
-            id="silent-delete-history"
-            label={<span style={{ color: getAccentColor() }}>{t("Silent Delete History")}</span>}
-            action={() => silentDeleteMessage(message.channel_id, message.id, false)}
+            id="silent-delete"
+            color="danger"
+            label={t("Silent Delete")}
+            action={() => silentDeleteMessage(message.channel_id, message.id, !message.deleted)}
             icon={SilentDeleteIcon}
         />
     );
@@ -182,7 +176,7 @@ export default definePlugin({
 
     start() {
         addButton("SilentDelete", msg => {
-            if (msg.author.id !== UserStore.getCurrentUser().id || msg.deleted) return null;
+            if (msg.author?.id !== UserStore.getCurrentUser()?.id || msg.deleted) return null;
 
             return {
                 label: t("Silent Delete"),

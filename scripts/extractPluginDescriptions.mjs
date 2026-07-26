@@ -131,11 +131,48 @@ for (const p of unique) {
     for (const s of p.settingKeys) {
         allStrings.add(s);
     }
-    if (p.translationKeys) {
-        for (const t of p.translationKeys) {
-            allStrings.add(t);
+}
+
+function scanDirForTranslations(dirPath) {
+    if (!existsSync(dirPath)) return;
+    const items = readdirSync(dirPath, { withFileTypes: true });
+    for (const item of items) {
+        const fullPath = join(dirPath, item.name);
+        if (item.isDirectory()) {
+            scanDirForTranslations(fullPath);
+        } else if (item.isFile() && (fullPath.endsWith(".ts") || fullPath.endsWith(".tsx") || fullPath.endsWith(".js") || fullPath.endsWith(".jsx"))) {
+            try {
+                const content = readFileSync(fullPath, "utf-8");
+                const tRegex = /(?:\btPlugin|\bt)\(\s*(?:"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'|`((?:[^`\\]|\\.)*)`)\s*\)/g;
+                let tMatch;
+                while ((tMatch = tRegex.exec(content)) !== null) {
+                    const val = tMatch[1] ?? tMatch[2] ?? tMatch[3] ?? "";
+                    const cleanVal = val.replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\\\/g, '\\');
+                    if (cleanVal.length > 0 && !cleanVal.includes("${")) {
+                        allStrings.add(cleanVal);
+                    }
+                }
+            } catch (e) {}
         }
     }
+}
+
+for (const dir of PLUGIN_DIRS) {
+    scanDirForTranslations(dir);
+}
+
+// Add our detailed descriptions
+try {
+    const detailedContent = readFileSync(join(ROOT, "src/api/detailedPluginDescriptions.ts"), "utf-8");
+    const match = detailedContent.match(/export const detailedPluginDescriptions: Record<string, string> = (\{[\s\S]*?\});/);
+    if (match) {
+        const parsed = JSON.parse(match[1]);
+        for (const val of Object.values(parsed)) {
+            allStrings.add(val);
+        }
+    }
+} catch (e) {
+    console.error("Could not parse detailedPluginDescriptions.ts", e);
 }
 
 const output = {

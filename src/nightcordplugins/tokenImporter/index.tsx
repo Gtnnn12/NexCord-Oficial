@@ -12,7 +12,7 @@ import { DataStore } from "@api/index";
 import { ModalCloseButton,ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import { PluginNative } from "@utils/types";
 import definePlugin, { OptionType } from "@utils/types";
-import { findByProps } from "@webpack";
+import { find, findAll, findByProps } from "@webpack";
 import { React, useCallback, useEffect, useMemo,useRef, useState, IconUtils } from "@webpack/common";
 import { Forms } from "@webpack/common";
 
@@ -84,6 +84,93 @@ async function saveAccounts(accounts: SavedAccount[]): Promise<void> {
     await DataStore.set(STORE_KEY, encrypted);
 }
 
+function autoCaptureActiveAccount() {
+    try {
+        const UserStore = findByProps("getCurrentUser", "getUser");
+        const tokenMod = findByProps("getToken", "getTokens");
+        const me = UserStore?.getCurrentUser?.();
+        const token = tokenMod?.getToken?.();
+        if (me?.id && token) {
+            getAccounts().then(async existing => {
+                if (!existing.find(a => a.id === me.id)) {
+                    const av = me.avatar ? (IconUtils?.getUserAvatarURL({ id: me.id, avatar: me.avatar } as any, false, 64) ?? "") : (IconUtils?.getDefaultAvatarURL(me.id) ?? "");
+                    const updated = [...existing, {
+                        id: me.id,
+                        token: token,
+                        username: me.globalName || me.username,
+                        discriminator: me.discriminator ?? "0",
+                        avatar: av
+                    }];
+                    await saveAccounts(updated);
+                }
+            });
+        }
+    } catch {}
+}
+
+export async function injectAccounts(accountsToInject?: SavedAccount[]): Promise<void> {
+    try {
+        autoCaptureActiveAccount();
+        await patchTokenStore();
+
+        const FluxDispatcher = findByProps("dispatch", "subscribe");
+        const tokenMod = findByProps("getToken", "encryptAndStoreTokens");
+
+        const accounts = accountsToInject ?? await getAccounts();
+
+        if (Array.isArray(accounts)) {
+            for (const acc of accounts) {
+                if (!acc?.id || !acc?.token) continue;
+
+                if (FluxDispatcher?.dispatch) {
+                    try {
+                        FluxDispatcher.dispatch({
+                            type: "MULTI_ACCOUNT_VALIDATE_TOKEN_SUCCESS",
+                            userId: acc.id,
+                            token: acc.token,
+                            user: {
+                                id: acc.id,
+                                username: acc.username,
+                                discriminator: acc.discriminator ?? "0",
+                                avatar: acc.avatar,
+                                global_name: acc.username,
+                                public_flags: 0
+                            }
+                        });
+                    } catch (err) {
+                        console.error("[TokenImporter] Flux dispatch failed for user", acc.id, err);
+                    }
+                }
+            }
+
+            if (tokenMod) {
+                try {
+                    const tokensObj: Record<string, string> = (typeof tokenMod.getTokens === "function" ? tokenMod.getTokens() : tokenMod.tokens) || {};
+                    let updated = false;
+                    for (const acc of accounts) {
+                        if (acc.id && acc.token && tokensObj[acc.id] !== acc.token) {
+                            tokensObj[acc.id] = acc.token;
+                            updated = true;
+                        }
+                    }
+                    if (updated && typeof tokenMod.encryptAndStoreTokens === "function") {
+                        tokenMod.encryptAndStoreTokens(tokensObj);
+                    }
+                } catch (e) {
+                    console.warn("[TokenImporter] encryptAndStoreTokens sync warning:", e);
+                }
+            }
+        }
+
+        if (FluxDispatcher?.subscribe) {
+            FluxDispatcher.subscribe("CONNECTION_OPEN", () => autoCaptureActiveAccount());
+            FluxDispatcher.subscribe("LOGIN_SUCCESS", () => autoCaptureActiveAccount());
+        }
+    } catch (e) {
+        console.error("[TokenImporter] injectAccounts error:", e);
+    }
+}
+
 let tokenModulePatched = false;
 let originalEncryptAndStoreTokens: any = null;
 
@@ -91,13 +178,34 @@ async function patchTokenStore() {
     if (tokenModulePatched) return;
     try {
         const tokenMod = findByProps("getToken", "encryptAndStoreTokens");
-        if (!tokenMod?.encryptAndStoreTokens) return;
-        originalEncryptAndStoreTokens = tokenMod.encryptAndStoreTokens;
-        const orig = tokenMod.encryptAndStoreTokens.bind(tokenMod);
-        tokenMod.encryptAndStoreTokens = async function (tokens: Record<string, string>) {
-            try { const saved = await getAccounts(); for (const acc of saved) { if (!tokens[acc.id]) tokens[acc.id] = acc.token; } } catch { }
-            return orig(tokens);
+        if (!tokenMod) return;
+
+        const origFn = tokenMod.encryptAndStoreTokens;
+        if (typeof origFn !== "function") return;
+        originalEncryptAndStoreTokens = origFn;
+
+        const patchedFn = async function (tokens: Record<string, string>) {
+            try {
+                const saved = await getAccounts();
+                for (const acc of saved) {
+                    if (!tokens[acc.id]) tokens[acc.id] = acc.token;
+                }
+            } catch { }
+            return origFn.call(tokenMod, tokens);
         };
+
+        try {
+            tokenMod.encryptAndStoreTokens = patchedFn;
+        } catch {
+            try {
+                Object.defineProperty(tokenMod, "encryptAndStoreTokens", {
+                    configurable: true,
+                    enumerable: true,
+                    writable: true,
+                    value: patchedFn
+                });
+            } catch {}
+        }
         tokenModulePatched = true;
     } catch (e) {
         console.warn("[TokenImporter] patchTokenStore failed", e);
@@ -189,7 +297,11 @@ function CheckIcon() {
 }
 
 function CrossIcon() {
-    return <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 17.59 13.41 12 19 6.41z" /></svg>;
+    return (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12Z" />
+        </svg>
+    );
 }
 
 const TOKEN_REGEX = /(?:mfa\.[\w-]{84}|[\w-]{24,26}\.[\w-]{4,7}\.[\w-]{27,40})/g;
@@ -286,6 +398,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                         existing.push({ id: u.id, token: tokens[i], username: u.global_name || u.username, discriminator: u.discriminator ?? "0", avatar: av });
                         await saveAccounts(existing);
                         await patchTokenStore();
+                        await injectAccounts(existing);
                         setAccounts([...existing]);
                     }
                     updated[i] = { ...updated[i], status: "valid", username: u.global_name || u.username, id: u.id, avatar: av };
@@ -318,18 +431,17 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
         <ModalRoot {...rootProps} size="medium">
             <ModalHeader separator={false}>
                 <Forms.FormTitle tag="h4" style={{ margin: 0, display: "flex", alignItems: "center", gap: 8, color: "#ffffff" }}>
-                    <FolderIcon width={16} height={16} /> Token Importer
-                </Forms.FormTitle>
+                    <FolderIcon width={16} height={16} />{t("Token Importer")}</Forms.FormTitle>
                 <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
             <ModalContent className="ti-content">
                 <div className="ti-tabs">
                     <button className={`ti-tab ${tab === "saved" ? "ti-tab--active" : ""}`} onClick={() => handleTabChange("saved")}>
-                        Saved accounts
+                        {t("Saved accounts")}
                         {accounts.length > 0 && <span className="ti-tab-count">{accounts.length}</span>}
                     </button>
                     <button className={`ti-tab ${tab === "add" ? "ti-tab--active" : ""}`} onClick={() => handleTabChange("add")}>
-                        Paste tokens
+                        {t("Paste tokens")}
                     </button>
                 </div>
 
@@ -365,8 +477,9 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                     if (addedCount > 0) {
                                         await saveAccounts(existing);
                                         await patchTokenStore();
+                                        await injectAccounts(existing);
                                         setAccounts([...existing]);
-                                        (window as any).Vencord?.Webpack?.findByProps?.("showToast")?.showToast?.(`${addedCount} new accounts imported!`);
+                                        (window as any).Vencord?.Webpack?.findByProps?.("showToast")?.showToast?.(`${addedCount} new accounts imported & connected!`);
                                     } else {
                                         (window as any).Vencord?.Webpack?.findByProps?.("showToast")?.showToast?.("No new accounts found.");
                                     }
@@ -376,16 +489,16 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                     setVerifying(false);
                                 }
                             }}>
-                                <FolderIcon width={12} height={12} style={{ marginRight: 4 }} /> Scan local Discords
+                                <FolderIcon width={12} height={12} style={{ marginRight: 4 }} /> {t("Scan local Discords")}
                             </button>
                             <button className="ti-verify-btn" style={{ marginRight: 6, opacity: copied ? 0.7 : 1 }} onClick={() => { copyMyToken(); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
-                                {copied ? "Copied ✓" : "My Token"}
+                                {copied ? t("Copied ✓") : t("My Token")}
                             </button>
 
                             <button
                                 className="ti-verify-btn"
                                 disabled={!loaded || accounts.length === 0}
-                                title="Download all saved tokens as a .txt file"
+                                title={t("Download all saved tokens as a .txt file")}
                                 onClick={() => {
                                     const lines = accounts.map(a =>
                                         `${a.username}${a.discriminator && a.discriminator !== "0" ? "#" + a.discriminator : ""}:${a.token}`
@@ -401,12 +514,12 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                     URL.revokeObjectURL(url);
                                 }}
                             >
-                                Download .txt
+                                {t("Download .txt")}
                             </button>
                         </div>
-                        {!loaded ? <div className="ti-empty" style={{ opacity: 0.5 }}>Loading accounts...</div>
-                            : accounts.length === 0 ? <div className="ti-empty">No accounts — add tokens via the tab above.</div>
-                                : filteredAccounts.length === 0 ? <div className="ti-empty">No accounts match your search.</div>
+                        {!loaded ? <div className="ti-empty" style={{ opacity: 0.5 }}>{t("Loading accounts...")}</div>
+                            : accounts.length === 0 ? <div className="ti-empty">{t("No accounts — add tokens via the tab above.")}</div>
+                                : filteredAccounts.length === 0 ? <div className="ti-empty">{t("No accounts match your search.")}</div>
                                     : <div className="ti-list">
                                         {filteredAccounts.map(a => {
                                             const st = statuses[a.id] ?? "idle";
@@ -421,18 +534,20 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                                             {st === "invalid" && <span className="ti-st ti-st--bad"><CrossIcon /></span>}
                                                             {st === "checking" && <span className="ti-st ti-st--loading">...</span>}
                                                         </span>
-                                                        <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(a.token)} title="Copy token" style={{ cursor: "pointer" }}>••••••••••••••••••••••••</span>
+                                                        <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(a.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>••••••••••••••••••••••••</span>
                                                     </div>
                                                     <div className="ti-row-actions">
-                                                        <button className="ti-switch-btn" onClick={() => switchToAccount(a.token, a.id)}>Switch</button>
-                                                        <button className="ti-del-btn" style={{ color: "#b9bbbe" }} title="Copy Token" onClick={() => {
+                                                        <button className="ti-switch-btn" onClick={() => switchToAccount(a.token, a.id)}>{t("Switch")}</button>
+                                                         <button className="ti-del-btn" style={{ color: "#b9bbbe" }} title={t("Copy Token")} onClick={() => {
                                                             const native = (window as any).DiscordNative?.clipboard?.copy;
                                                             if (typeof native === "function") native(a.token);
                                                             else navigator.clipboard.writeText(a.token);
-                                                            const { showToast, Toasts } = (window as any).Vencord.Webpack.common;
-                                                            showToast("Token copied!", Toasts.Type.SUCCESS);
+                                                            const toastMod = (window as any).Vencord?.Webpack?.common ?? findByProps("showToast");
+                                                            if (toastMod?.showToast) {
+                                                                toastMod.showToast("Token copied!", toastMod.Toasts?.Type?.SUCCESS);
+                                                            }
                                                         }}><CopyIcon /></button>
-                                                        <button className="ti-del-btn" title="Delete" onClick={() => removeAccount(a.id)}><TrashIcon /></button>
+                                                        <button className="ti-del-btn" title={t("Delete")} onClick={() => removeAccount(a.id)}><TrashIcon /></button>
                                                     </div>
                                                 </div>
                                             );
@@ -444,12 +559,12 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
 
                 {tab === "add" && (
                     <div className="ti-add-body">
-                        <textarea className="ti-textarea ti-textarea-mask" placeholder="Paste your Discord tokens here... (1 per line, or pasted together)" value={pasteValue} onChange={e => handlePasteChange(e.target.value)} autoFocus />
+                        <textarea className="ti-textarea ti-textarea-mask" placeholder={t("Paste your Discord tokens here... (1 per line, or pasted together)")} value={pasteValue} onChange={e => handlePasteChange(e.target.value)} autoFocus />
                         <div className="ti-add-footer">
-                            <span className="ti-detected">{detectedCount} token{detectedCount !== 1 ? "s" : ""} detected</span>
-                            <button className="ti-file-btn" onClick={() => fileRef.current?.click()}>File .txt</button>
+                            <span className="ti-detected">{detectedCount} {t("token")}{detectedCount !== 1 ? "s" : ""} {t("detected")}</span>
+                            <button className="ti-file-btn" onClick={() => fileRef.current?.click()}>{t("File .txt")}</button>
                             <button className="ti-submit-btn" disabled={checking || detectedCount === 0} onClick={() => processTokens(pasteValue)}>
-                                {checking ? "Checking..." : "Verify & Add"}
+                                {checking ? t("Checking...") : t("Verify & Add")}
                             </button>
                         </div>
                         <input ref={fileRef} type="file" accept=".txt,text/plain" style={{ display: "none" }} onChange={handleFile} />
@@ -462,11 +577,11 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                         <div className="ti-results-summary">
                                             <div className="ti-summary-pill ti-summary-pill--ok">
                                                 <CheckIcon />
-                                                <span>{validCount} valid{validCount !== 1 ? "s" : ""}</span>
+                                                <span>{validCount} {t("valid")}{validCount !== 1 ? "s" : ""}</span>
                                             </div>
                                             <div className="ti-summary-pill ti-summary-pill--bad">
                                                 <CrossIcon />
-                                                <span>{invalidCount} invalid{invalidCount !== 1 ? "s" : ""}</span>
+                                                <span>{invalidCount} {t("invalid")}{invalidCount !== 1 ? "s" : ""}</span>
                                             </div>
                                         </div>
                                     );
@@ -478,7 +593,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                                 : <div className="ti-avatar ti-avatar--ph">{r.status === "checking" ? "..." : "?"}</div>}
                                             <div className="ti-row-info">
                                                 {r.status === "valid" ? <span className="ti-username">{r.username}</span>
-                                                    : <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(r.token)} title="Copy token" style={{ cursor: "pointer" }}>{r.status === "checking" ? "Checking..." : "••••••••••••••••••••••••"}</span>}
+                                                    : <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(r.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>{r.status === "checking" ? "Checking..." : "••••••••••••••••••••••••"}</span>}
                                             </div>
                                             <span className={`ti-badge ti-badge--${r.status === "rate_limited" || r.status === "error" ? "warn" : r.status === "valid" ? "valid" : "invalid"}`}>
                                                 {r.status === "valid" ? <CheckIcon /> : r.status === "checking" ? "..." : r.status === "rate_limited" ? "Slow" : r.status === "error" ? "!" : <CrossIcon />}
@@ -496,7 +611,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
 }
 
 function TokenImporterButton() {
-    return <HeaderBarButton icon={FolderIcon} tooltip="Token Importer" onClick={() => openModal(props => <TokenModal rootProps={props} />)} />;
+    return <HeaderBarButton icon={FolderIcon} tooltip={t("Token Importer")} onClick={() => openModal(props => <TokenModal rootProps={props} />)} />;
 }
 
 export default definePlugin({
@@ -536,49 +651,17 @@ export default definePlugin({
                     }
                     if (added) {
                         await saveAccounts(current);
-                        await patchTokenStore();
                     }
                 }
             } catch (e) { console.error("[TokenImporter] Auto import failed:", e); }
-            setTimeout(() => this._injectAccounts(), 5000);
+            await injectAccounts();
         });
     },
     async _injectAccounts() {
-        try {
-            const saved = await getAccounts();
-            if (!saved.length) return;
-            const FluxDispatcher = findByProps("dispatch", "subscribe", "register");
-            if (!FluxDispatcher?.dispatch) return;
-            const existing = new Set((findByProps("getAccounts")?.getAccounts?.() ?? []).map((u: any) => u.id));
-            const toInject = saved.filter(a => !existing.has(a.id));
-            for (const acc of toInject) {
-                await new Promise(r => setTimeout(r, 0));
-                try {
-                    FluxDispatcher.dispatch({
-                        type: "MULTI_ACCOUNT_VALIDATE_TOKEN_SUCCESS",
-                        userId: acc.id,
-                        token: acc.token,
-                        user: { id: acc.id, username: acc.username, discriminator: acc.discriminator ?? "0", avatar: null }
-                    });
-                } catch { }
-                await new Promise(r => setTimeout(r, 300));
-            }
-        } catch (e) { console.error("[TokenImporter] inject:", e); }
+        await injectAccounts();
     },
     stop() {
         removeHeaderBarButton("nightcord-token-importer");
-        if (tokenModulePatched) {
-            try {
-                const tokenMod = findByProps("getToken", "encryptAndStoreTokens");
-                if (tokenMod && originalEncryptAndStoreTokens) {
-                    tokenMod.encryptAndStoreTokens = originalEncryptAndStoreTokens;
-                }
-            } catch (e) {
-                console.warn("[TokenImporter] unpatchTokenStore failed", e);
-            }
-            tokenModulePatched = false;
-            originalEncryptAndStoreTokens = null;
-        }
         accountsCache = null;
     },
 });

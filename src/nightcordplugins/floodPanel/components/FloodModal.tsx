@@ -10,6 +10,7 @@ import { HeadingPrimary, HeadingSecondary } from "@components/Heading";
 import { Margins } from "@utils/margins";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
 import { RestAPI, SearchableSelect, TextArea, useEffect, useMemo, useRef, useState } from "@webpack/common";
+import { t } from "../../autoTranslateNightcord";
 
 const DEFAULT_MESSAGES = [
     "you literal npc",
@@ -88,7 +89,7 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
         runningRef.current = true;
         indexRef.current = 0;
         setRunning(true);
-        setStatus("En cours...");
+        setStatus(t("In progress..."));
         scheduleNext();
     }
 
@@ -96,7 +97,7 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
         runningRef.current = false;
         if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
         setRunning(false);
-        setStatus("Stopped");
+        setStatus(t("Stopped"));
     }
 
     function scheduleNext(extraDelay = 0) {
@@ -117,12 +118,12 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                 body: { content: messages[idx], nonce: makeNonce(), tts: false }
             });
             if (response.status === 429) {
-                setStatus("Rate limited — waiting...");
+                setStatus(t("Rate limited — waiting..."));
                 if (runningRef.current) scheduleNext(1000);
                 return;
             }
-            setStatus(`Sent: ${++indexRef.current - 1}`);
-        } catch { setStatus("Network error..."); }
+            setStatus(t("Sent:") + ` ${++indexRef.current - 1}`);
+        } catch { setStatus(t("Network error...")); }
         if (runningRef.current) scheduleNext();
     }
 
@@ -131,20 +132,20 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
     return (
         <ModalRoot {...rootProps}>
             <ModalHeader className="vc-flood-modal-header">
-                <HeadingPrimary className="vc-flood-modal-title">Flood Panel</HeadingPrimary>
+                <HeadingPrimary className="vc-flood-modal-title">{t("Flood Panel")}</HeadingPrimary>
                 <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
 
             <ModalContent className="vc-flood-modal-content">
 
                 {/* Messages source */}
-                <HeadingSecondary className={Margins.bottom8}>Messages source</HeadingSecondary>
+                <HeadingSecondary className={Margins.bottom8}>{t("Messages source")}</HeadingSecondary>
                 {isEditing ? (
                     <div className={Margins.bottom16}>
                         <TextArea 
                             value={editValue} 
                             onChange={(v: string) => setEditValue(v)}
-                            placeholder="Write your phrases here, one per line..."
+                            placeholder={t("Write your phrases here, one per line...")}
                             rows={8}
                             autoFocus
                             style={{ marginBottom: "12px" }}
@@ -154,31 +155,31 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                                 const lines = editValue.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
                                 if (lines.length > 0) {
                                     setMessages(lines);
-                                    setFileName(`Custom (${lines.length} phrases)`);
+                                    setFileName(t("Custom") + ` (${lines.length} ` + t("phrases)"));
                                 }
                                 setIsEditing(false);
                             }}>
-                                Save
+                                {t("Save")}
                             </Button>
                             <Button variant="secondary" size="small" onClick={() => setIsEditing(false)}>
-                                Cancel
+                                {t("Cancel")}
                             </Button>
                         </div>
                     </div>
                 ) : (
                     <>
                         <div className="vc-flood-file-info">
-                            {fileName ?? `Default (${messages.length} phrases)`}
+                            {fileName ?? t("Default") + ` (${messages.length} ` + t("phrases)")}
                         </div>
                         <div className={`vc-flood-file-row ${Margins.bottom16}`}>
                             <Button variant="secondary" size="small" onClick={() => {
                                 setEditValue(messages.join("\n"));
                                 setIsEditing(true);
                             }}>
-                                Edit phrases
+                                {t("Edit phrases")}
                             </Button>
                             <Button variant="secondary" size="small" onClick={() => { setMessages(DEFAULT_MESSAGES); setFileName(null); }}>
-                                Default
+                                {t("Default")}
                             </Button>
                         </div>
                     </>
@@ -187,12 +188,12 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                 <Divider className={Margins.bottom16} />
 
                 {/* Delay */}
-                <HeadingSecondary className={Margins.bottom8}>Delay between messages</HeadingSecondary>
+                <HeadingSecondary className={Margins.bottom8}>{t("Delay between messages")}</HeadingSecondary>
                 <div className={Margins.bottom16}>
                     <SearchableSelect
                         options={delayOptions}
                         value={delayOptions.find(o => o.value === delayMs)?.value}
-                        placeholder="Choose a delay"
+                        placeholder={t("Choose a delay")}
                         maxVisibleItems={8}
                         closeOnSelect={true}
                         onChange={(v: string) => setDelayMs(v)}
@@ -217,10 +218,10 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                     size="medium"
                     onClick={running ? stopFlood : startFlood}
                 >
-                    {running ? "Stop flood" : "Start flood"}
+                    {running ? t("Stop flood") : t("Start flood")}
                 </Button>
                 <Button variant="secondary" size="medium" onClick={rootProps.onClose}>
-                    Close
+                    {t("Close")}
                 </Button>
             </ModalFooter>
         </ModalRoot>

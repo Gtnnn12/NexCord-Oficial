@@ -25,19 +25,8 @@ const STORAGE_KEY = "nightcord_mellowtel_onboarding_seen_v" + MELLOWTEL_ONBOARDI
 
 const FLAG_ICON_STYLE: React.CSSProperties = { width: 20, height: 15, borderRadius: 2, verticalAlign: "middle", objectFit: "cover" };
 
-const PRESET_OPTIONS = ["none", "default", "safe"] as const;
+const PRESET_OPTIONS = ["none", "default"] as const;
 type PresetOption = typeof PRESET_OPTIONS[number];
-
-const SAFE_PLUGINS: string[] = [
-    "MessageCleaner", "BigFileUpload", "FakeVoice", 
-    "NightcordUpdater", "CrashHandler", "ImageZoom",  
-    "ShowHiddenChannels", "ShowID", "VoiceMessages", "CallTimer", "DisableCallIdle", 
-    "FastPFP", "FollowUser", "IconViewer", "PinDMs", 
-    "ReverseImageSearch", "Translate", "UnlimitedAccounts", "UserVoiceShow", 
-    "ValidUser", "ViewIcons", "WhosWatching", 
-    "MessageLogger", "MessageLoggerEnhanced", "RealtimeTimestamps", "SpotifyCrack", "CancelFriendRequest",
-    "VolumeBooster", "SaveVideos"
-];
 
 export function shouldShowMellowtelOnboarding(): boolean {
     return !SettingsStore.store.mellowtelOnboardingSeen;
@@ -58,7 +47,7 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [preset, setPreset] = useState<PresetOption>("safe");
+    const [preset, setPreset] = useState<PresetOption>("default");
     const [dragging, setDragging] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -127,15 +116,6 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
                 }
                 if (++i % 10 === 0) await new Promise(r => setTimeout(r, 0));
             }
-        } else if (preset === "safe") {
-            for (const key of SAFE_PLUGINS) {
-                if (plugins[key]) {
-                    startPlugin(plugins[key]);
-                    if (!SettingsStore.store.plugins[key]) SettingsStore.store.plugins[key] = { enabled: true };
-                    else SettingsStore.store.plugins[key].enabled = true;
-                }
-                if (++i % 10 === 0) await new Promise(r => setTimeout(r, 0));
-            }
         }
         SettingsStore.markAsChanged();
     };
@@ -173,11 +153,6 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
 
                 <ModalContent style={{ padding: "24px 20px" }}>
                     <div style={{ textAlign: "center", marginBottom: "32px" }}>
-                        <div style={{ display: "inline-flex", padding: "12px", borderRadius: "50%", backgroundColor: "rgba(88, 101, 242, 0.1)", color: "#5865F2", marginBottom: "16px" }}>
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                            </svg>
-                        </div>
                         <Heading tag="h3" style={{ fontSize: "24px", fontWeight: 800, color: "#fff", marginBottom: "8px" }}>
                             {t("Select Your Experience")}
                         </Heading>
@@ -186,18 +161,17 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
                         </Paragraph>
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginTop: "16px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px", marginTop: "16px" }}>
                         {[
                             { id: "none", title: "None", desc: "Start fresh. Zero plugins enabled." },
-                            { id: "default", title: "Default", desc: "The standard Nightcord experience with recommended plugins." },
-                            { id: "safe", title: "Current", desc: "Essential Plugins Only. Keep your current safe and minimal active configuration." }
+                            { id: "default", title: "Default", desc: "The standard Nightcord experience with recommended plugins." }
                         ].map(p => (
                             <div 
                                 key={p.id}
                                 onClick={() => setPreset(p.id as PresetOption)}
                                 style={{
-                                    padding: "20px 16px",
-                                    backgroundColor: "rgba(30, 31, 34, 0.4)",
+                                    padding: "24px 16px",
+                                    backgroundColor: preset === p.id ? "rgba(88, 101, 242, 0.08)" : "rgba(30, 31, 34, 0.4)",
                                     border: `2px solid ${preset === p.id ? "#5865f2" : "rgba(255,255,255,0.05)"}`,
                                     borderRadius: "8px",
                                     cursor: "pointer",
@@ -209,17 +183,6 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
                                     boxSizing: "border-box"
                                 }}
                             >
-                                <div style={{ 
-                                    width: "48px", height: "48px", borderRadius: "24px", 
-                                    backgroundColor: preset === p.id ? "#5865f2" : "rgba(255,255,255,0.05)",
-                                    color: preset === p.id ? "#ffffff" : "#80848e", 
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    marginBottom: "16px", transition: "all 0.2s ease"
-                                }}>
-                                    {p.id === "none" && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
-                                    {p.id === "default" && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>}
-                                    {p.id === "safe" && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>}
-                                </div>
                                 <div style={{ color: preset === p.id ? "#ffffff" : "#b5bac1", fontWeight: 600, fontSize: "16px", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                                     {t(p.title)}
                                 </div>

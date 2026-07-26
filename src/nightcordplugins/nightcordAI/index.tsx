@@ -19,10 +19,9 @@ import { ModalCloseButton,ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, FluxDispatcher, IconUtils, Menu,React, ReactDOM, RelationshipStore, RestAPI, useEffect, useRef, UserStore, useState } from "@webpack/common";
-import { t } from "@api/i18n";
+import { t } from "../autoTranslateNightcord";
 
 import { getGroqKey, groqChat, setGroqKey, registerSettingsFallback } from "./groqManager";
-import { t as tUI } from "@api/i18n";
 
 registerSettingsFallback(() => settings.store.apiKey ?? "");
 
@@ -213,13 +212,13 @@ async function executeAction(action: DiscordAction): Promise<string> {
     try {
         switch (action.type) {
             case "call":
-                if (!friend) return `❌ Friend « ${action.target} » not found in your friends list.`;
+                if (!friend) return t("❌ Friend « {target} » not found in your friends list.").replace("{target}", action.target as string);
                 await callUser(friend.id);
-                return action.reply ?? `📞 Call in progress to **${friend.username}**...`;
+                return action.reply ?? t("📞 Call in progress to **{user}**...").replace("{user}", friend.username);
             case "join_voice":
                 joinVoiceChannel(action.target ?? "");
-                return action.reply ?? "🔊 Voice channel joined!";
-            default: return "Unknown action.";
+                return action.reply ?? t("🔊 Voice channel joined!");
+            default: return t("Unknown action.");
         }
     } catch (e: any) { return `❌ ${e.message}`; }
 }
@@ -517,7 +516,7 @@ Rules:
                     </div>
                     <div className="nai-header-info">
                         <div className="nai-header-title-row">
-                            <span className="nai-header-title">{t("Nightcord AI")}</span>
+                            <span className="nai-header-title">Nightcord AI</span>
                             <span className="nai-header-badge">{providerLabel}</span>
                         </div>
                         <div className="nai-header-status">
@@ -642,7 +641,7 @@ Rules:
                                     </svg>
                                 )}
                                 <span className="nai-att-name">{att.name.length > 18 ? att.name.slice(0, 15) + "..." : att.name}</span>
-                                <button className="nai-att-remove" onClick={() => removeAttachment(att.id)} title="Delete">
+                                <button className="nai-att-remove" onClick={() => removeAttachment(att.id)} title={t("Delete")}>
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" /></svg>
                                 </button>
                             </div>
@@ -727,8 +726,8 @@ function NightcordAINavButton({ selected }: { selected?: boolean; }) {
                     <path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
                 </svg>
             </div>
-            <span className="nai-nav-label">{t("Nightcord AI")}</span>
-            <span className="nai-nav-pill">{tUI("AI")}</span>
+            <span className="nai-nav-label">Nightcord AI</span>
+            <span className="nai-nav-pill">{t("AI")}</span>
         </div>
     );
 }
@@ -847,8 +846,8 @@ export default definePlugin({
                             <path fill-rule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <span class="nai-nav-label">${tUI("Nightcord AI")}</span>
-                    <span class="nai-nav-pill">${tUI("AI")}</span>
+                    <span class="nai-nav-label">Nightcord AI</span>
+                    <span class="nai-nav-pill">${t("AI")}</span>
                 </div>`;
                 document.getElementById("nai-nav-btn-raw")?.addEventListener("click", () => {
                     openModal(p => <NightcordAIChat rootProps={p} />);
@@ -937,7 +936,7 @@ export default definePlugin({
             target.splice(idx, 0, (
                 <Menu.MenuItem
                     id="nai-ask"
-                    label="Ask Nightcord AI"
+                    label={t("Ask Nightcord AI")}
                     icon={NightcordIcon}
                     action={() => {
                         openModal(p => (

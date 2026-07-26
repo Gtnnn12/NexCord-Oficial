@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
@@ -33,9 +34,7 @@ function Dismiss({ onDismiss }: { onDismiss: () => void; }) {
         <button
             onClick={onDismiss}
             className={cl("dismiss")}
-        >
-            Dismiss
-        </button>
+        >{t("Dismiss")}</button>
     );
 }
 

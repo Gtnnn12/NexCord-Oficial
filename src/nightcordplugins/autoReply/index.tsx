@@ -11,6 +11,7 @@ import definePlugin, { OptionType } from "@utils/types";
 import { findStoreLazy } from "@webpack";
 import { React, RestAPI, useState } from "@webpack/common";
 import plugins from "~plugins";
+import { t } from "../autoTranslateNightcord";
 
 // ── Stores ─────────────────────────────────────────────────────────────────────
 
@@ -211,8 +212,8 @@ const AutoReplyButton: ChatBarButtonFactory = ({ isMainChat }) => {
     }
 
     const tooltip = active
-        ? "Auto Reply: Enabled — click to disable"
-        : "Auto Reply: Disabled — click to enable";
+        ? t("Auto Reply: Enabled — click to disable")
+        : t("Auto Reply: Disabled — click to enable");
 
     return (
         <ChatBarButton

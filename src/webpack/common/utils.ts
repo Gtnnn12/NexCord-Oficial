@@ -241,5 +241,39 @@ export const fetchApplicationsRPC = findByCodeLazy("APPLICATION_RPC(");
 export const useDrag = findByCodeLazy("useDrag", "DragSourceMonitor");
 export const useDrop = findByCodeLazy("useDrop", "DropTargetMonitor");
 
-// ConfirmModal component
-export const ConfirmModal = findByCodeLazy('"confirmButtonText"', '"cancelButtonText"');
+// Safe ConfirmModal that won't break when Discord changes it
+import { React } from "./react";
+export function ConfirmModal(props: any) {
+    const { ModalRoot, ModalHeader, ModalContent, ModalFooter } = require("@utils/modal");
+    const { ButtonCompat } = require("@components/Button");
+    
+    return React.createElement(ModalRoot, { transitionState: props.transitionState, size: "small", className: props.className },
+        React.createElement(ModalHeader, { separator: false },
+            React.createElement("h2", { style: { color: "var(--header-primary)", fontSize: 20, fontWeight: 600 } }, props.header)
+        ),
+        React.createElement(ModalContent, null, 
+            React.createElement("div", { style: { color: "var(--text-normal, #dbdee1)" } }, props.children)
+        ),
+        React.createElement(ModalFooter, null,
+            React.createElement("div", { style: { display: "flex", gap: "16px", justifyContent: "flex-end", width: "100%" } },
+                React.createElement(ButtonCompat, {
+                    onClick: () => {
+                        props.onCancel?.();
+                        props.onClose?.();
+                    },
+                    look: "LINK",
+                    color: "PRIMARY"
+                }, props.cancelText),
+                React.createElement(ButtonCompat, {
+                    onClick: () => {
+                        props.onConfirm?.();
+                        props.onClose?.();
+                    },
+                    color: props.confirmButtonColor
+                }, props.confirmText)
+            )
+        )
+    );
+}
+
+

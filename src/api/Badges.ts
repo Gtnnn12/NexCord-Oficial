@@ -125,11 +125,14 @@ export function _getBadges(args: BadgeUserArgs) {
         badges.unshift(...nightcordBadges.map(shieldBadge));
     }
 
-    if (illegalcordBadges && !isHidden("illegalcord")) {
-        badges.unshift(...illegalcordBadges.map(shieldBadge));
-    }
-
-    return badges;
+    const seen = new Set<string>();
+    return badges.filter(b => {
+        if (!b) return false;
+        const key = (b.id || b.key || b.iconSrc || b.description || "").toString();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
 }
 
 export interface BadgeUserArgs {

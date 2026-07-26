@@ -26,3 +26,8 @@
 .dmb-btn-secondary { background: transparent; color: #fff; }
 .dmb-btn-secondary:hover { text-decoration: underline; }
 .dmb-btn-danger { background: #ed4245; color: #fff; }
+.dmb-token-toggle { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.8); border-radius: 4px; padding: 2px 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.dmb-token-toggle:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.dmb-tokens-area { font-family: var(--font-code); font-size: 12px; border-color: rgba(237, 66, 69, 0.4); margin-top: 4px; }
+.dmb-token-active-badge { color: #3ba55c; font-weight: 700; margin-left: 6px; }
+

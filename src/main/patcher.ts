@@ -99,6 +99,7 @@ if (!IS_VANILLA) {
                 options.webPreferences.preload = join(__dirname, "preload.js");
                 options.webPreferences.sandbox = false;
                 options.webPreferences.backgroundThrottling = false;
+                options.webPreferences.webviewTag = true;
 
                 let ses = options.webPreferences.session;
                 if (!ses && options.webPreferences.partition) {

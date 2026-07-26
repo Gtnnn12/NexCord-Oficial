@@ -11,6 +11,7 @@ import { FluxDispatcher, React, useStateFromStores } from "@webpack/common";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
+import { t } from "../autoTranslateNightcord";
 
 const Section = findComponentByCodeLazy("headingVariant:", '"section"', "headingIcon:");
 const PresenceStore = findByPropsLazy("getStatus", "getActivities");
@@ -63,11 +64,11 @@ function formatDate(ts: number): string {
     yesterday.setDate(now.getDate() - 1);
     const isYesterday = date.toDateString() === yesterday.toDateString();
 
-    if (isToday) return lang === "fr" ? `Aujourd'hui à ${timeStr}` : `Today at ${timeStr}`;
-    if (isYesterday) return lang === "fr" ? `Hier à ${timeStr}` : `Yesterday at ${timeStr}`;
+    if (isToday) return t("Today at {time}").replace("{time}", timeStr);
+    if (isYesterday) return t("Yesterday at {time}").replace("{time}", timeStr);
     
     const dateStr = date.toLocaleDateString(locale, { day: "numeric", month: "short" });
-    return lang === "fr" ? `Le ${dateStr} à ${timeStr}` : `${dateStr} at ${timeStr}`;
+    return t("{date} at {time}").replace("{date}", dateStr).replace("{time}", timeStr);
 }
 
 // ── Handlers ───────────────────────────────────────────────────────────────
@@ -155,14 +156,14 @@ function LastSeenText({ userId }: { userId: string; }) {
     let color: string;
 
     if (isOnline) {
-        if (status === "idle") content = settings.store.language === "fr" ? "Inactif en ce moment" : "Idle";
-        else if (status === "dnd") content = settings.store.language === "fr" ? "Ne pas déranger" : "Do Not Disturb";
-        else if (status === "streaming") content = settings.store.language === "fr" ? "En direct en ce moment" : "Streaming";
-        else content = settings.store.language === "fr" ? "En ligne" : "Online";
+        if (status === "idle") content = t("Idle");
+        else if (status === "dnd") content = t("Do Not Disturb");
+        else if (status === "streaming") content = t("Streaming");
+        else content = t("Online");
     } else if (lastSeen) {
         content = formatDate(lastSeen);
     } else {
-        content = settings.store.language === "fr" ? "Pas encore tracé" : "Not tracked yet";
+        content = t("Not tracked yet");
     }
 
     return (
@@ -233,7 +234,7 @@ export default definePlugin({
         if (!userId) return null;
         return (
             <Section
-                heading="Last Seen"
+                heading={t("Last Seen")}
                 headingVariant={isSideBar ? "text-xs/semibold" : "text-xs/medium"}
                 headingColor={isSideBar ? "text-strong" : "text-default"}
             >

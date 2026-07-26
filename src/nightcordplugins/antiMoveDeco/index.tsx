@@ -8,6 +8,7 @@ import { UserAreaButton } from "@api/UserArea";
 import definePlugin from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { FluxDispatcher, React, UserStore } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 // Modules Webpack
 const ChannelActions = findByPropsLazy("selectVoiceChannel", "disconnect");
@@ -73,7 +74,7 @@ function AntiMoveDecoButton() {
     return (
         <UserAreaButton
             onClick={toggle}
-            tooltipText={enabled ? "Disable AntiMove&Deco" : "Enable AntiMove&Deco"}
+            tooltipText={enabled ? t("Disable AntiMove&Deco") : t("Enable AntiMove&Deco")}
             icon={<AntiMoveDecoIcon enabled={enabled} />}
         />
     );

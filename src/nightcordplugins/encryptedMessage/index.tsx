@@ -10,6 +10,7 @@ import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { findByProps } from "@webpack";
 import { FluxDispatcher, Menu, React, Toasts, MessageStore, openModal, SelectedChannelStore, Button, TextInput, Modal, ModalContent, ModalHeader, ModalFooter, ModalCloseButton, showToast, Switch } from "@webpack/common";
 import { sendMessage } from "@utils/discord";
+import { t } from "../autoTranslateNightcord";
 
 const SECURITY_CONSTANTS = {
     DEFAULT_MIN_PASSWORD_LENGTH: 12,
@@ -460,7 +461,7 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(generatedPassword);
-        showToast("Password copied to clipboard!", Toasts.Type.SUCCESS);
+        showToast(t("Password copied to clipboard!"), Toasts.Type.SUCCESS);
     };
 
     const shareInChat = () => {
@@ -491,11 +492,11 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
     };
 
     return (
-        <Modal {...modalProps} size="small" aria-label="Password Manager">
+        <Modal {...modalProps} size="small" aria-label={t("Password Manager")}>
             <ModalHeader separator={false}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
                     <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "bold", color: "#ffffff" }}>
-                        Password Manager
+                        {t("Password Manager")}
                     </h1>
                     <ModalCloseButton onClick={close} />
                 </div>
@@ -504,7 +505,7 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
                 {/* Section 1: Generate Password */}
                 <div style={{ marginBottom: "24px" }}>
                     <h2 style={{ fontSize: "12px", textTransform: "uppercase", color: "var(--text-muted, #949ba4)", marginBottom: "8px", fontWeight: 700 }}>
-                        Generate Secure Password
+                        {t("Generate Secure Password")}
                     </h2>
                     <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
                         <TextInput
@@ -514,15 +515,15 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
                             style={{ flex: 1 }}
                         />
                         <Button color="secondary" onClick={generateRandomPassword} size="medium">
-                            Regenerate
+                            {t("Regenerate")}
                         </Button>
                     </div>
                     <div style={{ display: "flex", gap: "8px" }}>
                         <Button color="primary" onClick={copyToClipboard} style={{ flex: 1 }}>
-                            Copy Password
+                            {t("Copy Password")}
                         </Button>
                         <Button color="brand" onClick={shareInChat} style={{ flex: 1 }}>
-                            Share in Chat
+                            {t("Share in Chat")}
                         </Button>
                     </div>
                 </div>
@@ -530,16 +531,16 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
                 {/* Section 2: Enter Partner's Password */}
                 <div style={{ marginBottom: "24px" }}>
                     <h2 style={{ fontSize: "12px", textTransform: "uppercase", color: "var(--text-muted, #949ba4)", marginBottom: "8px", fontWeight: 700 }}>
-                        Partner's Encryption Password
+                        {t("Partner's Encryption Password")}
                     </h2>
                     <TextInput
                         type="text"
                         value={friendPassword || ""}
-                        placeholder="Paste your partner's password here..."
+                        placeholder={t("Paste your partner's password here...")}
                         onChange={saveFriendPassword}
                     />
                     <p style={{ fontSize: "12px", color: "var(--text-muted, #949ba4)", marginTop: "6px", lineHeight: "1.4" }}>
-                        Paste the password received from your partner. Both of you must have the exact same password set to communicate securely.
+                        {t("Paste the password received from your partner. Both of you must have the exact same password set to communicate securely.")}
                     </p>
                 </div>
 
@@ -548,15 +549,15 @@ const EncryptionSettingsModal = ({ modalProps, close }: { modalProps: any; close
                     <Switch
                         value={isEncrypted}
                         onChange={toggleEncryption}
-                        note="Encrypt outgoing messages in this conversation."
+                        note={t("Encrypt outgoing messages in this conversation.")}
                     >
-                        Enable Encryption
+                        {t("Enable Encryption")}
                     </Switch>
                 </div>
             </ModalContent>
             <ModalFooter>
                 <Button onClick={close} color="primary" look="outlined">
-                    Close
+                    {t("Close")}
                 </Button>
             </ModalFooter>
         </Modal>
@@ -573,7 +574,7 @@ const EncryptionToggleButton: ChatBarButtonFactory = ({ type }) => {
 
     return (
         <ChatBarButton
-            tooltip="Securecord Password Manager"
+            tooltip={t("Securecord Password Manager")}
             onClick={() => {
                 openModal(props => <EncryptionSettingsModal modalProps={props} close={props.onClose} />);
             }}
@@ -832,9 +833,7 @@ export default definePlugin({
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
-                    </svg>
-                    (decrypt)
-                </span>
+                    </svg>{t("(decrypt)")}</span>
             );
         }
         return null;

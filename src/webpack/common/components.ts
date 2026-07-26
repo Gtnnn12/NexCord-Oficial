@@ -133,3 +133,4 @@ export const Animations = mapMangledModuleLazy(".assign({colorNames:", {
 });
 
 export const Paginator = waitForComponent("Paginator", filters.componentByCode("maxVisiblePages", "pageSize"));
+

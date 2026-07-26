@@ -7,6 +7,7 @@ import { ComponentDispatch, MediaEngineStore, React, showToast, Toasts, useEffec
 import plugins from "~plugins";
 
 import { getGroqKey } from "../nightcordAI/groqManager";
+import { t } from "../autoTranslateNightcord";
 
 const settings = definePluginSettings({
     language: {
@@ -66,7 +67,7 @@ function insertText(text: string) {
 async function transcribe(blob: Blob): Promise<string> {
     const language = settings.store.language?.trim() || undefined;
     const apiKey = await getGroqKey();
-    if (!apiKey) throw new Error("API key missing — Configure your key in Settings → NightcordAI");
+    if (!apiKey) throw new Error(t("API key missing — Configure your key in Settings → NightcordAI"));
 
     const form = new FormData();
     form.append("file", blob, "audio.webm");
@@ -291,7 +292,7 @@ const VoiceDictationButton: ChatBarButtonFactory = ({ isMainChat }) => {
             } catch { }
         }
 
-        setErrorMsg("Could not access microphone");
+        setErrorMsg(t("Could not access microphone"));
         activeRef.current = false;
     }
 
@@ -337,7 +338,7 @@ const VoiceDictationButton: ChatBarButtonFactory = ({ isMainChat }) => {
 
     if (!isMainChat) return null;
 
-    const tooltip = errorMsg || (processing ? "Transcribing..." : recording ? "Stop dictation" : "Voice dictation");
+    const tooltip = errorMsg || (processing ? t("Transcribing...") : recording ? t("Stop dictation") : t("Voice dictation"));
 
     return (
         <ChatBarButton

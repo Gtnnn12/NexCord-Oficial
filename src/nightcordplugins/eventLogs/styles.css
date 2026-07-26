@@ -323,3 +323,50 @@
 .el-pagination button:not(:disabled):hover {
     background: rgba(255, 255, 255, .1);
 }
+
+/* Attachments & Images */
+.el-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.el-attachment-item {
+    display: inline-block;
+}
+
+.el-attachment-img {
+    max-width: 280px;
+    max-height: 200px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    display: block;
+}
+
+.el-attachment-img:hover {
+    transform: scale(1.02);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.el-attachment-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #00a8fc;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.el-attachment-link:hover {
+    text-decoration: underline;
+    background: rgba(0, 0, 0, 0.45);
+}

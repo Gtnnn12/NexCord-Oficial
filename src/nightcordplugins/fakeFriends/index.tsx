@@ -10,6 +10,7 @@ import definePlugin from "@utils/types";
 import { RelationshipType } from "@vencord/discord-types/enums";
 import { find, filters } from "@webpack";
 import { ChannelStore, FluxDispatcher, GuildMemberStore, Menu, React, RelationshipStore, Toasts, UserStore, UserUtils } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const DS_KEY = "FakeFriends_state";
 
@@ -461,7 +462,7 @@ function askCount(title: string, max: number): Promise<number | null> {
                     <Modals.ModalContent style={{ padding: "16px 20px" }}>
                         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                             <label style={{ fontSize: 12, fontWeight: 600, color: "#fff", textTransform: "uppercase", letterSpacing: ".04em" }}>
-                                Nombre (max {max})
+                                {t("Number (max {max})").replace("{max}", max.toString())}
                             </label>
                             <input
                                 autoFocus
@@ -497,7 +498,7 @@ function askCount(title: string, max: number): Promise<number | null> {
                                 padding: "8px 20px",
                             }}
                         >
-                            Confirm
+                            {t("Confirm")}
                         </button>
                         <button
                             onClick={cancel}
@@ -508,7 +509,7 @@ function askCount(title: string, max: number): Promise<number | null> {
                                 padding: "8px 16px",
                             }}
                         >
-                            Cancel
+                            {t("Cancel")}
                         </button>
                     </Modals.ModalFooter>
                 </Modals.ModalRoot>
@@ -541,7 +542,7 @@ async function fetchAllGuildMembers(guildId: string): Promise<void> {
     await new Promise(r => setTimeout(r, 1000));
 
     const after = (GuildMemberStore.getMemberIds(guildId) as string[]).length;
-    Toasts.show({ message: `${after} members available`, type: Toasts.Type.SUCCESS, id: Toasts.genId() });
+    Toasts.show({ message: t("{count} members available").replace("{count}", after.toString()), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
 function getGuildCandidates(guildId: string): string[] {
@@ -561,16 +562,16 @@ function getGuildCandidates(guildId: string): string[] {
 
 // ── Fake Friend Request avec saisie du nombre ─────────────────────────────────
 async function floodGuild(guildId: string) {
-    Toasts.show({ message: "Chargement des membres...", type: Toasts.Type.MESSAGE, id: "ff-loading" });
+    Toasts.show({ message: t("Loading members..."), type: Toasts.Type.MESSAGE, id: "ff-loading" });
     await fetchAllGuildMembers(guildId);
 
     const candidates = getGuildCandidates(guildId);
     if (!candidates.length) {
-        Toasts.show({ message: "Aucun candidat disponible", type: Toasts.Type.FAILURE, id: Toasts.genId() });
+        Toasts.show({ message: t("No candidates available"), type: Toasts.Type.FAILURE, id: Toasts.genId() });
         return;
     }
 
-    const count = await askCount("How many fake friend requests to send?", 99999);
+    const count = await askCount(t("How many fake friend requests to send?"), 99999);
     if (!count) return;
 
     const shuffled = [...candidates].sort(() => Math.random() - 0.5);
@@ -589,7 +590,7 @@ async function floodGuild(guildId: string) {
         }
         await new Promise(r => setTimeout(r, 15));
     }
-    Toasts.show({ message: `${sent} fake friend request${sent > 1 ? "s" : ""} sent!`, type: Toasts.Type.SUCCESS, id: Toasts.genId() });
+    Toasts.show({ message: t("{count} fake friend request(s) sent!").replace("{count}", sent.toString()), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
 // ── Remove fake requests pour un serveur ──────────────────────────────────────
@@ -598,7 +599,7 @@ async function removeFakeFriendsForGuild(guildId: string) {
     const toRemove = [...fakeState.keys()].filter(id => memberIds.has(id));
 
     if (!toRemove.length) {
-        Toasts.show({ message: "No fake requests to remove for this server", type: Toasts.Type.MESSAGE, id: Toasts.genId() });
+        Toasts.show({ message: t("No fake requests to remove for this server"), type: Toasts.Type.MESSAGE, id: Toasts.genId() });
         return;
     }
 
@@ -613,18 +614,18 @@ async function removeFakeFriendsForGuild(guildId: string) {
         }
     }
     await persistState();
-    Toasts.show({ message: `${toRemove.length} fake request${toRemove.length > 1 ? "s" : ""} removed!`, type: Toasts.Type.SUCCESS, id: Toasts.genId() });
+    Toasts.show({ message: t("{count} fake request(s) removed!").replace("{count}", toRemove.length.toString()), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
 // ── Fake Message Request ─────────────────────────────────────────────────────
 async function fakeMessageRequestGuild(guildId: string) {
     const candidates = getGuildCandidates(guildId);
     if (!candidates.length) {
-        Toasts.show({ message: "No candidates available", type: Toasts.Type.FAILURE, id: Toasts.genId() });
+        Toasts.show({ message: t("No candidates available"), type: Toasts.Type.FAILURE, id: Toasts.genId() });
         return;
     }
 
-    const count = await askCount("How many message requests to simulate?", candidates.length);
+    const count = await askCount(t("How many message requests to simulate?"), candidates.length);
     if (!count) return;
 
     const shuffled = [...candidates].sort(() => Math.random() - 0.5).slice(0, count);
@@ -643,7 +644,7 @@ async function fakeMessageRequestGuild(guildId: string) {
     }
 
     Toasts.show({
-        message: `${sent} message request${sent > 1 ? "s" : ""} received!`,
+        message: t("{count} message request(s) received!").replace("{count}", sent.toString()),
         type: sent > 0 ? Toasts.Type.SUCCESS : Toasts.Type.FAILURE,
         id: Toasts.genId()
     });
@@ -808,12 +809,12 @@ const userContextPatch: NavContextMenuPatchCallback = (children, props) => {
         let items: React.ReactElement[] = [];
         if (!state) {
             items = [
-                <Menu.MenuItem key="ff-friend" id="ff-friend" label="Fake Friend" action={() => doFakeFriend(userId)} />,
-                <Menu.MenuItem key="ff-request" id="ff-request" label="Fake Friend Request" action={() => doFakeFriendRequest(userId)} />,
+                <Menu.MenuItem key="ff-friend" id="ff-friend" label={t("Fake Friend")} action={() => doFakeFriend(userId)} />,
+                <Menu.MenuItem key="ff-request" id="ff-request" label={t("Fake Friend Request")} action={() => doFakeFriendRequest(userId)} />,
             ];
         } else if (state === "pending") {
             items = [
-                <Menu.MenuItem key="ff-cancel" id="ff-cancel" label="Cancel la fake demande" color="danger"
+                <Menu.MenuItem key="ff-cancel" id="ff-cancel" label={t("Cancel fake request")} color="danger"
                     action={async () => {
                         fakeState.delete(userId);
                         await persistState();
@@ -822,7 +823,7 @@ const userContextPatch: NavContextMenuPatchCallback = (children, props) => {
             ];
         } else {
             items = [
-                <Menu.MenuItem key="ff-remove" id="ff-remove" label="Retirer des fake friends" color="danger"
+                <Menu.MenuItem key="ff-remove" id="ff-remove" label={t("Remove from fake friends")} color="danger"
                     action={async () => {
                         fakeState.delete(userId);
                         await persistState();
@@ -831,7 +832,7 @@ const userContextPatch: NavContextMenuPatchCallback = (children, props) => {
             ];
         }
 
-        const group = <Menu.MenuGroup key="ff-group" label="Fake Friends">{items}</Menu.MenuGroup>;
+        const group = <Menu.MenuGroup key="ff-group" label={t("Fake Friends")}>{items}</Menu.MenuGroup>;
 
         if (followIndex !== -1) children.splice(followIndex + 1, 0, group);
         else children.push(<Menu.MenuSeparator key="ff-sep" />, group);
@@ -851,7 +852,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, props) => {
         const fakeCount = [...fakeState.keys()].filter(id => memberIds.has(id)).length;
 
         const items = [
-            <Menu.MenuItem key="ff-g-flood" id="ff-g-flood" label="Fake Friend Request"
+            <Menu.MenuItem key="ff-g-flood" id="ff-g-flood" label={t("Fake Friend Request")}
                 action={() => floodGuild(guildId)} />
         ];
 
@@ -861,7 +862,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, props) => {
                 <Menu.MenuItem
                     key="ff-g-remove"
                     id="ff-g-remove"
-                    label={`Remove fake friend requests (${fakeCount})`}
+                    label={t("Remove fake friend requests ({count})").replace("{count}", fakeCount.toString())}
                     color="danger"
                     action={() => removeFakeFriendsForGuild(guildId)}
                 />
@@ -870,7 +871,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, props) => {
 
         children.push(
             <Menu.MenuSeparator key="ff-g-sep" />,
-            <Menu.MenuGroup key="ff-g-group" label="Fake Friends">{items}</Menu.MenuGroup>
+            <Menu.MenuGroup key="ff-g-group" label={t("Fake Friends")}>{items}</Menu.MenuGroup>
         );
     } catch (e) {
         console.error("[FakeFriends] Guild context menu patch error:", e);

@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
@@ -68,7 +69,7 @@ function AutoTranslateToggle() {
 
     return (
         <FormSwitch
-            title="Auto Translate Received Messages"
+            title={t("Auto Translate Received Messages")}
             description="Automatically translate incoming messages to the selected target language."
             value={value}
             onChange={v => settings.store.autoTranslateReceived = v}
@@ -81,9 +82,7 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
     return (
         <ModalRoot {...rootProps}>
             <ModalHeader className={cl("modal-header")}>
-                <HeadingPrimary className={cl("modal-title")}>
-                    Translate
-                </HeadingPrimary>
+                <HeadingPrimary className={cl("modal-title")}>{t("Translate")}</HeadingPrimary>
                 <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
 

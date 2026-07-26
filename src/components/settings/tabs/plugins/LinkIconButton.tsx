@@ -12,9 +12,17 @@ interface Props {
     href: string;
 }
 
+function safeOpenExternal(url: string) {
+    if (typeof VencordNative !== "undefined" && VencordNative?.native?.openExternal) {
+        VencordNative.native.openExternal(url);
+    } else {
+        window.open(url, "_blank");
+    }
+}
+
 export function WebsiteButton({ text, href }: Props) {
     return (
-        <Button variant="secondary" size="small" style={{ gap: 4 }} onClick={() => VencordNative.native.openExternal(href)}>
+        <Button variant="secondary" size="small" style={{ gap: 4 }} onClick={() => safeOpenExternal(href)}>
             <WebsiteIcon width={16} height={16} />
             {text}
         </Button>
@@ -23,7 +31,7 @@ export function WebsiteButton({ text, href }: Props) {
 
 export function GithubButton({ text, href }: Props) {
     return (
-        <Button variant="secondary" size="small" style={{ gap: 4 }} onClick={() => VencordNative.native.openExternal(href)}>
+        <Button variant="secondary" size="small" style={{ gap: 4 }} onClick={() => safeOpenExternal(href)}>
             <GithubIcon width={16} height={16} />
             {text}
         </Button>

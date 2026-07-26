@@ -172,16 +172,16 @@
 
 
 .vc-plugins-info-button {
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
     padding: 0;
     background: transparent;
     margin-right: 8px;
-    color: var(--icon-muted);
-    transition: background-color .2s ease;
+    color: var(--interactive-normal);
+    transition: color .2s ease;
 
     &:hover {
-        color: var(--interactive-icon-hover)
+        color: var(--interactive-hover);
     }
 }
 

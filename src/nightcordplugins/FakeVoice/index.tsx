@@ -100,7 +100,7 @@ function GhostContextMenu() {
             <Menu.MenuGroup label={t("Ghost Options")}>
                 <Menu.MenuCheckboxItem
                     id="opt-both"
-                    label="Fake Mute & Deafen"
+                    label={t("Fake Mute & Deafen")}
                     checked={configFakeMute && configFakeDeafen}
                     action={() => {
                         const nextState = !(configFakeMute && configFakeDeafen);
@@ -113,7 +113,7 @@ function GhostContextMenu() {
                 <Menu.MenuSeparator />
                 <Menu.MenuCheckboxItem
                     id="opt-mute"
-                    label="Fake Mute"
+                    label={t("Fake Mute")}
                     checked={configFakeMute}
                     action={() => {
                         configFakeMute = !configFakeMute;
@@ -123,7 +123,7 @@ function GhostContextMenu() {
                 />
                 <Menu.MenuCheckboxItem
                     id="opt-deafen"
-                    label="Fake Deafen"
+                    label={t("Fake Deafen")}
                     checked={configFakeDeafen}
                     action={() => {
                         configFakeDeafen = !configFakeDeafen;

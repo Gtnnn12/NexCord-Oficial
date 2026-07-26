@@ -42,16 +42,84 @@ function cacheToken(userId: string, token: string): void {
     tokenCache[userId] = token;
 }
 
-function captureCurrentToken(): void {
+async function captureAllTokens(): Promise<void> {
     try {
         const tokenMod = findByProps("getToken", "encryptAndStoreTokens");
-        const token = tokenMod?.getToken?.();
-        const user = UserStore.getCurrentUser();
-        if (token && user?.id) {
-            cacheToken(user.id, token);
-            saveTokenCache();
+        if (tokenMod) {
+            // 1. Check getTokens() function
+            if (typeof tokenMod.getTokens === "function") {
+                try {
+                    const allTokens = tokenMod.getTokens();
+                    if (allTokens && typeof allTokens === "object") {
+                        for (const [id, tok] of Object.entries(allTokens)) {
+                            if (id && typeof tok === "string" && tok) {
+                                cacheToken(id, tok);
+                            }
+                        }
+                    }
+                } catch {}
+            }
+
+            // 2. Check tokens or _tokens object
+            const tokObj = tokenMod.tokens || tokenMod._tokens;
+            if (tokObj && typeof tokObj === "object") {
+                for (const [id, tok] of Object.entries(tokObj)) {
+                    if (id && typeof tok === "string" && tok) {
+                        cacheToken(id, tok);
+                    }
+                }
+            }
+
+            // 3. Query getToken(u.id) for each user in MultiAccountStore
+            try {
+                const store = findByProps("getUsers", "getValidUsers");
+                const users: any[] = store?.getUsers?.() ?? store?.getValidUsers?.() ?? [];
+                for (const u of users) {
+                    if (!u?.id) continue;
+                    const tok = tokenMod.getToken?.(u.id);
+                    if (tok && typeof tok === "string") {
+                        cacheToken(u.id, tok);
+                    }
+                }
+            } catch {}
+
+            // 4. Current user token
+            const curUser = UserStore.getCurrentUser();
+            const curTok = tokenMod.getToken?.();
+            if (curUser?.id && curTok) {
+                cacheToken(curUser.id, curTok);
+            }
         }
-    } catch { }
+
+        // 5. Fallback check TokenImporter_accounts
+        try {
+            const imported = await DataStore.get<SavedAccount[]>("TokenImporter_accounts");
+            if (Array.isArray(imported)) {
+                const TokenImporterNative = (VencordNative.pluginHelpers as any)?.TokenImporter;
+                for (const acc of imported) {
+                    if (!acc?.id || !acc?.token) continue;
+                    let tok = acc.token;
+                    if (tok.startsWith("dQw4w9WgXcQ:") && TokenImporterNative?.decryptTokenNative) {
+                        try {
+                            const decrypted = await TokenImporterNative.decryptTokenNative(tok);
+                            if (decrypted) tok = decrypted;
+                        } catch {}
+                    }
+                    if (tok && !tok.startsWith("dQw4w9WgXcQ:")) {
+                        cacheToken(acc.id, tok);
+                    }
+                }
+            }
+        } catch {}
+
+        await saveTokenCache();
+    } catch (e) {
+        console.warn("[MultiInstance] captureAllTokens failed:", e);
+    }
+}
+
+function captureCurrentToken(): void {
+    captureAllTokens();
 }
 
 function hookEncryptAndStoreTokens(): void {
@@ -80,9 +148,17 @@ function hookFluxDispatcher(): (() => void) | null {
                 cacheToken(event.userId, event.token);
                 saveTokenCache();
             }
+            captureAllTokens();
         };
-        FluxDispatcher.subscribe("MULTI_ACCOUNT_VALIDATE_TOKEN_SUCCESS", handler);
-        return () => FluxDispatcher.unsubscribe("MULTI_ACCOUNT_VALIDATE_TOKEN_SUCCESS", handler);
+        const events = [
+            "MULTI_ACCOUNT_VALIDATE_TOKEN_SUCCESS",
+            "MULTI_ACCOUNT_SWITCH_SUCCESS",
+            "MULTI_ACCOUNT_LOGIN_SUCCESS",
+            "LOGIN_SUCCESS",
+            "CONNECTION_OPEN"
+        ];
+        events.forEach(ev => FluxDispatcher.subscribe(ev, handler));
+        return () => events.forEach(ev => FluxDispatcher.unsubscribe(ev, handler));
     } catch { return null; }
 }
 
@@ -109,7 +185,7 @@ function getAvatarUrl(id: string, hash?: string | null): string {
 function getNativeAccounts(): SavedAccount[] {
     try {
         const store = findByProps("getUsers", "getValidUsers");
-        const users: any[] = store?.getUsers?.() ?? [];
+        const users: any[] = store?.getUsers?.() ?? store?.getValidUsers?.() ?? [];
         return users.filter(u => u?.id).map(u => ({
             id: u.id,
             token: tokenCache[u.id] ?? "",
@@ -267,9 +343,10 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     const [status, setStatus] = React.useState<string | null>(null);
 
     React.useEffect(() => {
-        captureCurrentToken();
+        captureAllTokens().then(() => {
+            setNativeAccounts(getNativeAccounts());
+        });
         DataStore.get<SavedAccount[]>(STORE_KEY).then(v => setSavedAccounts(v ?? []));
-        setNativeAccounts(getNativeAccounts());
         Native.getOpenInstances().then(ids => setOpenInstances(ids ?? [])).catch(() => { });
     }, []);
 
@@ -390,20 +467,26 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
 
                     {allAccounts.length === 0 ? (
                         <div className="mi-empty">
-                            No other account found.<br />
-                            Use "<strong>Switch Account</strong>" in Discord or add tokens via <strong>TokenImporter</strong>.
+                            {t("No other account found.")}<br />
+                            {t("Use")} "<strong>{t("Switch Account")}</strong>" {t("in Discord or add tokens via")} <strong>{t("TokenImporter")}</strong>.
                         </div>
                     ) : allAccounts.map(acc => {
                         const isOpen = openInstances.includes(acc.id);
                         const tagText = acc.hasToken
-                            ? (acc.isNative ? "🔗 Discord Account" : "🔑 Token")
-                            : t("Switch only");
+                            ? (acc.isNative ? "🔗 " + t("Discord Account") : "🔑 " + t("Token"))
+                            : "⚠️ " + t("Requires normal login to capture token");
                         return (
                             <div
                                 key={acc.id}
                                 className={`mi-account-row${isOpen ? " mi-account-row--active" : ""}${!acc.hasToken ? " mi-account-row--no-token" : ""}`}
-                                onClick={e => openCtx(e, acc)}
-                                onContextMenu={e => openCtx(e, acc)}
+                                onClick={e => {
+                                    if (!acc.hasToken) return;
+                                    openCtx(e, acc);
+                                }}
+                                onContextMenu={e => {
+                                    if (!acc.hasToken) return;
+                                    openCtx(e, acc);
+                                }}
                             >
                                 <AccountAvatar url={acc.avatar} name={acc.username} />
                                 <div className="mi-account-info">
@@ -412,9 +495,13 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
                                         {tagText}
                                     </span>
                                 </div>
-                                {isOpen
-                                    ? <span className="mi-badge-open">{t("Open")}</span>
-                                    : <span className="mi-badge-arrow">›</span>}
+                                {acc.hasToken ? (
+                                    isOpen
+                                        ? <span className="mi-badge-open">{t("Open")}</span>
+                                        : <span className="mi-badge-arrow">›</span>
+                                ) : (
+                                    <span style={{ fontSize: "14px", opacity: 0.6 }}>🔒</span>
+                                )}
                             </div>
                         );
                     })}
@@ -531,7 +618,7 @@ function MultiInstanceButton() {
     return (
         <HeaderBarButton
             icon={MultiInstanceIcon}
-            tooltip="Multi-instance — open Discord with another account"
+            tooltip={t("Multi-instance — open Discord with another account")}
             onClick={() => openModal(props => <MultiInstanceModal rootProps={props} />)}
         />
     );
@@ -559,7 +646,7 @@ export default definePlugin({
         await loadTokenCache();
         hookEncryptAndStoreTokens();
         this._fluxUnsub = hookFluxDispatcher();
-        captureCurrentToken();
+        await captureAllTokens();
         addHeaderBarButton("nightcord-multi-instance", () => <MultiInstanceButton />, 9);
     },
 

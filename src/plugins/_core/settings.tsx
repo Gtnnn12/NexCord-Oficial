@@ -20,6 +20,15 @@ import {
 } from "@components/settings";
 import { CreateThemeTab } from "@components/settings/tabs/createTheme/CreateThemeTab";
 import { PencilSparkleIcon } from "@components/settings/tabs/createTheme/PencilSparkleIcon";
+
+function CodeIcon(props: IconProps) {
+    return (
+        <svg {...props} width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+        </svg>
+    );
+}
 import IconsTab from "@nightcordplugins/iconViewer/components/IconsTab";
 import { gitHashShort } from "@shared/vencordUserAgent";
 import { Devs } from "@utils/constants";
@@ -252,6 +261,7 @@ export default definePlugin({
                 Component: CreateThemeTab,
                 Icon: PencilSparkleIcon
             }),
+
             !IS_UPDATER_DISABLED && UpdaterTab && buildEntry({
                 key: "equicord_updater",
                 title: "Updater",

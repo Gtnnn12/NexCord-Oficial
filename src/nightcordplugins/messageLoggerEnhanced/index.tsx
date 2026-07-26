@@ -210,7 +210,10 @@ async function processMessageFetch(response: FetchMessagesResponse) {
 
         const newestMsg = response.body[0];
         const oldestMsg = response.body[response.body.length - 1];
-        const messages = await idb.getMessagesByChannelBetweenTimestampsIDB(oldestMsg.channel_id, oldestMsg.timestamp, newestMsg.timestamp);
+        
+        // Fetch up to the future so we catch deleted messages that are newer than newestMsg
+        const endTimestamp = new Date(Date.now() + 86400000 * 30).toISOString();
+        const messages = await idb.getMessagesByChannelBetweenTimestampsIDB(oldestMsg.channel_id, oldestMsg.timestamp, endTimestamp);
 
         if (!messages.length) return;
 
@@ -344,8 +347,18 @@ export default definePlugin({
 
     coolReAddDeletedMessages: (messages: LoggedMessageJSON[] & { extra: LoggedMessageJSON[]; }, payload: LoadMessagePayload) => {
         try {
-            if (messages.extra)
-                reAddDeletedMessages(messages, messages.extra, !payload.hasMoreAfter && !payload.isBefore, !payload.hasMoreBefore && !payload.isAfter);
+            if (messages.extra && messages.length > 0) {
+                const isAtBottom = !payload.hasMoreAfter && !payload.isBefore;
+                const oldestId = messages[messages.length - 1].id;
+                const newestId = messages[0].id;
+                
+                const validExtra = messages.extra.filter(msg => {
+                    if (isAtBottom) return BigInt(msg.id) >= BigInt(oldestId);
+                    return BigInt(msg.id) >= BigInt(oldestId) && BigInt(msg.id) <= BigInt(newestId);
+                });
+                
+                reAddDeletedMessages(messages, validExtra, isAtBottom, !payload.hasMoreBefore && !payload.isAfter);
+            }
         }
         catch (e) {
             Flogger.error("Failed to re-add deleted messages", e);

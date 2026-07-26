@@ -24,6 +24,7 @@ import { openImageModal } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 import type { Channel, Guild, User } from "@vencord/discord-types";
 import { GuildMemberStore, IconUtils, Menu } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 interface UserContextProps {
     channel: Channel;
@@ -101,14 +102,14 @@ const UserContext: NavContextMenuPatchCallback = (children, { user, guildId }: U
         <Menu.MenuGroup>
             <Menu.MenuItem
                 id="view-avatar"
-                label="View Avatar"
+                label={t("View Avatar")}
                 action={() => openAvatar(IconUtils.getUserAvatarURL(user, true))}
                 icon={ImageIcon}
             />
             {memberAvatar && (
                 <Menu.MenuItem
                     id="view-server-avatar"
-                    label="View Server Avatar"
+                    label={t("View Server Avatar")}
                     action={() => openAvatar(IconUtils.getGuildMemberAvatarURLSimple({
                         userId: user.id,
                         avatar: memberAvatar,
@@ -133,7 +134,7 @@ const GuildContext: NavContextMenuPatchCallback = (children, { guild }: GuildCon
             {icon ? (
                 <Menu.MenuItem
                     id="view-icon"
-                    label="View Icon"
+                    label={t("View Icon")}
                     action={() =>
                         openAvatar(IconUtils.getGuildIconURL({
                             id,
@@ -147,7 +148,7 @@ const GuildContext: NavContextMenuPatchCallback = (children, { guild }: GuildCon
             {banner ? (
                 <Menu.MenuItem
                     id="view-banner"
-                    label="View Banner"
+                    label={t("View Banner")}
                     action={() =>
                         openBanner(IconUtils.getGuildBannerURL(guild, true)!)
                     }
@@ -165,7 +166,7 @@ const GroupDMContext: NavContextMenuPatchCallback = (children, { channel }: Grou
         <Menu.MenuGroup>
             <Menu.MenuItem
                 id="view-group-channel-icon"
-                label="View Icon"
+                label={t("View Icon")}
                 action={() =>
                     openAvatar(IconUtils.getChannelIconURL(channel)!)
                 }

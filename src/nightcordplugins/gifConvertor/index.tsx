@@ -22,6 +22,7 @@ import {
     SnowflakeUtils,
     Toasts,
 } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 import { encodeGIF } from "./gifEncoder";
 
@@ -165,7 +166,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
 
     async function processFile(file: File) {
         if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
-            setErrorMsg("Only image and video files are supported.");
+            setErrorMsg(t("Only image and video files are supported."));
             setStage("error");
             return;
         }
@@ -186,7 +187,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
             setStage("preview");
         } catch (e: any) {
             console.error("[GifConvertor] Conversion error:", e);
-            setErrorMsg(e?.message ?? "Conversion failed.");
+            setErrorMsg(e?.message ?? t("Conversion failed."));
             setStage("error");
         }
     }
@@ -196,11 +197,11 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
         setStage("sending");
         try {
             await sendGIF(gifBlob, filename);
-            showToast("GIF sent!", Toasts.Type.SUCCESS);
+            showToast(t("GIF sent!"), Toasts.Type.SUCCESS);
             onClose();
         } catch (e: any) {
             console.error("[GifConvertor] Upload error:", e);
-            setErrorMsg(e?.message ?? "Upload failed.");
+            setErrorMsg(e?.message ?? t("Upload failed."));
             setStage("error");
         }
     }
@@ -233,7 +234,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
         >
             {/* Header */}
             <div className="nc-gifconv-header">
-                <span className="nc-gifconv-title">✦ GIF Convertor</span>
+                <span className="nc-gifconv-title">{t("✦ GIF Convertor")}</span>
                 <button className="nc-gifconv-close" onClick={onClose} aria-label="Close">
                     <CloseIcon />
                 </button>
@@ -260,17 +261,17 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                         role="button"
                         tabIndex={0}
                         onKeyDown={e => e.key === "Enter" && onClickZone()}
-                        aria-label="Drop media to convert to GIF"
+                        aria-label={t("Drop media to convert to GIF")}
                     >
                         <span className="nc-gifconv-dropzone-icon">
                             <UploadImageIcon />
                         </span>
                         <span className="nc-gifconv-dropzone-label">
-                            {isDragOver ? "Release to convert!" : "Drop media here"}
+                            {isDragOver ? t("Release to convert!") : t("Drop media here")}
                         </span>
                         <span className="nc-gifconv-dropzone-sub">
-                            or click to browse · Ctrl+V to paste<br />
-                            Images &amp; Videos (MP4, WebM…)
+                            {t("or click to browse · Ctrl+V to paste")}<br />
+                            {t("Images & Videos (MP4, WebM…)")}
                         </span>
                     </div>
                     {stage === "error" && (
@@ -284,7 +285,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                 <div className="nc-gifconv-loading">
                     <div className="nc-gifconv-spinner" />
                     <span className="nc-gifconv-loading-label">
-                        Converting to GIF… {progress > 0 && `(${Math.round(progress * 100)}%)`}
+                        {t("Converting to GIF… ")} {progress > 0 && `(${Math.round(progress * 100)}%)`}
                     </span>
                 </div>
             )}
@@ -292,8 +293,8 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
             {/* Preview */}
             {stage === "preview" && previewUrl && (
                 <div className="nc-gifconv-preview-wrap">
-                    <img src={previewUrl} alt="GIF preview" className="nc-gifconv-preview-img" />
-                    <span className="nc-gifconv-preview-label">Preview · {filename}</span>
+                    <img src={previewUrl} alt={t("GIF preview")} className="nc-gifconv-preview-img" />
+                    <span className="nc-gifconv-preview-label">{t("Preview · ")}{filename}</span>
                     <div className="nc-gifconv-actions">
                         <button
                             className="nc-gifconv-btn nc-gifconv-btn-secondary"
@@ -304,13 +305,13 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                                 setPreviewUrl(null);
                             }}
                         >
-                            ← Try Again
+                            {t("← Try Again")}
                         </button>
                         <button
                             className="nc-gifconv-btn nc-gifconv-btn-primary"
                             onClick={handleSend}
                         >
-                            ✦ Send GIF
+                            {t("✦ Send GIF")}
                         </button>
                     </div>
                 </div>
@@ -320,7 +321,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
             {stage === "sending" && (
                 <div className="nc-gifconv-loading">
                     <div className="nc-gifconv-spinner" />
-                    <span className="nc-gifconv-loading-label">Uploading…</span>
+                    <span className="nc-gifconv-loading-label">{t("Uploading…")}</span>
                 </div>
             )}
         </div>
@@ -374,7 +375,7 @@ const GifConvertorChatBarButton: ChatBarButtonFactory = ({ isMainChat }) => {
     return (
         <>
             <span ref={btnWrapRef} className="nc-gifconv-btn-wrap">
-                <ChatBarButton tooltip="Convert image or video to GIF" onClick={toggle}>
+                <ChatBarButton tooltip={t("Convert image or video to GIF")} onClick={toggle}>
                     <GifIcon active={open} />
                 </ChatBarButton>
             </span>

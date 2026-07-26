@@ -5,6 +5,7 @@
  */
 
 import { Settings } from "@api/Settings";
+import { t as pluginT } from "../nightcordplugins/autoTranslateNightcord";
 
 export type Language = "en" | "fr" | "es" | "ru" | "zh" | "ar";
 
@@ -170,13 +171,13 @@ const translations: Record<string, Partial<Record<Language, string>>> = {
     "Synchronize your Nightcord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.": { fr: "Synchronisez vos paramètres Nightcord vers le cloud. Cela facilite la cohérence de votre configuration sur plusieurs appareils.", es: "Sincroniza tu configuración de Nightcord a la nube.", ru: "Синхронизируйте настройки Nightcord с облаком.", zh: "将您的 Nightcord 设置同步到云端，轻松在多台设备间保持一致。", ar: "قم بمزامنة إعدادات Nightcord إلى السحابة. يجعل ذلك من السهل الحفاظ على تهيئة متسقة عبر أجهزة متعددة." },
 
     // ── Nightcord Settings descriptions ──────────────────────────────────────
-    "Configure how Nightcord handles notifications. You can customize when and how you receive alerts, or view a history of past notifications.": { fr: "Configurez la gestion des notifications de Nightcord.", es: "Configura cómo Nightcord maneja las notificaciones.", ru: "Настройте обработку уведомлений в Nightcord.", zh: "配置 Nightcord 处理通知的方式。" },
-    "Enable the React Developer Tools extension for debugging Discord's React components. Useful for plugin development.": { fr: "Activez l'extension React Developer Tools pour déboguer les composants React de Discord.", es: "Habilita React Developer Tools para depurar componentes React de Discord.", ru: "Включите расширение React Developer Tools для отладки компонентов React в Discord.", zh: "启用 React 开发者工具扩展，用于调试 Discord 的 React 组件。" },
-    "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.": { fr: "Supprimez le cadre de fenêtre natif pour un aspect plus propre.", es: "Elimina el marco de ventana nativo para un aspecto más limpio.", ru: "Удалите нативную рамку окна для более чистого вида.", zh: "移除原生窗口边框，获得更简洁的外观。" },
-    "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.": { fr: "Remplacez la barre de titre Discord par la barre de titre Windows standard.", es: "Reemplaza la barra de título de Discord con la barra de título estándar de Windows.", ru: "Замените пользовательскую строку заголовка Discord стандартной строкой Windows.", zh: "将 Discord 的自定义标题栏替换为标准 Windows 标题栏。" },
-    "Make the Discord window transparent. A theme that supports transparency is required or this will do nothing.": { fr: "Rendez la fenêtre Discord transparente. Un thème prenant en charge la transparence est requis.", es: "Hace la ventana de Discord transparente. Se requiere un tema que soporte transparencia.", ru: "Сделайте окно Discord прозрачным. Требуется тема с поддержкой прозрачности.", zh: "使 Discord 窗口透明。需要支持透明度的主题，否则此选项无效。" },
-    "Allow the Discord window to be resized smaller than its default minimum size. Useful for tiling window managers or small screens.": { fr: "Permettez de redimensionner la fenêtre Discord en dessous de sa taille minimale par défaut.", es: "Permite redimensionar la ventana de Discord por debajo de su tamaño mínimo.", ru: "Разрешите изменять размер окна Discord ниже минимального.", zh: "允许将 Discord 窗口调整为小于默认最小尺寸。" },
-    "Add Ctrl+Q as a keyboard shortcut to close Discord. This provides an alternative to Alt+F4 for quickly closing the application.": { fr: "Ajoutez Ctrl+Q comme raccourci clavier pour fermer Discord.", es: "Agrega Ctrl+Q como atajo de teclado para cerrar Discord.", ru: "Добавьте Ctrl+Q как горячую клавишу для закрытия Discord.", zh: "添加 Ctrl+Q 快捷键以关闭 Discord。" },
+    "Configure how Nightcord handles notifications. You can customize when and how you receive alerts, or view a history of past notifications.": { fr: "Configurez la gestion des notifications de Nightcord.", es: "Configura cómo Nightcord maneja las notificaciones.", ru: "Настройте обработку уведомлений в Nightcord.", zh: "配置 Nightcord 处理通知的方式。", ar: "تكوين كيفية معالجة Nightcord للإشعارات. يمكنك تخصيص وقت وكيفية تلقي التنبيهات، أو عرض سجل الإشعارات السابقة." },
+    "Enable the React Developer Tools extension for debugging Discord's React components. Useful for plugin development.": { fr: "Activez l'extension React Developer Tools pour déboguer les composants React de Discord.", es: "Habilita React Developer Tools para depurar componentes React de Discord.", ru: "Включите расширение React Developer Tools для отладки компонентов React в Discord.", zh: "启用 React 开发者工具扩展，用于调试 Discord 的 React 组件。", ar: "مكّن ملحق أدوات تطوير React لاستكشاف أخطاء مكونات React في Discord وإصلاحها. مفيد لتطوير الإضافات." },
+    "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.": { fr: "Supprimez le cadre de fenêtre natif pour un aspect plus propre.", es: "Elimina el marco de ventana nativo para un aspecto más limpio.", ru: "Удалите нативную рамку окна для более чистого вида.", zh: "移除原生窗口边框，获得更简洁的外观。", ar: "إزالة إطار النافذة الأصلي لمظهر أنظف." },
+    "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.": { fr: "Remplacez la barre de titre Discord par la barre de titre Windows standard.", es: "Reemplaza la barra de título de Discord con la barra de título estándar de Windows.", ru: "Замените пользовательскую строку заголовка Discord стандартной строкой Windows.", zh: "将 Discord 的自定义标题栏替换为标准 Windows 标题栏。", ar: "استبدل شريط عنوان Discord المخصص بشريط عنوان Windows القياسي. قد يحسن هذا التوافق مع بعض أدوات إدارة النوافذ." },
+    "Make the Discord window transparent. A theme that supports transparency is required or this will do nothing.": { fr: "Rendez la fenêtre Discord transparente. Un thème prenant en charge la transparence est requis.", es: "Hace la ventana de Discord transparente. Se requiere un tema que soporte transparencia.", ru: "Сделайте окно Discord прозрачным. Требуется тема с поддержкой прозрачности.", zh: "使 Discord 窗口透明。需要支持透明度的主题，否则此选项无效。", ar: "جعل نافذة Discord شفافة. يلزم وجود سمة تدعم الشفافية وإلا لن يفعل هذا شيئًا." },
+    "Allow the Discord window to be resized smaller than its default minimum size. Useful for tiling window managers or small screens.": { fr: "Permettez de redimensionner la fenêtre Discord en dessous de sa taille minimale par défaut.", es: "Permite redimensionar la ventana de Discord por debajo de su tamaño mínimo.", ru: "Разрешите изменять размер окна Discord ниже минимального.", zh: "允许将 Discord 窗口调整为小于默认最小尺寸。", ar: "السماح بتغيير حجم نافذة Discord إلى حجم أصغر من الحد الأدنى الافتراضي. مفيد لإدارة النوافذ أو الشاشات الصغيرة." },
+    "Add Ctrl+Q as a keyboard shortcut to close Discord. This provides an alternative to Alt+F4 for quickly closing the application.": { fr: "Ajoutez Ctrl+Q comme raccourci clavier pour fermer Discord.", es: "Agrega Ctrl+Q como atajo de teclado para cerrar Discord.", ru: "Добавьте Ctrl+Q как горячую клавишу для закрытия Discord.", zh: "添加 Ctrl+Q 快捷键以关闭 Discord。", ar: "إضافة Ctrl+Q كاختصار لوحة مفاتيح لإغلاق Discord. يوفر هذا بديلاً لـ Alt+F4 لإغلاق التطبيق بسرعة." },
     
     // ── Themes Tab ────────────────────────────────────────────────────────
     "Theme Management": { fr: "Gestion des thèmes", es: "Gestión de temas", ru: "Управление темами", zh: "主题管理" },
@@ -200,6 +201,10 @@ const translations: Record<string, Partial<Record<Language, string>>> = {
     "No themes installed yet. Add theme files to your themes folder or add an online theme above to get started.": { fr: "Aucun thème installé...", es: "No hay temas instalados...", ru: "Темы еще не установлены...", zh: "尚未安装主题..." },
     "No themes match your search or filter criteria.": { fr: "Aucun thème ne correspond...", es: "Ningún tema coincide...", ru: "Нет тем, соответствующих вашему поиску...", zh: "没有符合您搜索的主题。" },
     
+    // ── Editor / Plugin Editor ─────────────────────────────────────────────────────────────
+    "Editor": { fr: "Éditeur", es: "Editor", ru: "Редактор", zh: "编辑器", ar: "المحرر" },
+    "Plugin Editor": { fr: "Éditeur de Plugins", es: "Editor de Plugins", ru: "Редактор плагинов", zh: "插件编辑器", ar: "محرر الإضافات" },
+
     // ── Create Theme / Theme Creator ────────────────────────────────────────────────────────
     "Theme Creator": { fr: "Créateur de thème", es: "Creador de temas", ru: "Создатель тем", zh: "主题创建器" },
     "Theme Color": { fr: "Couleur du thème", es: "Color del tema", ru: "Цвет темы", zh: "主题颜色" },
@@ -609,5 +614,7 @@ const translations: Record<string, Partial<Record<Language, string>>> = {
 export function t(key: string): string {
     const lang = (Settings.language as Language) ?? "en";
     if (lang === "en") return key;
-    return translations[key]?.[lang] ?? key;
+    const direct = translations[key]?.[lang];
+    if (direct) return direct;
+    return pluginT(key);
 }

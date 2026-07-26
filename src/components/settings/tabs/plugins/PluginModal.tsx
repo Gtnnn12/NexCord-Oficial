@@ -20,7 +20,8 @@ import "./PluginModal.css";
 
 import { generateId } from "@api/Commands";
 import { hasAnyVisibleSettings } from "@api/PluginManager";
-import { useSettings } from "@api/Settings";
+import { definePluginSettings, useSettings } from "@api/Settings";
+import { removeEmojis } from "./PluginCard";
 import { tPlugin } from "@api/pluginI18n";
 import { BaseText } from "@components/BaseText";
 import { Button } from "@components/Button";
@@ -126,8 +127,8 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
         <ModalRoot transitionState={transitionState} size={ModalSize.MEDIUM}>
             <ModalHeader separator={false} className={cl("header")}>
                 <div className={cl("header-content")}>
-                    <BaseText size="lg" weight="semibold" className={cl("title")}>{tPlugin(plugin.name)}</BaseText>
-                    <BaseText size="sm" className={cl("description")}>{tPlugin(plugin.description)}</BaseText>
+                    <BaseText size="lg" weight="semibold" className={cl("title")}>{removeEmojis(tPlugin(plugin.name))}</BaseText>
+                    <BaseText size="sm" className={cl("description")}>{removeEmojis(tPlugin(plugin.description))}</BaseText>
                     {!!plugin.settingsAboutComponent && (
                         <div className={Margins.top8}>
                             <ErrorBoundary message="An error occurred while rendering this plugin's custom Info Component">

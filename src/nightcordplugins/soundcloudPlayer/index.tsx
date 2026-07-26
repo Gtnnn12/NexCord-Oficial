@@ -978,9 +978,9 @@ async function _doUpdateRichPresence() {
                 type: 2, // LISTENING
                 timestamps: duration > 0 ? { start, end } : { start },
                 assets: large_image ? { large_image } : undefined,
-                buttons: ["Listening Together", "Download"],
+                buttons: ["Download"],
                 metadata: {
-                    button_urls: [`https://nightcord.st/listen?sc_id=${p.playing.id}&start=${start}&userId=${myUserId}`, "https://nightcord.st"],
+                    button_urls: ["https://nightcord.st"],
                 },
                 flags: 1,
             }
@@ -1009,16 +1009,23 @@ function findUrlInReactFiber(element: HTMLElement | null): string | null {
         const keys = Object.keys(curr);
         const key = keys.find(k => k.startsWith("__reactFiber$") || k.startsWith("__reactInternalInstance$"));
         if (key) {
-            const fiber = (curr as any)[key];
-            let memoizedProps = fiber?.memoizedProps;
-            if (memoizedProps?.href && typeof memoizedProps.href === "string") {
-                return memoizedProps.href;
-            }
-            if (memoizedProps?.url && typeof memoizedProps.url === "string") {
-                return memoizedProps.url;
-            }
-            if (memoizedProps?.button?.url && typeof memoizedProps.button.url === "string") {
-                return memoizedProps.button.url;
+            let fiber = (curr as any)[key];
+            let depth = 0;
+            while (fiber && depth < 40) {
+                const props = fiber.memoizedProps;
+                if (props) {
+                    if (typeof props.href === "string") return props.href;
+                    if (typeof props.url === "string") return props.url;
+                    if (typeof props.button?.url === "string") return props.button.url;
+                    // Check activity card button_urls (Discord RPC buttons)
+                    if (Array.isArray(props.activity?.metadata?.button_urls)) {
+                        for (const u of props.activity.metadata.button_urls) {
+                            if (typeof u === "string" && u.includes("nightcord.st/listen")) return u;
+                        }
+                    }
+                }
+                fiber = fiber.return;
+                depth++;
             }
         }
         curr = curr.parentElement;
@@ -1034,11 +1041,16 @@ async function handleListeningTogether(scId: string, startParam: string, userIdP
                 const { trackId, start, isPlaying } = config.settings;
                 if (trackId && isPlaying) {
                     playTrackById(trackId, String(start));
+                    return;
                 }
             }
         } catch (e) {
             console.error("[SoundCord] API sync failed:", e);
         }
+    }
+    // Fallback: play directly by scId if no user config or API failed
+    if (scId) {
+        playTrackById(scId, startParam);
     }
 }
 
@@ -1162,15 +1174,16 @@ export default definePlugin({
                 if (fiberHref) href = fiberHref;
             }
 
-            if (href.startsWith("https://nightcord.st/listen?") || href.startsWith("http://nightcord.st/listen?")) {
+            if (href && href.includes("nightcord.st/listen?")) {
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
                 try {
                     const params = new URL(href).searchParams;
                     const scId = params.get("sc_id") ?? "";
                     const start = params.get("start") ?? "";
                     const userId = params.get("userId") ?? "";
-                    if (scId) {
+                    if (scId || userId) {
                         handleListeningTogether(scId, start, userId);
                     }
                 } catch {}

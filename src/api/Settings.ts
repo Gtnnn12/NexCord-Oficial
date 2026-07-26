@@ -85,7 +85,8 @@ export interface Settings {
     streamProof: boolean;
     seeAllCustomProfile: boolean;
     syncOwnCustomProfile: boolean;
-    language: "en" | "fr" | "es" | "ru" | "zh";
+    syncDiscordLanguage: boolean;
+    language: "en" | "fr" | "ar" | "es" | "ru" | "zh";
     plugins: {
         [plugin: string]: {
             enabled: boolean;
@@ -147,6 +148,7 @@ const DefaultSettings: Settings = {
     streamProof: false,
     seeAllCustomProfile: true,
     syncOwnCustomProfile: false,
+    syncDiscordLanguage: false,
     language: "en",
     plugins: {},
 

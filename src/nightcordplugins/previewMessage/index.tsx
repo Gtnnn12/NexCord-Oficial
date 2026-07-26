@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Nightcord, a Discord client mod
  * Copyright (c) 2026 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,6 +11,7 @@ import { React, ChannelStore, FluxDispatcher, UserStore, ReactDOM, createRoot } 
 import { findByPropsLazy } from "@webpack";
 import { sendMessage } from "@utils/discord";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { t } from "../autoTranslateNightcord";
 
 // ── Stores ─────────────────────────────────────────────────────────────────
 
@@ -32,13 +33,13 @@ function formatTime(ts: string | number | Date): string {
 }
 
 function getPreview(msg: any): { text: string; attach: boolean; } {
-    if (msg.type === 3) return { text: "📞 Call", attach: true };
+    if (msg.type === 3) return { text: t("📞 Call"), attach: true };
     if (msg.content?.trim()) return { text: msg.content.trim(), attach: false };
     if (msg.attachments?.length)
-        return { text: `📎 ${msg.attachments.length > 1 ? msg.attachments.length + " attachments" : "Attachment"}`, attach: true };
-    if (msg.stickers?.length) return { text: "🎭 Sticker", attach: true };
-    if (msg.embeds?.length) return { text: "🔗 Embed", attach: true };
-    return { text: "📷 Media", attach: true };
+        return { text: t("📎 {count} attachment(s)").replace("{count}", msg.attachments.length.toString()), attach: true };
+    if (msg.stickers?.length) return { text: t("🎭 Sticker"), attach: true };
+    if (msg.embeds?.length) return { text: t("🔗 Embed"), attach: true };
+    return { text: t("📷 Media"), attach: true };
 }
 
 function avatarUrl(userId: string, hash: string | null): string {
@@ -116,8 +117,8 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                 {messages.length === 0 ? (
                     <div className="pm-empty">
                         {unread > 0
-                            ? `${unread} unread message${unread > 1 ? "s" : ""}`
-                            : "No messages to display"}
+                            ? t("{count} unread message(s)").replace("{count}", unread.toString())
+                            : t("No messages to display")}
                     </div>
                 ) : (
                     <div className="pm-messages">
@@ -138,7 +139,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                     <input 
                         type="text" 
                         className="pm-reply-input" 
-                        placeholder={`Reply to ${name ?? "this user"}...`} 
+                        placeholder={t("Reply to {name}...").replace("{name}", name ?? t("this user"))} 
                         autoFocus 
                         onKeyDown={async e => {
                             if (e.key === "Enter") {

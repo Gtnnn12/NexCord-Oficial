@@ -6,7 +6,8 @@
 
 import { ChatBarButton } from "@api/ChatButtons";
 import { definePluginSettings } from "@api/Settings";
-import { Button } from "@components/Button";
+import { Button } from "@components/index";
+import { t } from "../autoTranslateNightcord";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
@@ -35,11 +36,10 @@ const settings = definePluginSettings({
             }}>
                 <span style={{ fontSize: "24px" }}>⚠️</span>
                 <div>
-                    <div style={{ fontWeight: "bold", color: "var(--status-warning)" }}>API Key Required</div>
+                    <div style={{ fontWeight: "bold", color: "var(--status-warning)" }}>{t("API Key Required")}</div>
                     <div style={{ fontSize: "13px", marginTop: "4px" }}>
                         AutoResponder requires a Groq API Key to function.
-                        Please configure it once in the <strong>NightcordAI</strong> settings.
-                    </div>
+                        Please configure it once in the <strong>{t("NightcordAI")}</strong>{t("settings.")}</div>
                 </div>
             </div>
         )
@@ -262,12 +262,12 @@ const AutoResponderButton = () => {
             openModal(props => (
                 <ModalRoot {...props} size={ModalSize.SMALL}>
                     <ModalHeader separator={false}>
-                        <Text variant="heading-lg/semibold">Autoresponder Warning</Text>
+                        <Text variant="heading-lg/semibold">{t("Autoresponder Warning")}</Text>
                         <ModalCloseButton onClick={props.onClose} />
                     </ModalHeader>
                     <ModalContent>
                         <Text variant="text-md/normal" style={{ marginBottom: 16 }}>
-                            Are you sure you want to enable the Autoresponder plugin? An AI will automatically reply to your DMs when you are unavailable.
+                            {t("Are you sure you want to enable the Autoresponder plugin? An AI will automatically reply to your DMs when you are unavailable.")}
                         </Text>
                     </ModalContent>
                     <div style={{ padding: "16px", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
@@ -275,7 +275,7 @@ const AutoResponderButton = () => {
                             variant="link"
                             onClick={props.onClose}
                         >
-                            Cancel
+                            {t("Cancel")}
                         </Button>
                         <Button
                             variant="primary"
@@ -286,17 +286,17 @@ const AutoResponderButton = () => {
                                     openModal(props2 => (
                                         <ModalRoot {...props2} size={ModalSize.SMALL}>
                                             <ModalHeader separator={false}>
-                                                <Text variant="heading-lg/semibold">API Key Required</Text>
+                                                <Text variant="heading-lg/semibold">{t("API Key Required")}</Text>
                                                 <ModalCloseButton onClick={props2.onClose} />
                                             </ModalHeader>
                                             <ModalContent>
                                                 <Text variant="text-md/normal" style={{ marginBottom: 16 }}>
-                                                    AutoResponder requires a Groq API Key to function. Please configure it once in the NightcordAI settings.
+                                                    {t("AutoResponder requires a Groq API Key to function. Please configure it once in the NightcordAI settings.")}
                                                 </Text>
                                             </ModalContent>
                                             <div style={{ padding: "16px", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
                                                 <Button variant="primary" onClick={props2.onClose}>
-                                                    Close
+                                                    {t("Close")}
                                                 </Button>
                                             </div>
                                         </ModalRoot>
@@ -307,7 +307,7 @@ const AutoResponderButton = () => {
                                 setTick(t => t + 1);
                             }}
                         >
-                            Enable
+                            {t("Enable")}
                         </Button>
                     </div>
                 </ModalRoot>
@@ -320,7 +320,7 @@ const AutoResponderButton = () => {
 
     return (
         <ChatBarButton
-            tooltip={`AutoResponder: ${isEnabled ? "ON" : "OFF"}`}
+            tooltip={t("AutoResponder:") + " " + (isEnabled ? t("ON") : t("OFF"))}
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();

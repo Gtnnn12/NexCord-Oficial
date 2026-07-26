@@ -11,6 +11,7 @@ import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy, findStoreLazy } from "@webpack";
 import { React } from "@webpack/common";
 import plugins from "~plugins";
+import { t } from "../autoTranslateNightcord";
 
 // ── Discord internals ──────────────────────────────────────────────────────────
 
@@ -142,7 +143,7 @@ function TimerBadge({ messageId }: { messageId: string; }) {
                 userSelect: "none",
                 width: "fit-content",
             }}
-            title="SelfDestruct — this message will be deleted automatically"
+            title={t("SelfDestruct — this message will be deleted automatically")}
         >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#ed4245" strokeWidth="2" fill="none" />
@@ -198,8 +199,8 @@ const SelfDestructButton: ChatBarButtonFactory = ({ isMainChat }) => {
     const delayStr = delaySec >= 60 ? `${Math.floor(delaySec / 60)}m${delaySec % 60 ? (delaySec % 60) + "s" : ""}` : `${delaySec}s`;
 
     const tooltip = active
-        ? `SelfDestruct: ON (${delayStr}) — click to disable`
-        : "SelfDestruct: OFF — click to enable";
+        ? t("SelfDestruct: ON") + ` (${delayStr}) — ` + t("click to disable")
+        : t("SelfDestruct: OFF — click to enable");
 
     return (
         <ChatBarButton

@@ -10,6 +10,7 @@ import { DataStore } from "@api/index";
 import definePlugin from "@utils/types";
 import { findStoreLazy, waitFor } from "@webpack";
 import { FluxDispatcher, Menu, React, UserStore } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const UserProfileStore = findStoreLazy("UserProfileStore");
 const EmojiStore = findStoreLazy("EmojiStore");
@@ -289,7 +290,7 @@ function RestoreButton() {
     return (
         <HeaderBarButton
             icon={RestoreIcon}
-            tooltip="Fake account active — click to restore your real account"
+            tooltip={t("Fake account active — click to restore your real account")}
             onClick={() => { restoreRealAccount(); setActive(false); }}
         />
     );
@@ -310,7 +311,7 @@ const ctxPatch: NavContextMenuPatchCallback = (children, { user }) => {
         children.push(
             <Menu.MenuItem
                 id="fake-account-add"
-                label="Add to Switcher (Fake)"
+                label={t("Add to Switcher (Fake)")}
                 icon={FakeAccountIcon}
                 action={() => addToSwitcher(user.id)}
             />

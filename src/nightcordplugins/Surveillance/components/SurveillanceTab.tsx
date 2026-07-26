@@ -1,3 +1,4 @@
+import { t } from "../../autoTranslateNightcord";
 /*
  * Nightcord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
@@ -418,7 +419,7 @@ const EventDetailsModal = ErrorBoundary.wrap(function EventDetailsModal({ event,
                 {/* Footer */}
                 <div className={cl("modal-footer")}>
                     <span className={cl("modal-meta")}>ID: {event.id}</span>
-                    <button className={cl("action")} onClick={copyEvent}>Copy JSON</button>
+                    <button className={cl("action")} onClick={copyEvent}>{t("Copy JSON")}</button>
                 </div>
             </div>
         </Modal>
@@ -470,7 +471,7 @@ function ServerSearchResult({ guildId, onAdd }: { guildId: string; onAdd(guildId
         <button className={cl("search-result")} onClick={() => onAdd(guildId)} type="button">
             <span>
                 <strong>{guild?.name ?? guildId}</strong>
-                <small>Server</small>
+                <small>{t("Server")}</small>
             </span>
             <span className={cl("target-id")}>{guildId}</span>
         </button>

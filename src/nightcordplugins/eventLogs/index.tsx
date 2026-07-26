@@ -43,6 +43,15 @@ type LogType =
     | "block" | "guild_member_add" | "guild_member_remove" | "guild_ban"
     | "guild_timeout" | "guild_kick" | "user_disconnect" | "ping";
 
+interface LogAttachment {
+    url: string;
+    proxy_url?: string;
+    width?: number;
+    height?: number;
+    filename?: string;
+    content_type?: string;
+}
+
 interface LogEntry {
     id: string; // Internal unique ID
     realId?: string; // Original ID (message, user, etc.)
@@ -59,6 +68,7 @@ interface LogEntry {
     guildName?: string;
     extra?: string;
     isMyVoice?: boolean;
+    attachments?: LogAttachment[];
 }
 
 const MAX_LOGS = 10000;
@@ -168,13 +178,18 @@ function authorFrom(msg: any) {
     return { authorId: id, authorName: name, authorAvatar: av };
 }
 
-// FIX CRASH DM SCROLL: msgCache réduit de 8000 → 3000 entrées, purge de 1000 → 500
-// La purge brutale de 1000 entrées d'un coup pendant le scroll provoquait un pic de
-// travail synchrone qui bloquait le thread principal au moment critique du re-render.
-// Taille réduite + purge plus petite = moins d'impact pendant le scroll.
-const MSG_CACHE_MAX = 3000;
-const MSG_CACHE_PURGE = 500;
-const msgCache = new Map<string, { content: string; authorId: string; authorName: string; authorAvatar: string | null; }>();
+const MSG_CACHE_MAX = 50000;
+const MSG_CACHE_PURGE = 2000;
+
+interface CachedMsg {
+    content: string;
+    authorId: string;
+    authorName: string;
+    authorAvatar: string | null;
+    attachments: LogAttachment[];
+}
+
+const msgCache = new Map<string, CachedMsg>();
 
 // Flag pour bloquer les purges du cache pendant le scroll (LOAD_MESSAGES_SUCCESS actif)
 let isLoadingMessages = false;
@@ -190,36 +205,49 @@ function pruneMsgCache() {
 
 function cacheMsg(msg: any) {
     if (!msg?.id) return;
-    // FIX: Ne pas purger le cache pendant un chargement de messages (scroll DM)
-    // La purge en plein milieu d'un LOAD_MESSAGES_SUCCESS forçait un recalcul des
-    // globalPaths Node qui entrait en conflit avec la virtualisation Discord.
     if (!isLoadingMessages) pruneMsgCache();
     const a = authorFrom(msg);
-    msgCache.set(msg.id, { content: msg.content ?? "", authorId: a.authorId ?? "", authorName: a.authorName, authorAvatar: a.authorAvatar });
+    const rawAtts = msg.attachments || msg.attachments_cache || [];
+    const attachments: LogAttachment[] = Array.isArray(rawAtts) ? rawAtts.map((att: any) => ({
+        url: att.url || att.proxy_url || "",
+        proxy_url: att.proxy_url || att.url || "",
+        width: att.width,
+        height: att.height,
+        filename: att.filename || "file",
+        content_type: att.content_type || att.contentType || ""
+    })).filter(att => !!att.url) : [];
+
+    msgCache.set(msg.id, {
+        content: msg.content ?? "",
+        authorId: a.authorId ?? "",
+        authorName: a.authorName,
+        authorAvatar: a.authorAvatar,
+        attachments
+    });
 }
 
 const CFG: Record<LogType, { label: string; color: string; }> = {
-    message_delete: { label: t("Deleted"), color: "#ed4245" },
-    message_edit: { label: t("Edited"), color: "#faa61a" },
-    voice_join: { label: t("Voice +"), color: "#3ba55c" },
-    voice_leave: { label: t("Voice -"), color: "#747f8d" },
-    voice_move: { label: t("Moved"), color: "#5865f2" },
-    voice_mute: { label: t("Mic"), color: "#faa61a" },
-    voice_deaf: { label: t("Deaf"), color: "#faa61a" },
-    voice_stream: { label: t("Stream"), color: "#5865f2" },
-    voice_mute_mod: { label: t("Muted"), color: "#ed4245" },
-    friend_add: { label: t("Friend +"), color: "#3ba55c" },
-    friend_remove: { label: t("Friend -"), color: "#ed4245" },
-    friend_request: { label: t("Request"), color: "#5865f2" },
-    friend_request_cancel: { label: t("Annulé"), color: "#747f8d" },
-    block: { label: t("Blocked"), color: "#ed4245" },
-    guild_member_add: { label: t("Joined"), color: "#3ba55c" },
-    guild_member_remove: { label: t("Left"), color: "#ed4245" },
-    guild_ban: { label: t("Banned"), color: "#ed4245" },
-    guild_timeout: { label: t("Exclu"), color: "#faa61a" },
-    guild_kick: { label: t("Kick"), color: "#ed4245" },
-    user_disconnect: { label: t("Déco"), color: "#747f8d" },
-    ping: { label: t("Ping"), color: "#eb459f" },
+    message_delete: { label: "Deleted", color: "#ed4245" },
+    message_edit: { label: "Edited", color: "#faa61a" },
+    voice_join: { label: "Voice +", color: "#3ba55c" },
+    voice_leave: { label: "Voice -", color: "#747f8d" },
+    voice_move: { label: "Moved", color: "#5865f2" },
+    voice_mute: { label: "Mic", color: "#faa61a" },
+    voice_deaf: { label: "Deaf", color: "#faa61a" },
+    voice_stream: { label: "Stream", color: "#5865f2" },
+    voice_mute_mod: { label: "Muted", color: "#ed4245" },
+    friend_add: { label: "Friend +", color: "#3ba55c" },
+    friend_remove: { label: "Friend -", color: "#ed4245" },
+    friend_request: { label: "Request", color: "#5865f2" },
+    friend_request_cancel: { label: "Cancelled", color: "#747f8d" },
+    block: { label: "Blocked", color: "#ed4245" },
+    guild_member_add: { label: "Joined", color: "#3ba55c" },
+    guild_member_remove: { label: "Left", color: "#ed4245" },
+    guild_ban: { label: "Banned", color: "#ed4245" },
+    guild_timeout: { label: "Timeout", color: "#faa61a" },
+    guild_kick: { label: "Kick", color: "#ed4245" },
+    user_disconnect: { label: "Disconnected", color: "#747f8d" },
+    ping: { label: "Ping", color: "#eb459f" },
 };
 
 const FRIENDS_SET = new Set(["friend_add", "friend_remove", "friend_request", "friend_request_cancel", "block"]);
@@ -235,6 +263,14 @@ function renderContent(text: string) {
         const u = getUser(id);
         return u ? `@${u.globalName || u.username}` : match;
     });
+}
+
+function isImg(att: LogAttachment): boolean {
+    if (!att || !att.url) return false;
+    const type = (att.content_type || "").toLowerCase();
+    if (type.startsWith("image/")) return true;
+    const url = att.url.toLowerCase();
+    return /\.(png|jpe?g|webp|gif|svg)($|\?)/i.test(url);
 }
 
 function LogRow({ e }: { e: LogEntry; }) {
@@ -366,13 +402,63 @@ function LogRow({ e }: { e: LogEntry; }) {
                 {e.type === "message_delete" && (
                     <div className="el-msg el-msg--deleted">
                         <span className="el-msg-label">{t("Message:")} </span>
-                        <span>{renderContent(e.content) || <em style={{ opacity: 0.5 }}>{t("not in cache")}</em>}</span>
+                        <div style={{ flex: 1, overflow: "hidden" }}>
+                            <span>{renderContent(e.content) || (!e.attachments?.length && <em style={{ opacity: 0.5 }}>{t("pas en cache")}</em>)}</span>
+                            {e.attachments && e.attachments.length > 0 && (
+                                <div className="el-attachments">
+                                    {e.attachments.map((att, i) => (
+                                        <div key={i} className="el-attachment-item">
+                                            {isImg(att) ? (
+                                                <img
+                                                    src={att.proxy_url || att.url}
+                                                    alt={att.filename || "image"}
+                                                    className="el-attachment-img"
+                                                    onClick={ev => {
+                                                        ev.stopPropagation();
+                                                        window.open(att.url, "_blank");
+                                                    }}
+                                                    loading="lazy"
+                                                />
+                                            ) : (
+                                                <a href={att.url} target="_blank" rel="noreferrer" className="el-attachment-link" onClick={ev => ev.stopPropagation()}>
+                                                    📁 {att.filename || "file"}
+                                                </a>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
                 {e.type === "message_edit" && (
                     <div className="el-edit-wrap">
                         <div className="el-msg el-msg--before"><span className="el-msg-label">{t("Before:")} </span><span>{renderContent(e.extra || "?")}</span></div>
                         <div className="el-msg el-msg--after"><span className="el-msg-label">{t("After:")} </span><span>{renderContent(e.content || "—")}</span></div>
+                        {e.attachments && e.attachments.length > 0 && (
+                            <div className="el-attachments">
+                                {e.attachments.map((att, i) => (
+                                    <div key={i} className="el-attachment-item">
+                                        {isImg(att) ? (
+                                            <img
+                                                src={att.proxy_url || att.url}
+                                                alt={att.filename || "image"}
+                                                className="el-attachment-img"
+                                                onClick={ev => {
+                                                    ev.stopPropagation();
+                                                    window.open(att.url, "_blank");
+                                                }}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <a href={att.url} target="_blank" rel="noreferrer" className="el-attachment-link" onClick={ev => ev.stopPropagation()}>
+                                                📁 {att.filename || "file"}
+                                            </a>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
                 {e.type !== "message_delete" && e.type !== "message_edit" && e.content && (
@@ -707,11 +793,84 @@ function subscribeToEvents() {
         if (d.mlDeleted) return;
         const cached = msgCache.get(d.id);
         let content = "", authorId = "", authorName = "?", authorAvatar: string | null = null;
-        try { const sm = MessageStore?.getMessage?.(d.channelId, d.id); if (sm) { content = sm.content ?? ""; const a = authorFrom(sm); authorId = a.authorId ?? ""; authorName = a.authorName; authorAvatar = a.authorAvatar; } } catch { }
-        if (cached) { if (!content) content = cached.content; if (!authorId) { authorId = cached.authorId; authorName = cached.authorName; authorAvatar = cached.authorAvatar; } }
-        if (authorId) { const u = getUser(authorId); if (u) { authorName = u.globalName ?? u.username ?? authorName; authorAvatar = u.avatar ?? authorAvatar; } }
-        pushLog({ type: "message_delete", content, authorId, authorName, authorAvatar, realId: d.id, ...chInfo(d.channelId) });
-        msgCache.delete(d.id);
+        let attachments: LogAttachment[] = [];
+
+        try {
+            const sm = MessageStore?.getMessage?.(d.channelId, d.id);
+            if (sm) {
+                content = sm.content ?? "";
+                const a = authorFrom(sm);
+                authorId = a.authorId ?? "";
+                authorName = a.authorName;
+                authorAvatar = a.authorAvatar;
+                if (sm.attachments?.length) {
+                    attachments = sm.attachments.map((att: any) => ({
+                        url: att.url || att.proxy_url || "",
+                        proxy_url: att.proxy_url || att.url || "",
+                        width: att.width,
+                        height: att.height,
+                        filename: att.filename || "image.png",
+                        content_type: att.content_type || att.contentType || ""
+                    })).filter((att: any) => !!att.url);
+                }
+            }
+        } catch { }
+
+        if (cached) {
+            if (!content) content = cached.content;
+            if (!attachments.length && cached.attachments?.length) attachments = cached.attachments;
+            if (!authorId) {
+                authorId = cached.authorId;
+                authorName = cached.authorName;
+                authorAvatar = cached.authorAvatar;
+            }
+        }
+
+        // Fallback: check Vencord MessageLogger plugins
+        if (!content && !attachments.length) {
+            try {
+                const ml = (window as any).Vencord?.Plugins?.plugins?.MessageLogger
+                    || (window as any).Vencord?.Plugins?.plugins?.MessageLoggerEnhanced;
+                const mlMsg = ml?.deletedMessages?.get?.(d.id);
+                if (mlMsg) {
+                    content = mlMsg.content || "";
+                    if (mlMsg.attachments) {
+                        attachments = mlMsg.attachments.map((att: any) => ({
+                            url: att.url || att.proxy_url || "",
+                            proxy_url: att.proxy_url || att.url || "",
+                            width: att.width,
+                            height: att.height,
+                            filename: att.filename || "file",
+                            content_type: att.content_type || ""
+                        }));
+                    }
+                    if (!authorId && mlMsg.author) {
+                        authorId = mlMsg.author.id;
+                        authorName = mlMsg.author.username;
+                        authorAvatar = mlMsg.author.avatar;
+                    }
+                }
+            } catch { }
+        }
+
+        if (authorId) {
+            const u = getUser(authorId);
+            if (u) {
+                authorName = u.globalName ?? u.username ?? authorName;
+                authorAvatar = u.avatar ?? authorAvatar;
+            }
+        }
+
+        pushLog({
+            type: "message_delete",
+            content,
+            authorId,
+            authorName,
+            authorAvatar,
+            realId: d.id,
+            attachments,
+            ...chInfo(d.channelId)
+        });
     });
     sub("VOICE_STATE_UPDATES", d => {
         const meId = UserStore?.getCurrentUser?.()?.id;
@@ -741,10 +900,10 @@ function subscribeToEvents() {
                 channelId: channelId ?? oldChannelId, channelName: ch?.name, guildId: g?.id, guildName: g?.name,
                 isMyVoice
             };
-            if (!oldChannelId && channelId) pushLog({ type: "voice_join", content: "Joined", ...b });
+            if (!oldChannelId && channelId) pushLog({ type: "voice_join", content: t("Joined"), ...b });
             else if (oldChannelId && !channelId) {
                 const p = prevVS.get(userId);
-                const content = (s.selfStream === false && p?.selfStream === true) ? "Stream stopped" : "Left";
+                const content = (s.selfStream === false && p?.selfStream === true) ? t("Stream stopped") : t("Left");
                 pushLog({ type: "voice_leave", content, ...b, channelId: oldChannelId });
             }
             else if (oldChannelId && channelId && oldChannelId !== channelId) { const oc = getChannel(oldChannelId); pushLog({ type: "voice_move", content: `${oc?.name ?? "?"} → ${ch?.name ?? "?"}`, ...b }); }

@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord – WorldBomb Assistant Plugin
  * Inspired by "cheat worldbomb" Python scripts.
@@ -17,7 +18,7 @@ const TrophyIcon = (props: any) => (
 
 export default definePlugin({
     name: "WordBomb",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Assistant BombParty/WordBomb avec overlay persistant, IA intégrée et alphabet track.",
     authors: [{ name: "Nightcord",
      id: 0n }],
@@ -31,7 +32,7 @@ export default definePlugin({
         addHeaderBarButton("wordbomb", () => (
             <HeaderBarButton
                 icon={TrophyIcon}
-                tooltip="WordBomb"
+                tooltip={t("WordBomb")}
                 onClick={(e: any) => { e?.stopPropagation?.(); toggleWordBombOverlay(); }}
             />
         ), 9);

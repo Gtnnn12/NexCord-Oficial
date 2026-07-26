@@ -8,6 +8,7 @@ import "./styles.css";
 
 import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
+import { t } from "../autoTranslateNightcord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
@@ -120,7 +121,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
         <ModalRoot {...rootProps} size="medium">
             <ModalHeader separator={false}>
                 <Forms.FormTitle tag="h4" style={{ margin: 0, display: "flex", alignItems: "center", gap: 8, color: "#fff" }}>
-                    Leave All Servers
+                    {t("Leave All Servers")}
                 </Forms.FormTitle>
                 <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
@@ -133,7 +134,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                     <input
                         className="las-search-input"
                         type="text"
-                        placeholder="Search a server..."
+                        placeholder={t("Search a server...")}
                         value={search}
                         onChange={e => setSearch(e.currentTarget.value)}
                         autoFocus
@@ -145,10 +146,10 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
 
                 {/* Header liste + boutons tout/rien */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <Forms.FormTitle tag="h5" className="las-label">SELECT SERVERS</Forms.FormTitle>
+                    <Forms.FormTitle tag="h5" className="las-label">{t("SELECT SERVERS")}</Forms.FormTitle>
                     <div style={{ display: "flex", gap: 6 }}>
-                        <button className="las-mini-btn" onClick={selectAll} disabled={status === "running"}>All</button>
-                        <button className="las-mini-btn" onClick={selectNone} disabled={status === "running"}>None</button>
+                        <button className="las-mini-btn" onClick={selectAll} disabled={status === "running"}>{t("All")}</button>
+                        <button className="las-mini-btn" onClick={selectNone} disabled={status === "running"}>{t("None")}</button>
                     </div>
                 </div>
 
@@ -156,7 +157,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                 <div className="las-guild-list">
                     {filtered.length === 0 && (
                         <div className="las-empty">
-                            {search ? `No results for "${search}"` : "No servers found"}
+                            {search ? t("No results for \"{search}\"").replace("{search}", search) : t("No servers found")}
                         </div>
                     )}
                     {filtered.map(g => {
@@ -186,9 +187,9 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
 
                 {/* Compteur */}
                 <div className="las-footer-info">
-                    <span>{selected.size} server{selected.size > 1 ? "s" : ""} selected</span>
+                    <span>{t("{count} servers selected").replace("{count}", selected.size.toString())}</span>
                     {settings.store.safeMode && (
-                        <span className="las-safe-note">· Safe mode active (owners excluded)</span>
+                        <span className="las-safe-note">{t("· Safe mode active (owners excluded)")}</span>
                     )}
                 </div>
 
@@ -199,8 +200,8 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                     disabled={selected.size === 0 || status === "running"}
                 >
                     {status === "running"
-                        ? `In progress... (${pct}%)`
-                        : `Leave ${selected.size} server${selected.size > 1 ? "s" : ""}`}
+                        ? t("In progress... ({pct}%)").replace("{pct}", pct.toString())
+                        : t("Leave {count} servers").replace("{count}", selected.size.toString())}
                 </button>
 
             </ModalContent>
@@ -218,7 +219,7 @@ const patchGuildContext: NavContextMenuPatchCallback = (children, { guild }) => 
             <Menu.MenuItem
                 id="leave-all-servers"
                 key="leave-all-servers"
-                label="Leave All Servers"
+                label={t("Leave All Servers")}
                 color="danger"
                 action={() => openModal(props => <LeaveAllServersModal rootProps={props} />)}
             />

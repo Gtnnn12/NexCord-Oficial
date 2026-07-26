@@ -13,6 +13,7 @@ import { React } from "@webpack/common";
 import plugins from "~plugins";
 
 import { getGroqKey,groqChat } from "../nightcordAI/groqManager";
+import { t } from "../autoTranslateNightcord";
 
 // ── Settings ───────────────────────────────────────────────────────────────────
 
@@ -146,8 +147,8 @@ const AutoCorrectChatBarButton: ChatBarButtonFactory = ({ type }) => {
     };
 
     const tooltip = enabled
-        ? "AutoCorrect: enabled — click to disable"
-        : "AutoCorrect: disabled — click to enable";
+        ? t("AutoCorrect: enabled — click to disable")
+        : t("AutoCorrect: disabled — click to enable");
 
     return (
         <ChatBarButton

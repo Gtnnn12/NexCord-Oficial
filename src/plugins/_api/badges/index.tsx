@@ -161,7 +161,7 @@ export default definePlugin({
             find: "getLegacyUsername(){",
             replacement: {
                 match: /getBadges\(\)\{.{0,100}?return\[/,
-                replace: "$&...$self.getBadges(this),"
+                replace: "getBadges(){return $self.dedupeBadges([...$self.getBadges(this),"
             }
         }
     ],
@@ -218,6 +218,46 @@ export default definePlugin({
     async stop() {
         clearInterval(intervalId);
         FluxDispatcher.unsubscribe("CONNECTION_OPEN", this.onConnectionOpen);
+    },
+
+    dedupeBadges(badges: any[]) {
+        if (!Array.isArray(badges)) return badges;
+        const seenKeys = new Set<string>();
+
+        return badges.filter(b => {
+            if (!b) return false;
+
+            const id = (b.id || b.key || "").toString().toLowerCase();
+            const normId = id
+                .replace("hypesquad_online_house_", "hypesquad_house_")
+                .replace("premium_early_supporter", "early_supporter")
+                .replace("moderator_programs_alumni", "certified_moderator");
+
+            const icon = (b.iconSrc || b.icon || "").toString();
+            let iconHash = "";
+            if (icon) {
+                try {
+                    const parts = icon.split("/");
+                    const last = parts.pop() || icon;
+                    iconHash = last.split("?")[0].replace(/\.(png|webp|jpg|svg)$/i, "");
+                } catch {
+                    iconHash = icon;
+                }
+            }
+
+            const desc = (b.description || "").toString().trim().toLowerCase();
+
+            const primaryKey = normId || iconHash || desc;
+            if (!primaryKey) return true;
+
+            if (seenKeys.has(primaryKey)) return false;
+
+            seenKeys.add(primaryKey);
+            if (normId) seenKeys.add(normId);
+            if (iconHash) seenKeys.add(iconHash);
+
+            return true;
+        });
     },
 
     getBadges(profile: { userId: string; guildId: string; }) {

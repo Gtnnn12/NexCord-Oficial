@@ -12,6 +12,7 @@ import { EquicordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { React, UserStore,useState, useStateFromStores } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const StreamStore = findByPropsLazy("getActiveStreamForUser", "getAllActiveStreams");
 const RTCConnectionStore = findByPropsLazy("getMediaSessionId");
@@ -164,8 +165,8 @@ const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
 
     const active = streamProofActive;
     const tooltip = active
-        ? "StreamProof : ON — click to disable"
-        : "StreamProof : OFF — click to enable";
+        ? t("StreamProof : ON — click to disable")
+        : t("StreamProof : OFF — click to enable");
 
     return (
         <ChatBarButton tooltip={tooltip} onClick={toggle}>

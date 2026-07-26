@@ -7,15 +7,62 @@
 import { LANGUAGES, LANGUAGE_FLAGS, Language, t } from "@api/i18n";
 import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
+import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { Margins } from "@utils/margins";
-import { SearchableSelect } from "@webpack/common";
+import { findByProps, findByPropsLazy } from "@webpack";
+import { FluxDispatcher, SearchableSelect, ConfirmModal } from "@webpack/common";
+import { openModal } from "@utils/modal";
 
 const FLAG_ICON_STYLE: React.CSSProperties = { width: 20, height: 15, borderRadius: 2, verticalAlign: "middle", objectFit: "cover" };
 
+const DISCORD_LOCALE_MAP: Record<Language, string> = {
+    en: "en-US",
+    fr: "fr",
+    ar: "ar",
+    es: "es-ES",
+    ru: "ru",
+    zh: "zh-CN"
+};
+
+function syncDiscordLocale(lang: Language) {
+    try {
+        const targetLocale = DISCORD_LOCALE_MAP[lang] ?? lang;
+
+        // 1. UserSettingsProtoUtils (updates Discord client setting persistently)
+        const UserSettingsProtoUtils = findByProps("updateAsync") as any;
+        if (UserSettingsProtoUtils?.updateAsync) {
+            Promise.resolve(UserSettingsProtoUtils.updateAsync("localization", (pref: any) => {
+                if (pref) pref.locale = { value: targetLocale };
+            }, 0)).catch(() => {
+                // Try "locale" if "localization" fails
+                Promise.resolve(UserSettingsProtoUtils.updateAsync("locale", (pref: any) => {
+                    if (pref) pref.locale = { value: targetLocale };
+                }, 0)).catch(e => console.error("[Nightcord] Failed to update locale proto:", e));
+            });
+        }
+
+        // 2. HTTP PATCH fallback to ensure the backend saves the language change
+        const api = findByProps("patch", "post") as any;
+        if (api && typeof api.patch === "function") {
+            api.patch({
+                url: "/users/@me/settings",
+                body: { locale: targetLocale }
+            }).catch((e: any) => console.error("[Nightcord] Failed to PATCH settings:", e));
+        }
+
+        // 3. LocaleActionCreators (updates Discord client UI language instantly)
+        const localeModule = findByProps("setLocale") as any;
+        if (localeModule && typeof localeModule.setLocale === "function") {
+            localeModule.setLocale(targetLocale);
+        }
+    } catch (e) {
+        console.error("[Nightcord] Failed to sync Discord language:", e);
+    }
+}
 
 const LANG_PREVIEW: Record<Language, { label: string; sample: string; }> = {
     en: { label: "English", sample: "Plugins · Themes · Updater · Sync" },
@@ -39,11 +86,22 @@ function FlagIcon({ lang }: { lang: Language; }) {
 }
 
 function LanguageTab() {
-    const settings = useSettings(["language"]);
+    const settings = useSettings(["language", "syncDiscordLanguage"]);
     const current = (settings.language as Language) ?? "en";
 
     function selectLang(lang: Language) {
         settings.language = lang;
+        if (settings.syncDiscordLanguage) {
+            syncDiscordLocale(lang);
+        }
+        
+        Alerts.show({
+            title: t("Restart required!"),
+            body: t("Nightcord language has been changed. Discord must be restarted for all translations to take effect. Restart now?"),
+            confirmText: t("Restart now"),
+            cancelText: t("Later"),
+            onConfirm: () => location.reload()
+        });
     }
 
     return (
@@ -71,6 +129,22 @@ function LanguageTab() {
             <Paragraph className={`${Margins.bottom16} ${Margins.top8}`} style={{ color: "var(--text-muted)", fontSize: 13 }}>
                 {current && LANG_PREVIEW[current] ? LANG_PREVIEW[current].sample : ""}
             </Paragraph>
+
+            {/* Option de synchronisation de la langue de Discord */}
+            <div className={Margins.top16}>
+                <FormSwitch
+                    title={t("Synchronize Discord Language")}
+                    description={t("Automatically change Discord's client language when changing Nightcord language.")}
+                    value={settings.syncDiscordLanguage ?? false}
+                    onChange={v => {
+                        settings.syncDiscordLanguage = v;
+                        if (v) {
+                            syncDiscordLocale(current);
+                        }
+                    }}
+                    hideBorder
+                />
+            </div>
 
             <Divider className={Margins.top8} />
 

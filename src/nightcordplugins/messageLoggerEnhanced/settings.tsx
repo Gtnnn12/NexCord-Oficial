@@ -67,7 +67,7 @@ export const settings = definePluginSettings({
     saveImages: {
         type: OptionType.BOOLEAN,
         description: "Save deleted attachments.",
-        default: false
+        default: true
     },
 
     sortNewest: {

@@ -326,6 +326,14 @@ function SearchIcon() {
     );
 }
 
+function GroupAvatarIcon() {
+    return (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+        </svg>
+    );
+}
+
 function ExportDMModal({ rootProps }: { rootProps: any; }) {
     const [channels, setChannels] = useState<any[]>([]);
     const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -346,13 +354,37 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
                     let name = c.name ?? "";
                     let avatar: string | null = null;
                     let userId: string | undefined;
-                    if (!name && c.type === 1 && c.recipients?.length) {
+
+                    if (c.type === 1 && c.recipients?.length) {
                         const user = UserStore.getUser?.(c.recipients[0]);
                         name = user?.globalName ?? user?.username ?? c.recipients[0];
                         avatar = user?.avatar ?? null;
                         userId = c.recipients[0];
+                    } else if (c.type === 3) {
+                        if (!name && c.recipients?.length) {
+                            const recipientNames = c.recipients
+                                .map((id: string) => {
+                                    const u = UserStore.getUser?.(id);
+                                    return u?.globalName ?? u?.username ?? null;
+                                })
+                                .filter(Boolean);
+                            if (recipientNames.length > 0) {
+                                name = recipientNames.join(", ");
+                            }
+                        }
+                        if (!name) name = `Group DM (${(c.recipients?.length ?? 0) + 1})`;
                     }
-                    return { id: c.id, type: c.type, name, icon: c.icon ?? null, recipientId: userId, avatar };
+
+                    return {
+                        id: c.id,
+                        type: c.type,
+                        name,
+                        icon: c.icon ?? null,
+                        recipientId: userId,
+                        avatar,
+                        recipientCount: c.recipients?.length ?? 0,
+                        rawChannel: c
+                    };
                 });
             setChannels(list);
         } catch (e) { console.error("[ExportDM]", e); }
@@ -411,8 +443,12 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
     ];
 
     function getChAvatar(c: any) {
-        if (c.type === 1 && c.recipientId && c.avatar)
+        if (c.type === 1 && c.recipientId && c.avatar) {
             return IconUtils.getUserAvatarURL({ id: c.recipientId, avatar: c.avatar } as any, false, 32);
+        }
+        if (c.type === 3 && (c.icon || c.rawChannel)) {
+            return IconUtils.getChannelIconURL?.(c.rawChannel ?? c);
+        }
         return null;
     }
 
@@ -461,9 +497,18 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
                                 onClick={() => toggleSelected(c.id)}>
                                 {av
                                     ? <img src={av} className="edm-avatar" alt="" />
-                                    : <div className="edm-avatar-placeholder">{c.type === 3 ? "G" : (c.name?.[0] ?? "?")}</div>
+                                    : c.type === 3
+                                        ? <div className="edm-avatar-placeholder edm-avatar-group"><GroupAvatarIcon /></div>
+                                        : <div className="edm-avatar-placeholder">{c.name?.[0] ?? "?"}</div>
                                 }
-                                <span className="edm-channel-name">{c.name || `DM ${c.id.slice(-4)}`}</span>
+                                <div className="edm-channel-info">
+                                    <span className="edm-channel-name">{c.name}</span>
+                                    {c.type === 3 && (
+                                        <span className="edm-group-tag">
+                                            {t("Group")} · {c.recipientCount + 1}
+                                        </span>
+                                    )}
+                                </div>
                                 {isSel && <span className="edm-check">✓</span>}
                             </div>
                         );

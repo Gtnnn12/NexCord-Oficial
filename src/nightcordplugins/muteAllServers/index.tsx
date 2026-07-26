@@ -6,6 +6,7 @@
 
 import { addContextMenuPatch, removeContextMenuPatch } from "@api/ContextMenu";
 import definePlugin from "@utils/types";
+import { t } from "../autoTranslateNightcord";
 import { findByPropsLazy } from "@webpack";
 import { ActiveJoinedThreadsStore, ChannelStore,FluxDispatcher, GuildChannelStore, GuildStore, Menu, React, ReadStateStore, RestAPI, Toasts } from "@webpack/common";
 
@@ -125,7 +126,7 @@ const guildContextPatch = (children: any, { guild }: { guild?: any; }) => {
             <Menu.MenuGroup key="nc-mute-all-group">
                 <Menu.MenuItem
                     id="nc-mute-all-servers"
-                    label="Mute all servers & mark as read"
+                    label={t("Mute all servers & mark as read")}
                     icon={() => <MuteIcon />}
                     action={() => muteAllServers()}
                 />

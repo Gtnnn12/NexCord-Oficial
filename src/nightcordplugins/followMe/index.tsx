@@ -10,6 +10,7 @@ import { DataStore } from "@api/index";
 import definePlugin from "@utils/types";
 import { findStoreLazy } from "@webpack";
 import { ChannelStore, Constants,Menu, PermissionsBits, PermissionStore, React, RestAPI, Toasts, useEffect, UserStore, useState } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const VoiceStateStore = findStoreLazy("VoiceStateStore");
 
@@ -74,7 +75,7 @@ function followMe(userId: string) {
 
     notifyAll();
     persist().catch(() => { });
-    Toasts.show({ message: `Following Me: ${targetName} 🏃‍♂️`, type: Toasts.Type.SUCCESS, id: Toasts.genId() });
+    Toasts.show({ message: t("Following Me: {name} 🏃‍♂️").replace("{name}", targetName), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
 function unfollowMe() {
@@ -82,7 +83,7 @@ function unfollowMe() {
     targetId = null; targetName = "";
     notifyAll();
     persist().catch(() => { });
-    Toasts.show({ message: `Stopped forcing ${name} to follow`, type: Toasts.Type.MESSAGE, id: Toasts.genId() });
+    Toasts.show({ message: t("Stopped forcing {name} to follow").replace("{name}", name), type: Toasts.Type.MESSAGE, id: Toasts.genId() });
 }
 
 // ── Icone ──
@@ -109,7 +110,7 @@ function FollowMeHeaderButton() {
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z" />
                 </svg>
             )}
-            tooltip={`Stop Follow Me: ${targetName}`}
+            tooltip={t("Stop Follow Me: {name}").replace("{name}", targetName)}
             onClick={() => unfollowMe()}
         />
     );
@@ -127,7 +128,7 @@ const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
         children.push(
             <Menu.MenuCheckboxItem
                 id="follow-me-ctx"
-                label={isFollowed ? "Stop Follow Me" : "Follow Me"}
+                label={isFollowed ? t("Stop Follow Me") : t("Follow Me")}
                 checked={isFollowed}
                 action={() => { if (isFollowed) unfollowMe(); else followMe(userId); }}
             />

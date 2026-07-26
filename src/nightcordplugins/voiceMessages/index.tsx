@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 
 
 import "./styles.css";
@@ -260,7 +261,7 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
         <Modal
             {...modalProps}
             className={cl("modal")}
-            title="Record Voice Message"
+            title={t("Record Voice Message")}
             actions={[{
                 text: "Send",
                 variant: "primary",

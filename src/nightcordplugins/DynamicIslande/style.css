@@ -7,15 +7,14 @@
 .vc-illegalcord-dynamic-island-root {
     position: fixed;
     z-index: 10000;
-    top: 40px;
+    top: 36px;
     left: 50%;
-    width: min(340px, calc(100vw - 420px));
-    min-width: 260px;
-    color: var(--text-default);
-    background: var(--background-floating);
-    border: 1px solid var(--border-subtle);
+    width: clamp(280px, 90vw, 360px);
+    color: var(--text-default, #dbdee1);
+    background: var(--background-floating, #111214);
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.15));
     border-radius: 24px;
-    box-shadow: var(--shadow-high);
+    box-shadow: var(--shadow-high, 0 8px 24px rgba(0, 0, 0, 0.4));
     overflow: hidden;
     cursor: pointer;
     pointer-events: auto;
@@ -317,7 +316,7 @@
 
 .vc-illegalcord-dynamic-island-summary-copy strong,
 .vc-illegalcord-dynamic-island-copy strong {
-    color: var(--header-primary);
+    color: var(--header-primary, #ffffff) !important;
     font-size: 13px;
     font-weight: 600;
 }
@@ -325,7 +324,7 @@
 .vc-illegalcord-dynamic-island-summary-copy span,
 .vc-illegalcord-dynamic-island-copy span,
 .vc-illegalcord-dynamic-island-empty {
-    color: var(--text-muted);
+    color: var(--text-muted, #aeb1b6) !important;
     font-size: 11px;
 }
 

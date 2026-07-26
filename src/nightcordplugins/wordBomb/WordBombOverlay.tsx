@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 import { React, useState, useEffect, useRef, ReactDOM, createRoot } from "@webpack/common";
 import { findByPropsLazy } from "@webpack";
 import { tPlugin as t } from "@api/pluginI18n";
@@ -320,10 +321,8 @@ export function WordBombOverlay() {
                         </div>
 
                         <div style={{ display: "flex", gap: "8px" }}>
-                            <button onClick={() => processSearch(syllable)} style={{ flex: 1, padding: "10px", background: "#7c3aed", border: "none", borderRadius: "8px", color: "white", cursor: "pointer" }}>
-                                FIND
-                            </button>
-                            <button onClick={handleReroll} title="Reroll" style={{ width: "45px", height: "45px", background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "12px", color: "#fff", cursor: "pointer", fontSize: "18px" }}>
+                            <button onClick={() => processSearch(syllable)} style={{ flex: 1, padding: "10px", background: "#7c3aed", border: "none", borderRadius: "8px", color: "white", cursor: "pointer" }}>{t("FIND")}</button>
+                            <button onClick={handleReroll} title={t("Reroll")} style={{ width: "45px", height: "45px", background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "12px", color: "#fff", cursor: "pointer", fontSize: "18px" }}>
                                 🔄
                             </button>
                         </div>
@@ -367,9 +366,7 @@ export function WordBombOverlay() {
                         <div style={{ fontSize: "10px", opacity: 0.6, marginTop: "4px", marginBottom: "15px" }}>
                             {t("Displays the definition of the word the bot just typed to pretend you know it.")}
                         </div>
-                        <button onClick={() => setIsSettingsOpen(false)} style={{ width: "100%", padding: "8px", background: "#4b5563", border: "none", borderRadius: "8px", color: "white", cursor: "pointer" }}>
-                            BACK
-                        </button>
+                        <button onClick={() => setIsSettingsOpen(false)} style={{ width: "100%", padding: "8px", background: "#4b5563", border: "none", borderRadius: "8px", color: "white", cursor: "pointer" }}>{t("BACK")}</button>
                     </div>
                 )}
             </div>

@@ -10,6 +10,7 @@ import { useState } from "@webpack/common";
 
 import { FloodModal } from "./FloodModal";
 import { FloodIcon } from "./Icons";
+import { t } from "../../autoTranslateNightcord";
 
 export const FloodPanelButton: ChatBarButtonFactory = ({ isMainChat, channel }) => {
     const [isRunning, setIsRunning] = useState(false);
@@ -28,7 +29,7 @@ export const FloodPanelButton: ChatBarButtonFactory = ({ isMainChat, channel }) 
 
     return (
         <ChatBarButton
-            tooltip={isRunning ? "Flood en cours..." : "Flood Panel"}
+            tooltip={isRunning ? t("Flood in progress...") : t("Flood Panel")}
             onClick={handleClick}
             buttonProps={{ "aria-haspopup": "dialog" }}
         >

@@ -70,7 +70,12 @@
     border-color: rgba(88,101,242,0.4);
 }
 .mi-account-row--no-token {
-    opacity: 0.65;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.mi-account-row--no-token:hover {
+    background: rgba(255,255,255,0.04) !important;
+    border-color: transparent !important;
 }
 
 /* ── Avatar ── */

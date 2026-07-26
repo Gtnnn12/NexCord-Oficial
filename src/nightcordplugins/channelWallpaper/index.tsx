@@ -11,6 +11,7 @@ import { sendMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, Menu, React, RelationshipStore, SelectedChannelStore, showToast, Toasts, UserStore } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const MessageActions = findByPropsLazy("deleteMessage");
 const SYNC_PREFIX = "\u200b\u200c\u200bNC_WP:";
@@ -329,19 +330,19 @@ async function setWallpaperFromFile(channelId: string) {
     const file = await pickFileRaw();
     if (!file) return;
 
-    showToast("Uploading wallpaper to Imgur for sync...", Toasts.Type.MESSAGE);
+    showToast(t("Uploading wallpaper to Imgur for sync..."), Toasts.Type.MESSAGE);
     const imgurUrl = await uploadToImgur(file);
 
     if (imgurUrl) {
         saveWallpaper(channelId, imgurUrl, false);
-        showToast("Wallpaper uploaded and synced!", Toasts.Type.SUCCESS);
+        showToast(t("Wallpaper uploaded and synced!"), Toasts.Type.SUCCESS);
     } else {
         // Fallback local si l'upload échoue
         const reader = new FileReader();
         reader.onload = () => {
             const dataUrl = reader.result as string;
             saveWallpaper(channelId, dataUrl, true);
-            showToast("Imgur upload failed. Wallpaper applied locally only.", Toasts.Type.FAILURE);
+            showToast(t("Imgur upload failed. Wallpaper applied locally only."), Toasts.Type.FAILURE);
         };
         reader.readAsDataURL(file);
     }
@@ -351,13 +352,13 @@ async function setWallpaperFromUrl(channelId: string) {
     const url = await promptUrl();
     if (url) {
         saveWallpaper(channelId, url, false);
-        showToast("Wallpaper applied and synced!", Toasts.Type.SUCCESS);
+        showToast(t("Wallpaper applied and synced!"), Toasts.Type.SUCCESS);
     }
 }
 
 function removeWallpaper(channelId: string) {
     saveWallpaper(channelId, "");
-    showToast("Wallpaper deleted", Toasts.Type.SUCCESS);
+    showToast(t("Wallpaper deleted"), Toasts.Type.SUCCESS);
 }
 
 // ── Context Menu Patches ───────────────────────────────────────────────────────
@@ -378,17 +379,17 @@ function buildWallpaperMenu(channelId: string): React.ReactElement {
     return (
         <Menu.MenuItem
             id="channel-wallpaper"
-            label="Wallpaper"
+            label={t("Wallpaper")}
             icon={WallpaperIcon}
         >
             <Menu.MenuItem
                 id="wallpaper-from-file"
-                label="📁 From a file..."
+                label={t("📁 From a file...")}
                 action={() => setWallpaperFromFile(channelId)}
             />
             <Menu.MenuItem
                 id="wallpaper-from-url"
-                label="🔗 From a URL..."
+                label={t("🔗 From a URL...")}
                 action={() => setWallpaperFromUrl(channelId)}
             />
             {has && (
@@ -396,7 +397,7 @@ function buildWallpaperMenu(channelId: string): React.ReactElement {
                     <Menu.MenuSeparator />
                     <Menu.MenuItem
                         id="wallpaper-remove"
-                        label={isDM ? "🗑️ Delete for both" : "🗑️ Delete wallpaper"}
+                        label={isDM ? t("🗑️ Delete for both") : t("🗑️ Delete wallpaper")}
                         color="danger"
                         action={() => removeWallpaper(channelId)}
                     />

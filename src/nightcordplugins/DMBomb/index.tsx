@@ -11,6 +11,7 @@ import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, op
 import definePlugin from "@utils/types";
 import { Menu, React, RestAPI, Select, showToast, Toasts, useEffect, useRef, useState } from "@webpack/common";
 import { GuildMemberStore, GuildRoleStore, GuildStore, UserStore } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -23,6 +24,7 @@ const state = {
     log: [] as string[],
     aborted: false,
     delayMs: 1500,
+    extraTokens: [] as string[], // Multi-token support
     listeners: new Set<() => void>(),
     notify() { this.listeners.forEach(fn => fn()); },
     subscribe(fn: () => void) { this.listeners.add(fn); },
@@ -43,12 +45,35 @@ const getMembers = (guildId: string): any[] => {
     return [];
 };
 
+async function sendDMWithToken(token: string | null, recipientId: string, message: string): Promise<boolean> {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = token;
+
+    // 1. Create DM channel
+    const chanRes = await fetch("https://discord.com/api/v9/users/@me/channels", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ recipient_id: recipientId })
+    });
+    if (!chanRes.ok) return false;
+    const chanData = await chanRes.json();
+    if (!chanData?.id) return false;
+
+    // 2. Send Message
+    const msgRes = await fetch(`https://discord.com/api/v9/channels/${chanData.id}/messages`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ content: message, tts: false })
+    });
+    return msgRes.ok;
+}
+
 async function startBomb(guildId: string, roleId: string | "all", message: string) {
     if (state.running) return;
 
     let members = getMembers(guildId);
     if (!members.length) {
-        showToast("No members found in cache, try loading the member list first (scroll through it).", Toasts.Type.FAILURE);
+        showToast(t("No members found in cache, try loading the member list first (scroll through it)."), Toasts.Type.FAILURE);
         return;
     }
 
@@ -56,7 +81,7 @@ async function startBomb(guildId: string, roleId: string | "all", message: strin
         members = members.filter(m => m.roles.includes(roleId));
     }
 
-    // Filtre les bots et toi-même
+    // Filter bots and self
     const meId = UserStore.getCurrentUser()?.id;
     members = members.filter(m => {
         const u = UserStore.getUser(m.userId);
@@ -68,28 +93,47 @@ async function startBomb(guildId: string, roleId: string | "all", message: strin
     state.running = true;
     state.notify();
 
+    // Prepare token pool (null represents active client token, extraTokens are secondary accounts)
+    const tokenPool = [null, ...state.extraTokens.filter(t => t.trim().length > 10)];
+    let tokenIndex = 0;
+
     for (const m of members) {
         if (state.aborted) {
-            state.log.push("⛔ Stopped.");
+            state.log.push(`⛔ ${t("Stopped.")}`);
             state.notify();
             break;
         }
 
         const user = UserStore.getUser(m.userId);
         const name = user ? (user.globalName || user.username) : m.userId;
+        const currentToken = tokenPool[tokenIndex % tokenPool.length];
+        const accountTag = currentToken ? `[Bot #${(tokenIndex % tokenPool.length) + 1}]` : "[Main Account]";
+
         try {
-            const dmRes = await RestAPI.post({ url: "/users/@me/channels", body: { recipient_id: m.userId } });
-            if (!dmRes?.body?.id) {
-                state.log.push(`❌ ${name} — DMs closed or error`);
-                state.notify();
-                continue;
+            let ok = false;
+            if (!currentToken) {
+                // Main Account using RestAPI
+                const dmRes = await RestAPI.post({ url: "/users/@me/channels", body: { recipient_id: m.userId } });
+                if (dmRes?.body?.id) {
+                    await RestAPI.post({ url: `/channels/${dmRes.body.id}/messages`, body: { content: message, tts: false } });
+                    ok = true;
+                }
+            } else {
+                // Secondary Token
+                ok = await sendDMWithToken(currentToken, m.userId, message);
             }
-            await RestAPI.post({ url: `/channels/${dmRes.body.id}/messages`, body: { content: message, tts: false } });
-            state.done++;
-            state.log.push(`✅ ${name}`);
+
+            if (ok) {
+                state.done++;
+                state.log.push(`✅ ${accountTag} ${name}`);
+            } else {
+                state.log.push(`❌ ${accountTag} ${name} — ${t("DMs closed or error")}`);
+            }
         } catch (e: any) {
-            state.log.push(`❌ ${name} — ${e?.message ?? "error (rate limit?)"}`);
+            state.log.push(`❌ ${accountTag} ${name} — ${e?.message ?? t("error (rate limit?)")}`);
         }
+
+        tokenIndex++;
         state.notify();
         if (!state.aborted) await sleep(state.delayMs);
     }
@@ -123,13 +167,15 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
     const [roleId, setRoleId] = useState("all");
     const [editingDelay, setEditingDelay] = useState(false);
     const [delayInput, setDelayInput] = useState(String(s.delayMs / 1000));
+    const [tokenInput, setTokenInput] = useState(s.extraTokens.join("\n"));
+    const [showTokenSection, setShowTokenSection] = useState(false);
     const logRef = useRef<HTMLDivElement>(null);
 
     const guild = GuildStore.getGuild(guildId);
     const roles = guild ? GuildRoleStore.getSortedRoles(guildId) : [];
     const members = getMembers(guildId);
 
-    // Calculate counts for eligible members (excluding bots and self)
+    // Calculate counts for eligible members
     const meId = UserStore.getCurrentUser()?.id;
     const eligibleMembers = members.filter(m => {
         const u = UserStore.getUser(m.userId);
@@ -148,26 +194,33 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
         if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
     }, [s.log.length]);
 
+    const handleTokensChange = (val: string) => {
+        setTokenInput(val);
+        const tokens = val.split("\n").map(t => t.trim()).filter(t => t.length > 10);
+        state.extraTokens = tokens;
+    };
+
     const pct = s.total > 0 ? Math.round((s.done / s.total) * 100) : 0;
     const idle = !s.running && !s.finished;
+    const tokenCount = state.extraTokens.length;
 
     return (
         <ModalRoot {...rootProps} className="dmb-modal">
             <ModalHeader className="dmb-header">
                 <BombIcon style={{ marginRight: 8, color: "#ed4245" }} />
-                <span style={{ flex: 1, fontWeight: 700, fontSize: 16, color: "#fff" }}>DM Bomb - {guild?.name ?? "Server"}</span>
-                {s.running && <span className="dmb-badge">Running...</span>}
+                <span style={{ flex: 1, fontWeight: 700, fontSize: 16, color: "#fff" }}>DM Bomb - {guild?.name ?? t("Server")}</span>
+                {s.running && <span className="dmb-badge">{t("Running...")}</span>}
                 <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
 
             <ModalContent className="dmb-content">
                 {idle && (
                     <>
-                        <div style={{ marginBottom: 16 }}>
-                            <p className="dmb-label">Target:</p>
+                        <div style={{ marginBottom: 12 }}>
+                            <p className="dmb-label">{t("Target:")}</p>
                             <Select
                                 options={[
-                                    { label: `All members (no safe) [${allCount}]`, value: "all" },
+                                    { label: `${t("All members (no safe)")} [${allCount}]`, value: "all" },
                                     ...roles.map((r: any) => ({ label: `@${r.name} [${countByRole[r.id] || 0}]`, value: r.id }))
                                 ]}
                                 select={setRoleId}
@@ -176,16 +229,37 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                             />
                         </div>
 
-                        <p className="dmb-label">Message:</p>
+                        <div style={{ marginBottom: 8 }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                                <span className="dmb-label">{t("Multi-Account Rotation (Tokens):")}</span>
+                                <button
+                                    className="dmb-token-toggle"
+                                    onClick={() => setShowTokenSection(!showTokenSection)}
+                                >
+                                    {showTokenSection ? t("Hide Tokens") : `🔑 ${t("Add Secondary Tokens")} (${tokenCount})`}
+                                </button>
+                            </div>
+                            {showTokenSection && (
+                                <textarea
+                                    className="dmb-textarea dmb-tokens-area"
+                                    placeholder={t("Paste Discord tokens here... (1 per line)\nMessages will be automatically rotated across accounts.")}
+                                    value={tokenInput}
+                                    onChange={e => handleTokensChange(e.currentTarget.value)}
+                                    rows={3}
+                                />
+                            )}
+                        </div>
+
+                        <p className="dmb-label">{t("Message:")}</p>
                         <textarea
                             className="dmb-textarea"
-                            placeholder="Type your message here..."
+                            placeholder={t("Type your message here...")}
                             value={msg}
                             onChange={e => setMsg(e.currentTarget.value)}
-                            rows={5}
+                            rows={4}
                         />
                         <p className="dmb-warn">
-                            ⚠️ Intensive botting can get your account banned. Delay:{" "}
+                            ⚠️ {t("Intensive botting can get your account banned. Delay:")}{" "}
                             {editingDelay ? (
                                 <input
                                     className="dmb-delay-input"
@@ -212,9 +286,14 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                                 <span
                                     className="dmb-delay-value"
                                     onClick={() => { setDelayInput(String(s.delayMs / 1000)); setEditingDelay(true); }}
-                                    title="Click to modify delay"
+                                    title={t("Click to modify delay")}
                                 >
                                     {s.delayMs / 1000}s
+                                </span>
+                            )}
+                            {tokenCount > 0 && (
+                                <span className="dmb-token-active-badge">
+                                    {" "}⚡ {t("Rotating across {count} accounts").replace("{count}", String(tokenCount + 1))}
                                 </span>
                             )}
                         </p>
@@ -223,14 +302,14 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                 {(s.running || s.finished) && (
                     <>
                         <div className="dmb-stats">
-                            <span className="dmb-stats-count">{s.done} / {s.total} reached</span>
+                            <span className="dmb-stats-count">{t("{done} / {total} reached").replace("{done}", String(s.done)).replace("{total}", String(s.total))}</span>
                             <span className="dmb-stats-pct">{pct}%</span>
                         </div>
                         <div className="dmb-bar-bg">
                             <div className="dmb-bar-fill" style={{ width: `${pct}%` }} />
                         </div>
                         {s.finished && (
-                            <p className="dmb-done">✅ Finished with {s.done} DMs sent.</p>
+                            <p className="dmb-done">✅ {t("Finished with {done} DMs sent.").replace("{done}", String(s.done))}</p>
                         )}
                         <div className="dmb-log" ref={logRef}>
                             {s.log.map((line, i) => <div key={i} className="dmb-log-line">{line}</div>)}
@@ -242,20 +321,20 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
             <ModalFooter className="dmb-footer">
                 {idle && (
                     <>
-                        <button className="dmb-btn dmb-btn-secondary" onClick={rootProps.onClose}>Cancel</button>
-                        <button className="dmb-btn dmb-btn-danger" onClick={() => startBomb(guildId, roleId, msg)} disabled={!msg.trim()}>💥 Bombard</button>
+                        <button className="dmb-btn dmb-btn-secondary" onClick={rootProps.onClose}>{t("Cancel")}</button>
+                        <button className="dmb-btn dmb-btn-danger" onClick={() => startBomb(guildId, roleId, msg)} disabled={!msg.trim()}>💥 {t("Bombard")}</button>
                     </>
                 )}
                 {s.running && (
                     <>
-                        <button className="mdm-btn mdm-btn-secondary" onClick={rootProps.onClose}>Background</button>
-                        <button className="dmb-btn dmb-btn-danger" onClick={() => { state.aborted = true; }}>⛔ Stop</button>
+                        <button className="mdm-btn mdm-btn-secondary" onClick={rootProps.onClose}>{t("Background")}</button>
+                        <button className="dmb-btn dmb-btn-danger" onClick={() => { state.aborted = true; }}>⛔ {t("Stop")}</button>
                     </>
                 )}
                 {s.finished && (
                     <>
-                        <button className="dmb-btn dmb-btn-secondary" onClick={() => state.reset()}>New Bomb</button>
-                        <button className="dmb-btn dmb-btn-primary" onClick={rootProps.onClose}>Close</button>
+                        <button className="dmb-btn dmb-btn-secondary" onClick={() => state.reset()}>{t("New Bomb")}</button>
+                        <button className="dmb-btn dmb-btn-primary" onClick={rootProps.onClose}>{t("Close")}</button>
                     </>
                 )}
             </ModalFooter>
@@ -266,7 +345,7 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
 export default definePlugin({
     name: "DMBomb",
     enabledByDefault: true,
-    description: "Sends an aggressive message to ALL server members or a specific role via right click.",
+    description: "Sends an aggressive message to ALL server members or a specific role via right click with optional multi-account token rotation.",
     authors: [{ name: "Nightcord",
      id: 0n }],
 
@@ -287,7 +366,7 @@ export default definePlugin({
                 <Menu.MenuItem
                     id="dmbomb-btn"
                     key="dmbomb-btn"
-                    label="DM Bomb"
+                    label={t("DM Bomb")}
                     action={() => openModal(props => <DMBombModal rootProps={props} guildId={guild.id} />)}
                 />
             );
@@ -298,7 +377,6 @@ export default definePlugin({
             if (ffIndex !== -1) {
                 children.splice(ffIndex + 1, 0, bombsItem);
             } else {
-                // Fallback: search in groups or just push
                 children.push(bombsItem);
             }
         } catch (e) {

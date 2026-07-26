@@ -155,20 +155,68 @@ const patchCsp = (headers: PolicyMap) => {
 };
 
 export function initCsp() {
-    session.defaultSession.webRequest.onHeadersReceived(({ responseHeaders, resourceType }, cb) => {
-        if (responseHeaders) {
-            if (resourceType === "mainFrame" || resourceType === "subFrame")
+    session.defaultSession.webRequest.onHeadersReceived((details, cb) => {
+        const responseHeaders = details.responseHeaders || {};
+        try {
+            const url = (details.url || "").toLowerCase();
+            const resourceType = details.resourceType;
+            const isSubFrame = resourceType === "subFrame";
+            const isYouTube = url.includes("youtube.com") || url.includes("googlevideo.com") || url.includes("youtube-nocookie.com");
+            const isTikTok = url.includes("tiktok.com") || url.includes("tiktokcdn.com");
+
+            if (isSubFrame) {
+                const cookieHeader = findHeader(responseHeaders, "set-cookie");
+                if (cookieHeader && Array.isArray(responseHeaders[cookieHeader])) {
+                    responseHeaders[cookieHeader] = responseHeaders[cookieHeader].map((cookie: string) => {
+                        let newCookie = cookie.replace(/; SameSite=(Lax|Strict)/gi, "");
+                        if (!newCookie.toLowerCase().includes("samesite=none")) {
+                            newCookie += "; SameSite=None";
+                        }
+                        if (!newCookie.toLowerCase().includes("secure")) {
+                            newCookie += "; Secure";
+                        }
+                        return newCookie;
+                    });
+                }
+
+                const cspHeader = findHeader(responseHeaders, "content-security-policy");
+                if (cspHeader) delete responseHeaders[cspHeader];
+
+                if (!isYouTube && !isTikTok) {
+                    const privateBrowserSettings = NativeSettings?.store?.plugins?.PrivateBrowser;
+                    const saveData = privateBrowserSettings?.saveData ?? false;
+                    if (!saveData) {
+                        const setCookieHeader = findHeader(responseHeaders, "set-cookie");
+                        if (setCookieHeader) delete responseHeaders[setCookieHeader];
+                    }
+                }
+            }
+
+            if (resourceType === "mainFrame") {
                 patchCsp(responseHeaders);
+            } else if (isSubFrame) {
+                patchCsp(responseHeaders);
+            }
 
             if (resourceType === "stylesheet") {
                 const header = findHeader(responseHeaders, "content-type");
-                if (header)
-                    responseHeaders[header] = ["text/css"];
+                if (header) responseHeaders[header] = ["text/css"];
             }
+
+            const xFrameOptions = findHeader(responseHeaders, "x-frame-options");
+            if (xFrameOptions) delete responseHeaders[xFrameOptions];
+
+            const permissionsPolicyHeader = findHeader(responseHeaders, "permissions-policy");
+            if (permissionsPolicyHeader) delete responseHeaders[permissionsPolicyHeader];
+            
+            const featurePolicyHeader = findHeader(responseHeaders, "feature-policy");
+            if (featurePolicyHeader) delete responseHeaders[featurePolicyHeader];
+
+        } catch (e) {
+            console.error(e);
+        } finally {
+            cb({ cancel: false, responseHeaders });
         }
-
-        cb({ cancel: false, responseHeaders });
     });
-
 }
 

@@ -239,5 +239,7 @@ function checkForSecondInstance() {
     setupSecondInstanceHandler();
 }
 
-checkCommandLineForHelpOrVersion();
-checkForSecondInstance();
+if (!IS_DISCORD_DESKTOP) {
+    checkCommandLineForHelpOrVersion();
+    checkForSecondInstance();
+}

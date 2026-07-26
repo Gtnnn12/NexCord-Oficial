@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
@@ -152,7 +153,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
 
     return (
         <Flex flexDirection="column">
-            <Forms.FormSection title="Select the file uploader service">
+            <Forms.FormSection title={t("Select the file uploader service")}>
                 <Select
                     options={[
                         { label: "Custom Uploader", value: "Custom" },
@@ -168,7 +169,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                 />
             </Forms.FormSection>
 
-            <Forms.FormSection title="Auto-Send Link In Chat">
+            <Forms.FormSection title={t("Auto-Send Link In Chat")}>
                 <Select
                     options={[
                         { label: "Yes", value: "Yes" },
@@ -186,7 +187,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                 <>
                     <Forms.FormDivider />
                     <Forms.FormTitle>GoFile Settings</Forms.FormTitle>
-                    <Forms.FormSection title="GoFile Token (optional)">
+                    <Forms.FormSection title={t("GoFile Token (optional)")}>
                         <TextInput type="text" value={settings.store.gofileToken || ""} placeholder="Insert GoFile Token"
                             onChange={newValue => updateSetting("gofileToken", newValue)} className={Margins.bottom16} />
                     </Forms.FormSection>
@@ -197,7 +198,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                 <>
                     <Forms.FormDivider />
                     <Forms.FormTitle>Catbox Settings</Forms.FormTitle>
-                    <Forms.FormSection title="Catbox User hash (optional)">
+                    <Forms.FormSection title={t("Catbox User hash (optional)")}>
                         <TextInput type="text" value={settings.store.catboxUserHash || ""} placeholder="Insert User Hash"
                             onChange={newValue => updateSetting("catboxUserHash", newValue)} className={Margins.bottom16} />
                     </Forms.FormSection>
@@ -208,7 +209,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                 <>
                     <Forms.FormDivider />
                     <Forms.FormTitle>Litterbox Settings</Forms.FormTitle>
-                    <Forms.FormSection title="Select the file expiration time">
+                    <Forms.FormSection title={t("Select the file expiration time")}>
                         <Select
                             options={[
                                 { label: "1 hour", value: "1h" },
@@ -228,15 +229,15 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
 
             {fileUploader === "Custom" && (
                 <>
-                    <Forms.FormSection title="Request URL">
+                    <Forms.FormSection title={t("Request URL")}>
                         <TextInput type="text" value={customUploaderStore.get().requestURL} placeholder="Request URL"
                             onChange={(v: string) => customUploaderStore.set({ requestURL: v })} className={Margins.bottom16} />
                     </Forms.FormSection>
-                    <Forms.FormSection title="File form name">
+                    <Forms.FormSection title={t("File form name")}>
                         <TextInput type="text" value={customUploaderStore.get().fileFormName} placeholder="File Form Name"
                             onChange={(v: string) => customUploaderStore.set({ fileFormName: v })} className={Margins.bottom16} />
                     </Forms.FormSection>
-                    <Forms.FormSection title="Response type">
+                    <Forms.FormSection title={t("Response type")}>
                         <Select
                             options={[{ label: "Text", value: "Text" }, { label: "JSON", value: "JSON" }]}
                             placeholder="Select Response Type"
@@ -246,7 +247,7 @@ function SettingsComponent(props: { setValue(v: any): void; }) {
                             serialize={(v: string) => v}
                         />
                     </Forms.FormSection>
-                    <Forms.FormSection title="URL (JSON path)">
+                    <Forms.FormSection title={t("URL (JSON path)")}>
                         <TextInput type="text" value={customUploaderStore.get().url} placeholder="URL (JSON path)"
                             onChange={(v: string) => customUploaderStore.set({ url: v })} className={Margins.bottom16} />
                     </Forms.FormSection>
@@ -475,8 +476,8 @@ const ctxMenuPatch: NavContextMenuPatchCallback = (children, props) => {
     children.splice(1, 0,
         <Menu.MenuItem
             id="upload-big-file"
-            label="Upload a Big File"
-            icon={() => <OpenExternalIcon height={24} width={24} />}
+            label={t("Upload a Big File")}
+            iconLeft={OpenExternalIcon}
             action={triggerFileUpload}
         />
     );

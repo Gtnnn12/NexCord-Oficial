@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
@@ -12,7 +13,7 @@ import { addHeaderBarButton, HeaderBarButton, removeHeaderBarButton } from "@api
 import { DataStore } from "@api/index";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { AuthenticationStore, Button, FluxDispatcher, GuildMemberStore, IconUtils, Menu, OAuth2AuthorizeModal, React, Select, SettingsRouter, SnowflakeUtils, UserProfileStore, UserStore } from "@webpack/common";
+import { AuthenticationStore, Button, FluxDispatcher, GuildMemberStore, IconUtils, Menu, OAuth2AuthorizeModal, React, Select, SettingsRouter, showToast, SnowflakeUtils, Toasts, UserProfileStore, UserStore } from "@webpack/common";
 import { Settings } from "@api/Settings";
 import { getPublicPluginConfig, saveOwnPluginConfig } from "../../api/PluginSync";
 import { getStoredToken, storeToken, beginDiscordOAuth, API_BASE } from "../../api/OAuth2";
@@ -145,7 +146,7 @@ const AVATAR_DECORATIONS = [
     { id: "1197344636558114986", label: "Implant" },
 ];
 
-function getDecorationUrl(assetId: string, animated = false): string {
+function getDecorationUrl(assetId: string, animated = true): string {
     return `https://cdn.discordapp.com/media/v1/collectibles-shop/${assetId}/${animated ? "animated" : "static"}`;
 }
 
@@ -156,12 +157,12 @@ function getProfileEffectUrl(assetId: string, animated = false): string {
 function getGiftingBadgeDesc(type: string): string {
     const isFr = getDiscordLocale().toLowerCase().startsWith("fr");
     switch (type) {
-        case "icon": return isFr ? "Icone de cadeaux" : "Gifting Icon";
-        case "patron": return isFr ? "Mécène de cadeaux" : "Gifting Patron";
-        case "champion": return isFr ? "Champion de cadeaux" : "Gifting Champion";
-        case "luminary": return isFr ? "Luminaire de cadeaux" : "Gifting Luminary";
-        case "hero": return isFr ? "Héros de cadeaux" : "Gifting Hero";
-        case "legend": return isFr ? "Légende de cadeaux" : "Gifting Legend";
+        case "icon": return isFr ? "Plaisir d'offrir Icône" : "Gifting Icon";
+        case "patron": return isFr ? "Plaisir d'offrir Mécène" : "Gifting Patron";
+        case "champion": return isFr ? "Plaisir d'offrir Champion" : "Gifting Champion";
+        case "luminary": return isFr ? "Plaisir d'offrir Luminaire" : "Gifting Luminary";
+        case "hero": return isFr ? "Plaisir d'offrir Héros" : "Gifting Hero";
+        case "legend": return isFr ? "Plaisir d'offrir Légende" : "Gifting Legend";
         default: return "";
     }
 }
@@ -236,12 +237,12 @@ function getLocalizedBadgeLabel(key: string): string {
         case "Level Reached": return "Niveau atteint";
 
         // Gifting Badges
-        case "Gifting Icon": return "Icone de cadeaux";
-        case "Gifting Patron": return "Mécène de cadeaux";
-        case "Gifting Champion": return "Champion de cadeaux";
-        case "Gifting Luminary": return "Luminaire de cadeaux";
-        case "Gifting Hero": return "Héros de cadeaux";
-        case "Gifting Legend": return "Légende de cadeaux";
+        case "Gifting Icon": return "Plaisir d'offrir Icône";
+        case "Gifting Patron": return "Plaisir d'offrir Mécène";
+        case "Gifting Champion": return "Plaisir d'offrir Champion";
+        case "Gifting Luminary": return "Plaisir d'offrir Luminaire";
+        case "Gifting Hero": return "Plaisir d'offrir Héros";
+        case "Gifting Legend": return "Plaisir d'offrir Légende";
 
         default: return key;
     }
@@ -293,13 +294,55 @@ function getBadgeId(key: string): string {
         case "HypeSquad Bravery": return "hypesquad_house_1";
         case "HypeSquad Brilliance": return "hypesquad_house_2";
         case "HypeSquad Balance": return "hypesquad_house_3";
-        case "Early Supporter": return "premium_early_supporter";
-        case "Former Moderator": return "moderator_programs_alumni";
+        case "Early Supporter": return "early_supporter";
+        case "Former Moderator": return "certified_moderator";
         case "Bug Hunter Lvl 2": return "bug_hunter_level_2";
         case "Early Verified Bot Developer": return "verified_developer";
         case "Active Developer": return "active_developer";
         default: return key.toLowerCase().replace(/ /g, "_");
     }
+}
+
+function normalizeBadgeId(id: string): string {
+    if (!id) return "";
+    let s = id.toLowerCase();
+    s = s.replace("hypesquad_online_house_", "hypesquad_house_");
+    s = s.replace("premium_early_supporter", "early_supporter");
+    s = s.replace("moderator_programs_alumni", "certified_moderator");
+    return s;
+}
+
+function getBadgeIconKey(icon: string): string {
+    if (!icon) return "";
+    try {
+        const parts = icon.split("/");
+        const last = parts.pop() || icon;
+        return last.split("?")[0].replace(/\.(png|webp|jpg|svg)$/i, "");
+    } catch {
+        return icon;
+    }
+}
+
+function deduplicateProfileBadges(badges: any[]): any[] {
+    if (!Array.isArray(badges)) return [];
+    const seenIds = new Set<string>();
+    const seenIcons = new Set<string>();
+
+    return badges.filter(b => {
+        if (!b) return false;
+
+        const rawId = b.id || b.key || "";
+        const normId = normalizeBadgeId(rawId);
+        const iconKey = getBadgeIconKey(b.icon || b.iconSrc || "");
+
+        if (normId && seenIds.has(normId)) return false;
+        if (iconKey && seenIcons.has(iconKey)) return false;
+
+        if (normId) seenIds.add(normId);
+        if (iconKey) seenIcons.add(iconKey);
+
+        return true;
+    });
 }
 
 const PROFILE_EFFECTS = [
@@ -975,6 +1018,7 @@ function processDomBatch() {
                 }
             }
         }
+        // HypeSquad changer is handled by standalone HypeSquadChanger plugin
     } finally {
         if (isEnabled && obs) {
             obs.observe(document.body, { childList: true, subtree: true, characterData: true });
@@ -1540,7 +1584,7 @@ function CustomProfileModal({ rootProps }: { rootProps: any; }) {
                         )}
                         renderOptionValue={(selected: any[]) => {
                             const option = selected[0];
-                            if (!option) return "Select Account";
+                            if (!option) return t("Select Account");
                             return (
                                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                     <img
@@ -1699,7 +1743,7 @@ function CustomProfileModal({ rootProps }: { rootProps: any; }) {
 }
 
 function CustomProfileButton() {
-    return <HeaderBarButton icon={() => <EditIcon size={18} />} tooltip="Custom Profile" onClick={() => openModal(props => <CustomProfileModal rootProps={props} />)} />;
+    return <HeaderBarButton icon={() => <EditIcon size={18} />} tooltip={t("Custom Profile")} onClick={() => openModal(props => <CustomProfileModal rootProps={props} />)} />;
 }
 
 function CPDMNotice({ userId }: { userId: string; }) {
@@ -1869,6 +1913,33 @@ export default definePlugin({
                 {
                     match: /obfuscatedPhone:([^,}]+)/g,
                     replace: "obfuscatedPhone:$self.fakeObfuscatedPhone($1)"
+                }
+            ]
+        },
+        {
+            find: "getAvatarDecorationURL:",
+            noWarn: true,
+            replacement: {
+                match: /(?<=function \i\((\i)\){)(?=.{0,20}let\s*\{avatarDecoration)/,
+                replace: "const _cpDecoUrl=$self.getDecorationURLForUser($1);if(_cpDecoUrl)return _cpDecoUrl;"
+            }
+        },
+        {
+            find: "isAvatarDecorationAnimating:",
+            noWarn: true,
+            group: true,
+            replacement: [
+                {
+                    match: /(?<=\.avatarDecoration,guildId:\i\}\)\),)(?<=user:(\i).+?)/,
+                    replace: "_cpAvatarDeco=$self.getAvatarDecoOverride($1),"
+                },
+                {
+                    match: /(?<={avatarDecoration:).{1,20}?(?=,)(?<=avatarDecorationOverride:(\i).+?)/,
+                    replace: "$1??_cpAvatarDeco??($&)"
+                },
+                {
+                    match: /(?<=size:\i\}\),\[)/,
+                    replace: "_cpAvatarDeco,"
                 }
             ]
         }
@@ -2238,7 +2309,17 @@ export default definePlugin({
 
             const customIds = data.customBadgeIds ?? [];
             const isFr = getDiscordLocale().toLowerCase().startsWith("fr");
-            const hasBadge = (badgeId: string) => badgesArr.some(b => b && b.id === badgeId);
+            const hasBadge = (badgeId: string) => {
+                const targetNorm = normalizeBadgeId(badgeId);
+                return badgesArr.some(b => {
+                    if (!b) return false;
+                    const bId = b.id || b.key || "";
+                    if (bId === badgeId || normalizeBadgeId(bId) === targetNorm) return true;
+                    const iconKey = getBadgeIconKey(b.icon || b.iconSrc || "");
+                    if (iconKey && (badgeId.includes(iconKey) || iconKey.includes(badgeId))) return true;
+                    return false;
+                });
+            };
 
             const wantedFlags = merged.publicFlags ?? 0;
             if (wantedFlags) {
@@ -2288,6 +2369,7 @@ export default definePlugin({
                 return true;
             });
 
+            badgesArr = deduplicateProfileBadges(badgesArr);
             merged.badges = badgesArr;
 
             if (data.profileEffectId) {
@@ -2430,7 +2512,17 @@ export default definePlugin({
 
             const customIds = storedData.customBadgeIds ?? [];
             const isFr = getDiscordLocale().toLowerCase().startsWith("fr");
-            const hasBadge = (badgeId: string) => badgesArr.some(b => b && b.id === badgeId);
+            const hasBadge = (badgeId: string) => {
+                const targetNorm = normalizeBadgeId(badgeId);
+                return badgesArr.some(b => {
+                    if (!b) return false;
+                    const bId = b.id || b.key || "";
+                    if (bId === badgeId || normalizeBadgeId(bId) === targetNorm) return true;
+                    const iconKey = getBadgeIconKey(b.icon || b.iconSrc || "");
+                    if (iconKey && (badgeId.includes(iconKey) || iconKey.includes(badgeId))) return true;
+                    return false;
+                });
+            };
 
             const wantedFlags = merged.publicFlags ?? 0;
             if (wantedFlags) {
@@ -2480,6 +2572,7 @@ export default definePlugin({
                 return true;
             });
 
+            badgesArr = deduplicateProfileBadges(badgesArr);
             merged.badges = badgesArr;
 
             if (storedData.profileEffectId) {
@@ -2493,6 +2586,80 @@ export default definePlugin({
             this._cachedProfile = result;
             this._cachedProfileVersion = _dataVersion;
             return result;
+        } catch {
+            return profile;
+        }
+    },
+
+    // Variant of hookUserProfile used exclusively for getGuildMemberProfile.
+    // Guild member profiles are merged with the global user profile by Discord
+    // when rendering a popout — if we inject badges into BOTH, Discord shows
+    // them twice.  This variant applies every customisation EXCEPT badges so
+    // that badges are only ever injected once (via getUserProfile).
+    hookUserProfileGuildOnly(profile: any) {
+        if (!profile || !isEnabled) return profile;
+
+        const hasDeco = !!storedData.decorationAsset;
+        const hasNitro = !!storedData.nitro;
+        const hasBio = !!storedData.bio;
+        const hasPronouns = !!storedData.pronouns;
+        const hasAccentColor = storedData.accentColor != null;
+        const hasBanner = !!storedData.banner;
+        const hasEffect = !!storedData.profileEffectId;
+
+        if (!hasDeco && !hasNitro && !hasBio && !hasPronouns && !hasAccentColor && !hasBanner && !hasEffect) {
+            return profile;
+        }
+
+        try {
+            const merged: any = {};
+
+            if (storedData.bio) merged.bio = storedData.bio;
+            if (storedData.pronouns) merged.pronouns = storedData.pronouns;
+            if (storedData.accentColor != null) merged.accentColor = storedData.accentColor;
+            if (storedData.banner) merged.banner = storedData.banner;
+
+            if (storedData.decorationAsset) {
+                merged.avatarDecoration = null;
+                merged.avatarDecorationData = {
+                    asset: storedData.decorationAsset,
+                    skuId: storedData.decorationAsset
+                };
+            }
+
+            if (storedData.nitro) {
+                merged.premiumType = 2;
+                if (storedData.accentColor != null) {
+                    const c2 = storedData.accentColor2 ?? storedData.accentColor;
+                    merged.themeColors = [storedData.accentColor, c2];
+                }
+                const nl = storedData.nitroLevel ?? 0;
+                const seedBase = UserStore.getCurrentUser()?.id || "self";
+                merged.premiumSince = getFakeNitroDate(nl, seedBase);
+                const bm = storedData.boostMonths ?? -1;
+                if (bm >= 0) {
+                    merged.premiumGuildSince = getFakeBoostDate(bm, seedBase);
+                } else {
+                    merged.premiumGuildSince = null;
+                }
+            } else if (storedData.nitro === false) {
+                merged.premiumType = profile.premiumType ?? 0;
+                merged.premiumSince = profile.premiumSince ?? null;
+                merged.premiumGuildSince = profile.premiumGuildSince ?? null;
+            }
+
+            if (storedData.profileEffectId) {
+                merged.profileEffectId = storedData.profileEffectId;
+                merged.profileEffect = { expireAt: null, skuId: storedData.profileEffectId };
+                if (!merged.premiumType) merged.premiumType = profile.premiumType || 2;
+            }
+
+            // NOTE: badges are intentionally NOT injected here.
+            // Discord merges guild member profile badges with user profile badges
+            // in the popout UI; injecting into both would double every badge.
+            // Badges are only injected via hookUserProfile (getUserProfile).
+
+            return cleanMerge(profile, merged);
         } catch {
             return profile;
         }
@@ -2531,6 +2698,69 @@ export default definePlugin({
             if (!hasRealModifications) return null;
             return <CPDMNotice userId={recipientId} />;
         } catch { return null; }
+    },
+
+    /**
+     * Called by the Webpack patch on getAvatarDecorationURL.
+     * Returns our custom decoration URL for the current user (or other users
+     * via the public cache), or null to let Discord use the default logic.
+     */
+    getDecorationURLForUser(opts: any) {
+        try {
+            // opts is the argument object passed to getAvatarDecorationURL
+            // It contains { avatarDecoration, avatarDecorationData, userId, canAnimate, ... }
+            const decoData = opts?.avatarDecorationData ?? opts?.avatarDecoration;
+            const userId = opts?.userId;
+            const canAnimate = opts?.canAnimate ?? opts?.animated ?? true;
+
+            // ── Own user ──────────────────────────────────────────────────────
+            if (isEnabled && storedData.decorationAsset) {
+                const myId = UserStore.getCurrentUser()?.id;
+                const isOurs =
+                    decoData?.asset === storedData.decorationAsset ||
+                    decoData?.skuId === storedData.decorationAsset ||
+                    (userId && userId === myId);
+                if (isOurs) {
+                    const asset = storedData.decorationAsset;
+                    return getDecorationUrl(asset, canAnimate);
+                }
+            }
+
+            // ── Other users via public cache ──────────────────────────────────
+            if (Settings.seeAllCustomProfile && userId && !isMe(userId)) {
+                const cached = publicProfilesCache.get(userId);
+                if (cached?.fetched && cached.data?.decorationAsset) {
+                    const asset = cached.data.decorationAsset!;
+                    return getDecorationUrl(asset, canAnimate);
+                }
+            }
+        } catch { }
+        return null;
+    },
+
+    /**
+     * Called by the Webpack patch on the Avatar component (isAvatarDecorationAnimating).
+     * Returns the avatarDecorationData object to inject, or null.
+     */
+    getAvatarDecoOverride(user: any) {
+        try {
+            const uid = user?.id;
+            if (!uid) return null;
+
+            // ── Own user ──────────────────────────────────────────────────────
+            if (isEnabled && isMe(uid) && storedData.decorationAsset) {
+                return { asset: storedData.decorationAsset, skuId: storedData.decorationAsset };
+            }
+
+            // ── Other users via public cache ──────────────────────────────────
+            if (Settings.seeAllCustomProfile && !isMe(uid)) {
+                const cached = publicProfilesCache.get(uid);
+                if (cached?.fetched && cached.data?.decorationAsset) {
+                    return { asset: cached.data.decorationAsset!, skuId: cached.data.decorationAsset! };
+                }
+            }
+        } catch { }
+        return null;
     },
 
     patchBannerUrl({ displayProfile }: any) {
@@ -2767,7 +2997,9 @@ export default definePlugin({
                         if (!userId) return profile;
                         
                         if (isEnabled && isMe(userId) && profile) {
-                            return this.hookUserProfile(profile);
+                            // Use the guild-only variant (no badges) to avoid
+                            // doubling badges that getUserProfile already injects.
+                            return this.hookUserProfileGuildOnly(profile);
                         }
                         
                         if (Settings.seeAllCustomProfile && !isMe(userId)) {
@@ -2858,9 +3090,6 @@ export default definePlugin({
             // Retry avatar patch — may have failed at early boot if module wasn't ready yet
             if (!_avatarPatchApplied) {
                 applyAvatarPatchEarly();
-            } else {
-                // Module already patched but storedData was empty at patch time — the patch
-                // reads storedData at call-time so no re-patch needed, just rerender.
             }
             if (isEnabled) {
                 forceAccountPanelRerender();
@@ -2877,30 +3106,48 @@ export default definePlugin({
                 const origDeco = decoMod.getAvatarDecorationURL.bind(decoMod);
                 decoMod.getAvatarDecorationURL = (opts: any) => {
                     try {
-                        const { avatarDecoration, userId } = opts ?? {};
+                        // Discord changed the arg name from `avatarDecoration` → `avatarDecorationData`
+                        // Support both shapes plus a plain object passed as first positional arg
+                        const decoData = opts?.avatarDecorationData ?? opts?.avatarDecoration ?? opts;
+                        const userId = opts?.userId;
+                        const canAnimate = opts?.canAnimate ?? opts?.animated ?? true;
 
-                        // Own user decoration
+                        // Own user decoration — match on asset value injected by our proxy
                         if (isEnabled && storedData.decorationAsset) {
                             const myId = UserStore.getCurrentUser()?.id;
-                            const isOurs = (avatarDecoration?.skuId === "__fake__")
-                                || (avatarDecoration?.asset === storedData.decorationAsset)
-                                || (userId && userId === myId);
+                            const isOurs =
+                                // Direct asset match (most reliable)
+                                decoData?.asset === storedData.decorationAsset ||
+                                // skuId marker we set on the proxy avatarDecorationData
+                                decoData?.skuId === storedData.decorationAsset ||
+                                // Legacy marker
+                                decoData?.skuId === "__fake__" ||
+                                // userId fallback (still works in some contexts)
+                                (userId && userId === myId);
                             if (isOurs) {
                                 const asset = storedData.decorationAsset;
-                                const dec = AVATAR_DECORATIONS.find(d => d.id === asset);
-                                const passthrough = dec ? (dec as any).passthrough : asset.startsWith("a_");
-                                return getDecorationUrl(asset, passthrough);
+                                return getDecorationUrl(asset, canAnimate);
                             }
                         }
 
                         // Other users via public cache
-                        if (Settings.seeAllCustomProfile && userId && !isMe(userId)) {
-                            const cached = publicProfilesCache.get(userId);
-                            if (cached?.fetched && cached.data?.decorationAsset) {
-                                const asset = cached.data.decorationAsset!;
-                                const dec = AVATAR_DECORATIONS.find(d => d.id === asset);
-                                const passthrough = dec ? (dec as any).passthrough : asset.startsWith("a_");
-                                return getDecorationUrl(asset, passthrough);
+                        if (Settings.seeAllCustomProfile) {
+                            // Try userId first, then fall back to looking up by asset
+                            const lookupId = userId;
+                            if (lookupId && !isMe(lookupId)) {
+                                const cached = publicProfilesCache.get(lookupId);
+                                if (cached?.fetched && cached.data?.decorationAsset) {
+                                    const asset = cached.data.decorationAsset!;
+                                    return getDecorationUrl(asset, canAnimate);
+                                }
+                            } else if (!lookupId && decoData?.asset) {
+                                // No userId — scan cache for matching asset
+                                for (const [uid, entry] of publicProfilesCache) {
+                                    if (!isMe(uid) && entry.fetched && entry.data?.decorationAsset === decoData.asset) {
+                                        const asset = entry.data.decorationAsset!;
+                                        return getDecorationUrl(asset, canAnimate);
+                                    }
+                                }
                             }
                         }
                     } catch { }
@@ -2980,6 +3227,6 @@ export default definePlugin({
     },
 
     settingsAboutComponent() {
-        return <Button onClick={() => openModal(props => <CustomProfileModal rootProps={props} />)}>Open Custom Profile</Button>;
+        return <Button onClick={() => openModal(props => <CustomProfileModal rootProps={props} />)}>{t("Open Custom Profile")}</Button>;
     },
 });

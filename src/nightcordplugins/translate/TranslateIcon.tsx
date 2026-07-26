@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Nightcord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
@@ -61,9 +62,7 @@ export const TranslateChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
             Alerts.show({
                 title: "Auto-Translate Enabled",
                 body: (
-                    <Paragraph>
-                        You just enabled Auto Translate! Your messages will now be <b>automatically translated</b> before being sent.
-                    </Paragraph>
+                    <Paragraph>{t("You just enabled Auto Translate! Your messages will now be")}<b>{t("automatically translated")}</b>{t("before being sent.")}</Paragraph>
                 ),
                 confirmText: "Got it",
                 cancelText: "Don't show again",

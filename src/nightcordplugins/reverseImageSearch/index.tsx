@@ -22,6 +22,7 @@ import { OpenExternalIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { Menu } from "@webpack/common";
+import { t } from "../autoTranslateNightcord";
 
 const Engines = {
     Google: "https://lens.google.com/uploadbyurl?url=",
@@ -40,7 +41,7 @@ function search(src: string, engine: string) {
 function makeSearchItem(src: string) {
     return (
         <Menu.MenuItem
-            label="Search Image"
+            label={t("Search Image")}
             key="search-image"
             id="search-image"
         >
@@ -74,7 +75,7 @@ function makeSearchItem(src: string) {
                 label={
                     <Flex alignItems="center" gap="0.5em">
                         <OpenExternalIcon height={16} width={16} />
-                        All
+                        {t("All")}
                     </Flex>
                 }
                 action={() => Object.values(Engines).forEach(e => search(src, e))}

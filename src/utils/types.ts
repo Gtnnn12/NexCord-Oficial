@@ -104,6 +104,7 @@ export type IconProps = { height?: number | string; width?: number | string; cla
 export interface PluginDef {
     name: string;
     description: string;
+    detailedDescription?: string;
     authors: PluginAuthor[];
     start?(): void;
     stop?(): void;

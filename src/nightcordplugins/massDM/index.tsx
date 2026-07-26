@@ -184,7 +184,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
             <ModalHeader>
                 <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
                     <MassDMIcon style={{ marginRight: 8, color: "#fff" }} />
-                    <HeadingPrimary style={{ flex: 1, color: "#fff" }}>Mass DM</HeadingPrimary>
+                    <HeadingPrimary style={{ flex: 1, color: "#fff" }}>{t("Mass DM")}</HeadingPrimary>
 
                     {idle && (
                         <div style={{ marginRight: 12, minWidth: 220 }}>
@@ -223,7 +223,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                         </div>
                     )}
 
-                    {s.running && <span className="mdm-badge">Running...</span>}
+                    {s.running && <span className="mdm-badge">{t("Running...")}</span>}
                     <ModalCloseButton onClick={rootProps.onClose} />
                 </div>
             </ModalHeader>
@@ -232,11 +232,11 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                 {idle && (
                     <div className="mdm-idle-container">
                         <div className="mdm-full-panel">
-                            <HeadingSecondary className={Margins.bottom8} style={{ color: "#fff" }}>Message to send to friends</HeadingSecondary>
+                            <HeadingSecondary className={Margins.bottom8} style={{ color: "#fff" }}>{t("Message to send to friends")}</HeadingSecondary>
                             <div style={{ position: "relative" }}>
                                 <textarea
                                     className="mdm-textarea-main"
-                                    placeholder="Write your message here... Use @user to mention the recipient."
+                                    placeholder={t("Write your message here... Use @user to mention the recipient.")}
                                     value={msg}
                                     onChange={e => handleMsgChange(e.currentTarget.value)}
                                     rows={12}
@@ -244,7 +244,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                                 {showMentionHint && (
                                     <div className="mdm-mention-hint" onClick={insertMention}>
                                         <div className="mdm-mention-hint-item">
-                                            <strong>@user</strong> — Mentionner le destinataire
+                                            <strong>@user</strong> — {t("Mention the recipient")}
                                         </div>
                                     </div>
                                 )}
@@ -254,7 +254,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                 )}
                 {idle && (
                     <p className={`mdm-warn ${Margins.top16}`}>
-                        ⚠️ Will be sent to <strong>{friends.length - excludedIds.size} friends</strong> —{" "}
+                        ⚠️ {t("Will be sent to")} <strong>{friends.length - excludedIds.size} {t("friends")}</strong> —{" "}
                         {editingDelay ? (
                             <input
                                 ref={delayInputRef}
@@ -282,25 +282,25 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                             <span
                                 className="mdm-delay-value"
                                 onClick={() => { setDelayInput(String(s.delayMs / 1000)); setEditingDelay(true); }}
-                                title="Click to modify delay"
+                                title={t("Click to modify delay")}
                             >
                                 {s.delayMs / 1000}s
                             </span>
                         )}
-                        {" "}between each.
+                        {" "}{t("between each.")}
                     </p>
                 )}
                 {(s.running || s.finished) && (
                     <>
                         <div className="mdm-stats">
-                            <span className="mdm-stats-count">{s.done} / {s.total} friends</span>
+                            <span className="mdm-stats-count">{s.done} / {s.total} {t("friends")}</span>
                             <span className="mdm-stats-pct">{pct}%</span>
                         </div>
                         <div className="mdm-bar-bg">
                             <div className="mdm-bar-fill" style={{ width: `${pct}%` }} />
                         </div>
                         {s.finished && (
-                            <p className="mdm-done">✅ Finished — {s.done} message{s.done > 1 ? "s" : ""} sent.</p>
+                            <p className="mdm-done">✅ {t("Finished — {count} message(s) sent.").replace("{count}", s.done.toString())}</p>
                         )}
                         <ScrollerThin className="mdm-log" ref={logRef}>
                             {s.log.map((line, i) => <div key={i} className="mdm-log-line">{line}</div>)}
@@ -312,20 +312,20 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
             <ModalFooter>
                 {idle && (
                     <>
-                        <Button variant="secondary" onClick={rootProps.onClose}>Cancel</Button>
-                        <Button variant="positive" onClick={() => startSending(msg, excludedIds)} disabled={!msg.trim()}>▶ Start</Button>
+                        <Button variant="secondary" onClick={rootProps.onClose}>{t("Cancel")}</Button>
+                        <Button variant="positive" onClick={() => startSending(msg, excludedIds)} disabled={!msg.trim()}>▶ {t("Start")}</Button>
                     </>
                 )}
                 {s.running && (
                     <>
-                        <Button variant="secondary" onClick={rootProps.onClose}>Close (background)</Button>
-                        <Button variant="dangerPrimary" onClick={() => { state.aborted = true; }}>⛔ Stop</Button>
+                        <Button variant="secondary" onClick={rootProps.onClose}>{t("Close (background)")}</Button>
+                        <Button variant="dangerPrimary" onClick={() => { state.aborted = true; }}>⛔ {t("Stop")}</Button>
                     </>
                 )}
                 {s.finished && (
                     <>
-                        <Button variant="secondary" onClick={() => state.reset()}>Restart</Button>
-                        <Button variant="positive" onClick={rootProps.onClose}>Close</Button>
+                        <Button variant="secondary" onClick={() => state.reset()}>{t("Restart")}</Button>
+                        <Button variant="positive" onClick={rootProps.onClose}>{t("Close")}</Button>
                     </>
                 )}
             </ModalFooter>
@@ -338,7 +338,7 @@ function MassDMButton() {
     return (
         <HeaderBarButton
             icon={MassDMIcon}
-            tooltip="Mass DM"
+            tooltip={t("Mass DM")}
             onClick={() => openModal(props => <MassDMModal rootProps={props} />)}
         />
     );

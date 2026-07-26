@@ -1,3 +1,4 @@
+import { t } from "../autoTranslateNightcord";
 /*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
@@ -222,8 +223,8 @@ function ScanStatusBanner({
                         : 12
         : 100;
 
-    let title = "Preparing scan";
-    let subtitle = "Building the next scan stage.";
+    let title = t("Preparing scan");
+    let subtitle = t("Building the next scan stage.");
 
     if (isRunning && progress) {
         title = formatProgress(progress);
@@ -239,13 +240,13 @@ function ScanStatusBanner({
                     ? "Collecting unique candidates from the selected server set."
                     : "Running the mutual scan sequentially.";
     } else if (phase === "success" && result) {
-        title = "Scan complete";
+        title = t("Scan complete");
         subtitle = `Found ${result.matches.length} match${result.matches.length === 1 ? "" : "es"} after ${result.stats.scannedCount} scanned profile${result.stats.scannedCount === 1 ? "" : "s"} in ${formatDurationMs(runDuration)}.`;
     } else if (phase === "cancelled" && result) {
-        title = "Scan cancelled";
+        title = t("Scan cancelled");
         subtitle = `Stopped after ${result.stats.scannedCount} scanned profile${result.stats.scannedCount === 1 ? "" : "s"} and ${result.matches.length} match${result.matches.length === 1 ? "" : "es"}.`;
     } else if (phase === "failure" && result) {
-        title = "Scan failed";
+        title = t("Scan failed");
         subtitle = result.error ?? "The scanner could not finish this run.";
     }
 
@@ -312,7 +313,7 @@ function MatchRow({ match, compact = false }: { match: MutualScannerMatch; compa
                         className={cl("match-profile-trigger")}
                         onClick={() => {
                             void openUserProfile(match.userId).catch(() => {
-                                showToast("Could not open that profile.", Toasts.Type.FAILURE);
+                                showToast(t("Could not open that profile."), Toasts.Type.FAILURE);
                             });
                         }}
                     >
@@ -327,8 +328,8 @@ function MatchRow({ match, compact = false }: { match: MutualScannerMatch; compa
                 <div className={cl("match-badges")}>
                     <span className={cl("badge")}>{match.mutualFriendCount} mutual</span>
                     {match.matchSource === "count" && <span className={cl("badge", "warn")}>{compact ? "Count" : "Count only"}</span>}
-                    {match.isExistingFriend && <span className={cl("badge", "quiet")}>Already your friend</span>}
-                    {match.isBot && <span className={cl("badge", "quiet")}>Bot</span>}
+                    {match.isExistingFriend && <span className={cl("badge", "quiet")}>{t("Already your friend")}</span>}
+                    {match.isBot && <span className={cl("badge", "quiet")}>{t("Bot")}</span>}
                 </div>
             </div>
 
@@ -402,7 +403,7 @@ function RunCard({
 
                 <div className={cl("run-actions")}>
                     <span className={cl("status-pill", run.status)}>{run.status}</span>
-                    <TextButton className={cl("history-action-button")} variant="danger" onClick={onRemove}>Del</TextButton>
+                    <TextButton className={cl("history-action-button")} variant="danger" onClick={onRemove}>{t("Del")}</TextButton>
                 </div>
             </div>
 
@@ -453,7 +454,7 @@ function RunCard({
                 {run.matches.length === 0 && (
                     <div className={cl("empty-inline")}>
                         <MagnifyingGlassIcon className={cl("empty-inline-icon")} />
-                        <Paragraph className={cl("muted-copy")}>No candidates with mutual friends were found in this scope.</Paragraph>
+                        <Paragraph className={cl("muted-copy")}>{t("No candidates with mutual friends were found in this scope.")}</Paragraph>
                     </div>
                 )}
 
@@ -487,7 +488,7 @@ function RuntimePreviewRunCard({
                 </div>
 
                 <div className={cl("run-actions")}>
-                    <span className={cl("status-pill", "running")}>running</span>
+                    <span className={cl("status-pill", "running")}>{t("running")}</span>
                 </div>
             </div>
 
@@ -543,8 +544,8 @@ function HydrationCacheRow({
                     <span className={cl("status-pill", quality === "partial" ? "failed" : quality === "cancelled" ? "cancelled" : quality === "stale" ? "running" : "completed")}>
                         {qualityLabel}
                     </span>
-                    <TextButton variant="secondary" disabled={rewarmDisabled} onClick={onRewarm}>Rewarm</TextButton>
-                    <TextButton variant="danger" onClick={onClear}>Clear</TextButton>
+                    <TextButton variant="secondary" disabled={rewarmDisabled} onClick={onRewarm}>{t("Rewarm")}</TextButton>
+                    <TextButton variant="danger" onClick={onClear}>{t("Clear")}</TextButton>
                 </div>
             </div>
 
@@ -555,9 +556,9 @@ function HydrationCacheRow({
                     <span className={cl("badge", "quiet")}>+{snapshot.delta} hydrated</span>
                     {snapshot.chunksSeen > 0 && <span className={cl("badge", "quiet")}>{snapshot.chunksSeen} chunks</span>}
                 </div>
-                {snapshot.budgetReached && <span className={cl("badge", "warn")}>budget reached</span>}
-                {snapshot.timedOut && <span className={cl("badge", "danger")}>timed out</span>}
-                {snapshot.cancelled && <span className={cl("badge", "danger")}>cancelled</span>}
+                {snapshot.budgetReached && <span className={cl("badge", "warn")}>{t("budget reached")}</span>}
+                {snapshot.timedOut && <span className={cl("badge", "danger")}>{t("timed out")}</span>}
+                {snapshot.cancelled && <span className={cl("badge", "danger")}>{t("cancelled")}</span>}
             </div>
         </Card>
     );
@@ -910,7 +911,7 @@ function MutualScannerTab() {
             cancelText: "Cancel",
             async onConfirm() {
                 await clearMutualScannerRuns(currentUserId);
-                showToast("Cleared local Mutual Scanner history.", Toasts.Type.SUCCESS);
+                showToast(t("Cleared local Mutual Scanner history."), Toasts.Type.SUCCESS);
             },
         });
     }, [currentUserId]);
@@ -924,7 +925,7 @@ function MutualScannerTab() {
             async onConfirm() {
                 await clearHydratedGuildSnapshots(currentUserId);
                 await refreshHydrationSnapshots();
-                showToast("Cleared local hydration cache.", Toasts.Type.SUCCESS);
+                showToast(t("Cleared local hydration cache."), Toasts.Type.SUCCESS);
             },
         });
     }, [currentUserId, refreshHydrationSnapshots]);
@@ -932,7 +933,7 @@ function MutualScannerTab() {
     const clearHydrationCacheEntry = React.useCallback(async (guildId: string) => {
         await clearHydratedGuildSnapshot(currentUserId, guildId);
         await refreshHydrationSnapshots();
-        showToast("Removed guild hydration snapshot.", Toasts.Type.SUCCESS);
+        showToast(t("Removed guild hydration snapshot."), Toasts.Type.SUCCESS);
     }, [currentUserId, refreshHydrationSnapshots]);
 
     const startWarmupForGuildIds = React.useCallback((guildIds: string[], successLabel: string, failureLabel: string) => {
@@ -949,7 +950,7 @@ function MutualScannerTab() {
         });
 
         if (!started) {
-            showToast("Manual cache warmup could not start.", Toasts.Type.FAILURE);
+            showToast(t("Manual cache warmup could not start."), Toasts.Type.FAILURE);
             return;
         }
 
@@ -981,7 +982,7 @@ function MutualScannerTab() {
 
         if (!currentUserId) return;
         if (data.config.selectedGuildIds.length === 0) {
-            showToast("Select at least one server before warming the cache.", Toasts.Type.FAILURE);
+            showToast(t("Select at least one server before warming the cache."), Toasts.Type.FAILURE);
             return;
         }
 
@@ -992,14 +993,14 @@ function MutualScannerTab() {
         });
 
         if (!started) {
-            showToast("Manual cache warmup could not start.", Toasts.Type.FAILURE);
+            showToast(t("Manual cache warmup could not start."), Toasts.Type.FAILURE);
         }
     }, [currentUserId, data.config.selectedGuildIds, data.config.warmupMemberBudget, data.config.warmupTimeoutMs, isManualWarmupRunning]);
 
     const startRun = React.useCallback(() => {
         if (!currentUserId) return;
         if (data.config.selectedGuildIds.length === 0) {
-            showToast("Select at least one server before starting the scan.", Toasts.Type.FAILURE);
+            showToast(t("Select at least one server before starting the scan."), Toasts.Type.FAILURE);
             return;
         }
 
@@ -1011,7 +1012,7 @@ function MutualScannerTab() {
 
         const started = startMutualScannerRun(currentUserId, data.config, false);
         if (!started) {
-            showToast("Mutual scan could not start.", Toasts.Type.FAILURE);
+            showToast(t("Mutual scan could not start."), Toasts.Type.FAILURE);
         }
     }, [clearScanStatusTimers, currentUserId, data.config]);
 
@@ -1026,14 +1027,14 @@ function MutualScannerTab() {
 
         const started = startMutualScannerRun(currentUserId, data.config, true);
         if (!started) {
-            showToast("Mutual scan could not resume.", Toasts.Type.FAILURE);
+            showToast(t("Mutual scan could not resume."), Toasts.Type.FAILURE);
         }
     }, [clearScanStatusTimers, currentUserId, data.config]);
 
     const discardProgress = React.useCallback(() => {
         if (!currentUserId) return;
         void clearMutualScannerProgress(currentUserId).then(() => {
-            showToast("Saved progress discarded.", Toasts.Type.SUCCESS);
+            showToast(t("Saved progress discarded."), Toasts.Type.SUCCESS);
         });
     }, [currentUserId]);
     const runDuration = React.useMemo(() => {
@@ -1062,12 +1063,12 @@ function MutualScannerTab() {
                     <Card className={cl("panel", "panel-shell", "scope-panel")} defaultPadding>
                         <div className={cl("section-head")}>
                             <div>
-                                <Heading className={cl("section-title")} tag="h4">Server Scope</Heading>
-                                <Paragraph className={cl("muted-copy")}>Pick the servers whose members should be checked for any mutual friend relationship with your account.</Paragraph>
+                                <Heading className={cl("section-title")} tag="h4">{t("Server Scope")}</Heading>
+                                <Paragraph className={cl("muted-copy")}>{t("Pick the servers whose members should be checked for any mutual friend relationship with your account.")}</Paragraph>
                             </div>
                             <div className={cl("section-actions")}>
-                                <TextButton variant="secondary" onClick={selectAllVisibleGuilds} disabled={isRunning || isManualWarmupRunning || filteredGuildOptions.length === 0}>Select visible</TextButton>
-                                <TextButton variant="secondary" onClick={clearGuildSelection} disabled={isRunning || isManualWarmupRunning || data.config.selectedGuildIds.length === 0}>Clear</TextButton>
+                                <TextButton variant="secondary" onClick={selectAllVisibleGuilds} disabled={isRunning || isManualWarmupRunning || filteredGuildOptions.length === 0}>{t("Select visible")}</TextButton>
+                                <TextButton variant="secondary" onClick={clearGuildSelection} disabled={isRunning || isManualWarmupRunning || data.config.selectedGuildIds.length === 0}>{t("Clear")}</TextButton>
                             </div>
                         </div>
 
@@ -1078,7 +1079,7 @@ function MutualScannerTab() {
                                     className={cl("search-input")}
                                     type="text"
                                     value={guildSearch}
-                                    placeholder="Filter servers by name or id"
+                                    placeholder={t("Filter servers by name or id")}
                                     onChange={event => setGuildSearch(event.currentTarget.value)}
                                     disabled={isRunning}
                                     spellCheck={false}
@@ -1095,8 +1096,7 @@ function MutualScannerTab() {
                                 onClick={triggerManualWarmup}
                             >
                                 {isManualWarmupRunning
-                                    ? <RestartIcon className={cl("scope-toolbar-action-icon", "scope-toolbar-action-icon-spinning")} width={16} height={16} />
-                                    : <CloudUploadIcon className={cl("scope-toolbar-action-icon")} width={16} height={16} />}
+                                    ? <RestartIcon className={cl("scope-toolbar-action-icon", "scope-toolbar-action-icon-spinning")} width={16} height={16} /> : <CloudUploadIcon className={cl("scope-toolbar-action-icon")} width={16} height={16} />}
                             </Button>
                         </div>
 
@@ -1116,7 +1116,7 @@ function MutualScannerTab() {
                                 <Card className={cl("warmup-progress-card")} defaultPadding>
                                     <div className={cl("section-head", "warmup-progress-head")}>
                                         <div>
-                                            <HeadingTertiary className={Margins.reset}>Manual Cache Warmup</HeadingTertiary>
+                                            <HeadingTertiary className={Margins.reset}>{t("Manual Cache Warmup")}</HeadingTertiary>
                                             <Paragraph className={cl("muted-copy")}>
                                                 {renderedManualWarmupProgress.guildLabel} / guild {renderedManualWarmupProgress.guildIndex} of {renderedManualWarmupProgress.totalGuilds}
                                             </Paragraph>
@@ -1176,8 +1176,7 @@ function MutualScannerTab() {
                                         <div className={cl("guild-copy")}>
                                             <div className={cl("guild-title-row")}>
                                                 {option.iconUrl
-                                                    ? <img className={cl("guild-icon")} src={option.iconUrl} alt="" />
-                                                    : <div className={cl("guild-fallback-icon")}>{option.label.slice(0, 1)}</div>}
+                                                    ? <img className={cl("guild-icon")} src={option.iconUrl} alt="" /> : <div className={cl("guild-fallback-icon")}>{option.label.slice(0, 1)}</div>}
                                                 <div>
                                                     <HeadingTertiary className={Margins.reset}>{option.label}</HeadingTertiary>
                                                     <Paragraph className={cl("muted-copy")}>
@@ -1195,7 +1194,7 @@ function MutualScannerTab() {
                             {filteredGuildOptions.length === 0 && (
                                 <div className={cl("empty-inline")}>
                                     <FolderIcon className={cl("empty-inline-icon")} />
-                                    <Paragraph className={cl("muted-copy")}>No servers match this filter.</Paragraph>
+                                    <Paragraph className={cl("muted-copy")}>{t("No servers match this filter.")}</Paragraph>
                                 </div>
                             )}
                         </div>
@@ -1204,8 +1203,8 @@ function MutualScannerTab() {
                     <Card className={cl("panel", "panel-shell", "live-panel")} defaultPadding>
                         <div className={cl("section-head")}>
                             <div>
-                                <Heading className={cl("section-title")} tag="h4">Live Run</Heading>
-                                <Paragraph className={cl("muted-copy")}>Run the sweep sequentially, watch matches appear, and stop it at any time.</Paragraph>
+                                <Heading className={cl("section-title")} tag="h4">{t("Live Run")}</Heading>
+                                <Paragraph className={cl("muted-copy")}>{t("Run the sweep sequentially, watch matches appear, and stop it at any time.")}</Paragraph>
                             </div>
                             <span className={cl("section-chip")}>{isRunning ? formatProgress(runtimeProgress) : "Idle"}</span>
                         </div>
@@ -1213,7 +1212,7 @@ function MutualScannerTab() {
                         <div className={cl("filter-surface")}>
                             <div className={cl("config-grid")}>
                             <label className={cl("field")}>
-                                <span className={cl("field-label")}>Delay between profiles (ms)</span>
+                                <span className={cl("field-label")}>{t("Delay between profiles (ms)")}</span>
                                 <input
                                     className={cl("input")}
                                     type="number"
@@ -1226,7 +1225,7 @@ function MutualScannerTab() {
                             </label>
 
                             <label className={cl("field")}>
-                                <span className={cl("field-label")}>Max members per server</span>
+                                <span className={cl("field-label")}>{t("Max members per server")}</span>
                                 <input
                                     className={cl("input")}
                                     type="number"
@@ -1239,7 +1238,7 @@ function MutualScannerTab() {
                             </label>
 
                             <label className={cl("field")}>
-                                <span className={cl("field-label")}>Warmup timeout per server (ms)</span>
+                                <span className={cl("field-label")}>{t("Warmup timeout per server (ms)")}</span>
                                 <input
                                     className={cl("input")}
                                     type="number"
@@ -1252,7 +1251,7 @@ function MutualScannerTab() {
                             </label>
 
                             <label className={cl("field")}>
-                                <span className={cl("field-label")}>Warmup member budget</span>
+                                <span className={cl("field-label")}>{t("Warmup member budget")}</span>
                                 <input
                                     className={cl("input")}
                                     type="number"
@@ -1268,13 +1267,13 @@ function MutualScannerTab() {
                             <div className={cl("toggle-grid")}>
                                 <div className={cl("toggle-row")} style={{ flexDirection: "column", alignItems: "flex-start", gap: 8 }}>
                                     <div>
-                                        <HeadingTertiary className={Margins.reset}>Target friend user ID</HeadingTertiary>
-                                        <Paragraph className={cl("muted-copy")}>Only match users who share this specific person as a mutual friend with you. Leave empty to match anyone with any mutual friend.</Paragraph>
+                                        <HeadingTertiary className={Margins.reset}>{t("Target friend user ID")}</HeadingTertiary>
+                                        <Paragraph className={cl("muted-copy")}>{t("Only match users who share this specific person as a mutual friend with you. Leave empty to match anyone with any mutual friend.")}</Paragraph>
                                     </div>
                                     <input
                                         className={cl("input")}
                                         type="text"
-                                        placeholder="e.g. 123456789012345678"
+                                        placeholder={t("e.g. 123456789012345678")}
                                         value={data.config.targetUserId ?? ""}
                                         onChange={event => void updateConfig({ targetUserId: event.currentTarget.value.trim() })}
                                         disabled={isRunning}
@@ -1284,16 +1283,16 @@ function MutualScannerTab() {
 
                                 <div className={cl("toggle-row")}>
                                     <div>
-                                        <HeadingTertiary className={Margins.reset}>Skip users already in your friends</HeadingTertiary>
-                                        <Paragraph className={cl("muted-copy")}>Useful if you only want new or non-friend candidates.</Paragraph>
+                                        <HeadingTertiary className={Margins.reset}>{t("Skip users already in your friends")}</HeadingTertiary>
+                                        <Paragraph className={cl("muted-copy")}>{t("Useful if you only want new or non-friend candidates.")}</Paragraph>
                                     </div>
                                     <Switch checked={data.config.skipExistingFriends} onChange={(checked: boolean) => void updateConfig({ skipExistingFriends: checked })} />
                                 </div>
 
                                 <div className={cl("toggle-row")}>
                                     <div>
-                                        <HeadingTertiary className={Margins.reset}>Warm member cache before scan</HeadingTertiary>
-                                        <Paragraph className={cl("muted-copy")}>Attempts to expand each selected guild beyond what is already in GuildMemberStore before scanning.</Paragraph>
+                                        <HeadingTertiary className={Margins.reset}>{t("Warm member cache before scan")}</HeadingTertiary>
+                                        <Paragraph className={cl("muted-copy")}>{t("Attempts to expand each selected guild beyond what is already in GuildMemberStore before scanning.")}</Paragraph>
                                     </div>
                                     <Switch checked={data.config.warmMemberCacheBeforeScan} onChange={(checked: boolean) => void updateConfig({ warmMemberCacheBeforeScan: checked })} />
                                 </div>
@@ -1309,7 +1308,7 @@ function MutualScannerTab() {
                                 onClick={startRun}
                             >
                                 <MagnifyingGlassIcon width={14} height={14} />
-                                <span>Start Scan</span>
+                                <span>{t("Start Scan")}</span>
                             </Button>
                             {data.savedProgress && (
                                 <Button
@@ -1330,17 +1329,11 @@ function MutualScannerTab() {
                                 disabled={!isRunning}
                                 onClick={cancelRun}
                                 style={{ marginLeft: 8 }}
-                            >
-                                Cancel
-                            </Button>
+                            >{t("Cancel")}</Button>
                             {data.savedProgress && (
-                                <TextButton variant="danger" disabled={isRunning} onClick={discardProgress} style={{ marginLeft: 8 }}>
-                                    Discard Progress
-                                </TextButton>
+                                <TextButton variant="danger" disabled={isRunning} onClick={discardProgress} style={{ marginLeft: 8 }}>{t("Discard Progress")}</TextButton>
                             )}
-                            <TextButton variant="danger" disabled={data.runs.length === 0 || isRunning} onClick={clearHistory} style={{ marginLeft: "auto" }}>
-                                Clear History
-                            </TextButton>
+                            <TextButton variant="danger" disabled={data.runs.length === 0 || isRunning} onClick={clearHistory} style={{ marginLeft: "auto" }}>{t("Clear History")}</TextButton>
                         </div>
 
                         <div
@@ -1394,8 +1387,8 @@ function MutualScannerTab() {
                             {liveRuntimeMatches.length === 0 && !isRunning && (
                                 <Card className={cl("empty-card")} defaultPadding>
                                     <MagnifyingGlassIcon className={cl("empty-icon")} />
-                                    <HeadingTertiary>Run a scan to populate live matches</HeadingTertiary>
-                                    <Paragraph className={cl("muted-copy")}>Results appear here as soon as the scanner finds profiles with any mutual friend relationship, then fade out after 30s while the saved run stays in history.</Paragraph>
+                                    <HeadingTertiary>{t("Run a scan to populate live matches")}</HeadingTertiary>
+                                    <Paragraph className={cl("muted-copy")}>{t("Results appear here as soon as the scanner finds profiles with any mutual friend relationship, then fade out after 30s while the saved run stays in history.")}</Paragraph>
                                 </Card>
                             )}
 
@@ -1416,9 +1409,7 @@ function MutualScannerTab() {
                         )}
 
                         {data.config.warmMemberCacheBeforeScan && (
-                            <Notice.Info className={cl("inline-notice")}>
-                                Warmup runs one guild at a time through the shared hydration service. It can reuse a temporary local member index from recent runs, stops on timeout, or earlier if the per-guild member budget is reached. Set the budget to 0 for no member cap.
-                            </Notice.Info>
+                            <Notice.Info className={cl("inline-notice")}>{t("Warmup runs one guild at a time through the shared hydration service. It can reuse a temporary local member index from recent runs, stops on timeout, or earlier if the per-guild member budget is reached. Set the budget to 0 for no member cap.")}</Notice.Info>
                         )}
                     </Card>
                 </div>
@@ -1427,8 +1418,8 @@ function MutualScannerTab() {
                     <Card className={cl("panel", "panel-shell", "history-panel")} defaultPadding>
                         <div className={cl("section-head")}>
                             <div>
-                                <Heading className={cl("section-title")} tag="h4">Run History</Heading>
-                                <Paragraph className={cl("muted-copy")}>Saved locally per account on this device.</Paragraph>
+                                <Heading className={cl("section-title")} tag="h4">{t("Run History")}</Heading>
+                                <Paragraph className={cl("muted-copy")}>{t("Saved locally per account on this device.")}</Paragraph>
                             </div>
                             <span className={cl("section-chip")}>{data.runs.length} runs</span>
                         </div>
@@ -1439,7 +1430,7 @@ function MutualScannerTab() {
                                 className={cl("search-input")}
                                 type="text"
                                 value={historySearch}
-                                placeholder="Search history by scope, user, or guild"
+                                placeholder={t("Search history by scope, user, or guild")}
                                 onChange={event => setHistorySearch(event.currentTarget.value)}
                                 disabled={isRunning}
                                 spellCheck={false}
@@ -1466,8 +1457,8 @@ function MutualScannerTab() {
                             {!pending && filteredRuns.length === 0 && !shouldShowRuntimeHistoryPreview && (
                                 <Card className={cl("empty-card")} defaultPadding>
                                     <LogIcon className={cl("empty-icon")} />
-                                    <HeadingTertiary>No saved runs match this filter</HeadingTertiary>
-                                    <Paragraph className={cl("muted-copy")}>Broaden the search or run a new scan to build a stronger local history.</Paragraph>
+                                    <HeadingTertiary>{t("No saved runs match this filter")}</HeadingTertiary>
+                                    <Paragraph className={cl("muted-copy")}>{t("Broaden the search or run a new scan to build a stronger local history.")}</Paragraph>
                                 </Card>
                             )}
 

@@ -4,17 +4,45 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/* Custom Modal Wrapper */
+.ytd-modal-root {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: none !important;
+}
+
 .ytd-player-root {
     background: #0f0f0f;
     color: #fff;
     width: 90vw;
     height: 85vh;
+    max-width: 1600px;
+    max-height: 900px;
     border-radius: 12px;
     font-family: var(--font-primary), -apple-system, sans-serif;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     margin: auto;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    opacity: 1;
+    transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: ytd-modal-appear 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ytd-player-root.ytd-closing {
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+@keyframes ytd-modal-appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .ytd-header {
@@ -25,6 +53,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     background: #0f0f0f;
     flex-shrink: 0;
+    user-select: none;
 }
 
 .ytd-header-title {
@@ -47,6 +76,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .ytd-close-btn:hover {
@@ -54,9 +84,39 @@
     color: #fff;
 }
 
+.ytd-placeholder {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    background: #0f0f0f;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Global Iframe Container */
 #ytd-global-iframe-container {
-    position: fixed;
-    z-index: 10000002;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
     background: #0f0f0f;
     overflow: hidden;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#ytd-global-iframe-container.ytd-container-active {
+    opacity: 1;
+}
+
+#ytd-global-iframe-container.ytd-container-closing {
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+#ytd-global-iframe-container.ytd-container-hidden {
+    display: none !important;
+    opacity: 0;
 }
