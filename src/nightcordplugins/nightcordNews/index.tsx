@@ -39,26 +39,38 @@ export function setNightcordNewsOpen(open: boolean) {
     }
 }
 
-// Called when Discord itself navigates (user clicked a server/channel while the
-// overlay was open). We must only CLOSE the overlay here, never restoreSavedPath —
-// otherwise we'd fight the navigation the user just triggered and bounce them back
-// to whatever page was open before the overlay, instead of the server they clicked.
-function closeWithoutRestoring() {
+function handleDiscordNavigation() {
     if (isNewsOpen) {
-        isNewsOpen = false;
-        savedPath = null;
-        FluxDispatcher.dispatch({ type: "NIGHTCORDNEWS_TOGGLE", isOpen: false });
+        setNightcordNewsOpen(false);
     }
 }
 
-const handleDiscordNavigation = () => {
-    if (isNewsOpen) {
-        closeWithoutRestoring();
-    }
-};
-
 function handleOtherPluginToggle(e: any) {
     if (e.isOpen) {
+        setNightcordNewsOpen(false);
+    }
+}
+
+function handleGlobalClick(e: MouseEvent) {
+    if (!isNewsOpen) return;
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+
+    // If click is inside nightcord news button, news overlay, or its context menu, do not close
+    if (target.closest("#nightcord-news-button") || target.closest("#nightcord-news-overlay") || target.closest("#nightcordnews-context-menu")) {
+        return;
+    }
+
+    // If user clicked any server icon, home button, folder, or channel item in Discord's sidebar, close NightcordNews
+    if (target.closest('div[class*="guilds_"]') || target.closest('nav[class*="guilds_"]') || target.closest('[data-list-item-id^="guildsnav_"]')) {
+        setNightcordNewsOpen(false);
+    }
+}
+
+function handleKeyDown(e: KeyboardEvent) {
+    if (isNewsOpen && e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
         setNightcordNewsOpen(false);
     }
 }
@@ -83,6 +95,10 @@ export default definePlugin({
 
         startPolling();
 
+        document.addEventListener("click", handleGlobalClick, true);
+        document.addEventListener("keydown", handleKeyDown, true);
+        window.addEventListener("popstate", handleDiscordNavigation);
+
         FluxDispatcher.subscribe("CHANNEL_SELECT", handleDiscordNavigation);
         FluxDispatcher.subscribe("GUILD_SELECT", handleDiscordNavigation);
         FluxDispatcher.subscribe("QXCHAT_TOGGLE", handleOtherPluginToggle);
@@ -93,6 +109,10 @@ export default definePlugin({
     stop() {
         removeServerListElement(ServerListRenderPosition.Above, RenderElement);
         forceServerListRerender();
+
+        document.removeEventListener("click", handleGlobalClick, true);
+        document.removeEventListener("keydown", handleKeyDown, true);
+        window.removeEventListener("popstate", handleDiscordNavigation);
 
         FluxDispatcher.unsubscribe("CHANNEL_SELECT", handleDiscordNavigation);
         FluxDispatcher.unsubscribe("GUILD_SELECT", handleDiscordNavigation);

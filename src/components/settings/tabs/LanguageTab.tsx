@@ -14,7 +14,8 @@ import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { Margins } from "@utils/margins";
 import { findByProps, findByPropsLazy } from "@webpack";
-import { FluxDispatcher, SearchableSelect, ConfirmModal } from "@webpack/common";
+import { FluxDispatcher, ConfirmModal } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 import { openModal } from "@utils/modal";
 
 const FLAG_ICON_STYLE: React.CSSProperties = { width: 20, height: 15, borderRadius: 2, verticalAlign: "middle", objectFit: "cover" };
@@ -117,7 +118,7 @@ function LanguageTab() {
 
             {/* Dropdown sélectif — même composant/pattern que "Cloud Backend" dans CloudTab */}
             <div className={Margins.bottom8}>
-                <SearchableSelect
+                <SafeSearchableSelect
                     options={languageOptions}
                     value={languageOptions.find(o => o.value === current)?.value}
                     onChange={v => selectLang(v as Language)}

@@ -898,14 +898,13 @@ function handleContextClean(type: "channel" | "server" | "dm", targetId: string,
     showToast(t("Added to Message Cleaner Queue"), Toasts.Type.SUCCESS);
 }
 
-const ChannelContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { channel?: any; } = {}) => {
-    const { channel } = ctx;
+const ChannelContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { channel?: any; message?: any; } = {}) => {
+    const { channel, message } = ctx;
     if (!channel) return;
 
-    const group = findGroupChildrenByChildId("mark-channel-read", children) ?? children;
-    if (!group) return;
+    const isPrivateDM = channel.type === 1 || channel.type === 3 || (typeof channel.isPrivate === "function" && channel.isPrivate());
 
-    const menuItems: any[] = [<Menu.MenuSeparator key="separator" />];
+    const menuItems: any[] = [];
 
     if (isQueueRunning) {
         menuItems.push(
@@ -913,34 +912,88 @@ const ChannelContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { c
                 label={t("Stop Cleaning")} color="danger" action={stopQueue} />
         );
     } else {
+        // "Close all DMs" and "Leave all groups" at the VERY TOP of DM sidebar list
+        if (isPrivateDM && !message) {
+            menuItems.push(
+                <Menu.MenuItem key="clear-all-dms" id="vc-clear-all-dms"
+                    label={t("Close all DMs")} color="danger"
+                    action={clearAllDMs} />,
+                <Menu.MenuItem key="clear-all-groups" id="vc-clear-all-groups"
+                    label={t("Leave all groups")} color="danger"
+                    action={clearAllGroups} />
+            );
+        }
+
         menuItems.push(
             <Menu.MenuItem key="clean-messages" id="vc-clean-messages"
                 label={t("Clean messages")} color="danger"
-                action={() => handleContextClean(channel.type === 1 || channel.type === 3 ? "dm" : "channel", channel.id, channel.name || "Channel")} />
-        );
-        menuItems.push(
-            <Menu.MenuItem key="clear-all-dms" id="vc-clear-all-dms"
-                label={t("Close all DMs")} color="danger"
-                action={clearAllDMs} />
-        );
-        menuItems.push(
-            <Menu.MenuItem key="clear-all-groups" id="vc-clear-all-groups"
-                label={t("Leave all groups")} color="danger"
-                action={clearAllGroups} />
+                action={() => handleContextClean(isPrivateDM ? "dm" : "channel", channel.id, channel.name || "Channel")} />
         );
     }
 
-    group.push(...menuItems);
+    const topGroup = (
+        <Menu.MenuGroup key="vc-cleaner-top-group">
+            {menuItems}
+            <Menu.MenuSeparator key="separator-cleaner-top" />
+        </Menu.MenuGroup>
+    );
+
+    // Place AT THE VERY TOP of the right-click menu
+    children.unshift(topGroup);
+};
+
+const UserContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { channel?: any; message?: any; user?: any; } = {}) => {
+    const { channel, message, user } = ctx;
+
+    const isPrivateDM = channel && (channel.type === 1 || channel.type === 3 || (typeof channel.isPrivate === "function" && channel.isPrivate()));
+
+    const menuItems: any[] = [];
+
+    if (isQueueRunning) {
+        menuItems.push(
+            <Menu.MenuItem key="stop-cleaning-user" id="vc-stop-cleaning-user"
+                label={t("Stop Cleaning")} color="danger" action={stopQueue} />
+        );
+    } else {
+        // "Close all DMs" and "Leave all groups" at the VERY TOP if right-clicking DM list entry
+        if (isPrivateDM && !message) {
+            menuItems.push(
+                <Menu.MenuItem key="clear-all-dms" id="vc-clear-all-dms"
+                    label={t("Close all DMs")} color="danger"
+                    action={clearAllDMs} />,
+                <Menu.MenuItem key="clear-all-groups" id="vc-clear-all-groups"
+                    label={t("Leave all groups")} color="danger"
+                    action={clearAllGroups} />
+            );
+        }
+
+        if (channel) {
+            menuItems.push(
+                <Menu.MenuItem key="clean-messages-user" id="vc-clean-messages-user"
+                    label={t("Clean messages")} color="danger"
+                    action={() => handleContextClean(isPrivateDM ? "dm" : "channel", channel.id, channel.name || user?.username || "User")} />
+            );
+        }
+    }
+
+    if (menuItems.length === 0) return;
+
+    const topGroup = (
+        <Menu.MenuGroup key="vc-user-cleaner-top-group">
+            {menuItems}
+            <Menu.MenuSeparator key="separator-user-cleaner-top" />
+        </Menu.MenuGroup>
+    );
+
+    // Place AT THE VERY TOP of the right-click menu
+    children.unshift(topGroup);
 };
 
 const GuildContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { guild?: any; } = {}) => {
     const { guild } = ctx;
     if (!guild) return;
 
-    const group = findGroupChildrenByChildId("mark-guild-read", children) ?? findGroupChildrenByChildId("hide-muted-channels", children) ?? children;
-    if (!group) return;
-
-    const menuItems: any[] = [<Menu.MenuSeparator key="separator-guild" />];
+    const menuItems: any[] = [];
 
     if (isQueueRunning) {
         menuItems.push(
@@ -955,7 +1008,47 @@ const GuildContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { gui
         );
     }
 
-    group.push(...menuItems);
+    const topGroup = (
+        <Menu.MenuGroup key="vc-guild-cleaner-top-group">
+            {menuItems}
+            <Menu.MenuSeparator key="separator-guild-cleaner-top" />
+        </Menu.MenuGroup>
+    );
+
+    // Place AT THE VERY TOP of the right-click menu
+    children.unshift(topGroup);
+};
+
+const MessageContextMenuPatch: NavContextMenuPatchCallback = (children, ctx: { channel?: any; message?: any; } = {}) => {
+    const { channel } = ctx;
+    if (!channel) return;
+
+    const isPrivateDM = channel.type === 1 || channel.type === 3 || (typeof channel.isPrivate === "function" && channel.isPrivate());
+
+    const menuItems: any[] = [];
+
+    if (isQueueRunning) {
+        menuItems.push(
+            <Menu.MenuItem key="stop-cleaning-msg" id="vc-stop-cleaning-msg"
+                label={t("Stop Cleaning")} color="danger" action={stopQueue} />
+        );
+    } else {
+        menuItems.push(
+            <Menu.MenuItem key="clean-messages-msg" id="vc-clean-messages-msg"
+                label={t("Clean messages")} color="danger"
+                action={() => handleContextClean(isPrivateDM ? "dm" : "channel", channel.id, channel.name || "Channel")} />
+        );
+    }
+
+    const topGroup = (
+        <Menu.MenuGroup key="vc-msg-cleaner-top-group">
+            {menuItems}
+            <Menu.MenuSeparator key="separator-msg-cleaner-top" />
+        </Menu.MenuGroup>
+    );
+
+    // Place AT THE VERY TOP of the right-click menu
+    children.unshift(topGroup);
 };
 
 export default definePlugin({
@@ -971,8 +1064,9 @@ export default definePlugin({
     contextMenus: {
         "channel-context": ChannelContextMenuPatch,
         "gdm-context": ChannelContextMenuPatch,
-        "user-context": ChannelContextMenuPatch,
-        "guild-context": GuildContextMenuPatch
+        "user-context": UserContextMenuPatch,
+        "guild-context": GuildContextMenuPatch,
+        "message-context": MessageContextMenuPatch
     },
 
     start() {

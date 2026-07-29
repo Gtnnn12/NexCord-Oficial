@@ -6,7 +6,7 @@
 
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { React, ReactDOM, SearchableSelect, Select, showToast, Toasts, UserStore } from "@webpack/common";
+import { React, showToast, Toasts, UserStore } from "@webpack/common";
 
 function getDiscordLocale(): string {
     return (window as any).Vencord?.Webpack?.findByProps?.("getLocale")?.getLocale?.() || navigator.language || "fr";

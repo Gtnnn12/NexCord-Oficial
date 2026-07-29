@@ -5,7 +5,16 @@ import type { UIEvent } from "react";
 import { t, LANGUAGES, LANGUAGE_FLAGS, Language } from "@api/i18n";
 import { useSettings, SettingsStore } from "@api/Settings";
 import { plugins } from "@api/PluginManager";
-import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
+import { SearchableSelect as _SearchableSelect } from "@webpack/common";
+// Wrap in a safe proxy so a missing module never throws at module load time
+const SearchableSelect: typeof _SearchableSelect = new Proxy({} as any, {
+    get: (_, prop) => {
+        try { return (_SearchableSelect as any)?.[prop]; } catch { return undefined; }
+    },
+    apply: (_, thisArg, args) => {
+        try { return (_SearchableSelect as any)?.(...args); } catch { return null; }
+    }
+});
 import { FormSwitch } from "@components/FormSwitch";
 import { openModal, ModalRoot, ModalHeader, ModalContent, ModalFooter, ModalSize } from "@utils/modal";
 import { authorizeCloud, deauthorizeCloud } from "@api/SettingsSync/cloudSetup";
@@ -194,7 +203,7 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
                     </Paragraph>
                     
                     <div style={{ marginTop: "16px" }}>
-                        <SafeSearchableSelect
+                        <SearchableSelect
                             options={Object.entries(LANGUAGES).map(([key, name]) => ({
                                 label: name,
                                 value: key
@@ -203,11 +212,13 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
                             onChange={lang => {
                                 settings.language = lang;
                             }}
-                            renderOptionLabel={opt => (
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <span style={{ fontWeight: 500 }}>{opt.label}</span>
-                                </div>
-                            )}
+                            renderOptionLabel={opt => {
+                                return (
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <span style={{ fontWeight: 500 }}>{opt.label}</span>
+                                    </div>
+                                );
+                            }}
                             renderOptionPrefix={opt => {
                                 const flag = LANGUAGE_FLAGS[opt?.value as Language];
                                 return flag ? <img src={flag} style={FLAG_ICON_STYLE} alt="" /> : null;

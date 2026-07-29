@@ -277,53 +277,55 @@ export function NightcordNewsButton() {
              *  instead of display:none, which is what caused the blank-page bug.
              * ─────────────────────────────────────────────────────────────────── */}
             {ReactDOM.createPortal(
-                <>
-                    {/* Global style – always injected so ::-webkit-scrollbar rules
-                        are available even before the panel opens */}
-                    <style id="nightcord-news-global-style">{`
-                        /* Hide the scrollbar visually while allowing scroll functionality to work */
-                        #nightcord-news-iframe::-webkit-scrollbar {
-                            display: none !important;
-                            width: 0 !important;
-                            height: 0 !important;
-                        }
-                        /* When the panel is visible */
-                        body.nightcord-news-open section[class^="panels_"],
-                        body.nightcord-news-open div[class^="container_"]:has(> div[class^="nameTag_"]) {
-                            display: none !important;
-                        }
-                        body.nightcord-news-open div[class*="wrapper_"][class*="overlay_"] {
-                            opacity: 0 !important;
-                            visibility: hidden !important;
-                        }
-                        body.nightcord-news-open #nightcord-news-button div[class*="wrapper_"][class*="overlay_"] {
-                            opacity: 1 !important;
-                            visibility: visible !important;
-                        }
-                    `}</style>
-
-                    <div
-                        id="nightcord-news-overlay"
-                        style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 72,
-                            bottom: 0,
-                            right: 0,
-                            zIndex: 999,
-                            backgroundColor: "var(--background-primary)",
-                            display: "flex",
-                            flexDirection: "column",
-                            /* Use opacity + pointer-events, NOT display:none.
-                               display:none suspends the iframe in Electron → blank page.
-                               No CSS transition: a transition keeps the element painted
-                               (just invisible) during the fade-out, which can look like
-                               a glitch if Discord repaints underneath it. */
-                            opacity: isOpen ? 1 : 0,
-                            pointerEvents: isOpen ? "auto" : "none",
-                            visibility: isOpen ? "visible" : "hidden",
-                        }}
-                    >
+                <div
+                    id="nightcord-news-overlay"
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 72,
+                        bottom: 0,
+                        right: 0,
+                        zIndex: 999,
+                        backgroundColor: "var(--background-primary)",
+                        display: isOpen ? "flex" : "none",
+                        flexDirection: "column"
+                    }}
+                >
+                    {isOpen && (
+                        <style>{`
+                            /* Hide the scrollbar visually while allowing scroll functionality to work */
+                            #nightcord-news-iframe::-webkit-scrollbar {
+                                display: none !important;
+                                width: 0 !important;
+                                height: 0 !important;
+                            }
+                            /* Hide the profile bar/panels when NightcordNews is open */
+                            section[class^="panels_"],
+                            div[class^="container_"]:has(> div[class^="nameTag_"]) {
+                                display: none !important;
+                            }
+                            /* Hide all native discord pills, except our own */
+                            div[class*="guilds_"] [class*="pill_"] span,
+                            div[class*="guilds_"] [class*="item_"],
+                            [data-list-item-id="guildsnav___home"] [class*="pill_"] span,
+                            [data-list-item-id="guildsnav___home"] [class*="item_"],
+                            div[class*="wrapper_"][class*="overlay_"] span {
+                                opacity: 0 !important;
+                                visibility: hidden !important;
+                                height: 0px !important;
+                                transform: scale(0) !important;
+                            }
+                            #nightcord-news-button [class*="pill_"] span,
+                            #nightcord-news-button [class*="item_"],
+                            #nightcord-news-button div[class*="wrapper_"][class*="overlay_"],
+                            #nightcord-news-button div[class*="wrapper_"][class*="overlay_"] span {
+                                opacity: 1 !important;
+                                visibility: visible !important;
+                                height: 40px !important;
+                                transform: none !important;
+                            }
+                        `}</style>
+                    )}
                         {/* Top Header Bar */}
                         <div style={{
                             height: 38,
@@ -403,8 +405,7 @@ export function NightcordNewsButton() {
                             } as React.CSSProperties}
                             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
                         />
-                    </div>
-                </>,
+                    </div>,
                 document.body
             )}
         </>

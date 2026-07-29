@@ -152,13 +152,24 @@ export function QxChatButton() {
                                 display: none !important;
                             }
                             /* Hide all native discord pills, except our own */
-                            div[class*="wrapper_"][class*="overlay_"] {
+                            div[class*="guilds_"] [class*="pill_"] span,
+                            div[class*="guilds_"] [class*="item_"],
+                            [data-list-item-id="guildsnav___home"] [class*="pill_"] span,
+                            [data-list-item-id="guildsnav___home"] [class*="item_"],
+                            div[class*="wrapper_"][class*="overlay_"] span {
                                 opacity: 0 !important;
                                 visibility: hidden !important;
+                                height: 0px !important;
+                                transform: scale(0) !important;
                             }
-                            #qxchat-button div[class*="wrapper_"][class*="overlay_"] {
+                            #qxchat-button [class*="pill_"] span,
+                            #qxchat-button [class*="item_"],
+                            #qxchat-button div[class*="wrapper_"][class*="overlay_"],
+                            #qxchat-button div[class*="wrapper_"][class*="overlay_"] span {
                                 opacity: 1 !important;
                                 visibility: visible !important;
+                                height: 40px !important;
+                                transform: none !important;
                             }
                         `}</style>
                     )}

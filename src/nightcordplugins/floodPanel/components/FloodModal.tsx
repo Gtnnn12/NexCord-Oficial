@@ -9,7 +9,8 @@ import { Divider } from "@components/Divider";
 import { HeadingPrimary, HeadingSecondary } from "@components/Heading";
 import { Margins } from "@utils/margins";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
-import { RestAPI, SearchableSelect, TextArea, useEffect, useMemo, useRef, useState } from "@webpack/common";
+import { RestAPI, TextArea, useEffect, useMemo, useRef, useState } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 import { t } from "../../autoTranslateNightcord";
 
 const DEFAULT_MESSAGES = [
@@ -190,7 +191,7 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                 {/* Delay */}
                 <HeadingSecondary className={Margins.bottom8}>{t("Delay between messages")}</HeadingSecondary>
                 <div className={Margins.bottom16}>
-                    <SearchableSelect
+                    <SafeSearchableSelect
                         options={delayOptions}
                         value={delayOptions.find(o => o.value === delayMs)?.value}
                         placeholder={t("Choose a delay")}

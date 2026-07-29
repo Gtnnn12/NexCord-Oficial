@@ -4,7 +4,6 @@ import { Logger } from "@utils/Logger";
 import { isObject } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 import { findAll } from "@webpack";
-import { MessageCache, SelectedChannelStore } from "@webpack/common";
 
 interface SpringModule {
     Globals: {
@@ -89,7 +88,7 @@ const settings = definePluginSettings({
     },
     limitMsgCache: {
         type: OptionType.BOOLEAN,
-        description: "Vider le cache des messages des canaux inactifs",
+        description: "Exécuter le nettoyage mémoire (Garbage Collector) sur les canaux inactifs",
         default: true,
         restartNeeded: false,
         onChange(v: boolean) { limitMsgCache = v; if (!v) stopCacheCleaner(); else startCacheCleaner(); }
@@ -133,6 +132,8 @@ const majAnimations = (skip: boolean) => {
 };
 
 let _cacheCleanerInterval: ReturnType<typeof setInterval> | null = null;
+const CHANNEL_STALE_MS = 5 * 60 * 1000;
+
 const forceGC = () => {
     try {
         if (typeof (window as any).gc === "function") {
@@ -146,48 +147,11 @@ const forceGC = () => {
     } catch {}
 };
 
-// BUGFIX: _onGCVisChange and _onGCBlur were registered as separate event
-// listeners in start() while applyBgFpsPatch() also registered _onVisChange
-// and _onBlur for the same events. This caused double-firing on every
-// background transition (both callbacks ran, doubling GC calls and creating
-// race conditions between _installRafThrottle and pruneMessageCaches).
-//
-// Fix: GC/cache logic is now inlined directly into the RAF-throttle callbacks
-// (_onVisChange, _onBlur) so a single listener per event handles everything.
-// The standalone _onGCVisChange/_onGCBlur functions and their separate
-// addEventListener calls are removed.
-
-const CHANNEL_STALE_MS = 5 * 60 * 1000;
-
 function pruneMessageCaches() {
-    try {
-        const activeId = SelectedChannelStore.getChannelId();
-        if (MessageCache && MessageCache._channelMessages) {
-            const cache = MessageCache._channelMessages;
-            if (typeof cache.delete === "function") {
-                for (const cid of Array.from(cache.keys())) {
-                    if (cid !== activeId) cache.delete(cid);
-                }
-            } else {
-                for (const cid in cache) {
-                    if (cid !== activeId) delete cache[cid];
-                }
-            }
-        }
-        const MessageStore = (Vencord as any).Webpack.findByStoreName?.("MessageStore");
-        if (MessageStore && MessageStore._channelMessages) {
-            const cache = MessageStore._channelMessages;
-            if (typeof cache.delete === "function") {
-                for (const cid of Array.from(cache.keys())) {
-                    if (cid !== activeId) cache.delete(cid);
-                }
-            } else {
-                for (const cid in cache) {
-                    if (cid !== activeId) delete cache[cid];
-                }
-            }
-        }
-    } catch {}
+    // Only call native V8 GC — do NOT mutate or delete MessageStore._channelMessages directly,
+    // as wiping channel message objects corrupts Discord's internal pagination state (hasMoreBefore)
+    // and causes older DM history to be cut off with a false "start of message history" header.
+    forceGC();
 }
 
 function startCacheCleaner() {
@@ -195,7 +159,6 @@ function startCacheCleaner() {
     _cacheCleanerInterval = setInterval(() => {
         if (!limitMsgCache) return;
         pruneMessageCaches();
-        forceGC();
     }, CHANNEL_STALE_MS);
 }
 
@@ -229,24 +192,18 @@ function applyBgFpsPatch(enable: boolean) {
     }
 }
 
-// Unified visibilitychange handler: throttles RAF + prunes cache + GC
 function _onVisChange() {
     if (document.hidden) {
         _installRafThrottle();
-        // GC/cache work that previously lived in the separate _onGCVisChange listener
         if (limitMsgCache) pruneMessageCaches();
-        forceGC();
     } else if (document.hasFocus()) {
         _uninstallRafThrottle();
     }
 }
 
-// Unified blur handler: throttles RAF + prunes cache + GC
 function _onBlur() {
     _installRafThrottle();
-    // GC/cache work that previously lived in the separate _onGCBlur listener
     if (limitMsgCache) pruneMessageCaches();
-    forceGC();
 }
 
 function _onFocus() {
@@ -375,8 +332,7 @@ function removeCss() {
 export default definePlugin({
     name: "UI Optimisations",
     description: "Reduces resource consumption: animations, GIFs, message cache, background FPS.",
-    authors: [{ name: ">Snayz",
-     id: 1361345963175968779n }],
+    authors: [{ name: ">Snayz", id: 1361345963175968779n }],
     tags: ["Utility", "Appearance", "Performance"],
     searchTerms: ["performance", "optimization", "lag", "animation", "fps", "ram", "memory", "gif", "low-end"],
     settings,
@@ -384,13 +340,12 @@ export default definePlugin({
     patches: [
         {
             find: "dotCycle",
-            predicate: () => settings.store.disableTypingDots && !isPluginEnabled("NoTypingAnimation"),
+            predicate: () => settings.store.disableTypingDots && !isPluginEnabled("DisableAnimations"),
             replacement: {
                 match: /focused:(\i)/g,
                 replace: (_, focused) => `_focused:${focused}=false`
             }
         },
-
         {
             find: /getUserAvatarURL.{0,80}animated/,
             predicate: () => settings.store.noGifAvatars,
@@ -399,7 +354,6 @@ export default definePlugin({
                 replace: (_, pre) => `${pre}false`
             }
         },
-
         {
             find: /autoPlay[^:]{0,5}:true/,
             predicate: () => settings.store.noVideoAutoplay,
@@ -408,7 +362,6 @@ export default definePlugin({
                 replace: (_, s) => `autoPlay${s}:false`
             }
         },
-
         {
             find: "soundboard_sound_hover",
             predicate: () => settings.store.noSoundboardPreview,
@@ -431,9 +384,6 @@ export default definePlugin({
         buildAndInjectCss();
 
         if (limitMsgCache) startCacheCleaner();
-        // applyBgFpsPatch registers its own unified visibilitychange/blur/focus
-        // listeners (_onVisChange/_onBlur/_onFocus) which now also handle GC/cache.
-        // No separate _onGCVisChange/_onGCBlur listeners needed.
         if (settings.store.reduceFpsBackground) applyBgFpsPatch(true);
     },
 

@@ -11,7 +11,8 @@ import { SafetyIcon as VSafetyIcon } from "@components/Icons";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { Avatar, Button, ChannelStore, FluxDispatcher, Forms, GuildStore, IconUtils, React, RelationshipStore, RestAPI, ScrollerThin, SearchableSelect, Select, showToast, Text, Toasts, Tooltip, UserStore } from "@webpack/common";
+import { Avatar, Button, ChannelStore, FluxDispatcher, Forms, GuildStore, IconUtils, React, RelationshipStore, RestAPI, ScrollerThin, showToast, Text, Toasts, Tooltip, UserStore } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 
 import { t } from "../autoTranslateNightcord";
 
@@ -1102,7 +1103,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                 <UsersIcon width={12} height={12} />
                                 {t("Target Users")}
                             </div>
-                            <SearchableSelect
+                            <SafeSearchableSelect
                                 options={friends.map((f: any) => ({
                                     label: f.globalName || f.username,
                                     value: f.id
@@ -1139,7 +1140,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                 <ServerIcon />
                                 {t("Server")}
                             </div>
-                            <SearchableSelect
+                            <SafeSearchableSelect
                                 options={guilds.map((g: any) => ({ label: g.name, value: g.id }))}
                                 value={newGuildId}
                                 onChange={(val: string) => setNewGuildId(val)}
@@ -1153,7 +1154,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                     <ClockIcon width={12} height={12} />
                                     {t("Duration")}
                                 </div>
-                                <Select
+                                <SafeSearchableSelect
                                     options={[
                                         { label: t("1 Hour"), value: "1h" },
                                         { label: t("6 Hours"), value: "6h" },
@@ -1162,9 +1163,9 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                         { label: t("1 Week"), value: "1w" },
                                         { label: t("Permanent"), value: "0" },
                                     ]}
-                                    isSelected={(v: string) => newDuration === v}
-                                    select={(v: string) => setNewDuration(v)}
-                                    serialize={(v: string) => v}
+                                    value={newDuration}
+                                    onChange={(v: string) => setNewDuration(v)}
+                                    closeOnSelect={true}
                                 />
                             </div>
                             <div>
@@ -1172,7 +1173,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                     <LogsIcon />
                                     {t("Max Uses")}
                                 </div>
-                                <Select
+                                <SafeSearchableSelect
                                     options={[
                                         { label: t("Unlimited"), value: "0" },
                                         { label: t("1 use"), value: "1" },
@@ -1182,9 +1183,9 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                                         { label: t("25 uses"), value: "25" },
                                         { label: t("50 uses"), value: "50" },
                                     ]}
-                                    isSelected={(v: string) => newMaxUses === v}
-                                    select={(v: string) => setNewMaxUses(v)}
-                                    serialize={(v: string) => v}
+                                    value={newMaxUses}
+                                    onChange={(v: string) => setNewMaxUses(v)}
+                                    closeOnSelect={true}
                                 />
                             </div>
                         </div>

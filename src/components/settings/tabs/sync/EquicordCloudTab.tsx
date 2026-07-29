@@ -34,7 +34,8 @@ import { localStorage } from "@utils/localStorage";
 import { Margins } from "@utils/margins";
 import { useForceUpdater } from "@utils/react";
 import { findComponentByCodeLazy } from "@webpack";
-import { Alerts, SearchableSelect, Select, useState } from "@webpack/common";
+import { Alerts, Select, useState } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 
 const ICON_STYLE: React.CSSProperties = { width: 20, height: 20, borderRadius: 4, verticalAlign: "middle" };
 
@@ -124,7 +125,7 @@ function CloudTab() {
             </Paragraph>
 
             <div className={Margins.bottom8}>
-                <SearchableSelect
+                <SafeSearchableSelect
                     options={cloudBackendOptions}
                     value={cloudBackendOptions.find(o => o.value === cloud.url)?.value}
                     onChange={v => changeUrl(v)}
@@ -184,15 +185,15 @@ function CloudTab() {
                 This setting controls how settings move between <strong>this device</strong> and the cloud. You can let changes flow both ways, or choose one place to be the main source of truth.
             </Paragraph>
 
-            <Select
+            <SafeSearchableSelect
                 options={syncDirectionOptions}
-                isSelected={v => v === (localStorage.Vencord_cloudSyncDirection ?? "both")}
-                select={v => {
+                value={localStorage.Vencord_cloudSyncDirection ?? "both"}
+                onChange={v => {
                     localStorage.Vencord_cloudSyncDirection = v;
                     forceUpdate();
                 }}
-                serialize={v => v}
-                isDisabled={!syncEnabled}
+                disabled={!syncEnabled}
+                closeOnSelect={true}
             />
 
             <Flex gap="8px" className={Margins.top16}>

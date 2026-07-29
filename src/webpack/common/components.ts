@@ -65,7 +65,12 @@ export const Select = waitForComponent<t.Select>("Select",
     || filters.componentByCode("isSelected:", "serialize:", "closeOnSelect:")(m)
     || filters.componentByCode("onSelectionChange:", "isSelected:", "serialize:")(m)
 );
-export const SearchableSelect = waitForComponent<t.SearchableSelect>("SearchableSelect", filters.componentByCode('?"multiple":"single",required:'));
+export const SearchableSelect = waitForComponent<t.SearchableSelect>("SearchableSelect",
+    m => filters.componentByCode('?"multiple":"single",required:')(m)
+    // Fallback for Discord 2025+ bundle where "single"/"multiple" string changed:
+    || filters.componentByCode('required:', 'multi:', 'filterText:')(m)
+    || filters.componentByCode('required:', '"multiple"', 'filterText:')(m)
+);
 export const Slider = waitForComponent<t.Slider>("Slider", filters.componentByCode("markDash", "this.renderMark("));
 export const Popout = waitForComponent<t.Popout>("Popout", filters.componentByCode("ref:this.ref,", "renderPopout:this.renderPopout,"));
 export const Dialog = waitForComponent<t.Dialog>("Dialog", filters.componentByCode('role:"dialog",tabIndex:-1'));

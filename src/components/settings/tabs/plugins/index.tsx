@@ -38,7 +38,8 @@ import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { useAwaiter } from "@utils/react";
-import { Alerts, lodash, Parser, React, SearchableSelect, Select as DiscordSelect, TextInput, Toasts, Tooltip, useCallback, useMemo, useState } from "@webpack/common";
+import { Alerts, lodash, Parser, React, Select as DiscordSelect, TextInput, Toasts, Tooltip, useCallback, useMemo, useState } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 import { JSX } from "react";
 import { t } from "@api/i18n";
 
@@ -815,7 +816,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                         <TextInput autoFocus value={searchInput} placeholder={t("Find a plugin, tag, or author...")} onChange={onSearch} />
                     </ErrorBoundary>
                     <div className={cl("filter-buttons")} style={{ minWidth: 220 }}>
-                        <SearchableSelect
+                        <SafeSearchableSelect
                             options={makeCategoryOptions(totalOtherPlugins)}
                             value={makeCategoryOptions(totalOtherPlugins).find(o => o.value === searchValue.status)?.value ?? SearchStatus.NIGHTCORD}
                             onChange={(v: any) => {
@@ -873,6 +874,23 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                                     {t("User Plugins — from your local folder")}
                                 </span>
                             </div>
+                            <div style={{
+                                background: "rgba(88, 101, 242, 0.08)",
+                                border: "1px solid rgba(88, 101, 242, 0.25)",
+                                borderRadius: 8,
+                                padding: "10px 14px",
+                                marginBottom: 16,
+                                fontSize: 13,
+                                color: "var(--text-normal)",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 10
+                            }}>
+                                <span style={{ fontSize: 18 }}>ℹ️</span>
+                                <div>
+                                    {t("Note: User plugins require installing the client via a local build, not from the website installer.")}
+                                </div>
+                            </div>
                             {nightcordPlugins.length > 0 || othersVisible.length > 0 ? (
                                 <div className={cl("grid")}>
                                     {[...nightcordPlugins, ...othersVisible]}
@@ -881,7 +899,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                                 <div style={{ textAlign: "center", padding: "48px 16px", color: "var(--text-muted)" }}>
                                     <div style={{ fontSize: 32, marginBottom: 12 }}>📁</div>
                                     <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 8 }}>{t("No user plugins found")}</div>
-                                    <div style={{ fontSize: 13 }}>{t("Add .tsx files to your")} <code>Documents/Nightcord/userplugins/</code> {t("folder and rebuild.")}</div>
+                                    <div style={{ fontSize: 13 }}>{t("Add .tsx files to your")} <code>Documents/Nightcord/userplugins/</code> {t("folder and rebuild with a local build.")}</div>
                                 </div>
                             )}
                         </>

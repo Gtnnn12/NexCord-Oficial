@@ -18,7 +18,8 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { findCssClassesLazy } from "@webpack";
-import { Button, React, SearchableSelect, TextInput, useEffect, useState } from "@webpack/common";
+import { Button, React, TextInput, useEffect, useState } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 
 import { ThemeCard } from "./ThemeCard";
 
@@ -210,7 +211,7 @@ function ThemeTab() {
                         <div className={classes(Margins.bottom20, "vce-search-grid")}>
                             <TextInput value={searchValue.value} placeholder="Search for a theme..." onChange={onSearch} />
                             <div className={InputStyles.inputWrapper}>
-                                <SearchableSelect
+                                <SafeSearchableSelect
                                     options={[
                                         { label: "Show All", value: SearchStatus.ALL, default: true },
                                         { label: "Show Themes", value: SearchStatus.THEME },

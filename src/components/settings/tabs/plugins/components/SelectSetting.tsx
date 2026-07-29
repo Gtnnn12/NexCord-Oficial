@@ -17,7 +17,8 @@
 */
 
 import { PluginOptionSelect } from "@utils/types";
-import { React, Select, useState } from "@webpack/common";
+import { React, useState } from "@webpack/common";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 
 import { resolveError, SettingProps, SettingsSection } from "./Common";
 
@@ -40,15 +41,14 @@ export function SelectSetting({ option, pluginSettings, definedSettings, onChang
 
     return (
         <SettingsSection name={id} description={option.description} error={error}>
-            <Select
+            <SafeSearchableSelect
                 placeholder={option.placeholder ?? "Select an option"}
                 options={option.options}
+                value={state}
                 maxVisibleItems={5}
                 closeOnSelect={true}
-                select={handleChange}
-                isSelected={v => v === state}
-                serialize={v => String(v)}
-                isDisabled={option.disabled?.call(definedSettings) ?? false}
+                onChange={handleChange}
+                disabled={option.disabled?.call(definedSettings) ?? false}
                 {...option.componentProps}
             />
         </SettingsSection>

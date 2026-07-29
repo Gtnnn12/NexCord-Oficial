@@ -6,7 +6,7 @@
 
 import "./styles.css";
 
-import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
+import { addContextMenuPatch, findGroupChildrenByChildId, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { t } from "../autoTranslateNightcord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
@@ -214,8 +214,8 @@ const patchGuildContext: NavContextMenuPatchCallback = (children, { guild }) => 
     try {
         if (!guild) return;
 
-        children.push(
-            <Menu.MenuSeparator key="las-sep" />,
+        const group = findGroupChildrenByChildId("leave-guild", children) ?? children;
+        const item = (
             <Menu.MenuItem
                 id="leave-all-servers"
                 key="leave-all-servers"
@@ -224,6 +224,15 @@ const patchGuildContext: NavContextMenuPatchCallback = (children, { guild }) => 
                 action={() => openModal(props => <LeaveAllServersModal rootProps={props} />)}
             />
         );
+
+        if (Array.isArray(group)) {
+            const idx = group.findIndex((c: any) => c?.props?.id === "leave-guild");
+            if (idx >= 0) {
+                group.splice(idx + 1, 0, item);
+            } else {
+                group.push(item);
+            }
+        }
     } catch (e) {
         console.error("[LeaveAllServers] Context menu patch error:", e);
     }

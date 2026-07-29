@@ -7,7 +7,7 @@
 import "./styles.css";
 
 import definePlugin from "@utils/types";
-import { React, ChannelStore, FluxDispatcher, UserStore, ReactDOM, createRoot } from "@webpack/common";
+import { React, ChannelStore, UserStore, ReactDOM, createRoot, FluxDispatcher, Constants } from "@webpack/common";
 import { findByPropsLazy } from "@webpack";
 import { sendMessage } from "@utils/discord";
 import ErrorBoundary from "@components/ErrorBoundary";
@@ -20,144 +20,335 @@ const MessageStore = findByPropsLazy("getMessages");
 const ChannelStoreVencord = findByPropsLazy("getChannel", "hasChannel");
 const ReadStateUtils = findByPropsLazy("ack", "ackChannel");
 const MessageActions = findByPropsLazy("fetchMessages", "sendMessage");
+const PresenceStore = findByPropsLazy("getStatus", "getState");
+const SelectedChannelStore = findByPropsLazy("getChannelId", "getVoiceChannelId");
+const RestAPI = findByPropsLazy("get", "post");
+const Endpoints = findByPropsLazy("MESSAGES");
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-function formatTime(ts: string | number | Date): string {
+function getAvatarUrl(user: any): string {
+    if (!user) return "https://cdn.discordapp.com/embed/avatars/0.png";
+    if (typeof user.getAvatarURL === "function") {
+        try {
+            const url = user.getAvatarURL(undefined, 80, true);
+            if (url) return url;
+        } catch { }
+    }
+    const id = user.id ?? "0";
+    const hash = user.avatar;
+    if (!hash) {
+        const index = Number((BigInt(id) >> 22n) % 6n);
+        return `https://cdn.discordapp.com/embed/avatars/${index}.png`;
+    }
+    const ext = hash.startsWith("a_") ? "gif" : "webp";
+    return `https://cdn.discordapp.com/avatars/${id}/${hash}.${ext}?size=80`;
+}
+
+function formatHeaderTime(ts: string | number | Date): string {
     const d = new Date(ts);
+    if (isNaN(d.getTime())) return "";
     const now = new Date();
-    if (d.toDateString() === now.toDateString())
-        return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    return d.toLocaleDateString([], { day: "2-digit", month: "2-digit" })
-        + " " + d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const isToday = d.toDateString() === now.toDateString();
+    const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    if (isToday) return `Aujourd'hui à ${timeStr}`;
+
+    const yesterday = new Date();
+    yesterday.setDate(now.getDate() - 1);
+    if (d.toDateString() === yesterday.toDateString()) return `Hier à ${timeStr}`;
+
+    return `${d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "numeric" })} ${timeStr}`;
 }
 
-function getPreview(msg: any): { text: string; attach: boolean; } {
-    if (msg.type === 3) return { text: t("📞 Call"), attach: true };
-    if (msg.content?.trim()) return { text: msg.content.trim(), attach: false };
-    if (msg.attachments?.length)
-        return { text: t("📎 {count} attachment(s)").replace("{count}", msg.attachments.length.toString()), attach: true };
-    if (msg.stickers?.length) return { text: t("🎭 Sticker"), attach: true };
-    if (msg.embeds?.length) return { text: t("🔗 Embed"), attach: true };
-    return { text: t("📷 Media"), attach: true };
+function formatCompactTime(ts: string | number | Date): string {
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function avatarUrl(userId: string, hash: string | null): string {
-    if (!hash) return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(userId) >> 22n) % 6n)}.png`;
-    return `https://cdn.discordapp.com/avatars/${userId}/${hash}.${hash.startsWith("a_") ? "gif" : "webp"}?size=64`;
+function formatDateDivider(ts: string | number | Date): string {
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 }
 
 // ── Tooltip Component ──────────────────────────────────────────────────────
 
 function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
     const [messages, setMessages] = React.useState<any[]>([]);
-    
+    const [replyText, setReplyText] = React.useState("");
+    const [sending, setSending] = React.useState(false);
+    const scrollerRef = React.useRef<HTMLDivElement>(null);
+
+    // Hide immediately if user is inside this conversation
+    const activeChannelId = SelectedChannelStore?.getChannelId?.();
+    if (activeChannelId === channelId) return null;
+
+    const channel = React.useMemo(() => {
+        try { return ChannelStore?.getChannel(channelId) ?? ChannelStoreVencord?.getChannel(channelId); } catch { return null; }
+    }, [channelId]);
+
     const unread: number = React.useMemo(() => {
         try { return ReadStateStore.getUnreadCount(channelId) ?? 0; } catch { return 0; }
     }, [channelId]);
 
     React.useEffect(() => {
         let isMounted = true;
-        
+
         const loadMessages = async () => {
-            let msgs = MessageStore?.getMessages(channelId);
-            
-            if (!msgs || !msgs._array || msgs._array.length === 0) {
-                try {
-                    await MessageActions?.fetchMessages({ channelId });
-                    msgs = MessageStore?.getMessages(channelId);
-                } catch (e) {
-                    console.warn("[PreviewMessage] Failed to fetch messages", e);
+            const msgs = MessageStore?.getMessages(channelId);
+
+            if (msgs && msgs._array && msgs._array.length > 0) {
+                if (isMounted) {
+                    const count = Math.max(unread, 6);
+                    setMessages(msgs._array.slice(-count));
+                    setTimeout(() => {
+                        if (scrollerRef.current) {
+                            scrollerRef.current.scrollTop = scrollerRef.current.scrollHeight;
+                        }
+                    }, 50);
                 }
+                return;
             }
-            
-            if (isMounted) {
-                let localMsgs = [];
-                if (msgs && msgs._array && msgs._array.length > 0) {
-                    localMsgs = [...msgs._array].reverse();
+
+            try {
+                const url = Constants?.Endpoints?.MESSAGES
+                    ? Constants.Endpoints.MESSAGES(channelId)
+                    : (Endpoints?.MESSAGES ? Endpoints.MESSAGES(channelId) : `/channels/${channelId}/messages`);
+
+                const res = await RestAPI?.get?.({
+                    url,
+                    query: { limit: 10 },
+                    retries: 2
+                });
+
+                if (isMounted && res?.body && Array.isArray(res.body)) {
+                    const rawList = [...res.body].reverse();
+                    setMessages(rawList);
+                    setTimeout(() => {
+                        if (scrollerRef.current) {
+                            scrollerRef.current.scrollTop = scrollerRef.current.scrollHeight;
+                        }
+                    }, 50);
+                    return;
                 }
-                setMessages(localMsgs);
+            } catch (e) {
+                console.warn("[PreviewMessage] RestAPI fetch failed, trying fallback", e);
+            }
+
+            // Fallback: fetch via MessageActions if RestAPI direct fetch failed or was empty
+            try {
+                await MessageActions?.fetchMessages({ channelId, limit: 10 });
+                const retryMsgs = MessageStore?.getMessages(channelId);
+                if (isMounted && retryMsgs && retryMsgs._array) {
+                    const count = Math.max(unread, 6);
+                    setMessages(retryMsgs._array.slice(-count));
+                    setTimeout(() => {
+                        if (scrollerRef.current) {
+                            scrollerRef.current.scrollTop = scrollerRef.current.scrollHeight;
+                        }
+                    }, 50);
+                }
+            } catch (e) {
+                console.warn("[PreviewMessage] Fallback fetch failed", e);
             }
         };
 
         loadMessages();
         return () => { isMounted = false; };
-    }, [channelId]);
+    }, [channelId, unread]);
 
-    const author = messages[0]?.author ?? null;
-    const name = author?.global_name ?? author?.globalName ?? author?.username ?? null;
-    const avatar = author ? avatarUrl(author.id, author.avatar) : null;
+    // Recipient info
+    const recipientUser = React.useMemo(() => {
+        if (!channel) return null;
+        if (channel.type === 1 || channel.recipients?.length === 1) {
+            const rId = channel.recipients?.[0] ?? channel.rawRecipients?.[0]?.id;
+            if (rId) return UserStore?.getUser(rId);
+        }
+        return null;
+    }, [channel]);
 
-    // Hide tooltip if opened or replied
-    if (unread === 0) return null;
+    const title = recipientUser
+        ? (recipientUser.globalName ?? recipientUser.username)
+        : (channel?.name ?? t("Aperçu du chat"));
 
-    // Position: right of the DM row, stay in viewport
-    const W = 320, OFFSET = 14;
+    const channelAvatar = recipientUser
+        ? getAvatarUrl(recipientUser)
+        : "https://cdn.discordapp.com/embed/avatars/0.png";
+
+    // Status
+    const status = React.useMemo(() => {
+        if (recipientUser && PresenceStore?.getStatus) {
+            try { return PresenceStore.getStatus(recipientUser.id); } catch { return null; }
+        }
+        return null;
+    }, [recipientUser]);
+
+    if (unread === 0 && messages.length === 0) return null;
+
+    // Position: compact dimensions (W: 310, H: 280)
+    const W = 310, H = 280, OFFSET = 12;
     let left = rect.right + OFFSET;
-    let top = rect.top + rect.height / 2 - 40;
-    if (left + W > window.innerWidth - 8) left = rect.left - W - OFFSET;
-    if (top + 260 > window.innerHeight - 8) top = window.innerHeight - 268;
-    if (top < 8) top = 8;
+    let top = rect.top + rect.height / 2 - H / 2;
+    if (left + W > window.innerWidth - 10) left = rect.left - W - OFFSET;
+    if (left < 10) left = 10;
+    if (top + H > window.innerHeight - 10) top = window.innerHeight - H - 10;
+    if (top < 10) top = 10;
+
+    const handleSend = async () => {
+        const val = replyText.trim();
+        if (!val || sending) return;
+        setSending(true);
+        try {
+            await sendMessage(channelId, { content: val });
+            const c = ChannelStoreVencord?.getChannel(channelId) ?? ChannelStore?.getChannel(channelId);
+            if (c) ReadStateUtils?.ackChannel?.(c);
+            setReplyText("");
+            hide(0);
+        } catch (err) {
+            console.error("[PreviewMessage] Failed to send reply", err);
+        } finally {
+            setSending(false);
+        }
+    };
 
     return (
-        <div className="pm-tooltip" style={{ top, left }}>
-            <div className="pm-card">
-                {/* Header */}
-                {name && (
-                    <div className="pm-header">
-                        {avatar && <img className="pm-avatar" src={avatar} alt="" />}
-                        <span className="pm-username">{name}</span>
-                        {unread > 0 && (
-                            <span className="pm-badge">{unread > 99 ? "99+" : unread}</span>
+        <div className="pm-tooltip-container" style={{ top, left, width: W }}>
+            <div className="pm-chat-popover">
+                {/* Real Discord Header */}
+                <div className="pm-chat-header">
+                    <div className="pm-header-avatar-wrapper">
+                        <img className="pm-header-avatar" src={channelAvatar} alt="" />
+                        {status && <div className={`pm-status-dot pm-status-${status}`} />}
+                    </div>
+                    <div className="pm-header-info">
+                        <span className="pm-header-name">{title}</span>
+                        <span className="pm-header-sub">
+                            {unread > 0 ? `${unread} message${unread > 1 ? "s" : ""} non lu${unread > 1 ? "s" : ""}` : t("Discussion en direct")}
+                        </span>
+                    </div>
+                    {unread > 0 && <div className="pm-unread-pill">{unread > 99 ? "99+" : unread}</div>}
+                </div>
+
+                {/* Real Discord Messages List */}
+                <div className="pm-chat-scroller" ref={scrollerRef}>
+                    <ol className="pm-chat-messages-inner" role="list">
+                        {messages.length === 0 ? (
+                            <div className="pm-empty-chat">
+                                <div className="pm-empty-spinner" />
+                                <span>{t("Chargement...")}</span>
+                            </div>
+                        ) : (
+                            messages.map((m, idx) => {
+                                const prev = messages[idx - 1];
+                                const author = m.author;
+                                const authorName = author?.global_name ?? author?.globalName ?? author?.username ?? "User";
+                                const avatar = getAvatarUrl(author);
+
+                                // Grouping
+                                const isGroupStart = !prev
+                                    || prev.author?.id !== author?.id
+                                    || (new Date(m.timestamp).getTime() - new Date(prev.timestamp).getTime() > 5 * 60 * 1000)
+                                    || Boolean(m.referencedMessage);
+
+                                const showDateDivider = !prev || (new Date(m.timestamp).toDateString() !== new Date(prev.timestamp).toDateString());
+
+                                return (
+                                    <React.Fragment key={m.id || idx}>
+                                        {showDateDivider && (
+                                            <div className="pm-date-divider">
+                                                <span className="pm-date-content">{formatDateDivider(m.timestamp)}</span>
+                                            </div>
+                                        )}
+                                        <li className={`pm-message-item ${isGroupStart ? "pm-group-start" : "pm-consecutive"}`}>
+                                            <div className="pm-message-wrapper">
+                                                {/* Reply Context */}
+                                                {m.referencedMessage && (
+                                                    <div className="pm-reply-context">
+                                                        <img src={getAvatarUrl(m.referencedMessage.author)} className="pm-reply-avatar" alt="" />
+                                                        <span className="pm-reply-name">@{m.referencedMessage.author?.global_name ?? m.referencedMessage.author?.username ?? "User"}</span>
+                                                        <span className="pm-reply-content">
+                                                            {m.referencedMessage.content || (m.referencedMessage.attachments?.length ? "📎 [Pièce jointe]" : "...")}
+                                                        </span>
+                                                    </div>
+                                                )}
+
+                                                <div className="pm-message-body">
+                                                    {isGroupStart ? (
+                                                        <>
+                                                            <img className="pm-message-avatar" src={avatar} alt="" />
+                                                            <div className="pm-message-header">
+                                                                <span className="pm-message-author">{authorName}</span>
+                                                                <span className="pm-message-timestamp">{formatHeaderTime(m.timestamp)}</span>
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <div className="pm-message-compact-time">{formatCompactTime(m.timestamp)}</div>
+                                                    )}
+
+                                                    <div className="pm-message-content">
+                                                        {m.content && <span>{m.content}</span>}
+                                                    </div>
+
+                                                    {/* Attachments */}
+                                                    {m.attachments?.length > 0 && (
+                                                        <div className="pm-message-attachments">
+                                                            {m.attachments.map((att: any, aIdx: number) => {
+                                                                const isImg = att.content_type?.startsWith("image/") || /\.(png|jpe?g|gif|webp)$/i.test(att.filename || att.url || "");
+                                                                return isImg ? (
+                                                                    <img key={att.id || aIdx} src={att.proxy_url || att.url} alt="" className="pm-attachment-img" />
+                                                                ) : (
+                                                                    <div key={att.id || aIdx} className="pm-attachment-file">
+                                                                        <span>📎 {att.filename}</span>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    )}
+
+                                                    {/* Embeds */}
+                                                    {m.embeds?.length > 0 && (
+                                                        <div className="pm-message-embeds">
+                                                            {m.embeds.map((emb: any, eIdx: number) => (
+                                                                <div key={eIdx} className="pm-embed-card" style={{ borderLeftColor: emb.color ? `#${emb.color.toString(16).padStart(6, "0")}` : "#5865f2" }}>
+                                                                    {emb.title && <div className="pm-embed-title">{emb.title}</div>}
+                                                                    {emb.description && <div className="pm-embed-desc">{emb.description}</div>}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </React.Fragment>
+                                );
+                            })
                         )}
-                    </div>
-                )}
+                    </ol>
+                </div>
 
-                {/* Messages */}
-                {messages.length === 0 ? (
-                    <div className="pm-empty">
-                        {unread > 0
-                            ? t("{count} unread message(s)").replace("{count}", unread.toString())
-                            : t("No messages to display")}
-                    </div>
-                ) : (
-                    <div className="pm-messages">
-                        {messages.slice(0, unread > 0 ? unread : 1).reverse().map((m: any, i: number) => {
-                            const { text, attach } = getPreview(m);
-                            return (
-                                <div className="pm-message" key={m.id ?? i}>
-                                    <span className="pm-message-time">{formatTime(m.timestamp)}</span>
-                                    <span className={`pm-message-content${attach ? " pm-attachment" : ""}`}>{text}</span>
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
-
-                {/* Reply Input */}
-                <div className="pm-reply">
-                    <input 
-                        type="text" 
-                        className="pm-reply-input" 
-                        placeholder={t("Reply to {name}...").replace("{name}", name ?? t("this user"))} 
-                        autoFocus 
-                        onKeyDown={async e => {
-                            if (e.key === "Enter") {
-                                const val = e.currentTarget.value.trim();
-                                if (!val) return;
-                                e.preventDefault();
-                                e.currentTarget.value = "";
-                                try {
-                                    await sendMessage(channelId, { content: val });
-                                    const channel = ChannelStoreVencord?.getChannel(channelId);
-                                    if (channel) ReadStateUtils?.ackChannel?.(channel);
-                                    hide(0);
-                                } catch (err) {
-                                    console.error("[PreviewMessage] Failed to reply", err);
+                {/* Real Discord Chat Input */}
+                <div className="pm-chat-input-bar">
+                    <div className="pm-input-wrapper">
+                        <input
+                            type="text"
+                            className="pm-input-field"
+                            placeholder={t("Répondre à {name}...").replace("{name}", title)}
+                            value={replyText}
+                            onChange={e => setReplyText(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSend();
                                 }
-                            }
-                        }} 
-                    />
+                            }}
+                        />
+                        <button className="pm-send-button" onClick={handleSend} disabled={!replyText.trim() || sending}>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -192,7 +383,7 @@ function show(channelId: string, rect: DOMRect) {
     renderFn?.(<SafeTooltip channelId={channelId} rect={rect} />);
 }
 
-function hide(delay = 80) {
+function hide(delay = 150) {
     if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
     hideTimer = setTimeout(() => renderFn?.(null), delay);
 }
@@ -200,7 +391,6 @@ function hide(delay = 80) {
 // ── DOM Scanning ───────────────────────────────────────────────────────────
 
 function getChannelId(el: Element): string | null {
-    // DM items link to /channels/@me/<channelId>
     const anchor = el.matches("a[href]") ? el : el.querySelector("a[href]");
     if (!anchor) return null;
     const m = anchor.getAttribute("href")?.match(/\/channels\/@me\/(\d{10,21})/);
@@ -208,13 +398,17 @@ function getChannelId(el: Element): string | null {
 }
 
 function shouldShow(channelId: string): boolean {
-    // Don't show if no unread messages
+    // 1. Hide if user is currently in this channel
     try {
-        const unread = ReadStateStore.getUnreadCount(channelId) ?? 0;
+        if (SelectedChannelStore?.getChannelId?.() === channelId) return false;
+    } catch { }
+
+    // 2. Hide if no unread messages
+    try {
+        const unread = ReadStateStore?.getUnreadCount?.(channelId) ?? 0;
         if (unread === 0) return false;
     } catch { return false; }
 
-    // Show if we have cached messages OR at least unread count
     return true;
 }
 
@@ -229,7 +423,10 @@ function attachHandlers(el: HTMLElement) {
         show(channelId, el.getBoundingClientRect());
     });
 
-    el.addEventListener("mouseleave", () => hide());
+    el.addEventListener("mouseleave", () => hide(150));
+
+    // Hide immediately when clicking into the conversation
+    el.addEventListener("click", () => hide(0));
 }
 
 function scan(root: Document | Element = document) {
@@ -253,12 +450,6 @@ function startObserver() {
     scan(document);
 }
 
-// ── Document-level handlers (named so they can be removed in stop) ─────────
-// BUGFIX: previously these were inline anonymous lambdas inside start(), which
-// means removeEventListener could never find them to remove them. Each call to
-// start() (e.g. plugin reload) would add an extra pair of listeners that were
-// never cleaned up, accumulating indefinitely and causing latency.
-
 function _onDocMouseEnter(e: Event) {
     if ((e.target as HTMLElement)?.closest?.("#nc-pm-root")) {
         if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
@@ -266,25 +457,34 @@ function _onDocMouseEnter(e: Event) {
 }
 
 function _onDocMouseLeave(e: Event) {
-    if ((e.target as HTMLElement)?.closest?.("#nc-pm-root")) hide();
+    if ((e.target as HTMLElement)?.closest?.("#nc-pm-root")) hide(150);
+}
+
+function _onChannelSelect() {
+    hide(0);
 }
 
 // ── Plugin ─────────────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "PreviewMessage",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Hover over a DM in your inbox to preview unread messages without opening the conversation. Only shows when there are unread messages.",
-    authors: [{ name: "nightcord",
-     id: 0n }],
+    authors: [{
+        name: "nightcord",
+        id: 0n
+    }],
     tags: ["Chat", "Utility"],
 
     start() {
         startObserver();
 
-        // Stay open when hovering the tooltip itself
         document.addEventListener("mouseenter", _onDocMouseEnter, true);
         document.addEventListener("mouseleave", _onDocMouseLeave, true);
+
+        try {
+            FluxDispatcher?.subscribe?.("CHANNEL_SELECT", _onChannelSelect);
+        } catch { }
     },
 
     stop() {
@@ -293,9 +493,12 @@ export default definePlugin({
         renderFn?.(null);
         container?.remove(); container = null; renderFn = null;
 
-        // Remove named document listeners (was missing — caused listener leaks)
         document.removeEventListener("mouseenter", _onDocMouseEnter, true);
         document.removeEventListener("mouseleave", _onDocMouseLeave, true);
+
+        try {
+            FluxDispatcher?.unsubscribe?.("CHANNEL_SELECT", _onChannelSelect);
+        } catch { }
 
         document.querySelectorAll<HTMLElement>("[data-pm-hooked]").forEach(el => {
             delete el.dataset.pmHooked;

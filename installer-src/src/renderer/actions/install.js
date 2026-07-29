@@ -351,7 +351,8 @@ async function injectShims(paths) {
             if (await safeExists(appAsar)) {
                 let renameSuccess = false;
                 let lastErr = null;
-                for (let i = 0; i < 5; i++) {
+                const MAX_RETRIES = 10;
+                for (let i = 0; i < MAX_RETRIES; i++) {
                     try {
                         if (await safeExists(backup)) await safeDelete(backup);
                         await fs.rename(appAsar, backup);
@@ -359,15 +360,16 @@ async function injectShims(paths) {
                         break;
                     } catch (err) {
                         lastErr = err;
-                        if (err.code === "EBUSY" || err.code === "EPERM") {
-                            await new Promise(r => setTimeout(r, 1000));
+                        if (err.code === "EBUSY" || err.code === "EPERM" || err.code === "EACCES") {
+                            log(`⏳ app.asar encore verrouillé (tentative ${i + 1}/${MAX_RETRIES}), on attend...`);
+                            await new Promise(r => setTimeout(r, 2000));
                         } else {
                             throw err;
                         }
                     }
                 }
                 if (!renameSuccess) {
-                    throw new Error(`Critical error: Could not rename app.asar after 5 retries. File is locked. Please close Discord manually via Task Manager and try again. Detailed error: ${lastErr.message}`);
+                    throw new Error(`Critical error: Could not rename app.asar after ${MAX_RETRIES} retries. File is locked. Please close Discord manually via Task Manager and try again. Detailed error: ${lastErr.message}`);
                 }
             }
 

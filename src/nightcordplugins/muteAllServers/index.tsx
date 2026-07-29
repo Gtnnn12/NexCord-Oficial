@@ -127,7 +127,6 @@ const guildContextPatch = (children: any, { guild }: { guild?: any; }) => {
                 <Menu.MenuItem
                     id="nc-mute-all-servers"
                     label={t("Mute all servers & mark as read")}
-                    icon={() => <MuteIcon />}
                     action={() => muteAllServers()}
                 />
             </Menu.MenuGroup>

@@ -15,6 +15,7 @@ import { ContextMenuApi,Menu, Popout, React, Tooltip, useEffect, useRef, useStat
 
 const STORE_KEY = "Backpack_packedButtons";
 
+
 // ─── Persistence ──────────────────────────────────────────────────────────────
 
 async function loadPacked(): Promise<string[]> {
@@ -272,8 +273,20 @@ export default definePlugin({
     },
 
     async start() {
-        const packed = await loadPacked();
-        for (const id of packed) BackpackedButtons.add(id);
+        // Check if we have saved data (null = first install, [] = manually emptied)
+        const rawPacked = await DataStore.get<string[] | null>(STORE_KEY);
+        const firstRun = rawPacked === null || rawPacked === undefined;
+
+        if (firstRun) {
+            // First install: pack all chat bar buttons except Backpack itself
+            // We wait a short tick so that all plugins have had time to register
+            await new Promise(r => setTimeout(r, 500));
+            const allIds = Array.from(ChatBarButtonMap.keys()).filter(id => id !== "Backpack");
+            for (const id of allIds) BackpackedButtons.add(id);
+            await savePacked([...BackpackedButtons]);
+        } else {
+            for (const id of rawPacked) BackpackedButtons.add(id);
+        }
         notifyBackpackChange();
     },
 

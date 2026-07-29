@@ -374,7 +374,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             iconType={iconType}
             customIcon={PluginIcon}
-            sourceBadge={<>{hasTutorial && sourceBadge}{canShowLikeBadge && likeBadge}{infoBadge}</>}
+            sourceBadge={<>{hasTutorial && sourceBadge}{canShowLikeBadge && likeBadge}</>}
             description={tPlugin(plugin.description)}
             isNew={isNew}
             enabled={isEnabled()}

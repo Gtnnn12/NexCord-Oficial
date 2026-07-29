@@ -97,6 +97,80 @@
     cursor: not-allowed;
 }
 
+/* ── Source filter pills ───────────────────────────────────────────────────── */
+
+.sc-source-filters {
+    display: flex;
+    padding: 8px 16px 0;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.sc-source-pill {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.sc-source-pill:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.sc-source-pill-active {
+    color: #fff !important;
+    border-color: transparent;
+}
+
+.sc-source-pill-all.sc-source-pill-active {
+    background: var(--brand-experiment, #5865f2);
+}
+
+.sc-source-pill-soundcloud.sc-source-pill-active {
+    background: #f50;
+}
+
+.sc-source-pill-deezer.sc-source-pill-active {
+    background: #a238ff;
+}
+
+.sc-source-pill-spotify.sc-source-pill-active {
+    background: #1db954;
+}
+
+/* ── Source badges (on track rows) ─────────────────────────────────────────── */
+
+.sc-source-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 6px;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+.sc-source-badge-deezer {
+    background: rgba(162, 56, 255, 0.2);
+    color: #bf7fff;
+    border: 1px solid rgba(162, 56, 255, 0.35);
+}
+
+.sc-source-badge-spotify {
+    background: rgba(29, 185, 84, 0.18);
+    color: #1db954;
+    border: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+
 /* ── Tabs ────────────────────────────────────────────────────────────────── */
 
 .sc-tabs {

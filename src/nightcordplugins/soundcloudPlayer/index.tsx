@@ -13,11 +13,12 @@ import { ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { IconComponent, OptionType, PluginNative } from "@utils/types";
 import { findStoreLazy } from "@webpack";
-import { ApplicationAssetUtils, MediaEngineStore, React, ReactDOM, createRoot, Select, useEffect, useRef, useState, FluxDispatcher } from "@webpack/common";
+import { MediaEngineStore, React, useEffect, useRef, useState, FluxDispatcher } from "@webpack/common";
 import { isPluginEnabled } from "@api/PluginManager";
 import { SafeDynamicIsland } from "@nightcordplugins/DynamicIslande";
 import { t } from "../autoTranslateNightcord";
 import { Switch } from "@components/Switch";
+import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 import { getStoredToken } from "../../api/OAuth2";
 import { saveOwnPluginConfig, getPublicPluginConfig } from "../../api/PluginSync";
 
@@ -48,6 +49,12 @@ interface ScTrack {
     durationMs: number;
     /** true when SoundCloud only allows a 30s preview (label/Go+ restriction) */
     snipped?: boolean;
+    /** Source platform of this track */
+    source?: "soundcloud" | "deezer" | "spotify";
+    /** true when this is a 30s preview (Deezer/Spotify fallback) */
+    previewOnly?: boolean;
+    /** Original external URL (Spotify/Deezer link) */
+    externalUrl?: string;
 }
 
 // ─── DataStore keys ───────────────────────────────────────────────────────────
@@ -169,9 +176,16 @@ async function searchTracks(query: string, clientId: string): Promise<ScTrack[]>
     return parseTracks(JSON.parse(json));
 }
 
+
+
 async function getStreamUrl(track: ScTrack, clientId: string): Promise<string> {
-    const { streamUrl, snipped } = track;
+    const { streamUrl, snipped, source } = track;
     if (!streamUrl) throw new Error("Stream URL not found");
+
+    // Deezer/Spotify previews are direct CDN MP3 URLs — play directly, no resolution needed
+    if (source === "deezer" || source === "spotify") {
+        return streamUrl;
+    }
 
     if (snipped) {
         throw new Error("Label restricted — not available outside SoundCloud Go+");
@@ -192,6 +206,8 @@ async function getStreamUrl(track: ScTrack, clientId: string): Promise<string> {
 }
 
 async function refreshTrackData(track: ScTrack, clientId: string): Promise<ScTrack> {
+    // Deezer/Spotify preview URLs are static CDN links — no refresh needed
+    if (track.source === "deezer" || track.source === "spotify") return track;
     try {
         const json = await Native.resolveTrack(track.id, clientId);
         if (!json) return track;
@@ -671,7 +687,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                 }}>
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap" }}>Audio output</span>
                     <div style={{ flex: 1 }}>
-                        <Select
+                        <SafeSearchableSelect
                             options={[
                                 { value: "default", label: "Default" },
                                 ...outputDevices.map(d => ({
@@ -679,10 +695,9 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                     label: d.label || d.deviceId.slice(0, 30)
                                 }))
                             ]}
-                            select={(v: string) => applyOutputDevice(v)}
-                            isSelected={(v: string) => v === selectedOutput}
-                            serialize={(v: string) => v}
-                            popoutWidth={300}
+                            value={selectedOutput}
+                            onChange={(v: string) => applyOutputDevice(v)}
+                            closeOnSelect={true}
                         />
                     </div>
                 </div>
@@ -693,7 +708,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                 <input className="sc-search-input" value={query}
                     onChange={e => setQuery(e.currentTarget.value)}
                     onKeyDown={e => e.key === "Enter" && doSearch(false)}
-                    placeholder="Track, artist..." />
+                    placeholder="Track or artist..." />
                 <button className="sc-search-btn" onClick={() => doSearch(false)} disabled={!p.clientId}>{t("Search")}</button>
             </div>
 
@@ -722,12 +737,14 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                         <img className="sc-artwork" src={track.artworkUrl || ""} alt=""
                             onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                         <div className="sc-track-info">
-                            <div className="sc-track-title">{track.title}</div>
+                            <div className="sc-track-title">
+                                {track.title}
+                            </div>
                             <div className="sc-track-artist">{track.artist} · {fmtDuration(track.durationMs)}</div>
                         </div>
                         <button className="sc-play-btn"
                             disabled={!!track.snipped}
-                            title={track.snipped ? "Label restricted" : "Play"}
+                            title={track.snipped ? "Label restricted" : track.previewOnly ? "Play 30s preview" : "Play"}
                             onClick={e => { e.stopPropagation(); if (!track.snipped) tab === "favs" ? playerPlayFavAt(idx) : playerPlayTrack(track); }}>
                             <IconPlay />
                         </button>
