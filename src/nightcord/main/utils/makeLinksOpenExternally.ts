@@ -94,17 +94,15 @@ export function makeLinksOpenExternally(win: BrowserWindow) {
             return { action: "deny" };
         }
 
-        const isDiscordPopout = pathname === "/popout" && DISCORD_HOSTNAMES.includes(hostname);
-        if (isDiscordPopout || (frameName.startsWith("DISCORD_") && pathname === "/popout" && DISCORD_HOSTNAMES.includes(hostname))) {
-            // ── Block overlay popouts entirely ─────────────────────────────
-            // The game overlay can never work in Nightcord (wrong process name),
-            // so silently deny these instead of letting them flood.
-            if (OVERLAY_FRAME_NAMES.has(frameName)) {
-                console.log("[Nightcord] Blocked overlay popout (overlay unsupported):", frameName);
-                return { action: "deny" };
-            }
+        if (OVERLAY_FRAME_NAMES.has(frameName) || (frameName && frameName.includes("Overlay"))) {
+            console.log("[Nightcord] Blocked overlay popout (overlay unsupported):", frameName);
+            return { action: "deny" };
+        }
 
-            // Rate-limit other popouts to catch unnamed overlay flood patterns
+        const isDiscordPopout = pathname === "/popout" && DISCORD_HOSTNAMES.includes(hostname);
+        const isDiscordPopup = (pathname === "/popup" || pathname.includes("popup")) && DISCORD_HOSTNAMES.includes(hostname);
+
+        if (isDiscordPopout || (frameName.startsWith("DISCORD_") && pathname === "/popout" && DISCORD_HOSTNAMES.includes(hostname))) {
             if (isPopoutRateLimited()) {
                 return { action: "deny" };
             }
@@ -123,20 +121,34 @@ export function makeLinksOpenExternally(win: BrowserWindow) {
             return result;
         }
 
-        if (url === "about:blank") return { action: "allow" };
+        if (isDiscordPopup) {
+            const targetParam = searchParams.get("target");
+            if (targetParam && !isDiscordUrl(targetParam)) {
+                handleExternalUrl(targetParam);
+                return { action: "deny" };
+            }
+        }
+
+        if (url === "about:blank") return {
+            action: "allow",
+            overrideBrowserWindowOptions: {
+                show: false,
+                skipTaskbar: true,
+                frame: false,
+                transparent: true,
+                backgroundColor: "#00000000"
+            }
+        };
 
         // Drop the static temp page Discord web loads for the connections popout
         if (frameName === "authorize" && searchParams.get("loading") === "true") return { action: "deny" };
 
         // Allow captcha popups to open inside Electron (hCaptcha / reCaptcha)
-        // Discord opens them via window.open() — they must stay in-process or the
-        // captcha iframe can never communicate back to Discord.
         if (
             hostname.includes("hcaptcha.com") ||
             hostname.includes("recaptcha.net") ||
-            hostname.includes("google.com") && pathname.startsWith("/recaptcha") ||
-            hostname.includes("discord.com") && pathname.startsWith("/cdn-cgi/") ||
-            // Discord sometimes opens its own captcha flow on discord.com
+            (hostname.includes("google.com") && pathname.startsWith("/recaptcha")) ||
+            (hostname.includes("discord.com") && pathname.startsWith("/cdn-cgi/")) ||
             (DISCORD_HOSTNAMES.includes(hostname) && (pathname.includes("captcha") || searchParams.has("captcha")))
         ) {
             return {
@@ -160,6 +172,15 @@ export function makeLinksOpenExternally(win: BrowserWindow) {
 
     win.webContents.on("did-create-window", (childWin, { frameName, options, url }: any) => {
         console.log("[Nightcord][LINK] did-create-window url=", url, "frameName=", frameName);
+
+        // Hide immediately to prevent white popup window from rendering on screen
+        try { childWin.hide(); } catch {}
+
+        if (OVERLAY_FRAME_NAMES.has(frameName) || (frameName && frameName.includes("Overlay"))) {
+            try { childWin.destroy(); } catch {}
+            return;
+        }
+
         // Detect captcha windows and handle them gracefully
         let isCaptcha = false;
         if (url) {
@@ -176,7 +197,7 @@ export function makeLinksOpenExternally(win: BrowserWindow) {
 
         if (isCaptcha) {
             childWin.setMenuBarVisibility(false);
-            // Allow the captcha window to open links externally if needed
+            childWin.show();
             childWin.webContents.setWindowOpenHandler(({ url }) => handleExternalUrl(url));
             childWin.once("closed", () => childWin.removeAllListeners());
             return;
@@ -198,32 +219,31 @@ export function makeLinksOpenExternally(win: BrowserWindow) {
         }
 
         if (isPopout) {
-            // Block overlay windows from being set up — they'll crash anyway
-            if (OVERLAY_FRAME_NAMES.has(frameName)) {
-                childWin.close();
-                return;
-            }
-
+            childWin.show();
             const key = stablePopoutKey(frameName);
             setupPopout(childWin, key);
         } else {
-            // Fenêtre non-popout / non-captcha : c'est une redirection externe (about:blank → lien).
-            // On cache la fenêtre immédiatement pour éviter le flash blanc, puis on ferme
-            // dès que la navigation vers le vrai lien se déclenche.
-            childWin.hide();
+            // Non-popout window: redirect external URLs and immediately destroy blank child window
             childWin.webContents.on("will-navigate", (e, navUrl) => {
                 e.preventDefault();
-                setImmediate(() => {
-                    if (!childWin.isDestroyed()) childWin.close();
-                });
-                if (navUrl && navUrl !== "about:blank") {
+                try { childWin.destroy(); } catch {}
+                if (navUrl && navUrl !== "about:blank" && !navUrl.includes("/popup")) {
                     handleExternalUrl(navUrl);
                 }
             });
-            // Filet de sécurité : si rien ne navigue dans les 2s, fermer quand même
+
+            // Destroy any unhandled blank/popup child window after 100ms
             setTimeout(() => {
-                if (!childWin.isDestroyed()) childWin.close();
-            }, 2000);
+                try {
+                    if (!childWin.isDestroyed()) {
+                        const currentUrl = childWin.webContents.getURL();
+                        const title = childWin.getTitle();
+                        if (!currentUrl || currentUrl === "about:blank" || currentUrl.includes("/popup") || title === "discord" || title === "Discord Popup") {
+                            childWin.destroy();
+                        }
+                    }
+                } catch {}
+            }, 100);
         }
     });
 }
