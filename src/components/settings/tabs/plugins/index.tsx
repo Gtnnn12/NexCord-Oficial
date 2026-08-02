@@ -485,12 +485,10 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                 }
             }
         }
-        // Toujours trier par nombre de likes décroissant, mais forcer NightcordNews et QxChat en premier
+        // Toujours trier par nombre de likes décroissant, mais forcer AutoCallRecorder en premier
         const byLikes = (a: typeof sortedPlugins[number], b: typeof sortedPlugins[number]) => {
-            if (a.name === "NightcordNews") return -1;
-            if (b.name === "NightcordNews") return 1;
-            if (a.name === "QxChat") return -1;
-            if (b.name === "QxChat") return 1;
+            if (a.name === "AutoCallRecorder") return -1;
+            if (b.name === "AutoCallRecorder") return 1;
             return (ratings[b.name]?.likes ?? 0) - (ratings[a.name]?.likes ?? 0);
         };
         nightcordData.sort(byLikes);

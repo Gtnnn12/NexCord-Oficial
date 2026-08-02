@@ -100,12 +100,12 @@ function inject(resourcesDir) {
         let isDir = false;
         try { isDir = statSync(appAsarPath).isDirectory(); } catch { }
         if (isDir) {
-            console.warn("\x1b[33m[Nightcord] app.asar est un dossier — un autre mod est peut-être installé.\x1b[0m");
-            console.warn("\x1b[33m            Abandon. Utilisez 'pnpm uninject' pour nettoyer d'abord.\x1b[0m");
-            return false;
+            console.warn("\x1b[33m[Nightcord] Nettoyage de l'ancien dossier app.asar...\x1b[0m");
+            try { rmSync(appAsarPath, { recursive: true, force: true }); } catch { }
+        } else {
+            console.log("[Nightcord] Sauvegarde app.asar → _app.asar...");
+            renameSync(appAsarPath, backupPath);
         }
-        console.log("[Nightcord] Sauvegarde app.asar → _app.asar...");
-        renameSync(appAsarPath, backupPath);
     } else if (!existsSync(backupPath)) {
         console.error("\x1b[31m[Nightcord] Aucun app.asar ou _app.asar trouvé dans resources !\x1b[0m");
         return false;

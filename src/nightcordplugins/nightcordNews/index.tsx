@@ -84,7 +84,7 @@ const RenderElement = () => (
 export default definePlugin({
     name: "NightcordNews",
     description: "Official Nightcord news and social feed with real-time ping notifications",
-    enabledByDefault: true,
+    enabledByDefault: false,
     authors: [{ name: "Nightcord", id: 0n }],
     dependencies: ["ServerListAPI"],
     tags: ["Utility", "Social"],

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -167,7 +167,6 @@ export default definePlugin({
         {
             find: 'navId:"image-context"',
             all: true,
-            predicate: shouldAddBackMenus,
             replacement: {
                 // return IS_DESKTOP ? React.createElement(Menu, ...)
                 match: /return \i\.\i(?=\?|&&)/,

@@ -187,12 +187,12 @@ function cleanOldNightcord(isUninstall) {
                 }
             }
 
-            if (!isUninstall && existsSync(backupPath)) {
+            if (isUninstall && existsSync(backupPath)) {
                 if (existsSync(appAsarPath)) {
                     rmSync(appAsarPath, { recursive: true, force: true });
                 }
                 renameSync(backupPath, appAsarPath);
-                console.log(`[Nightcord] Restored _app.asar â†’ app.asar in ${resourcesDir}`);
+                console.log(`[Nightcord] Restored _app.asar -> app.asar in ${resourcesDir}`);
                 cleanedAny = true;
             }
 
