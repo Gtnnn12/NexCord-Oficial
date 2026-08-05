@@ -10,6 +10,7 @@ import definePlugin from "@utils/types";
 import { Message } from "@vencord/discord-types";
 import { UserStore } from "@webpack/common";
 
+
 export default definePlugin({
     name: "ThemeAttributes",
     description: "Adds data attributes to various elements for theming purposes",
@@ -22,7 +23,7 @@ export default definePlugin({
         {
             find: ".tabBarRef",
             replacement: {
-                match: /style:this\.getStyle\(\),role:"tab"/,
+                match: /style:this\.getStyle\(\),role:\i/,
                 replace: "$&,'data-tab-id':this?.props?.id"
             }
         },

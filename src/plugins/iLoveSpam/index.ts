@@ -16,13 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { migratePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
-migratePluginSettings("IloveSpam", "iLoveSpam");
 export default definePlugin({
-    name: "ILoveSpam",
+    name: "iLoveSpam",
     description: "Do not hide messages from 'likely spammers'",
     tags: ["Utility", "Chat"],
     authors: [Devs.botato, Devs.Nyako],

@@ -59,9 +59,10 @@ async function embedDidMount(this: Component<Props>) {
         const { titles, thumbnails } = await res.json();
 
         const hasTitle = titles[0]?.votes >= 0;
-        const hasThumb = thumbnails[0]?.votes >= 0;
+        const hasThumb = thumbnails[0]?.votes >= 0 && !thumbnails[0].original;
 
         if (!hasTitle && !hasThumb) return;
+
 
         embed.dearrow = {
             enabled: dearrowByDefault
@@ -99,7 +100,6 @@ function DearrowButton({ component }: { component: Component<Props>; }) {
                     className={"vc-dearrow-toggle-" + (embed.dearrow.enabled ? "on" : "off")}
                     onClick={() => {
                         const { enabled, oldThumb, oldTitle } = embed.dearrow;
-                        settings.store.dearrowByDefault = !enabled;
                         embed.dearrow.enabled = !enabled;
                         if (oldTitle) {
                             embed.dearrow.oldTitle = embed.rawTitle;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -61,6 +61,14 @@ export function isPluginEnabled(p: string) {
         plugin.isDependency ||
         (Settings as any)?.plugins?.[p]?.enabled
     ) ?? false;
+}
+
+export function isSettingHidden(settings: any, setting: any) {
+    if (!("hidden" in setting)) return false;
+
+    return typeof setting.hidden === "function"
+        ? setting.hidden.call(settings)
+        : Boolean(setting.hidden);
 }
 
 export function isSettingDisabled(definedSettings: any, setting: any): boolean {
@@ -434,6 +442,10 @@ export const initPluginManager = onlyOnce(function init() {
     }
 
     for (const p of neededApiPlugins) {
+        if (!Plugins[p]) {
+            PMLogger.error(`Missing API plugin: ${p}. Available plugins: ${Object.keys(Plugins).length}`);
+            continue;
+        }
         Plugins[p].isDependency = true;
         settings[p].enabled = true;
     }

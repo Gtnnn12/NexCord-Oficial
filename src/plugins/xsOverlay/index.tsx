@@ -103,6 +103,7 @@ const settings = definePluginSettings({
     },
     preferUDP: {
         type: OptionType.BOOLEAN,
+        displayName: "Prefer UDP",
         description: "Enable if you use an older build of XSOverlay unable to connect through websockets. This setting is ignored on web.",
         default: false,
         disabled: () => IS_WEB
@@ -119,11 +120,13 @@ const settings = definePluginSettings({
     },
     dmNotifications: {
         type: OptionType.BOOLEAN,
+        displayName: "DM Notifications",
         description: "Allow Direct Message notifications",
         default: true
     },
     groupDmNotifications: {
         type: OptionType.BOOLEAN,
+        displayName: "Group DM Notifications",
         description: "Allow Group DM notifications",
         default: true
     },
@@ -175,7 +178,7 @@ let socket: WebSocket;
 
 async function start() {
     if (socket) socket.close();
-    socket = new WebSocket(`ws://127.0.0.1:${settings.store.webSocketPort ?? 42070}/?client=Equicord`);
+    socket = new WebSocket(`ws://127.0.0.1:${settings.store.webSocketPort ?? 42070}/?client=Vencord`);
     return new Promise((resolve, reject) => {
         socket.onopen = resolve;
         socket.onerror = reject;
@@ -216,6 +219,7 @@ export default definePlugin({
                 titleString = `${message.author.username} (${guild.name}, #${channel.name})`;
             }
 
+
             switch (channel.type) {
                 case ChannelTypes.DM:
                     titleString = message.author.username.trim();
@@ -248,6 +252,7 @@ export default definePlugin({
                 typeof e?.content_type === "string"
                 && e?.content_type.startsWith("image")
             );
+
 
             images.forEach(img => {
                 finalMsg += ` [image: ${img.filename}] `;
@@ -300,6 +305,7 @@ export default definePlugin({
 
     stop() {
         socket.close();
+        Native.closeSocket();
     },
 
     settingsAboutComponent: () => (
@@ -355,7 +361,7 @@ function sendOtherNotif(content: string, titleString: string) {
         content: content,
         useBase64Icon: false,
         icon: "default",
-        sourceApp: "Equicord"
+        sourceApp: "Vencord"
     };
     sendToOverlay(msgData);
 }

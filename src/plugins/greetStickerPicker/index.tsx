@@ -66,6 +66,7 @@ function greet(channel: Channel, message: Message, stickers: string[]) {
     }
 }
 
+
 function GreetMenu({ channel, message }: { message: Message, channel: Channel; }) {
     const s = settings.use(["greetMode", "multiGreetChoices"]);
     const { greetMode, multiGreetChoices = [] } = s;

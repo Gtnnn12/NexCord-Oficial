@@ -5,11 +5,16 @@ import fixWebmDuration from "fix-webm-duration";
 export interface RecordingOptions {
     mode: "voice" | "video";
     videoQuality?: string;
+    videoFormat?: string;
+    audioFormat?: string;
     maxStorageGB: number;
     shadowplayMinutes: number;
     autoSave: boolean;
     savePath: string;
+    showSaveToast?: boolean;
 }
+
+let activeOpts: RecordingOptions | null = null;
 
 let isRecording = false;
 let mediaRecorder: MediaRecorder | null = null;
@@ -34,6 +39,7 @@ export function isCurrentlyRecording(): boolean {
 
 export async function startRecording(opts: RecordingOptions): Promise<boolean> {
     if (isRecording) return false;
+    activeOpts = opts;
     
     try {
         recordedChunks = [];
@@ -135,11 +141,36 @@ export async function startRecording(opts: RecordingOptions): Promise<boolean> {
             ]);
         }
 
-        const mimeType = (opts.mode === "video") 
-            ? "video/webm;codecs=vp8,opus" 
-            : (MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/webm");
+        let videoBitsPerSecond: number | undefined;
+        let mimeType = "audio/webm";
 
-        mediaRecorder = new MediaRecorder(finalStream, { mimeType });
+        if (opts.mode === "video") {
+            if (opts.videoQuality === "1080p60") videoBitsPerSecond = 8000000;
+            else if (opts.videoQuality === "720p30") videoBitsPerSecond = 3000000;
+            else if (opts.videoQuality === "480p25") videoBitsPerSecond = 1500000;
+            
+            if (opts.videoFormat === "mkv") {
+                mimeType = "video/x-matroska;codecs=avc1,opus";
+                if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = "video/webm;codecs=vp8,opus";
+            } else {
+                mimeType = "video/webm;codecs=vp8,opus";
+            }
+        } else {
+            if (opts.audioFormat === "webm") {
+                mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/webm";
+            } else {
+                if (MediaRecorder.isTypeSupported("audio/ogg;codecs=opus")) mimeType = "audio/ogg;codecs=opus";
+                else if (MediaRecorder.isTypeSupported("audio/ogg")) mimeType = "audio/ogg";
+                else mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/webm";
+            }
+        }
+
+        const recorderOptions: any = { mimeType };
+        if (videoBitsPerSecond) {
+            recorderOptions.videoBitsPerSecond = videoBitsPerSecond;
+        }
+
+        mediaRecorder = new MediaRecorder(finalStream, recorderOptions);
 
         mediaRecorder.ondataavailable = (e) => {
             if (e.data && e.data.size > 0) {
@@ -178,9 +209,10 @@ export async function startRecording(opts: RecordingOptions): Promise<boolean> {
     }
 }
 
-export function stopRecording(opts: RecordingOptions): Promise<void> {
+export function stopRecording(): Promise<void> {
     return new Promise((resolve) => {
-        if (!isRecording || !mediaRecorder) {
+        const opts = activeOpts;
+        if (!isRecording || !mediaRecorder || !opts) {
             cleanup();
             resolve();
             return;
@@ -229,12 +261,20 @@ function cleanup() {
     recordDest = null;
     mediaRecorder = null;
     recordedChunks = [];
+    activeOpts = null;
 }
 
 async function saveBlob(blob: Blob, opts: RecordingOptions) {
-    const ext = blob.type.includes("video") ? "webm" : "ogg";
+    const defaultExt = blob.type.includes("video") ? (blob.type.includes("matroska") ? "mkv" : "webm") : (blob.type.includes("ogg") ? "ogg" : "webm");
+    const ext = defaultExt;
     const dateStr = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
     const filename = `AutoCall_${dateStr}.${ext}`;
+    
+    const notifySuccess = () => {
+        if (opts.showSaveToast !== false) {
+            Toasts.show(Toasts.create(t("Save record"), Toasts.Type.SUCCESS));
+        }
+    };
     
     const native = (window as any).VencordNative?.pluginHelpers?.AutoCallRecorder;
 
@@ -246,13 +286,13 @@ async function saveBlob(blob: Blob, opts: RecordingOptions) {
             if (!opts.autoSave) {
                 const success = await native.promptSaveRecording(uint8Array, filename);
                 if (success) {
-                    Toasts.show(Toasts.create(t("Save record"), Toasts.Type.SUCCESS));
+                    notifySuccess();
                 }
                 return;
             } else if (opts.savePath) {
                 const success = await native.saveRecording(uint8Array, opts.savePath, filename);
                 if (success) {
-                    Toasts.show(Toasts.create(t("Save record"), Toasts.Type.SUCCESS));
+                    notifySuccess();
                 }
                 return;
             }
@@ -275,5 +315,5 @@ async function saveBlob(blob: Blob, opts: RecordingOptions) {
         URL.revokeObjectURL(url);
     }, 1000);
 
-    Toasts.show(Toasts.create(t("Save record"), Toasts.Type.SUCCESS));
+    notifySuccess();
 }

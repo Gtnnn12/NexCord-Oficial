@@ -139,3 +139,8 @@ export const Animations = mapMangledModuleLazy(".assign({colorNames:", {
 
 export const Paginator = waitForComponent("Paginator", filters.componentByCode("maxVisiblePages", "pageSize"));
 
+export let RoleMemberPopout: t.RoleMemberPopout = () => null;
+export function setRoleMemberPopout(component: t.RoleMemberPopout) {
+    RoleMemberPopout = component;
+}
+
