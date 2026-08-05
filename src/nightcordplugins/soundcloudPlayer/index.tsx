@@ -13,7 +13,7 @@ import { ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { IconComponent, OptionType, PluginNative } from "@utils/types";
 import { findStoreLazy } from "@webpack";
-import { MediaEngineStore, React, useEffect, useRef, useState, FluxDispatcher } from "@webpack/common";
+import { ApplicationAssetUtils, FluxDispatcher, MediaEngineStore, React, UserStore, useEffect, useRef, useState } from "@webpack/common";
 import { isPluginEnabled } from "@api/PluginManager";
 import { SafeDynamicIsland } from "@nightcordplugins/DynamicIslande";
 import { t } from "../autoTranslateNightcord";
@@ -972,7 +972,8 @@ async function _doUpdateRichPresence() {
         const duration = Math.floor(p.duration * 1000);
         const end = start + duration;
 
-        // Use ApplicationAssetUtils to proxy the artwork URL through Discord (same as lastfmRichPresence)
+        const myUserId = UserStore?.getCurrentUser?.()?.id || "";
+
         let large_image: string | undefined;
         if (p.playing.artworkUrl) {
             try {
@@ -980,9 +981,15 @@ async function _doUpdateRichPresence() {
             } catch {
                 large_image = undefined;
             }
+            if (!large_image) {
+                large_image = `mp:external/${encodeURIComponent(p.playing.artworkUrl).replace(/%2F/g, "/")}`;
+            }
         }
 
-        const myUserId = UserStore?.getCurrentUser?.()?.id || "";
+        const assets = large_image ? {
+            large_image,
+            large_text: p.playing.title || undefined,
+        } : undefined;
 
         FluxDispatcher.dispatch({
             type: "LOCAL_ACTIVITY_UPDATE",
@@ -994,7 +1001,7 @@ async function _doUpdateRichPresence() {
                 state: p.playing.artist || undefined,
                 type: 2, // LISTENING
                 timestamps: duration > 0 ? { start, end } : { start },
-                assets: large_image ? { large_image } : undefined,
+                assets,
                 buttons: ["Download"],
                 metadata: {
                     button_urls: ["https://nightcord.st"],
