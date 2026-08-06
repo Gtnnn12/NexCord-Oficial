@@ -1,4 +1,10 @@
 /*
+ * Nightcord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/*
  * Nightcord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -81,7 +87,7 @@ function isUncategorized(objChannel: { channel: Channel; comparator: number; }) 
 
 export default definePlugin({
     name: "ShowHiddenChannels",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Show channels that you do not have access to view.",
     tags: ["Servers", "Utility"],
     authors: [Devs.BigDuck, Devs.AverageReactEnjoyer, Devs.D3SOX, Devs.Ven, Devs.Nuckyz, Devs.Nickyux, Devs.dzshn, EquicordDevs.Oggetto],

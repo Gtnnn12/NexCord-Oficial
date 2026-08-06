@@ -23,6 +23,7 @@ import { t } from "../autoTranslateNightcord";
 
 import { getGroqKey, groqChat, setGroqKey, registerSettingsFallback } from "./groqManager";
 
+
 registerSettingsFallback(() => settings.store.apiKey ?? "");
 
 
@@ -89,6 +90,16 @@ interface Message {
 }
 
 const DS_KEY = "nightcord-ai-history";
+
+// ── Robot SVG Avatar Icon ──────────────────────────────────────────────────────
+function RobotAvatarIcon({ width = 32, height = 32 }: { width?: number; height?: number; }) {
+    return (
+        <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="none" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l-.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" />
+            <path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
+        </svg>
+    );
+}
 
 // Discord Actions
 
@@ -509,19 +520,14 @@ Rules:
             <div className="nai-header">
                 <div className="nai-header-left">
                     <div className="nai-avatar">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="white" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" />
-                            <path fill="white" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
-                        </svg>
+                        <RobotAvatarIcon width={18} height={18} />
                     </div>
                     <div className="nai-header-info">
-                        <div className="nai-header-title-row">
-                            <span className="nai-header-title">Nightcord AI</span>
-                            <span className="nai-header-badge">{providerLabel}</span>
-                        </div>
+                        <span className="nai-header-title">Nightcord AI</span>
+                        <span className="nai-header-sep">·</span>
                         <div className="nai-header-status">
                             <span className={`nai-dot ${hasKey ? "nai-dot--on" : "nai-dot--off"}`} />
-                            {hasKey ? t("Online") : t("⚠ API key missing")}
+                            {hasKey ? t("Online") : t("API key missing")}
                         </div>
                     </div>
                 </div>
@@ -543,18 +549,8 @@ Rules:
                 <div className="nai-messages">
                     {messages.length === 0 ? (
                         <div className="nai-empty">
-                            <div className="nai-empty-icon">
-                                <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
-                                    <circle cx="12" cy="12" r="10" stroke="url(#g1)" strokeWidth="1.5" />
-                                    <rect x="9" y="8" width="2" height="8" rx="1" fill="url(#g1)" />
-                                    <rect x="13" y="8" width="2" height="8" rx="1" fill="url(#g1)" />
-                                    <defs>
-                                        <linearGradient id="g1" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stopColor="#5865F2" />
-                                            <stop offset="100%" stopColor="#EB459E" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
+                            <div className="nai-empty-icon" style={{ background: "transparent" }}>
+                                <RobotAvatarIcon width="72" height="72" />
                             </div>
                             <p className="nai-empty-title">{t("How can I help you?")}</p>
                             <p className="nai-empty-sub">
@@ -585,7 +581,7 @@ Rules:
                                                 const url = u ? (u.avatar ? IconUtils.getUserAvatarURL(u, false, 32) : IconUtils.getDefaultAvatarURL(u.id)) : "";
                                                 return <img src={url} width="32" height="32" style={{ borderRadius: "50%", objectFit: "cover", width: "32px", height: "32px" }} />;
                                             })()
-                                            : <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" /><path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" /></svg>
+                                            : <RobotAvatarIcon width="32" height="32" />
                                         }
                                     </div>
                                 )}
@@ -713,22 +709,43 @@ export function NightcordAIPanel() {
 
 // ── Bouton Nightcord AI dans le panneau DM (remplace Boutique) ─────────────────
 
-function NightcordAINavButton({ selected }: { selected?: boolean; }) {
-    const handleClick = () => openModal(p => <NightcordAIChat rootProps={p} />);
+// ── Bouton Nightcord AI dans le panneau DM (remplace Boutique) ─────────────────
+
+function NightcordAINavButton({ selected, onClick }: { selected?: boolean; onClick?: (e: any) => void; }) {
+    const handleClick = (e: any) => {
+        if (e) {
+            if (typeof e.preventDefault === "function") e.preventDefault();
+            if (typeof e.stopPropagation === "function") e.stopPropagation();
+        }
+        if (onClick) onClick(e);
+        else openModal(p => <NightcordAIChat rootProps={p} />);
+    };
+
     return (
-        <div className={`nai-nav-item ${selected ? "selected" : ""}`} role="button" tabIndex={0}
-            onClick={handleClick}
-            onKeyDown={e => e.key === "Enter" && handleClick()}>
-            <div className="nai-nav-icon-wrap">
-                {/* Robot icon */}
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" />
-                    <path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
-                </svg>
+        <li className="channel__972a0 container_e45859" role="listitem">
+            <div className={`interactive_f88cfd interactive__972a0 linkButton__972a0 ${selected ? "selected__972a0" : ""}`}>
+                <a className="link__972a0" data-list-item-id="private-channels___nightcord-ai" tabIndex={-1} href="#" onClick={handleClick}>
+                    <div className="layout__20a53 avatarWithText__972a0">
+                        <div className="avatar__20a53">
+                            <svg className="linkButtonIcon__972a0" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l-.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" />
+                                <path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="content__20a53 vc-member-list-decorators-display-names">
+                            <div className="nameAndDecorators__20a53">
+                                <div className="name__20a53 text-md/medium__20a53 vc-member-list-decorators-display-names">Nightcord AI</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="newBadge__4ed1a">
+                        <div className="defaultColor__4bd52 eyebrow_cf4812 badge_c2b88c expressive_c2b88c" data-text-variant="eyebrow">
+                            <span className="label_c2b88c">AI</span>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <span className="nai-nav-label">Nightcord AI</span>
-            <span className="nai-nav-pill">{t("AI")}</span>
-        </div>
+        </li>
     );
 }
 
@@ -738,8 +755,7 @@ export default definePlugin({
     name: "NightcordAI",
     enabledByDefault: true,
     description: "AI Chat (Groq) integrated in Discord. Replaces 'Shop' in the DM panel.",
-    authors: [{ name: "Nightcord",
-     id: 0n }],
+    authors: [{ name: "Nightcord", id: 0n }],
     settings,
 
     settingsAboutComponent() {
@@ -765,32 +781,39 @@ export default definePlugin({
             find: "CollectiblesShop",
             replacement: [
                 {
-                    // Variante A : CollectiblesShop:function(){...} ou CollectiblesShop:SomeVar
                     match: /CollectiblesShop\s*:\s*(\i)/,
                     replace: "CollectiblesShop:()=>$self.renderPanel()",
                 },
                 {
-                    // Variante B : CollectiblesShop:()=>someVar
                     match: /CollectiblesShop\s*:\s*\(\)\s*=>\s*(\i)/,
                     replace: "CollectiblesShop:()=>$self.renderPanel()",
                 },
                 {
-                    // Variante C : import/require de CollectiblesShop comme prop React
                     match: /([{,])CollectiblesShop:(\i)([,}])/,
                     replace: "$1CollectiblesShop:()=>$self.renderPanel()$3",
                 },
             ]
         },
         {
-            // Patch 2 : Injecter le bouton NightcordAI dans la barre latérale DM (Ancien système réactivé avec correctif de version)
-            find: ".FRIENDS},\"friends\"",
-            replacement: {
-                // On cible l'injection du bouton Boutique (Shop) dans le composant Sidebar
-                // Le match $1 capture l'expression de sélection (selected: ...)
-                match: /\(0,\i\.jsx\)\(\i\.\i,\{selected:(\i===\i\.BVt\.COLLECTIBLES_SHOP).{0,400}?\},"discord-shop"\)/,
-                replace: "$self.renderNavButton($1)"
-            }
+            // Patch 2 : Remplace le bouton Boutique (Shop) dans la liste au-dessus des DMs (tutorialId:"direct-messages")
+            find: 'tutorialId:"direct-messages"',
+            replacement: [
+                {
+                    match: /((?:\(0,\s*\i\.[ja]sx\)|\i\.[ja]sx|\(0,\s*\i\.jsxs\)|\i\.jsxs)\s*\(\s*\i[\s\S]{1,500}?,"discord-shop"\))/,
+                    replace: "$self.renderNavButton($1)"
+                }
+            ]
         },
+        {
+            // Patch 3 : Variante de recherche par .FRIENDS
+            find: '.FRIENDS},"friends"',
+            replacement: [
+                {
+                    match: /((?:\(0,\s*\i\.[ja]sx\)|\i\.[ja]sx|\(0,\s*\i\.jsxs\)|\i\.jsxs)\s*\(\s*\i[\s\S]{1,500}?,"discord-shop"\))/,
+                    replace: "$self.renderNavButton($1)"
+                }
+            ]
+        }
     ],
 
     start() {
@@ -804,110 +827,86 @@ export default definePlugin({
             });
         }
 
-        // Système de secours DOM si le patch Webpack échoue sur cette version de Discord
-        const findShopNavItem = (): HTMLElement | null => {
-            const shop: HTMLElement | null =
-                document.querySelector('[data-list-item-id="private-channels___discord-shop"]') ??
-                document.querySelector('[data-list-item-id$="___shop"]') ??
-                document.querySelector('a[href="/shop"]');
-            if (!shop) return null;
-            return shop.closest<HTMLElement>('[role="listitem"]') ?? shop.parentElement;
+        // Transformateur DOM direct pour transformer instantanément le bouton Shop s'il subsiste
+        const transformShop = () => {
+            const shopLink =
+                document.querySelector<HTMLAnchorElement>('[data-list-item-id*="___shop"]') ??
+                document.querySelector<HTMLAnchorElement>('a[href="/shop"]');
+            if (!shopLink) return;
+
+            if (shopLink.getAttribute("data-nightcord-ai") === "true") return;
+            shopLink.setAttribute("data-nightcord-ai", "true");
+
+            shopLink.href = "#";
+            shopLink.setAttribute("data-list-item-id", "private-channels___nightcord-ai");
+
+            const nameEl = shopLink.querySelector('[class*="name_"]') || shopLink.querySelector('.name__20a53');
+            if (nameEl) nameEl.textContent = "Nightcord AI";
+
+            const avatarEl = shopLink.querySelector('[class*="avatar_"]') || shopLink.querySelector('.avatar__20a53');
+            if (avatarEl) {
+                avatarEl.innerHTML = `<svg class="linkButtonIcon__972a0" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l-.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z"/><path fill="currentColor" fill-rule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clip-rule="evenodd"/></svg>`;
+            }
+
+            const badgeLabel = shopLink.querySelector('[class*="label_"]') || shopLink.querySelector('.label_c2b88c');
+            if (badgeLabel) badgeLabel.textContent = "AI";
+
+            const clickHandler = (e: MouseEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                openModal(p => <NightcordAIChat rootProps={p} />);
+            };
+            shopLink.onclick = clickHandler;
+            shopLink.addEventListener("click", clickHandler, true);
         };
 
-        const inject = () => {
-            const navItem = findShopNavItem();
-            if (!navItem || !navItem.parentElement) return;
-
-            const existing = document.getElementById("nai-nav-injected");
-            if (existing) {
-                if (existing.nextSibling === navItem) {
-                    if (navItem.style.display !== "none") navItem.style.display = "none";
-                    return;
-                }
-                try { existing.remove(); } catch (_) { }
-                try { if (this._reactRoot) { this._reactRoot.unmount(); this._reactRoot = null; } } catch (_) { }
-            }
-
-            navItem.style.display = "none";
-            const container = document.createElement("div");
-            container.id = "nai-nav-injected";
-            navItem.parentElement.insertBefore(container, navItem);
-
-            const createRoot = ReactDOM?.createRoot;
-
-            if (createRoot) {
-                this._reactRoot = createRoot(container);
-                this._reactRoot.render(<NightcordAINavButton />);
-            } else {
-                container.innerHTML = `<div class="nai-nav-item" role="button" tabindex="0" id="nai-nav-btn-raw">
-                    <div class="nai-nav-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25Z"/>
-                            <path fill-rule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <span class="nai-nav-label">Nightcord AI</span>
-                    <span class="nai-nav-pill">${t("AI")}</span>
-                </div>`;
-                document.getElementById("nai-nav-btn-raw")?.addEventListener("click", () => {
-                    openModal(p => <NightcordAIChat rootProps={p} />);
-                });
-            }
-        };
-
-        let debounceTimer: any = null;
-        this._observer = new MutationObserver(() => {
-            if (document.visibilityState === "hidden") return;
-            const existing = document.getElementById("nai-nav-injected");
-            if (existing) {
-                const navItem = findShopNavItem();
-                if (navItem && existing.nextSibling === navItem && navItem.style.display === "none") {
-                    return;
-                }
-            }
-            if (debounceTimer) clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => inject(), 80);
-        });
-        if (document.visibilityState !== "hidden") {
-            this._observer.observe(document.body, { childList: true, subtree: true });
-        }
-        inject();
-
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "hidden") {
-                this._observer?.disconnect();
-            } else {
-                if (this._observer) {
-                    this._observer.observe(document.body, { childList: true, subtree: true });
-                    inject();
-                }
-            }
-        };
-        (this as any)._handleVisibilityChange = handleVisibilityChange;
-        document.addEventListener("visibilitychange", handleVisibilityChange);
+        this._observer = new MutationObserver(() => transformShop());
+        this._observer.observe(document.body, { childList: true, subtree: true });
+        transformShop();
     },
 
     stop() {
-        if ((this as any)._handleVisibilityChange) {
-            document.removeEventListener("visibilitychange", (this as any)._handleVisibilityChange);
-            (this as any)._handleVisibilityChange = null;
-        }
         this._observer?.disconnect();
         this._observer = null;
-        try { this._reactRoot?.unmount(); } catch (_) { }
-        this._reactRoot = null;
-        const injected = document.getElementById("nai-nav-injected");
-        if (injected) injected.remove();
-        const shop: HTMLElement | null =
-            document.querySelector('[data-list-item-id="private-channels___discord-shop"]') ??
-            document.querySelector('[data-list-item-id$="___shop"]') ??
-            document.querySelector('a[href="/shop"]');
-        const navItem = shop?.closest<HTMLElement>('[role="listitem"]') ?? shop?.parentElement;
-        if (navItem) navItem.style.display = "";
     },
 
-    renderNavButton(selected?: boolean) {
-        return <NightcordAINavButton selected={selected} />;
+    renderNavButton(originalElement?: any) {
+        const handleClick = (e: any) => {
+            if (e) {
+                if (typeof e.preventDefault === "function") e.preventDefault();
+                if (typeof e.stopPropagation === "function") e.stopPropagation();
+            }
+            openModal(p => <NightcordAIChat rootProps={p} />);
+        };
+
+        const NightcordAIIcon = (iconProps: any) => (
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                {...iconProps}
+            >
+                <path fill="currentColor" d="M7.89 13.46a1 1 0 0 1-1.78-.9L7 13l-.9-.45.01-.01.01-.02a2.24 2.24 0 0 1 .14-.23c.1-.14.23-.31.4-.5.37-.36.98-.79 1.84-.79.86 0 1.47.43 1.83.8a3.28 3.28 0 0 1 .55.72v.02h.01v.01L10 13l.9-.45a1 1 0 0 1-1.79.9 1.28 1.28 0 0 0-.19-.25c-.14-.13-.28-.2-.42-.2-.14 0-.28.07-.42.2a1.28 1.28 0 0 0-.19.25ZM13.55 13.9a1 1 0 0 0 1.34-.44c0-.02.02-.04.04-.06.03-.05.08-.13.15-.2.14-.13.28-.2.42-.2.14 0 .28.07.42.2a1.28 1.28 0 0 1 .19.25 1 1 0 0 0 1.78-.9L17 13l-.9-.45-.01-.01-.01-.02a2.1 2.1 0 0 0-.14-.23 3.28 3.28 0 0 0-.4-.5c-.37-.36-.98-.79-1.84-.79-.86 0-1.47.43-1.83.8a3.28 3.28 0 0 0-.55.72v.02h-.01v.01L14 13l-.9-.45a1 1 0 0 0 .45 1.34Z" />
+                <path fill="currentColor" fillRule="evenodd" d="M12 21c5.52 0 10-1.86 10-6 0-5.59-2.8-10.07-4.26-11.67a1 1 0 1 0-1.48 1.34 14.8 14.8 0 0 1 2.35 3.86A10.23 10.23 0 0 0 12 6C9.47 6 7.15 7.02 5.4 8.53a14.8 14.8 0 0 1 2.34-3.86 1 1 0 1 0-1.48-1.34A18.65 18.65 0 0 0 2 15c0 4.14 4.48 6 10 6Zm0-12c3.87 0 7 2 7 4.2S15.87 17 12 17s-7-1.6-7-3.8C5 11 8.13 9 12 9Z" clipRule="evenodd" />
+            </svg>
+        );
+
+        if (React.isValidElement(originalElement)) {
+            return React.cloneElement(originalElement, {
+                ...originalElement.props,
+                text: "Nightcord AI",
+                name: "Nightcord AI",
+                label: "Nightcord AI",
+                icon: NightcordAIIcon,
+                onClick: handleClick,
+                href: undefined,
+                "data-list-item-id": "private-channels___nightcord-ai",
+            });
+        }
+
+        return <NightcordAINavButton onClick={handleClick} />;
     },
 
     renderPanel() {

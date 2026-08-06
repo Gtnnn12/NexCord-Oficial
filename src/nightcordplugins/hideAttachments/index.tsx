@@ -1,4 +1,10 @@
 /*
+ * Nightcord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+/*
  * Nightcord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -55,7 +61,7 @@ async function toggleHide(channelId: string, messageId: string) {
 
 export default definePlugin({
     name: "HideMedia",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Hide attachments and embeds for individual messages via hover button",
     authors: [Devs.Ven],
     dependencies: ["MessageUpdaterAPI"],

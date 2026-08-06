@@ -182,7 +182,7 @@ const LastSeenSection = ErrorBoundary.wrap(
 
 export default definePlugin({
     name: "LastSeen",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Shows when a user was last seen online, in their profile.",
     authors: [{ name: "nightcord",
      id: 0n }],

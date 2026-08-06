@@ -456,6 +456,7 @@ export const commonOpts = {
         "@webpack/patcher": "./src/webpack/patchWebpack",
         "@webpack": "./src/webpack/webpack",
         "@nightcordplugins": "./src/nightcordplugins",
+        "@equicordplugins": "./src/plugins",
         "@Nightcord/types/webpack/common": "./src/webpack/common",
         "@Nightcord/types/webpack": "./src/webpack/webpack",
         "@Nightcord/types/utils": "./src/utils",

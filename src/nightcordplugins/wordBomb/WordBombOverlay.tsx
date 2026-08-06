@@ -1,3 +1,9 @@
+/*
+ * Nightcord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { t } from "../autoTranslateNightcord";
 import { React, useState, useEffect, useRef, ReactDOM, createRoot } from "@webpack/common";
 import { findByPropsLazy } from "@webpack";

@@ -346,9 +346,10 @@ export async function patchCustomModule(_: IpcMainInvokeEvent, rootPath: string,
         await ensurePermanentUnpatchedBackup(target, log);
 
         if (hasNodeFile && !hasIndexFile) {
-            await scheduleWorker("Patch", customDir, target, "customModule", log, "singleFile", "discord_voice.node");
+            // skipHubDirCheck=true: user-selected folder may be anywhere on disk
+            await scheduleWorker("Patch", customDir, target, "customModule", log, "singleFile", "discord_voice.node", true);
         } else {
-            await scheduleWorker("Patch", customDir, target, "customModule", log, "directory");
+            await scheduleWorker("Patch", customDir, target, "customModule", log, "directory", "discord_voice.node", true);
         }
 
         log.ok("Patch scheduled. Discord will close, install custom module, then reopen.");
@@ -1241,8 +1242,10 @@ async function downloadPatchedPayload(log: ActionLog): Promise<string> {
     return payloadVoice;
 }
 
-async function scheduleWorker(actionName: "Patch" | "Revert", sourceDir: string, target: Target, metaMethod: PatchMethod | undefined, log: ActionLog, copyMode: WorkerConfig["copyMode"] = "directory", fileName: SingleFileName = "discord_voice.node"): Promise<void> {
-    assertPathInside(hubDataDir(), sourceDir);
+async function scheduleWorker(actionName: "Patch" | "Revert", sourceDir: string, target: Target, metaMethod: PatchMethod | undefined, log: ActionLog, copyMode: WorkerConfig["copyMode"] = "directory", fileName: SingleFileName = "discord_voice.node", skipHubDirCheck = false): Promise<void> {
+    // For user-selected custom module folders the sourceDir lives anywhere on disk;
+    // only enforce the hubDataDir boundary for internal (downloaded) payloads.
+    if (!skipHubDirCheck) assertPathInside(hubDataDir(), sourceDir);
     assertPathInside(target.discordRoot, target.voiceDir);
 
     const patchBuildLabel = buildLabelFromAppDir(target.appDir || await findDiscordAppDir(target.discordRoot));

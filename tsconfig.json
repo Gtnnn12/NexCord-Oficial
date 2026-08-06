@@ -60,6 +60,9 @@
             "@nightcordplugins/*": [
                 "./nightcordplugins/*"
             ],
+            "@equicordplugins/*": [
+                "./plugins/*"
+            ],
             "@illegalcordplugins/*": [
                 "./illegalcordplugins/*"
             ],

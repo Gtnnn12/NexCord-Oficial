@@ -63,6 +63,16 @@ const UrlReplacementRules: Record<string, URLReplacementRule> = {
         displayName: "iTunes",
         description: "Open Apple Music links in the iTunes app"
     },
+    vrcx: {
+        match: /^https:\/\/vrchat.com\/home\/(user|avatar|world|group)\/(.+)$/,
+        replace: (_, type, id) => `vrcx://${type}/${id}`,
+        description: "Open VRChat links in the VRCX app"
+    },
+    telegram: {
+        match: /^https:\/\/t\.me\/([a-zA-Z0-9_]+)$/,
+        replace: (_, username) => `tg://resolve?domain=${username}`,
+        description: "Open Telegram links in the Telegram app"
+    }
 };
 
 const pluginSettings = definePluginSettings(
@@ -77,7 +87,6 @@ const pluginSettings = definePluginSettings(
     }, {} as SettingsDefinition)
 );
 
-
 const Native = VencordNative.pluginHelpers.OpenInApp as PluginNative<typeof import("./native")>;
 
 export default definePlugin({
@@ -86,6 +95,7 @@ export default definePlugin({
     tags: ["Utility"],
     authors: [Devs.Ven, Devs.surgedevs],
     settings: pluginSettings,
+    isModified: true,
 
     patches: [
         {

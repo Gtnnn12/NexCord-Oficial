@@ -39,7 +39,6 @@ const getImageBox = (url: string): Promise<{ width: number, height: number; } | 
         img.src = url;
     });
 
-
 const getAttachments = async (channelId: string) =>
     await Promise.all(
         UploadAttachmentStore.getUploads(channelId, DraftType.ChannelMessage)
@@ -71,7 +70,6 @@ const getAttachments = async (channelId: string) =>
                 return { attachment, objectURL: url };
             })
     );
-
 
 const PreviewIcon: IconComponent = ({ height = 20, width = 20, className }) => {
     return (
@@ -131,6 +129,7 @@ const PreviewButton: ChatBarButtonFactory = ({ isAnyChat, isEmpty, type: { attac
 export default definePlugin({
     name: "PreviewMessage",
     description: "Lets you preview your message before sending it.",
+    dependencies: ["ChatInputButtonAPI"],
     tags: ["Chat", "Utility"],
     authors: [Devs.Aria],
     // start early to ensure we're the first plugin to add our button

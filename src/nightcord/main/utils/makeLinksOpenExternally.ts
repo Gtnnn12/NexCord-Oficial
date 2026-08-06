@@ -58,6 +58,13 @@ export function handleExternalUrl(url: string, protocol?: string): { action: "de
         }
     }
 
+    try {
+        const u = new URL(url);
+        if (u.pathname.startsWith("/popout") && (u.hostname === "discord.com" || u.hostname.endsWith(".discord.com") || DISCORD_HOSTNAMES.includes(u.hostname))) {
+            return { action: "deny" };
+        }
+    } catch {}
+
     switch (protocol) {
         case "http:":
         case "https:":

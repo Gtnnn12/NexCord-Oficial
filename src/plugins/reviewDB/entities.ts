@@ -98,5 +98,6 @@ export interface Review {
     sender: ReviewAuthor,
     timestamp: number;
     type?: ReviewType;
+    replies?: Review[];
     userVote?: boolean | null;
 }

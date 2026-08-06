@@ -20,6 +20,7 @@ import { addMessageAccessory, removeMessageAccessory } from "@api/MessageAccesso
 import { updateMessage } from "@api/MessageUpdater";
 import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
+import { BaseText } from "@components/BaseText";
 import { Devs } from "@utils/constants.js";
 import { Queue } from "@utils/Queue";
 import definePlugin, { OptionType } from "@utils/types";
@@ -36,7 +37,6 @@ import {
     PermissionsBits,
     PermissionStore,
     RestAPI,
-    Text,
     UserStore
 } from "@webpack/common";
 import { ComponentType, JSX } from "react";
@@ -127,7 +127,6 @@ const settings = definePluginSettings({
     }
 });
 
-
 async function fetchMessage(channelID: string, messageID: string) {
     const cached = messageCache.get(messageID);
     if (cached) return cached.message;
@@ -156,7 +155,6 @@ async function fetchMessage(channelID: string, messageID: string) {
 
     return message;
 }
-
 
 function getImages(message: Message): Attachment[] {
     const attachments: Attachment[] = [];
@@ -222,7 +220,6 @@ function withEmbeddedBy(message: Message, embeddedBy: string[]) {
         }
     });
 }
-
 
 function MessageEmbedAccessory({ message }: { message: Message; }) {
     // @ts-expect-error
@@ -296,10 +293,10 @@ function ChannelMessageEmbedAccessory({ message, channel }: MessageEmbedProps): 
                 rawDescription: "",
                 color: "var(--background-base-lower)",
                 author: {
-                    name: <Text variant="text-xs/medium" tag="span">
+                    name: <BaseText size="xs" weight="medium" tag="span">
                         <span>{channelLabel} - </span>
                         {Parser.parse(channel.isDM() ? `<@${dmReceiver.id}>` : `<#${channel.id}>`)}
-                    </Text>,
+                    </BaseText>,
                     iconProxyURL: iconUrl
                 }
             }}
@@ -334,7 +331,7 @@ function AutomodEmbedAccessory(props: MessageEmbedProps): JSX.Element | null {
     return <AutoModEmbed
         channel={channel}
         childrenAccessories={
-            <Text color="text-muted" variant="text-xs/medium" tag="span" className={`${EmbedClasses.embedAuthor} ${EmbedClasses.embedMargin}`}>
+            <BaseText size="xs" weight="medium" color="text-muted" tag="span" className={`${EmbedClasses.embedAuthor} ${EmbedClasses.embedMargin}`}>
                 {iconUrl && <img src={iconUrl} className={EmbedClasses.embedAuthorIcon} alt="" />}
                 <span>
                     <span>{channelLabel} - </span>
@@ -343,7 +340,7 @@ function AutomodEmbedAccessory(props: MessageEmbedProps): JSX.Element | null {
                         : Parser.parse(`<#${channel.id}>`)
                     }
                 </span>
-            </Text>
+            </BaseText>
         }
         compact={compact}
         content={
@@ -406,7 +403,6 @@ export default definePlugin({
             );
         }, 4 /* just above rich embeds */);
     },
-
     stop() {
         removeMessageAccessory("MessageLinkEmbeds");
     }

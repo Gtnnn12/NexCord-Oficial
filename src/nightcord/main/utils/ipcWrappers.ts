@@ -33,6 +33,7 @@ export function handleSync(event: IpcEvents | UpdaterIpcEvents, cb: (e: IpcMainE
 }
 
 export function handle(event: IpcEvents | UpdaterIpcEvents, cb: (e: IpcMainInvokeEvent, ...args: any[]) => any) {
+    try { ipcMain.removeHandler(event); } catch {}
     ipcMain.handle(event, (e, ...args) => {
         validateSender(e.senderFrame, event);
         return cb(e, ...args);

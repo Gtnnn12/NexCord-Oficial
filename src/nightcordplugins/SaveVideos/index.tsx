@@ -306,7 +306,7 @@ export default definePlugin({
     description: "Download all media (images & videos) from a message, or all media from a user in a channel.",
     authors: [{ name: "nightcord", id: 0n }],
     dependencies: ["MessagePopoverAPI"],
-    enabledByDefault: true,
+    enabledByDefault: false,
 
     contextMenus: {
         "message": MessageContextMenuPatch,

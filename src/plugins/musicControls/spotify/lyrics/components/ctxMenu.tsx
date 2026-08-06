@@ -1,11 +1,11 @@
-﻿/*
+/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { providers } from "@plugins/musicControls/spotify/lyrics/api";
-import { lyricsAlternative } from "@plugins/musicControls/spotify/lyrics/providers/store";
+import { providers } from "@equicordplugins/musicControls/spotify/lyrics/api";
+import { lyricsAlternative } from "@equicordplugins/musicControls/spotify/lyrics/providers/store";
 import { copyWithToast } from "@utils/discord";
 import { findComponentByCodeLazy } from "@webpack";
 import { FluxDispatcher, Menu } from "@webpack/common";

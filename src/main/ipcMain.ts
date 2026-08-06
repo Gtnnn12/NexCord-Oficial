@@ -1407,6 +1407,7 @@ if (IS_DISCORD_DESKTOP) {
     });
 }
 
+try { ipcMain.removeHandler(IpcEvents.RELAUNCH_APP); } catch {}
 ipcMain.handle(IpcEvents.RELAUNCH_APP, async (event) => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
 

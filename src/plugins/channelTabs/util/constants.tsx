@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -7,8 +7,8 @@
 import { definePluginSettings } from "@api/Settings";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import { ChannelTabsPreview } from "@plugins/channelTabs/components/ChannelTabsContainer";
-import { KeybindSettings } from "@plugins/channelTabs/components/KeybindSettings";
+import { ChannelTabsPreview } from "@equicordplugins/channelTabs/components/ChannelTabsContainer";
+import { KeybindSettings } from "@equicordplugins/channelTabs/components/KeybindSettings";
 import { Logger } from "@utils/Logger";
 import { makeRange, OptionType } from "@utils/types";
 import { SearchableSelect, useState } from "@webpack/common";

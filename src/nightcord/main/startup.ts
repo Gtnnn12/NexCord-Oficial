@@ -141,11 +141,8 @@ function init() {
 init();
 
 async function bootstrap() {
-    if (!Object.hasOwn(State.store, "firstLaunch")) {
-        createFirstLaunchTour();
-    } else {
-        createWindows();
-    }
+    State.store.firstLaunch = false;
+    createWindows();
 }
 
 export let darwinURL: string | undefined;

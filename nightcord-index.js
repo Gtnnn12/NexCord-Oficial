@@ -240,42 +240,6 @@ app.once("ready", () => {
     }
 });
 
-// Protection contre le freeze après crash — vérifier et réparer le LevelDB localStorage
-// Quand Discord crash pendant une écriture localStorage, le fichier LevelDB peut se
-// corrompre et géler le renderer au démarrage suivant.
-try {
-    const lsPath = path.join(app.getPath("userData"), "Local Storage", "leveldb");
-    if (fs.existsSync(lsPath)) {
-        // Détecter la corruption : fichier LOCK verrouillé ou fichier LOG manquant
-        const lockFile = path.join(lsPath, "LOCK");
-        const logFile = path.join(lsPath, "LOG");
-        let corrupted = false;
-        if (fs.existsSync(lockFile)) {
-            try {
-                // Essayer d'ouvrir le LOCK en écriture — si échoue, un process zombie le tient
-                const fd = fs.openSync(lockFile, "r+");
-                fs.closeSync(fd);
-            } catch (e) {
-                // LOCK verrouillé par un zombie — supprimer pour débloquer
-                try { fs.unlinkSync(lockFile); } catch { }
-                corrupted = true;
-            }
-        }
-        // Vérifier aussi les fichiers .ldb corrompus (taille 0)
-        if (!corrupted) {
-            const files = fs.readdirSync(lsPath).filter(f => f.endsWith(".ldb"));
-            for (const f of files) {
-                const size = fs.statSync(path.join(lsPath, f)).size;
-                if (size === 0) { corrupted = true; break; }
-            }
-        }
-        if (corrupted) {
-            console.warn("[Nightcord] LevelDB localStorage corrompu détecté — réparation...");
-            try { fs.rmSync(lsPath, { recursive: true, force: true }); } catch { }
-            console.warn("[Nightcord] LevelDB supprimé — les données localStorage seront récréées");
-        }
-    }
-} catch (e) { console.warn("[Nightcord] LevelDB check failed:", e.message); }
 
 // Modules bundlés dans nightcord-dist/modules/
 const bundledModulesPath = path.join(path.dirname(process.execPath), "modules");

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -8,7 +8,7 @@ import { ApplicationCommandInputType } from "@api/Commands";
 import { showNotification } from "@api/Notifications";
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
-import equicordToolbox from "@nightcordplugins/equicordToolbox";
+import equicordToolbox from "@equicordplugins/equicordToolbox";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { saveFile } from "@utils/web";

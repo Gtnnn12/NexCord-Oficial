@@ -89,7 +89,7 @@ const UserIDSection = ErrorBoundary.wrap(({ userId }: { userId: string; }) => (
 
 export default definePlugin({
     name: "ShowID",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Shows the user ID in Discord profiles, below the 'Member Since' section.",
     authors: [{ name: "nightcord",
      id: 0n }],

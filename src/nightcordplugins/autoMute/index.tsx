@@ -110,7 +110,7 @@ export default definePlugin({
     authors: [
         { name: "Nightcord", id: 0n }
     ],
-    enabledByDefault: true,
+    enabledByDefault: false,
 
     contextMenus: {
         "user-context": UserContextMenuPatch

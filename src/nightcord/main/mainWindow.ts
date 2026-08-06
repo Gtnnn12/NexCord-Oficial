@@ -488,7 +488,7 @@ export async function createWindows() {
     const startMinimized = CommandLine.values["start-minimized"];
 
     let splash: BrowserWindow | undefined;
-    if (Settings.store.enableSplashScreen !== false) {
+    if (Settings.store.enableSplashScreen === true) {
         splash = await createSplashWindow(startMinimized);
 
         if (isDeckGameMode) splash.setFullScreen(true);

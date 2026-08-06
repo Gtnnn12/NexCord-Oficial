@@ -998,12 +998,11 @@ const patchUserContext: NavContextMenuPatchCallback = (children, { user }: UserC
 
 export default definePlugin({
     name: "Surveillance",
-    enabledByDefault: true,
+    enabledByDefault: false,
     description: "Adds a local live event dashboard for selected users and servers.",
     tags: ["Friends", "Utility"],
     authors: [{ name: "irritably",
      id: 928787166916640838n }],
-    required: true,
     settings,
     contextMenus: {
         "user-context": patchUserContext,

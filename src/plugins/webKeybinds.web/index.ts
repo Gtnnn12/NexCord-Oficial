@@ -36,7 +36,7 @@ export default definePlugin({
         if (hasCtrl) switch (e.key) {
             case "t":
             case "T":
-                if (!IS_VESKTOP) return;
+                if (!IS_VESKTOP && !IS_EQUIBOP) return;
                 e.preventDefault();
                 if (e.shiftKey) {
                     if (SelectedGuildStore.getGuildId()) NavigationRouter.transitionToGuild("@me");
@@ -50,7 +50,7 @@ export default definePlugin({
                 }
                 break;
             case "Tab":
-                if (!IS_VESKTOP) return;
+                if (!IS_VESKTOP && !IS_EQUIBOP) return;
                 const handler = e.shiftKey ? KeyBinds.SERVER_PREV : KeyBinds.SERVER_NEXT;
                 handler.action(e);
                 break;

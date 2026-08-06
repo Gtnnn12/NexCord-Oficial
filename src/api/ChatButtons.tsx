@@ -150,6 +150,8 @@ function VencordChatBarButtons(props: ChatBarProps) {
 
 export function _injectButtons(buttons: ReactNode[], props: ChatBarProps) {
     if (props.disabled || buttons.length === 0) return;
+    // Guard: don't inject if already present (patch may fire in multiple bundle modules)
+    if ((buttons as any[]).some((b: any) => b?.key === "vencord-chat-buttons")) return;
 
     buttons.unshift(<VencordChatBarButtons key="vencord-chat-buttons" {...props} />);
 }
