@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -33,7 +33,7 @@ async function setApiVersion(version: ApiVersion) {
 }
 
 function toBase64(data: Uint8Array): string {
-    // Chunked spread avoids both O(n²) string concatenation and call-stack overflow
+    // Chunked spread avoids both O(nÂ²) string concatenation and call-stack overflow
     // for large payloads (e.g. settings with many plugins).
     const CHUNK = 0x2000; // 8 KB per chunk
     let binary = "";

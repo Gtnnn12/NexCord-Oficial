@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -268,10 +268,10 @@ async function processMessageFetch(response: FetchMessagesResponse) {
     }
 }
 
-// Guard: vérifie qu'un élément est bien un objet Message complet.
+// Guard: vÃ©rifie qu'un Ã©lÃ©ment est bien un objet Message complet.
 // Discord peut inclure des snowflakes bruts (strings/numbers) dans payload.messages
-// pour représenter des messages en lazy-loading non encore chargés.
-// Faire `'flags' in primitive` provoque un TypeError immédiat dans _handleLoadMessagesSuccess.
+// pour reprÃ©senter des messages en lazy-loading non encore chargÃ©s.
+// Faire `'flags' in primitive` provoque un TypeError immÃ©diat dans _handleLoadMessagesSuccess.
 function isMessageObject(m: unknown): m is LoggedMessageJSON {
     return m !== null && typeof m === "object" && typeof (m as any).id === "string";
 }
@@ -415,7 +415,7 @@ export default definePlugin({
     async start() {
         this.oldGetMessage = oldGetMessage = MessageStore.getMessage;
 
-        // Cache pour éviter de recréer les classes de messages à chaque appel (très fréquent au scroll)
+        // Cache pour Ã©viter de recrÃ©er les classes de messages Ã  chaque appel (trÃ¨s frÃ©quent au scroll)
         const combinedMessageCache = new Map<string, any>();
 
         MessageStore.getMessage = (channelId: string, messageId: string) => {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -134,8 +134,8 @@ async function generateDebugInfoMessage() {
     const clientInfo = detectClient();
     let clientString = `${clientInfo.name}`;
     clientString += `${clientInfo.version ? ` v${clientInfo.version}` : ""}`;
-    clientString += `${clientInfo.info ? ` • ${clientInfo.info}` : ""}`;
-    clientString += `${clientInfo.shortHash ? ` • [${clientInfo.shortHash}](<https://github.com/Gtnnn12/NexCord/commit/${clientInfo.hash}>)` : ""}`;
+    clientString += `${clientInfo.info ? ` â€¢ ${clientInfo.info}` : ""}`;
+    clientString += `${clientInfo.shortHash ? ` â€¢ [${clientInfo.shortHash}](<https://github.com/Gtnnn12/NexCord-Oficial/commit/${clientInfo.hash}>)` : ""}`;
 
     const spoofInfo = IS_EQUIBOP ? tryOrElse(() => VesktopNative.app.getPlatformSpoofInfo?.(), null) : null;
     const platformDisplay = spoofInfo?.spoofed
@@ -144,7 +144,7 @@ async function generateDebugInfoMessage() {
 
     const info = {
         Equicord:
-            `v${VERSION} • [${gitHashShort}](<https://github.com/Gtnnn12/NexCord/commit/${gitHash}>)` +
+            `v${VERSION} â€¢ [${gitHashShort}](<https://github.com/Gtnnn12/NexCord-Oficial/commit/${gitHash}>)` +
             `${IS_EQUIBOP ? "" : SettingsPlugin.getVersionInfo()} - ${Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(BUILD_TIMESTAMP)}`,
         Client: `${RELEASE_CHANNEL} ~ ${clientString}`,
         Platform: platformDisplay
@@ -175,7 +175,7 @@ async function generateDebugInfoMessage() {
 
     let content = `>>> ${Object.entries(info).map(([k, v]) => `**${k}**: ${v}`).join("\n")}`;
     content += "\n" + Object.entries(commonIssues)
-        .filter(([, v]) => v).map(([k]) => `⚠️ ${k}`)
+        .filter(([, v]) => v).map(([k]) => `âš ï¸ ${k}`)
         .join("\n");
 
     return content.trim();
@@ -192,7 +192,7 @@ async function uploadPluginListFile(channelId: string, fileContent: string, file
                 body: {
                     flags: 0,
                     channel_id: channelId,
-                    content: `⚠️ Plugin list attached as file due to high plugin count (${fileContent.split("\n").filter(l => l.startsWith("  -")).length} plugins enabled)`,
+                    content: `âš ï¸ Plugin list attached as file due to high plugin count (${fileContent.split("\n").filter(l => l.startsWith("  -")).length} plugins enabled)`,
                     nonce: SnowflakeUtils.fromTimestamp(Date.now()),
                     sticker_ids: [],
                     type: 0,
@@ -381,8 +381,8 @@ export default definePlugin({
                         <Paragraph>You are using a custom build of Equicord, which we do not provide support for!</Paragraph>
 
                         <Paragraph className={Margins.top8}>
-                            We only provide support for <Link href="https://github.com/Gtnnn12/NexCord">official builds</Link>.
-                            Either <Link href="https://github.com/Gtnnn12/NexCord">switch to an official build</Link> or figure your issue out yourself.
+                            We only provide support for <Link href="https://github.com/Gtnnn12/NexCord-Oficial">official builds</Link>.
+                            Either <Link href="https://github.com/Gtnnn12/NexCord-Oficial">switch to an official build</Link> or figure your issue out yourself.
                         </Paragraph>
 
                         <BaseText size="md" weight="bold" className={Margins.top8}>You will be banned from receiving support if you ignore this rule.</BaseText>

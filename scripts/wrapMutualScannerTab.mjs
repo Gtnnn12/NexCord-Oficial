@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+﻿import { readFileSync, writeFileSync } from "fs";
 
 let content = readFileSync("src/nightcordplugins/mutualScanner/MutualScannerTab.tsx", "utf8");
 

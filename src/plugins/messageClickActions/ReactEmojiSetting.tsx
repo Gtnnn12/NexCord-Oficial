@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -187,7 +187,7 @@ function EmojiPreview({ value }: { value: string; }) {
 }
 
 export function ReactEmojiSetting({ setValue }: PluginSettingComponentProps) {
-    const [emoji, setEmoji] = useState(settings.store.reactEmoji ?? "💀");
+    const [emoji, setEmoji] = useState(settings.store.reactEmoji ?? "ðŸ’€");
 
     return (
         <div>

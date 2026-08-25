@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export type RTCConnectionState =
     | "DISCONNECTED"

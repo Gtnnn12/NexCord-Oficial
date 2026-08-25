@@ -1,4 +1,4 @@
-import {log} from "./log";
+﻿import {log} from "./log";
 import {action, status} from "../../stores/installation";
 
 const discordURL = "https://discord.gg/nightcord";

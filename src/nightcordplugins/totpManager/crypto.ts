@@ -1,5 +1,5 @@
-/*
- * NexCord 2FA Authenticator — Military Grade Cascaded Cryptography
+﻿/*
+ * NexCord 2FA Authenticator â€” Military Grade Cascaded Cryptography
  * Dual-Layer: AES-256-GCM + ChaCha20-Poly1305 with PBKDF2-SHA512 Key Stretching
  * Copyright (c) 2026 NexCord Team
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ export interface EncryptedVaultEnvelope {
     timestamp: number;
 }
 
-// ─── Helpers: Base64 & Bytes ──────────────────────────────────────────────────
+// â”€â”€â”€ Helpers: Base64 & Bytes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function bytesToBase64(bytes: Uint8Array): string {
     const bin = Array.from(bytes, b => String.fromCharCode(b)).join("");
@@ -29,7 +29,7 @@ function base64ToBytes(b64: string): Uint8Array {
     return bytes;
 }
 
-// ─── Key Derivation: PBKDF2-HMAC-SHA512 (600k Iterations) ─────────────────────
+// â”€â”€â”€ Key Derivation: PBKDF2-HMAC-SHA512 (600k Iterations) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function deriveDualKeys(password: string, salt: Uint8Array, iterations = 600000): Promise<{ aesKey: CryptoKey; chachaKey: Uint8Array }> {
     const enc = new TextEncoder();
@@ -68,7 +68,7 @@ export async function deriveDualKeys(password: string, salt: Uint8Array, iterati
     return { aesKey, chachaKey: chachaKeyBytes };
 }
 
-// ─── ChaCha20 Stream Cipher & Poly1305 MAC (RFC 8439) ─────────────────────────
+// â”€â”€â”€ ChaCha20 Stream Cipher & Poly1305 MAC (RFC 8439) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function rotl(v: number, n: number): number {
     return ((v << n) | (v >>> (32 - n))) >>> 0;
@@ -325,7 +325,7 @@ function chacha20Poly1305Decrypt(key: Uint8Array, nonce: Uint8Array, payload: Ui
     return chacha20Xor(key, 1, nonce, ciphertext);
 }
 
-// ─── High-Level Cascaded Encryption (AES-256-GCM + ChaCha20-Poly1305) ─────────
+// â”€â”€â”€ High-Level Cascaded Encryption (AES-256-GCM + ChaCha20-Poly1305) â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Encrypts data using cascaded AES-256-GCM followed by ChaCha20-Poly1305.

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,7 +12,7 @@ import { ThemesTab, ChangelogTab, PluginsTab, BackupAndRestoreTab, UpdaterTab, V
 import IconsTab from "@nightcordplugins/iconViewer/components/IconsTab";
 import { CreateThemeTab } from "@components/settings/tabs/createTheme/CreateThemeTab";
 
-// ── Tab definitions ──────────────────────────────────────────────────────────
+// â”€â”€ Tab definitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface TabDef {
     id: string;
@@ -84,7 +84,7 @@ const TABS: TabDef[] = [
     },
 ];
 
-// ── Modal inner ───────────────────────────────────────────────────────────────
+// â”€â”€ Modal inner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function NightcordModalInner({ onClose }: { onClose: () => void; }) {
     const [hovered, setHovered] = useState<string | null>(null);
@@ -148,7 +148,7 @@ function NightcordModalInner({ onClose }: { onClose: () => void; }) {
                 </div>
             </div>
 
-            {/* Right side — content */}
+            {/* Right side â€” content */}
             <div className="nc-modal-content">
                 <div className="nc-modal-content-header">
                     <span className="nc-modal-content-title">
@@ -204,7 +204,7 @@ function NightcordModalInner({ onClose }: { onClose: () => void; }) {
     );
 }
 
-// ── Modal wrapper ─────────────────────────────────────────────────────────────
+// â”€â”€ Modal wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function NightcordModal({ modalProps }: { modalProps: ModalProps; }) {
     return (

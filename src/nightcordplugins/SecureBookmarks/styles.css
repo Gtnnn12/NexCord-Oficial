@@ -1,10 +1,10 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-/* ── Unlock view ─────────────────────────────────────────────────────────────── */
+/* â”€â”€ Unlock view â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vc-secure-bookmarks-unlock {
     display: flex;
     flex-direction: column;
@@ -39,7 +39,7 @@
     justify-content: center;
 }
 
-/* ── No password error state ──────────────────────────────────────────────────── */
+/* â”€â”€ No password error state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vc-secure-bookmarks-no-password {
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@
     color: var(--text-feedback-critical);
 }
 
-/* ── Bookmarks list ───────────────────────────────────────────────────────────── */
+/* â”€â”€ Bookmarks list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vc-secure-bookmarks-list {
     display: flex;
     flex-direction: column;

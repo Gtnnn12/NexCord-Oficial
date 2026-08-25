@@ -1,4 +1,4 @@
-const { app } = require('electron');
+﻿const { app } = require('electron');
 app.whenReady().then(() => {
     try {
         require('./dist/desktop/patcher.js');

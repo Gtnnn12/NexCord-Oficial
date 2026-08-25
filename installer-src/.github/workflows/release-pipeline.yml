@@ -1,4 +1,4 @@
-name: Release Pipeline
+﻿name: Release Pipeline
 
 # Execution needs to be triggered manually at https://github.com/BetterDiscord/Installer/actions/workflows/release-pipeline.yml.
 

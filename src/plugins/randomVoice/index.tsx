@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -130,7 +130,7 @@ function RandomVoiceKeybindSettings() {
 function formatKeybind(keybind: string | string[]) {
     const keybindString = Array.isArray(keybind) ? keybind.join("+") : keybind;
     return IS_MAC
-        ? keybindString.replace(/Control/gi, "^").replace(/Meta|Command|Cmd/gi, "⌘").replace(/Alt|Option/gi, "⌥").replace(/Shift/gi, "⇧")
+        ? keybindString.replace(/Control/gi, "^").replace(/Meta|Command|Cmd/gi, "âŒ˜").replace(/Alt|Option/gi, "âŒ¥").replace(/Shift/gi, "â‡§")
         : keybindString;
 }
 

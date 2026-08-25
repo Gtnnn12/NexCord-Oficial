@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+﻿const { execSync } = require("child_process");
 
 const {
     readFileSync,
@@ -182,7 +182,7 @@ function buildNexCordFromDiscord(discordApp) {
 
     if (!existsSync(electronDist)) {
         throw new Error(
-            `No se encontró Electron ${DISCORD_ELECTRON_VERSION}. Ejecuta: pnpm exec electron --version`
+            `No se encontrÃ³ Electron ${DISCORD_ELECTRON_VERSION}. Ejecuta: pnpm exec electron --version`
         );
     }
 
@@ -313,7 +313,7 @@ function buildNexCordFromDiscord(discordApp) {
 
     if (!existsSync(nightcordAsar)) {
         throw new Error(
-            "No se encontró dist/nightcord.asar. Ejecuta primero el build."
+            "No se encontrÃ³ dist/nightcord.asar. Ejecuta primero el build."
         );
     }
 

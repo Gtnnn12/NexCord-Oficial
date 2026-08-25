@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -254,7 +254,7 @@ export const DeeplLanguages = {
     "mr": "Marathi",
     "mn": "Mongolian",
     "ne": "Nepali",
-    "nb": "Norwegian (Bokmål)",
+    "nb": "Norwegian (BokmÃ¥l)",
     "oc": "Occitan",
     "om": "Oromo",
     "pag": "Pangasinan",

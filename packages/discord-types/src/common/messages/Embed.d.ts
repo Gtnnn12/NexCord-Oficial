@@ -1,4 +1,4 @@
-export type EmbedType =
+﻿export type EmbedType =
     | "image"
     | "video"
     | "link"

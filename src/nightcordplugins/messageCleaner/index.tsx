@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,7 +11,7 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { Alerts, ChannelStore, Forms, GuildStore, Menu, React, RelationshipStore, RestAPI, ScrollerThin, showToast, TextInput, Toasts, UserStore } from "@webpack/common";
 import { t } from "../autoTranslateNightcord";
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function CleanerIcon(props: any) {
     return (
         <svg class="vc-ic-save-icon" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width={props.width || 24} height={props.height || 24} fill="none" viewBox="0 0 24 24" {...props}>
@@ -21,7 +21,7 @@ function CleanerIcon(props: any) {
     );
 }
 
-// ─── Types & State ────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types & State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface LogEntry {
     id: string;
@@ -51,7 +51,7 @@ let currentTask: { name: string; progress: string; percentage: number } | null =
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach(l => l());
 
-// ─── Core Logic ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Core Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function canDeleteMessage(message: any, currentUserId: string): boolean {
     try {
@@ -336,7 +336,7 @@ function exportLogs() {
     URL.revokeObjectURL(url);
 }
 
-// ─── Components ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MODAL_STYLES = `
 .mcv2-root {
@@ -603,7 +603,7 @@ function MessageCleanerTab() {
                             )}
                         </div>
                         <div style={{ color: selected.includes(ch.id) ? "#ed4245" : "#b5bac1", fontWeight: selected.includes(ch.id) ? "bold" : "normal", minWidth: "16px", textAlign: "center" }}>
-                            {selected.includes(ch.id) ? (selected.indexOf(ch.id) + 1) : "○"}
+                            {selected.includes(ch.id) ? (selected.indexOf(ch.id) + 1) : "â—‹"}
                         </div>
                     </div>
                 ))}
@@ -657,7 +657,7 @@ function ServersCleanerTab() {
                         <img src={`https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=64`} className="mcv2-avatar" onError={(e) => (e.currentTarget.style.display = 'none')} />
                         <div className="mcv2-item-name">{g.name}</div>
                         <div style={{ color: selected.includes(g.id) ? "#ed4245" : "#b5bac1", fontWeight: selected.includes(g.id) ? "bold" : "normal", minWidth: "16px", textAlign: "center" }}>
-                            {selected.includes(g.id) ? (selected.indexOf(g.id) + 1) : "○"}
+                            {selected.includes(g.id) ? (selected.indexOf(g.id) + 1) : "â—‹"}
                         </div>
                     </div>
                 ))}
@@ -784,7 +784,7 @@ function CleanerModal({ rootProps }: { rootProps: any }) {
     );
 }
 
-// ─── Plugin Definition ────────────────────────────────────────────────────────
+// â”€â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function IconWithProgress(props: any) {
     const forceUpdate = useForceUpdate();

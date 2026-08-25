@@ -1,4 +1,4 @@
-# Equicord Types
+﻿# Equicord Types
 
 Typings for Equicord's api, published to npm
 

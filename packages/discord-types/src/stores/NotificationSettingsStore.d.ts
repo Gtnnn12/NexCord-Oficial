@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export type DesktopNotificationType = "ALL" | "ONLY_MENTIONS" | "NEVER";
 export type TTSNotificationType = "ALL" | "ONLY_MENTIONS" | "NEVER";

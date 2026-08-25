@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -58,7 +58,7 @@ export async function getLyricsLrclib(track: Track): Promise<LyricsData | null> 
                 const trimmedText = text.trim();
                 return {
                     time: lyricTimeToSeconds(lrcTime),
-                    text: (trimmedText === "" || trimmedText === "♪") ? null : trimmedText
+                    text: (trimmedText === "" || trimmedText === "â™ª") ? null : trimmedText
                 };
             })
         }

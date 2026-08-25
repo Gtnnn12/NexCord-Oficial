@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ import { ChannelStore, ContextMenuApi, FluxDispatcher, Forms, GuildStore, IconUt
 
 import { t, useTranslation } from "../autoTranslateNightcord";
 
-// Stratégie de navigation alternative via Dispatcher
+// StratÃ©gie de navigation alternative via Dispatcher
 const navigateTo = (path: string) => {
     try {
         if (NavigationRouter?.transitionTo) return NavigationRouter.transitionTo(path);
@@ -88,7 +88,7 @@ export const settings = definePluginSettings({
     keepLogsOnRestart: {
         type: OptionType.BOOLEAN,
         default: true,
-        description: "Don't Delete — Re-display all logged events after every app reload",
+        description: "Don't Delete â€” Re-display all logged events after every app reload",
         restartNeeded: false,
     },
     persistentLogs: [] as Omit<LogEntry, "id" | "timeStr">[]
@@ -134,7 +134,7 @@ function savePersistLogs() {
     } catch { }
 }
 
-// Seul accountur de version — pas de snapshot, pas de copie
+// Seul accountur de version â€” pas de snapshot, pas de copie
 let globalVersion = 0;
 const updateListeners = new Set<() => void>();
 
@@ -224,7 +224,7 @@ function pruneMsgCache() {
     }
 }
 
-/** Sérialise les embeds Discord en texte lisible + extrait les images d'embed */
+/** SÃ©rialise les embeds Discord en texte lisible + extrait les images d'embed */
 function extractEmbedsData(embeds: any[]): { text: string; attachments: LogAttachment[]; } {
     if (!Array.isArray(embeds) || embeds.length === 0) return { text: "", attachments: [] };
     const parts: string[] = [];
@@ -240,7 +240,7 @@ function extractEmbedsData(embeds: any[]): { text: string; attachments: LogAttac
                 if (f.name || f.value) lines.push(`${f.name ? f.name + ": " : ""}${f.value ?? ""}`);
             }
         }
-        if (embed.footer?.text) lines.push(`— ${embed.footer.text}`);
+        if (embed.footer?.text) lines.push(`â€” ${embed.footer.text}`);
         if (lines.length > 0) parts.push(lines.join(" | "));
 
         // Extraire l'image principale de l'embed
@@ -488,7 +488,7 @@ function LogRow({ e, onClose }: { e: LogEntry; onClose?: () => void; }) {
                 <div className="el-top">
                     <span className="el-badge" style={{ background: cfg.color }}>{t(cfg.label)}</span>
                     {e.authorName && e.authorName !== "?" && <span className="el-author">{e.authorName}</span>}
-                    {e.channelName && <><span className="el-sep">·</span><span className="el-channel">#{e.channelName}</span></>}
+                    {e.channelName && <><span className="el-sep">Â·</span><span className="el-channel">#{e.channelName}</span></>}
                     {e.guildName && <span className="el-guild">{e.guildName}</span>}
                     <span className="el-time">{e.timeStr}</span>
                 </div>
@@ -523,7 +523,7 @@ function LogRow({ e, onClose }: { e: LogEntry; onClose?: () => void; }) {
                                                 />
                                             ) : (
                                                 <a href={att.url} target="_blank" rel="noreferrer" className="el-attachment-link" onClick={ev => ev.stopPropagation()}>
-                                                    📁 {att.filename || "file"}
+                                                    ðŸ“ {att.filename || "file"}
                                                 </a>
                                             )}
                                         </div>
@@ -536,7 +536,7 @@ function LogRow({ e, onClose }: { e: LogEntry; onClose?: () => void; }) {
                 {e.type === "message_edit" && (
                     <div className="el-edit-wrap">
                         <div className="el-msg el-msg--before"><span className="el-msg-label">{t("Before:")} </span><span>{renderContent(e.extra || "?")}</span></div>
-                        <div className="el-msg el-msg--after"><span className="el-msg-label">{t("After:")} </span><span>{renderContent(e.content || "—")}</span></div>
+                        <div className="el-msg el-msg--after"><span className="el-msg-label">{t("After:")} </span><span>{renderContent(e.content || "â€”")}</span></div>
                         {e.attachments && e.attachments.length > 0 && (
                             <div className="el-attachments">
                                 {e.attachments.map((att, i) => (
@@ -563,7 +563,7 @@ function LogRow({ e, onClose }: { e: LogEntry; onClose?: () => void; }) {
                                             />
                                         ) : (
                                             <a href={att.url} target="_blank" rel="noreferrer" className="el-attachment-link" onClick={ev => ev.stopPropagation()}>
-                                                📁 {att.filename || "file"}
+                                                ðŸ“ {att.filename || "file"}
                                             </a>
                                         )}
                                     </div>
@@ -647,7 +647,7 @@ function LogsModal({ rootProps }: { rootProps: any; }) {
         return () => { updateListeners.delete(fn); };
     }, []);
 
-    // Debounce search à 200ms
+    // Debounce search Ã  200ms
     useEffect(() => {
         const t = setTimeout(() => { setDebouncedSearch(search); setPage(0); }, 200);
         return () => clearTimeout(t);
@@ -754,7 +754,7 @@ function LogsModal({ rootProps }: { rootProps: any; }) {
                         </div>
                         <input className="el-search-input"
                             placeholder={t("Filter...")} value={search} onChange={e => setSearch(e.target.value)} />
-                        {search && <button className="el-clear" onClick={() => setSearch("")}>✕</button>}
+                        {search && <button className="el-clear" onClick={() => setSearch("")}>âœ•</button>}
                         <button className="el-clear-all" style={{ marginRight: 4 }} onClick={saveAsTxt} title={t("Save as .txt")}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg>
                         </button>
@@ -766,17 +766,17 @@ function LogsModal({ rootProps }: { rootProps: any; }) {
 
                 <div className="el-list">
                     {slice.length === 0
-                        ? <div className="el-empty">{t("Aucun événement")}</div>
+                        ? <div className="el-empty">{t("Aucun Ã©vÃ©nement")}</div>
                         : slice.map(e => <LogRow key={e.id} e={e} onClose={rootProps?.onClose} />)}
                 </div>
 
                 {totalPages > 1 && (
                     <div className="el-pagination">
-                        <button disabled={page === 0} onClick={() => setPage(0)}>«</button>
-                        <button disabled={page === 0} onClick={() => setPage(p => p - 1)}>‹</button>
+                        <button disabled={page === 0} onClick={() => setPage(0)}>Â«</button>
+                        <button disabled={page === 0} onClick={() => setPage(p => p - 1)}>â€¹</button>
                         <span>{page + 1} / {totalPages}</span>
-                        <button disabled={page >= totalPages - 1} onClick={() => setPage(p => p + 1)}>›</button>
-                        <button disabled={page >= totalPages - 1} onClick={() => setPage(totalPages - 1)}>»</button>
+                        <button disabled={page >= totalPages - 1} onClick={() => setPage(p => p + 1)}>â€º</button>
+                        <button disabled={page >= totalPages - 1} onClick={() => setPage(totalPages - 1)}>Â»</button>
                     </div>
                 )}
             </ModalContent>
@@ -862,7 +862,7 @@ function subscribeToEvents() {
     sub("LOAD_MESSAGES_SUCCESS", d => {
         if (!d) return;
         // FIX CRASH DM SCROLL: isLoadingMessages bloque la purge du msgCache pendant
-        // le traitement du batch — évite un pic synchrone sur le thread principal.
+        // le traitement du batch â€” Ã©vite un pic synchrone sur le thread principal.
         const msgs = [
             ...(Array.isArray(d.messages) ? d.messages : []),
             ...(Array.isArray(d.jump) ? d.jump : []),
@@ -871,12 +871,12 @@ function subscribeToEvents() {
         ];
         if (msgs.length === 0) return;
 
-        // requestIdleCallback est idéal pour le scan en arrière-plan sans lag
+        // requestIdleCallback est idÃ©al pour le scan en arriÃ¨re-plan sans lag
         if (typeof requestIdleCallback !== "undefined") {
             requestIdleCallback(() => {
                 isLoadingMessages = true;
                 try { for (const m of msgs) cacheMsg(m); } finally { isLoadingMessages = false; }
-                // Purge différée si le cache dépasse la limite
+                // Purge diffÃ©rÃ©e si le cache dÃ©passe la limite
                 pruneMsgCache();
             }, { timeout: 3000 });
         } else {
@@ -1017,7 +1017,7 @@ function subscribeToEvents() {
                 const content = (s.selfStream === false && p?.selfStream === true) ? t("Stream stopped") : t("Left");
                 pushLog({ type: "voice_leave", content, ...b, channelId: oldChannelId });
             }
-            else if (oldChannelId && channelId && oldChannelId !== channelId) { const oc = getChannel(oldChannelId); pushLog({ type: "voice_move", content: `${oc?.name ?? "?"} → ${ch?.name ?? "?"}`, ...b }); }
+            else if (oldChannelId && channelId && oldChannelId !== channelId) { const oc = getChannel(oldChannelId); pushLog({ type: "voice_move", content: `${oc?.name ?? "?"} â†’ ${ch?.name ?? "?"}`, ...b }); }
             const p = prevVS.get(userId);
             if (p) {
                 if (s.selfMute !== p.selfMute) pushLog({ type: "voice_mute", content: s.selfMute ? t("Mic muted") : t("Mic unmuted"), ...b });
@@ -1084,7 +1084,7 @@ function subscribeToEvents() {
         }
     });
     sub("GUILD_BAN_ADD", d => { const b = uInfo(d.user?.id); const g = getGuild(d.guildId); pushLog({ type: "guild_ban", content: t("Banned"), ...b, guildId: d.guildId, guildName: g?.name }); });
-    sub("GUILD_BAN_REMOVE", d => { const b = uInfo(d.user?.id); const g = getGuild(d.guildId); pushLog({ type: "friend_remove", content: t("Débanni"), ...b, guildId: d.guildId, guildName: g?.name }); });
+    sub("GUILD_BAN_REMOVE", d => { const b = uInfo(d.user?.id); const g = getGuild(d.guildId); pushLog({ type: "friend_remove", content: t("DÃ©banni"), ...b, guildId: d.guildId, guildName: g?.name }); });
 
     sub("GUILD_MEMBER_UPDATE", d => {
         if (!d.guildId || !d.user?.id) return;
@@ -1106,8 +1106,8 @@ function subscribeToEvents() {
         if (changed) scheduleFlush();
     });
 
-    // Capture logout/disconnect (partiel car le plugin s'arrête si déco totale)
-    sub("LOGOUT", () => { pushLog({ type: "user_disconnect", content: t("Déconnexion du account"), authorName: "System" }); });
+    // Capture logout/disconnect (partiel car le plugin s'arrÃªte si dÃ©co totale)
+    sub("LOGOUT", () => { pushLog({ type: "user_disconnect", content: t("DÃ©connexion du account"), authorName: "System" }); });
 }
 
 export default definePlugin({
@@ -1142,7 +1142,7 @@ export default definePlugin({
     stop() {
         window.removeEventListener("beforeunload", savePersistLogs);
         unsubs.forEach(fn => fn()); unsubs = [];
-        // Save before clearing — cancel the debounce timer then immediately persist
+        // Save before clearing â€” cancel the debounce timer then immediately persist
         if (flushTimer !== null) { clearTimeout(flushTimer); flushTimer = null; }
         savePersistLogs();
         logs = []; msgCache.clear(); prevVS.clear(); updateListeners.clear();

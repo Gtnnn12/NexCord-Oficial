@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -119,7 +119,7 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                 body: { content: messages[idx], nonce: makeNonce(), tts: false }
             });
             if (response.status === 429) {
-                setStatus(t("Rate limited — waiting..."));
+                setStatus(t("Rate limited â€” waiting..."));
                 if (runningRef.current) scheduleNext(1000);
                 return;
             }

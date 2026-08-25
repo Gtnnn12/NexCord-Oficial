@@ -1,4 +1,4 @@
-export const enum ParticipantType {
+﻿export const enum ParticipantType {
     STREAM = 0,
     HIDDEN_STREAM = 1,
     USER = 2,

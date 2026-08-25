@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,11 +25,11 @@ import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 import { getStoredToken } from "../../api/OAuth2";
 import { saveOwnPluginConfig, getPublicPluginConfig } from "../../api/PluginSync";
 
-// ─── Native (IPC → main process) ─────────────────────────────────────────────
+// â”€â”€â”€ Native (IPC â†’ main process) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const Native = VencordNative.pluginHelpers.SoundCordPlayer as PluginNative<typeof import("./native")>;
 
-// ─── SoundCord Official Logo ──────────────────────────────────────────────────
+// â”€â”€â”€ SoundCord Official Logo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const SOUNDCLOUD_LOGO_SRC = "data:image/avif;base64,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";
 
@@ -43,7 +43,7 @@ function SoundCloudIcon(props: React.SVGProps<SVGSVGElement>) {
 
 const SoundCloudIconComponent: IconComponent = props => <SoundCloudIcon {...props} />;
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface ScTrack {
     id: string;
@@ -85,7 +85,7 @@ interface ScUserProfile {
     verified?: boolean;
 }
 
-// ─── DataStore keys ───────────────────────────────────────────────────────────
+// â”€â”€â”€ DataStore keys â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SC_CLIENT_ID_KEY = "SoundCordPlayer_clientId";
 const SC_FAVS_KEY = "SoundCordPlayer_favorites";
@@ -108,7 +108,7 @@ async function saveClientId(id: string) {
     try { await DataStore.set(SC_CLIENT_ID_KEY, id); } catch { }
 }
 
-// ─── Client ID Fetch via native (main process) ────────────────────────────
+// â”€â”€â”€ Client ID Fetch via native (main process) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function fetchClientId(): Promise<string | null> {
     const cached = await loadCachedClientId();
@@ -137,7 +137,7 @@ async function refreshClientId(): Promise<string | null> {
     return fetchClientId();
 }
 
-// ─── SoundCloud API via native ────────────────────────────────────────────────
+// â”€â”€â”€ SoundCloud API via native â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function parseTracks(data: any): ScTrack[] {
     const list = Array.isArray(data) ? data : (data?.collection ?? []);
@@ -217,7 +217,7 @@ async function searchTracks(query: string, clientId: string, offset = 0, limit =
     return parseTracks(JSON.parse(json));
 }
 
-// ─── Paroles / Lyrics via LrcLib ──────────────────────────────────────────────
+// â”€â”€â”€ Paroles / Lyrics via LrcLib â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface LyricsLine {
     time: number; // in seconds
@@ -285,13 +285,13 @@ async function getStreamUrl(track: ScTrack, clientId: string): Promise<string> {
     const { streamUrl, snipped, source } = track;
     if (!streamUrl) throw new Error("Stream URL not found");
 
-    // Deezer/Spotify previews are direct CDN MP3 URLs — play directly, no resolution needed
+    // Deezer/Spotify previews are direct CDN MP3 URLs â€” play directly, no resolution needed
     if (source === "deezer" || source === "spotify") {
         return streamUrl;
     }
 
     if (snipped) {
-        throw new Error("Label restricted — not available outside SoundCloud Go+");
+        throw new Error("Label restricted â€” not available outside SoundCloud Go+");
     }
 
     // Already a resolved CDN URL, no need to call the resolve endpoint
@@ -309,7 +309,7 @@ async function getStreamUrl(track: ScTrack, clientId: string): Promise<string> {
 }
 
 async function refreshTrackData(track: ScTrack, clientId: string): Promise<ScTrack> {
-    // Deezer/Spotify preview URLs are static CDN links — no refresh needed
+    // Deezer/Spotify preview URLs are static CDN links â€” no refresh needed
     if (track.source === "deezer" || track.source === "spotify") return track;
     try {
         const json = await Native.resolveTrack(track.id, clientId);
@@ -377,7 +377,7 @@ async function playTrackById(trackId: string, startParam?: string) {
     }
 }
 
-// ─── Favorites ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Favorites â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function loadFavorites(): Promise<ScTrack[]> {
     try { return (await DataStore.get<ScTrack[]>(SC_FAVS_KEY)) ?? []; }
@@ -388,14 +388,14 @@ async function saveFavorites(favs: ScTrack[]) {
     try { await DataStore.set(SC_FAVS_KEY, favs); } catch { }
 }
 
-// ─── Duration helper ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Duration helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function fmtDuration(ms: number): string {
     const s = Math.floor(ms / 1000);
     return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-// ─── Player singleton (persiste après fermeture de la modal) ─────────────────
+// â”€â”€â”€ Player singleton (persiste aprÃ¨s fermeture de la modal) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type PlayerListener = () => void;
 
@@ -416,7 +416,7 @@ export const playerState = {
     currentResults: [] as ScTrack[],
     currentLyrics: null as LyricsData | null,
     hasLyrics: false,
-    status: "Connecting to SoundCloud…",
+    status: "Connecting to SoundCloudâ€¦",
     audio: null as HTMLAudioElement | null,
     listeners: new Set<PlayerListener>(),
 
@@ -510,7 +510,7 @@ async function playerPlayTrack(track: ScTrack, fromFavIdx = -1, seekPos = 0, fro
     });
 
     try {
-        // Rafraîchir les données de la piste pour éviter les 404 (liens expirés)
+        // RafraÃ®chir les donnÃ©es de la piste pour Ã©viter les 404 (liens expirÃ©s)
         const freshTrack = await refreshTrackData(track, s.clientId);
         s.playing = freshTrack;
 
@@ -608,7 +608,7 @@ async function playerPlayTrack(track: ScTrack, fromFavIdx = -1, seekPos = 0, fro
         audio.addEventListener("error", () => { s.status = t("Audio playback error"); s.isPlaying = false; s.notify(); });
         await audio.play();
         s.isPlaying = true;
-        s.status = t("Now playing…");
+        s.status = t("Now playingâ€¦");
         s.notify();
     } catch (e: any) {
         s.status = `${t("Stream error : ")}${e.message}`;
@@ -827,7 +827,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
     const [activeSearchQuery, setActiveSearchQuery] = useState("");
     const [activeCategoryName, setActiveCategoryName] = useState<string | null>(null);
 
-    // ─── SoundCloud Account Auth & Upload State ─────────────────────────────
+    // â”€â”€â”€ SoundCloud Account Auth & Upload State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const [authToken, setAuthToken] = useState<string | null>(null);
     const [authUser, setAuthUser] = useState<any | null>(null);
     const [authLoading, setAuthLoading] = useState(false);
@@ -924,7 +924,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
         }
     }, [activeLyricIndex, tab]);
 
-    // ─── Search Autocomplete Suggestions ──────────────────────────────────
+    // â”€â”€â”€ Search Autocomplete Suggestions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     useEffect(() => {
         if (searchSubmittedRef.current || !query.trim() || query.trim().length < 2) {
             setSuggestions([]);
@@ -1560,7 +1560,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                         <div className="sc-header-title">SoundCord Player</div>
                         <div className="sc-header-sub">
                             {p.isPlaying && p.playing
-                                ? `${t("Now playing:")} ${p.playing.title} · ${p.playing.artist}`
+                                ? `${t("Now playing:")} ${p.playing.title} Â· ${p.playing.artist}`
                                 : tab === "search" && results.length > 0
                                     ? `${results.length} ${t("tracks")}`
                                     : tab === "favs"
@@ -1611,7 +1611,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                         </button>
                     </TooltipContainer>
 
-                    {/* Fullscreen / Grand écran button */}
+                    {/* Fullscreen / Grand Ã©cran button */}
                     <TooltipContainer text={isFullscreen ? t("Exit Full Screen") : t("Full Screen")}>
                         <button
                             className={`sc-header-btn ${isFullscreen ? "sc-header-btn--active" : ""}`}
@@ -1870,7 +1870,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                         </span>
                                         {selectedArtist?.followersCount !== undefined && selectedArtist.followersCount > 0 && (
                                             <>
-                                                <span>·</span>
+                                                <span>Â·</span>
                                                 <span className="sc-artist-meta-stat">
                                                     <IconUsers size={14} />
                                                     <span>{selectedArtist.followersCount.toLocaleString()} {t("followers")}</span>
@@ -1962,7 +1962,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                                 </div>
                                                 <div className="sc-track-meta">
                                                     <span>{track.artist}</span>
-                                                    <span>·</span>
+                                                    <span>Â·</span>
                                                     <span>{fmtDuration(track.durationMs)}</span>
                                                 </div>
                                             </div>
@@ -2015,7 +2015,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                             onClick={loadMoreArtistTracks}
                                             disabled={artistLoadingMore}
                                         >
-                                            {artistLoadingMore ? t("Loading more tracks...") : t("Load More Tracks ▾")}
+                                            {artistLoadingMore ? t("Loading more tracks...") : t("Load More Tracks â–¾")}
                                         </Button>
                                     </div>
                                 )}
@@ -2024,7 +2024,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                     </div>
                 )}
 
-                {/* LYRICS TAB — Apple Music / Spotify 2-Column Split View */}
+                {/* LYRICS TAB â€” Apple Music / Spotify 2-Column Split View */}
                 {tab === "lyrics" && (
                     <div className="sc-lyrics-split-layout">
                         {p.playing ? (
@@ -2136,7 +2136,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                             )}
                                             {authUser.followers_count !== undefined && (
                                                 <>
-                                                    <span>·</span>
+                                                    <span>Â·</span>
                                                     <span>{authUser.followers_count.toLocaleString()} {t("followers")}</span>
                                                 </>
                                             )}
@@ -2234,7 +2234,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                         <div className="sc-upload-success-name">{uploadTitle}</div>
                                         <div className="sc-upload-success-sub">
                                             <span>{uploadGenre}</span>
-                                            <span>·</span>
+                                            <span>Â·</span>
                                             <span>{uploadSharing === "public" ? t("Public") : t("Private")}</span>
                                         </div>
                                     </div>
@@ -2342,7 +2342,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                                     <span>{(audioFile.size / (1024 * 1024)).toFixed(2)} MB</span>
                                                     {audioDuration > 0 && (
                                                         <>
-                                                            <span>·</span>
+                                                            <span>Â·</span>
                                                             <span>{fmtDuration(audioDuration)}</span>
                                                         </>
                                                     )}
@@ -2595,19 +2595,19 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                                             {track.genre && (
                                                                 <>
                                                                     <span className="sc-user-track-genre">{track.genre}</span>
-                                                                    <span>·</span>
+                                                                    <span>Â·</span>
                                                                 </>
                                                             )}
                                                             {track.duration && (
                                                                 <>
                                                                     <span>{fmtDuration(Math.floor(track.duration / 1000))}</span>
-                                                                    <span>·</span>
+                                                                    <span>Â·</span>
                                                                 </>
                                                             )}
                                                             {track.playback_count !== undefined && (
                                                                 <>
                                                                     <span>{track.playback_count.toLocaleString()} {t("plays")}</span>
-                                                                    <span>·</span>
+                                                                    <span>Â·</span>
                                                                 </>
                                                             )}
                                                             {track.likes_count !== undefined && (
@@ -2738,7 +2738,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                         >
                                             {track.artist}
                                         </span>
-                                        <span>·</span>
+                                        <span>Â·</span>
                                         <span>{fmtDuration(track.durationMs)}</span>
                                         {track.source && (
                                             <span className={`sc-source-tag sc-source-tag--${track.source}`}>
@@ -2773,7 +2773,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                     <div className="sc-empty-desc">{t("Click the heart icon on any track to add it to your personal favorites library.")}</div>
                                 </div>
                             ) : (
-                                // ─── Home Screen (empty search) ──────────────────────────────
+                                // â”€â”€â”€ Home Screen (empty search) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                                 <div className="sc-home-screen">
                                     {/* Genre Quick Filters */}
                                     <div className="sc-home-section">
@@ -2901,7 +2901,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                                     >
                                                         {track.artist}
                                                     </span>
-                                                    <span>·</span>
+                                                    <span>Â·</span>
                                                     <span>{fmtDuration(track.durationMs)}</span>
                                                     {track.source && (
                                                         <span className={`sc-source-tag sc-source-tag--${track.source}`}>
@@ -2960,7 +2960,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                                             onClick={loadMore}
                                             disabled={loadingMore}
                                         >
-                                            {loadingMore ? t("Loading more tracks...") : t("Load More Tracks ▾")}
+                                            {loadingMore ? t("Loading more tracks...") : t("Load More Tracks â–¾")}
                                         </Button>
                                     </div>
                                 )}
@@ -3101,7 +3101,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
     );
 }
 
-// ─── Thumbnail Toolbar Windows ──────────────────────────────────────────────
+// â”€â”€â”€ Thumbnail Toolbar Windows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let thumbarListener: (() => void) | null = null;
 
@@ -3150,7 +3150,7 @@ function cleanupThumbar() {
     } catch { }
 }
 
-// ─── Bouton HeaderBar ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Bouton HeaderBar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function SCHeaderBarButton() {
     return (
@@ -3218,7 +3218,7 @@ async function syncPlayerStateToCloud() {
     }
 }
 
-// ─── Rich Presence ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Rich Presence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const RPC_SOCKET_ID = "SoundCordPlayer";
 const RPC_APP_ID = "1108588077900898414"; // Shared Discord music app ID
@@ -3419,7 +3419,7 @@ function handleAccountSwitch() {
     playerStop();
 }
 
-// ─── Plugin ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const settings = definePluginSettings({
     richPresence: {
@@ -3455,7 +3455,7 @@ export default definePlugin({
 
     name: "SoundCordPlayer",
     enabledByDefault: true,
-    description: t("Integrated SoundCord player. Client ID is automatically fetched via native Electron process — no account required."),
+    description: t("Integrated SoundCord player. Client ID is automatically fetched via native Electron process â€” no account required."),
     authors: [EquicordDevs.nobody],
     settings,
     

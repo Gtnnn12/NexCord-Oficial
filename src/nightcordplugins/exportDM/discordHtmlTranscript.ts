@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -167,9 +167,9 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
         const timeStr = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const fullDateStr = new Date(msg.timestamp).toLocaleString();
 
-        const editedHtml = msg.editedAt ? `<span class="dht-edited" title="${new Date(msg.editedAt).toLocaleString()}">(modifié)</span>` : "";
-        const deletedHtml = msg.deleted ? `<span class="dht-deleted-tag" title="Message supprimé">(supprimé)</span>` : "";
-        const pinHtml = msg.pinned ? `<span class="dht-pin-badge" title="Message épinglé">📌</span>` : "";
+        const editedHtml = msg.editedAt ? `<span class="dht-edited" title="${new Date(msg.editedAt).toLocaleString()}">(modifiÃ©)</span>` : "";
+        const deletedHtml = msg.deleted ? `<span class="dht-deleted-tag" title="Message supprimÃ©">(supprimÃ©)</span>` : "";
+        const pinHtml = msg.pinned ? `<span class="dht-pin-badge" title="Message Ã©pinglÃ©">ðŸ“Œ</span>` : "";
 
         // Reply Reference
         let replyHtml = "";
@@ -205,7 +205,7 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
                 if (mediaType === "audio") {
                     return `
                         <div class="dht-attachment-audio-wrapper">
-                            <div class="dht-audio-label">🎵 ${escapeHtml(att.filename)}</div>
+                            <div class="dht-audio-label">ðŸŽµ ${escapeHtml(att.filename)}</div>
                             <audio src="${att.url}" controls class="dht-attachment-audio"></audio>
                         </div>
                     `;
@@ -365,7 +365,7 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcript — ${escapeHtml(channelName)}</title>
+    <title>Transcript â€” ${escapeHtml(channelName)}</title>
     <style>
         :root {
             --bg-primary: #313338;
@@ -1031,7 +1031,7 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
             <img src="${channelAvatarUrl}" alt="${escapeHtml(channelName)}" class="dht-channel-avatar">
             <div class="dht-channel-meta">
                 <h1>${escapeHtml(channelName)}</h1>
-                <p>Exporté le ${exportDate} · <strong>${totalMessages}</strong> messages</p>
+                <p>ExportÃ© le ${exportDate} Â· <strong>${totalMessages}</strong> messages</p>
             </div>
         </div>
         <div class="dht-controls">
@@ -1039,7 +1039,7 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
                 <svg class="dht-search-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M21.71 20.29l-5.01-5.01A7.94 7.94 0 0 0 18 10a8 8 0 1 0-8 8 7.94 7.94 0 0 0 5.28-1.3l5.01 5.01a1 1 0 0 0 1.42-1.42ZM4 10a6 6 0 1 1 6 6 6 6 0 0 1-6-6Z"/></svg>
                 <input type="text" id="dhtSearchInput" class="dht-search-input" placeholder="Filtrer les messages..." oninput="filterMessages(this.value)">
             </div>
-            <button class="dht-theme-btn" onclick="cycleTheme()">🎨 Thème</button>
+            <button class="dht-theme-btn" onclick="cycleTheme()">ðŸŽ¨ ThÃ¨me</button>
         </div>
     </header>
 
@@ -1050,13 +1050,13 @@ export function generateDiscordHtmlTranscript(messages: TranscriptMessage[], cha
 
     <!-- Lightbox for Image Zoom -->
     <div id="dhtLightbox" class="dht-lightbox" onclick="closeLightbox()">
-        <img id="dhtLightboxImg" src="" alt="Aperçu">
+        <img id="dhtLightboxImg" src="" alt="AperÃ§u">
     </div>
 
     <!-- Scroll Floating Navigation -->
     <div class="dht-scroll-nav">
-        <button class="dht-scroll-btn" title="Haut de page" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">▲</button>
-        <button class="dht-scroll-btn" title="Bas de page" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">▼</button>
+        <button class="dht-scroll-btn" title="Haut de page" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">â–²</button>
+        <button class="dht-scroll-btn" title="Bas de page" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">â–¼</button>
     </div>
 
     <script>

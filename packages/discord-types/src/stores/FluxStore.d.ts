@@ -1,4 +1,4 @@
-import { FluxDispatcher, FluxEvents } from "..";
+﻿import { FluxDispatcher, FluxEvents } from "..";
 
 type Callback = () => void;
 type SyncCallback = () => boolean | void;

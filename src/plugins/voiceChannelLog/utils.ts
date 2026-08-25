@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,7 +17,7 @@ export const cl = classNameFactory("vc-voice-channel-log-");
 const EmojiManager = findByPropsLazy("getEmojiColors", "getURL");
 
 export function getEmojiUrl(emoji?: Emoji): string {
-    if (!emoji) return EmojiManager.getURL("❓");
+    if (!emoji) return EmojiManager.getURL("â“");
     return emoji.id ? `https://cdn.discordapp.com/emojis/${emoji.id}.png?size=32` : EmojiManager.getURL(emoji.name);
 }
 

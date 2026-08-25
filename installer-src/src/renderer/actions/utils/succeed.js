@@ -1,4 +1,4 @@
-import {log} from "./log";
+﻿import {log} from "./log";
 import {action, progress, status} from "../../stores/installation";
 
 export default function succeed() {

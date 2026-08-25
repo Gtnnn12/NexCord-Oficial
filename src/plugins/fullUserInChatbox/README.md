@@ -1,4 +1,4 @@
-# Full User In Chatbox
+﻿# Full User In Chatbox
 
 Adds the full user mention to the textbox
 

@@ -1,4 +1,4 @@
-import {app, BrowserWindow, shell} from "electron";
+﻿import {app, BrowserWindow, shell} from "electron";
 import path from "path";
 import URL from "url";
 

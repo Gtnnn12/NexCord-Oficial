@@ -1,4 +1,4 @@
-import { t } from "../autoTranslateNightcord";
+﻿import { t } from "../autoTranslateNightcord";
 /*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors

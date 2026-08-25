@@ -1,4 +1,4 @@
-# CustomRPC
+﻿# CustomRPC
 
 Allows you to set a custom Rich Presence (game activity)
 

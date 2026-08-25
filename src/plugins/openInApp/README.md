@@ -1,4 +1,4 @@
-# OpenInApp
+﻿# OpenInApp
 
 Open links in their respective apps instead of your browser
 

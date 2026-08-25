@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -38,7 +38,7 @@ export default definePlugin({
 
     settings,
 
-    // Bouton disabled — rendu null
+    // Bouton disabled â€” rendu null
     headerBarButton: {
         icon: Icon,
         render: () => null,

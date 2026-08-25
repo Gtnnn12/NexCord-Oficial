@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -9,12 +9,12 @@ import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
 import { Button, Forms, React, showToast, Toasts } from "@webpack/common";
 
-// ── Constants ──────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const STYLE_ID = "live-wallpaper-style";
 const CONTAINER_ID = "live-wallpaper-container";
 
-// ── File picker ────────────────────────────────────────────────────────────────
+// â”€â”€ File picker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function pickFile(): Promise<string | null> {
     return new Promise(resolve => {
@@ -82,7 +82,7 @@ function SettingsComponent() {
                             }
                         }}
                     >
-                        📁 Choose a local file
+                        ðŸ“ Choose a local file
                     </Button>
 
                     {hasFile && (
@@ -98,7 +98,7 @@ function SettingsComponent() {
                                 showToast("Wallpaper removed", Toasts.Type.SUCCESS);
                             }}
                         >
-                            🗑️ Delete
+                            ðŸ—‘ï¸ Delete
                         </Button>
                     )}
                 </div>
@@ -109,7 +109,7 @@ function SettingsComponent() {
                     <input
                         type="text"
                         placeholder="https://example.com/video.mp4"
-                        value={isDataUrl ? "✅ [Local file loaded]" : inputValue}
+                        value={isDataUrl ? "âœ… [Local file loaded]" : inputValue}
                         disabled={isDataUrl}
                         style={{
                             width: "100%",
@@ -136,8 +136,8 @@ function SettingsComponent() {
             {hasFile && (
                 <div style={{ marginTop: "10px", fontSize: "12px", color: "var(--text-muted)", fontStyle: "italic" }}>
                     {isDataUrl
-                        ? `✅ Local file: ${Math.round(currentUrl.length / 1024)} KB`
-                        : `✅ URL: ${currentUrl.slice(0, 50)}${currentUrl.length > 50 ? "..." : ""}`
+                        ? `âœ… Local file: ${Math.round(currentUrl.length / 1024)} KB`
+                        : `âœ… URL: ${currentUrl.slice(0, 50)}${currentUrl.length > 50 ? "..." : ""}`
                     }
                 </div>
             )}
@@ -147,7 +147,7 @@ function SettingsComponent() {
     );
 }
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     main: {
@@ -236,7 +236,7 @@ function handleFocusChange() {
     else pauseVideo();
 }
 
-// ── Wallpaper injection ────────────────────────────────────────────────────────
+// â”€â”€ Wallpaper injection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function removeWallpaperElements() {
     if (activeVideo) {
@@ -285,7 +285,7 @@ async function applyWallpaper() {
     const style = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
-/* ── LiveWallpaper: full screen overlay OVER Discord ── */
+/* â”€â”€ LiveWallpaper: full screen overlay OVER Discord â”€â”€ */
 #${CONTAINER_ID} {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -159,13 +159,13 @@ function formatKeybind(keybind: string): string {
         return keybind;
     }
 
-    // special case: CTRL+TAB must stay as CTRL on Mac (⌘+TAB is system app switcher)
+    // special case: CTRL+TAB must stay as CTRL on Mac (âŒ˜+TAB is system app switcher)
     if (keybind.includes("CTRL+TAB") || keybind.includes("CTRL+SHIFT+TAB")) {
         return keybind.replace("CTRL", "^"); // Show control symbol on Mac
     }
 
     // for other shortcuts, replace CTRL with CMD symbol on Mac
-    return keybind.replace("CTRL", "⌘");
+    return keybind.replace("CTRL", "âŒ˜");
     // this is such a bad way to do this but i dont know man
 }
 

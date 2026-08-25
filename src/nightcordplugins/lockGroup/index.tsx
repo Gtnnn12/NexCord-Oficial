@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -63,7 +63,7 @@ function interceptAddMember(originalMethod: any) {
                             log(`User ${targetUserId} automatically kicked from locked group`);
                             if (settings.store.showNotifications) {
                                 showNotification({
-                                    title: `🔒 ${t("LockGroup - Auto-kick")}`,
+                                    title: `ðŸ”’ ${t("LockGroup - Auto-kick")}`,
                                     body: t("Unauthorized member removed from locked group \"{name}\"").replace("{name}", channelName),
                                     icon: undefined
                                 });
@@ -75,7 +75,7 @@ function interceptAddMember(originalMethod: any) {
 
                     if (settings.store.showNotifications) {
                         showNotification({
-                            title: `🔒 ${t("LockGroup - Unauthorized Addition")}`,
+                            title: `ðŸ”’ ${t("LockGroup - Unauthorized Addition")}`,
                             body: t("Unauthorized addition detected in \"{name}\" - Auto-kicking...").replace("{name}", channelName),
                             icon: undefined
                         });
@@ -98,7 +98,7 @@ function toggleGroupLock(channelId: string) {
     if (channel.ownerId !== currentUserId) {
         if (settings.store.showNotifications) {
             showNotification({
-                title: `❌ ${t("LockGroup")}`,
+                title: `âŒ ${t("LockGroup")}`,
                 body: t("Only the group owner can lock/unlock the group"),
                 icon: undefined
             });
@@ -113,7 +113,7 @@ function toggleGroupLock(channelId: string) {
         log(`Group "${channelName}" unlocked`);
         if (settings.store.showNotifications) {
             showNotification({
-                title: `🔓 ${t("LockGroup")}`,
+                title: `ðŸ”“ ${t("LockGroup")}`,
                 body: t("Group \"{name}\" unlocked - Member additions allowed").replace("{name}", channelName),
                 icon: undefined
             });
@@ -123,7 +123,7 @@ function toggleGroupLock(channelId: string) {
         log(`Group "${channelName}" locked`);
         if (settings.store.showNotifications) {
             showNotification({
-                title: `🔒 ${t("LockGroup")}`,
+                title: `ðŸ”’ ${t("LockGroup")}`,
                 body: t("Group \"{name}\" locked - Member additions blocked").replace("{name}", channelName),
                 icon: undefined
             });
@@ -234,7 +234,7 @@ export default definePlugin({
 
                             if (settings.store.showNotifications) {
                                 showNotification({
-                                    title: `🔒 ${t("LockGroup - Unauthorized Addition")}`,
+                                    title: `ðŸ”’ ${t("LockGroup - Unauthorized Addition")}`,
                                     body: t("Unauthorized member added to \"{name}\" and was removed").replace("{name}", channelName),
                                     icon: undefined
                                 });

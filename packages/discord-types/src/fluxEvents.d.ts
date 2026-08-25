@@ -1,4 +1,4 @@
-/*
+﻿/*
 function makeFluxEventList() {
     // prefill MESSAGE_CREATE so that typescript infers this is a String Set
     // without explicitly typing so that this function is also valid javascript

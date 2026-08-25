@@ -1,4 +1,4 @@
-import { Channel, FluxStore, Message } from "..";
+﻿import { Channel, FluxStore, Message } from "..";
 
 /** Full pending reply state object */
 interface PendingReply {

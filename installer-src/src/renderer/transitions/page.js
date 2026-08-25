@@ -1,4 +1,4 @@
-import {state} from "../stores/navigation";
+﻿import {state} from "../stores/navigation";
 import {quartInOut} from "svelte/easing";
 
 export default function page(node, {delay = 0, duration = 250, easing = quartInOut, x = 550, y = 0, out = false}) {

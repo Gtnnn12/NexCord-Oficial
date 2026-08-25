@@ -1,4 +1,4 @@
-module.exports = config => {
+﻿module.exports = config => {
     delete config.optimization.namedModules;
     config.output.hashFunction = "xxhash64";
     config.module.rules.push({

@@ -1,4 +1,4 @@
-# PermissionFreeWill
+﻿# PermissionFreeWill
 
 Removes the client-side restrictions that prevent editing channel permissions, such as permission lockouts ("Pretty sure
 you don't want to do this") and onboarding requirements ("Making this change will make your server incompatible [...]")

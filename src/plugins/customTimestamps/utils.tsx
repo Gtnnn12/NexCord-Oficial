@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -46,7 +46,7 @@ export const timeFormats: Record<string, TimeFormat> = {
     tooltipFormat: {
         name: "Tooltip",
         description: "Time format to use on tooltips",
-        default: "LLLL • [relative]",
+        default: "LLLL â€¢ [relative]",
         offset: 0,
     },
     ariaLabelFormat: {

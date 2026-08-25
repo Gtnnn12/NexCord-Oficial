@@ -1,4 +1,4 @@
-import { AvatarDecorationData, FluxStore, User, VoiceState } from "..";
+﻿import { AvatarDecorationData, FluxStore, User, VoiceState } from "..";
 import { ActivityType, ParticipantType, RTCPlatform } from "../../enums";
 import { StreamType } from "./FriendsStore";
 

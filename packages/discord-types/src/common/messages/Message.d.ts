@@ -1,4 +1,4 @@
-import { CommandOption } from './Commands';
+﻿import { CommandOption } from './Commands';
 import { User, UserJSON } from '../User';
 import { Embed, EmbedJSON } from './Embed';
 import { DiscordRecord } from "../Record";

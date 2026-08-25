@@ -1,4 +1,4 @@
-/* eslint-disable */
+﻿/* eslint-disable */
 
 /// <reference path="Vencord.d.ts" />
 /// <reference path="globals.d.ts" />

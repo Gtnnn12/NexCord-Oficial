@@ -1,4 +1,4 @@
-# CopyStickerLinks
+﻿# CopyStickerLinks
 
 Adds "Copy Link" and "Open Link" options to the context menu of stickers!
 

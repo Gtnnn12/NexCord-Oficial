@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -221,6 +221,6 @@ function parseColor(str: string, type: ColorType): string {
         case ColorType.HEX:
             return str[0] === "#" ? str : `#${str}`;
         case ColorType.HSL:
-            return str.replace("°", "");
+            return str.replace("Â°", "");
     }
 }

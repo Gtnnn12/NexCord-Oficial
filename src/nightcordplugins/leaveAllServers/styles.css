@@ -1,4 +1,4 @@
-/* ── Leave All Servers Plugin — style identique à ExportDM ── */
+﻿/* â”€â”€ Leave All Servers Plugin â€” style identique Ã  ExportDM â”€â”€ */
 
 .las-content {
     padding: 14px 16px 16px;
@@ -7,7 +7,7 @@
     gap: 12px;
 }
 
-/* ── Barre de recherche ── */
+/* â”€â”€ Barre de recherche â”€â”€ */
 .las-search-bar {
     display: flex;
     align-items: center;
@@ -52,7 +52,7 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* ── Labels ── */
+/* â”€â”€ Labels â”€â”€ */
 .las-label {
     margin: 0 !important;
     font-size: 11px !important;
@@ -62,7 +62,7 @@
     color: rgba(255, 255, 255, 0.5) !important;
 }
 
-/* ── Boutons Tout / Aucun ── */
+/* â”€â”€ Boutons Tout / Aucun â”€â”€ */
 .las-mini-btn {
     background: rgba(255, 255, 255, 0.07);
     border: 1.5px solid rgba(255, 255, 255, 0.1);
@@ -87,7 +87,7 @@
     cursor: not-allowed;
 }
 
-/* ── Liste serveurs ── */
+/* â”€â”€ Liste serveurs â”€â”€ */
 .las-guild-list {
     display: flex;
     flex-direction: column;
@@ -179,7 +179,7 @@
     flex-shrink: 0;
 }
 
-/* ── Status ── */
+/* â”€â”€ Status â”€â”€ */
 .las-status {
     padding: 8px 12px;
     border-radius: 6px;
@@ -190,7 +190,7 @@
 .las-status--done    { background: rgba(59, 165, 92, 0.12);  color: #3ba55c; }
 .las-status--error   { background: rgba(237, 66, 69, 0.12);  color: #ed4245; }
 
-/* ── Footer info ── */
+/* â”€â”€ Footer info â”€â”€ */
 .las-footer-info {
     display: flex;
     align-items: center;
@@ -203,7 +203,7 @@
     font-style: italic;
 }
 
-/* ── Bouton Leave ── */
+/* â”€â”€ Bouton Leave â”€â”€ */
 .las-leave-btn {
     background: #ed4245;
     color: #fff;

@@ -1,4 +1,4 @@
-export const enum QuestRewardType {
+﻿export const enum QuestRewardType {
     REWARD_CODE = 1,
     IN_GAME = 2,
     COLLECTIBLE = 3,

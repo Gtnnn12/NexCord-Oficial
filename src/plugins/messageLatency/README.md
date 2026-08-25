@@ -1,6 +1,6 @@
-# MessageLatency
+﻿# MessageLatency
 
-Displays an indicator for messages that took ≥n seconds to send.
+Displays an indicator for messages that took â‰¥n seconds to send.
 
 > **NOTE**
 >

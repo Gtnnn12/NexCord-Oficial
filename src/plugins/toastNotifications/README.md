@@ -1,4 +1,4 @@
-# ToastNotifications
+﻿# ToastNotifications
 
 Displays a pop-up _'toast'_ notification in a configurable corner of the screen whenever you receive a message in a DM, group DM, or server channel.
 
@@ -16,7 +16,7 @@ Displays a pop-up _'toast'_ notification in a configurable corner of the screen 
     - [Notify For](#notify-for)
 - [Theming](#-theming)
 
-## 🔧 Configuration
+## ðŸ”§ Configuration
 
 ### Notification Position
 
@@ -76,7 +76,7 @@ A comma-separated list of channel IDs to **always** receive notifications from, 
 
 ---
 
-## 🎨 Theming
+## ðŸŽ¨ Theming
 
 This plugin supports theming and exposes a number of CSS variables to allow you to customize the appearance of notifications.
 

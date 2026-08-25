@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -104,7 +104,7 @@ export async function importSettings(data: string, type: BackupType = "all", clo
     }
 }
 
-// Champs sensibles à ne jamais exporter
+// Champs sensibles Ã  ne jamais exporter
 const SENSITIVE_PLUGIN_KEYS = new Set([
     "apiKey",
     "groqApiKey",
@@ -180,7 +180,7 @@ export async function exportSettings({ syncDataStore = true, type = "all", minif
 
 function getDiscordUsername(): string {
     try {
-        // Tente de récupérer le pseudo Discord depuis le store Redux
+        // Tente de rÃ©cupÃ©rer le pseudo Discord depuis le store Redux
         const user = (window as any)?.DiscordNative?.nativeModules?.requireModule?.("UserStore")?.getCurrentUser?.();
         if (user?.username) return user.username;
         // Fallback: cherche dans le state React si accessible

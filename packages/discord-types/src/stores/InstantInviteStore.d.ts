@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { Invite } from "./InviteStore";
 
 export interface FriendInvite extends Invite {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -118,11 +118,11 @@
     --interactive-hover: #351225;
 }
 
-/* ── Frosted Glass theme ── */
+/* â”€â”€ Frosted Glass theme â”€â”€ */
 /* Uses backdrop-filter to blur whatever is behind the island and overlays  */
 /* a very light translucent white, giving a macOS-style acrylic look.       */
 .vc-illegalcord-dynamic-island-color-blur {
-    /* Light semi-transparent white — sees through but is clearly distinct */
+    /* Light semi-transparent white â€” sees through but is clearly distinct */
     background: rgba(255, 255, 255, 0.13) !important;
     --background-floating: rgba(255, 255, 255, 0.13);
     --background-mod-subtle: rgba(255, 255, 255, 0.08);

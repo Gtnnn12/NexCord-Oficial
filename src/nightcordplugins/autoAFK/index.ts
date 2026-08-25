@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -70,7 +70,7 @@ function goAfk() {
 
     if (isAfk) return;
     isAfk = true;
-    logger.info(`Inactive for ${settings.store.afkAfterMinutes} min — switching to invisible`);
+    logger.info(`Inactive for ${settings.store.afkAfterMinutes} min â€” switching to invisible`);
     applyStatus("invisible");
 }
 
@@ -78,7 +78,7 @@ function goActive() {
     const wasAfk = isAfk;
     isAfk = false;
     if (wasAfk) {
-        logger.info("Activity detected — restoring status to", settings.store.activeStatus || "online");
+        logger.info("Activity detected â€” restoring status to", settings.store.activeStatus || "online");
         applyStatus(settings.store.activeStatus || "online");
     }
     resetTimer();
@@ -115,7 +115,7 @@ const settings = definePluginSettings({
     },
     mouseMovementCountsAsActivity: {
         type: OptionType.BOOLEAN,
-        description: t("Count mouse movement as activity. Disable this if only typing, clicking, sending messages, and voice activity should count — simply moving your mouse won't prevent going AFK anymore."),
+        description: t("Count mouse movement as activity. Disable this if only typing, clicking, sending messages, and voice activity should count â€” simply moving your mouse won't prevent going AFK anymore."),
         default: true
     },
     activeStatus: {

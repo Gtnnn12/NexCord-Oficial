@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -95,7 +95,7 @@ if (!IS_VANILLA) {
 
             // Align with Equicord: inject our preload into every window that has a
             // preload + a title.  The old isTrustedTitle / KNOWN_TITLES filter was
-            // too restrictive — it silently skipped the main Discord window when it
+            // too restrictive â€” it silently skipped the main Discord window when it
             // launched with a title that didn't match (e.g. during Squirrel startup
             // or the first boot after an EquilotlCli injection).  That caused Discord
             // to start without our renderer, leaving the session un-patched and
@@ -454,20 +454,20 @@ app.whenReady().then(() => {
     }
 });
 
-    // ── Neutralisation de DISCORD_WINDOW_TOGGLE_FULLSCREEN ──
+    // â”€â”€ Neutralisation de DISCORD_WINDOW_TOGGLE_FULLSCREEN â”€â”€
     //
-    // PROBLÈME RACINE : Discord émet cet IPC automatiquement à chaque démarrage
-    // ET à chaque rechargement de thème pour "synchroniser" son état interne.
-    // L'ancien handler faisait `win.setFullScreen(!win.isFullScreen())` — un toggle
-    // aveugle. Résultat : fenêtre maximisée + isFullScreen()=false → setFullScreen(true)
-    // → overlay OS fullscreen → tous les inputs bloqués, app figée. F11 sortait du
-    // fullscreen et débloquait. Le fix du délai de 2s ne suffisait pas car les thèmes
-    // rechargent Discord après ce délai.
+    // PROBLÃˆME RACINE : Discord Ã©met cet IPC automatiquement Ã  chaque dÃ©marrage
+    // ET Ã  chaque rechargement de thÃ¨me pour "synchroniser" son Ã©tat interne.
+    // L'ancien handler faisait `win.setFullScreen(!win.isFullScreen())` â€” un toggle
+    // aveugle. RÃ©sultat : fenÃªtre maximisÃ©e + isFullScreen()=false â†’ setFullScreen(true)
+    // â†’ overlay OS fullscreen â†’ tous les inputs bloquÃ©s, app figÃ©e. F11 sortait du
+    // fullscreen et dÃ©bloquait. Le fix du dÃ©lai de 2s ne suffisait pas car les thÃ¨mes
+    // rechargent Discord aprÃ¨s ce dÃ©lai.
     //
     // SOLUTION : on intercepte le handler Discord et on le remplace par un no-op
-    // complet. Le fullscreen utilisateur est désormais géré exclusivement via F11
-    // intercepté dans before-input-event ci-dessus — ce qui est à la fois plus propre
-    // et impossible à déclencher accidentellement par Discord.
+    // complet. Le fullscreen utilisateur est dÃ©sormais gÃ©rÃ© exclusivement via F11
+    // interceptÃ© dans before-input-event ci-dessus â€” ce qui est Ã  la fois plus propre
+    // et impossible Ã  dÃ©clencher accidentellement par Discord.
     {
         const _originalHandle = electron.ipcMain.handle.bind(electron.ipcMain);
         const FULLSCREEN_CHANNEL = "DISCORD_WINDOW_TOGGLE_FULLSCREEN";
@@ -479,8 +479,8 @@ app.whenReady().then(() => {
                 _fullscreenPatched = true;
                 try { electron.ipcMain.removeHandler(FULLSCREEN_CHANNEL); } catch {}
                 // No-op : on enregistre un handler vide pour que Discord ne crash pas
-                // ("no handler registered"), mais on ne fait RIEN — le fullscreen est
-                // géré par before-input-event (F11) côté main process.
+                // ("no handler registered"), mais on ne fait RIEN â€” le fullscreen est
+                // gÃ©rÃ© par before-input-event (F11) cÃ´tÃ© main process.
                 _originalHandle(FULLSCREEN_CHANNEL, (_event: electron.IpcMainInvokeEvent) => {
                     // Intentionnellement vide.
                 });

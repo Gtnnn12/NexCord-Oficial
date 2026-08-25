@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 
 async function main() {
@@ -84,7 +84,7 @@ async function main() {
         " * Copyright (c) 2026 Vendicated and contributors",
         " * SPDX-License-Identifier: GPL-3.0-or-later",
         " *",
-        " * AUTO-GENERATED — do not edit by hand.",
+        " * AUTO-GENERATED â€” do not edit by hand.",
         " * Update by running: node scripts/updateTutorialList.mjs",
         " */",
         "",

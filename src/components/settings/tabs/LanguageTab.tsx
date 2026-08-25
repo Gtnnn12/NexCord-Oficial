@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 NexCord contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -66,12 +66,12 @@ function syncDiscordLocale(lang: Language) {
 }
 
 const LANG_PREVIEW: Record<Language, { label: string; sample: string; }> = {
-    en: { label: "English", sample: "Plugins · Themes · Updater · Sync" },
-    fr: { label: "Français", sample: "Plugins · Thèmes · Mises à jour · Synchronisation" },
-    es: { label: "Español", sample: "Plugins · Temas · Actualizador · Sincronización" },
-    ru: { label: "Русский", sample: "Плагины · Темы · Обновления · Синхронизация" },
-    zh: { label: "中文", sample: "插件 · 主题 · 更新 · 同步" },
-    ar: { label: "العربية", sample: "إضافات · سمات · محدث · مزامنة" },
+    en: { label: "English", sample: "Plugins Â· Themes Â· Updater Â· Sync" },
+    fr: { label: "FranÃ§ais", sample: "Plugins Â· ThÃ¨mes Â· Mises Ã  jour Â· Synchronisation" },
+    es: { label: "EspaÃ±ol", sample: "Plugins Â· Temas Â· Actualizador Â· SincronizaciÃ³n" },
+    ru: { label: "Ð ÑƒÑÑÐºÐ¸Ð¹", sample: "ÐŸÐ»Ð°Ð³Ð¸Ð½Ñ‹ Â· Ð¢ÐµÐ¼Ñ‹ Â· ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Â· Ð¡Ð¸Ð½Ñ…Ñ€Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ" },
+    zh: { label: "ä¸­æ–‡", sample: "æ’ä»¶ Â· ä¸»é¢˜ Â· æ›´æ–° Â· åŒæ­¥" },
+    ar: { label: "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©", sample: "Ø¥Ø¶Ø§ÙØ§Øª Â· Ø³Ù…Ø§Øª Â· Ù…Ø­Ø¯Ø« Â· Ù…Ø²Ø§Ù…Ù†Ø©" },
 };
 
 const languageOptions = (Object.keys(LANGUAGES) as Language[]).map(lang => ({
@@ -116,7 +116,7 @@ function LanguageTab() {
                 {t("Translations are community-maintained and may be incomplete. If you'd like to help translate NexCord, contributions are welcome!")}
             </Notice.Info>
 
-            {/* Dropdown sélectif — même composant/pattern que "Cloud Backend" dans CloudTab */}
+            {/* Dropdown sÃ©lectif â€” mÃªme composant/pattern que "Cloud Backend" dans CloudTab */}
             <div className={Margins.bottom8}>
                 <SafeSearchableSelect
                     options={languageOptions}
@@ -150,7 +150,7 @@ function LanguageTab() {
             <Divider className={Margins.top8} />
 
             <Notice.Warning className={Margins.top16}>
-                <strong>{t("Reload required")}</strong> — {t("Please reload Discord after changing the language for all changes to take effect.")}
+                <strong>{t("Reload required")}</strong> â€” {t("Please reload Discord after changing the language for all changes to take effect.")}
             </Notice.Warning>
         </SettingsTab>
     );

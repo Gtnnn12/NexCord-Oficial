@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -183,7 +183,7 @@ if (settings.cloud && settings.cloud.url && settings.cloud.url.includes("equicor
     settings.cloud.url = "https://api.NexCord.st/";
 }
 
-// NexCord native defaults — defaultPlugins is always enabled, no external prefs file
+// NexCord native defaults â€” defaultPlugins is always enabled, no external prefs file
 const NexCord_PREFS = { defaultPlugins: true, autoUpdate: true } as const;
 
 // Ensure plugins have defaults set if missing, while preserving explicit user choices.

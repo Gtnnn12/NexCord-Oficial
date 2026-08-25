@@ -1,4 +1,4 @@
-// Exists due to https://github.com/electron-userland/electron-builder/issues/4299
+﻿// Exists due to https://github.com/electron-userland/electron-builder/issues/4299
 // Tempfix adapted from: https://gist.github.com/harshitsilly/a1bd5a405f93966aad20358ae6c4cec5
 
 const path = require("path");

@@ -1,4 +1,4 @@
-// Nightcord preload — globalPaths fix + Equicord avec contextBridge
+﻿// Nightcord preload â€” globalPaths fix + Equicord avec contextBridge
 "use strict";
 
 (function () {
@@ -45,7 +45,7 @@
     };
 })();
 
-// ─── Equicord preload avec contextBridge ─────────────────────────────────────
+// â”€â”€â”€ Equicord preload avec contextBridge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 "use strict";
 const { ipcRenderer, contextBridge, webFrame } = require("electron");
 
@@ -133,7 +133,7 @@ if (location.protocol !== "data:") {
     try { r("VencordInitFileWatchers"); } catch (e) { }
 
     // Injection du renderer.js via webFrame.executeJavaScript
-    // Identique à l'original Equicord — c'est la méthode qui fonctionne
+    // Identique Ã  l'original Equicord â€” c'est la mÃ©thode qui fonctionne
     try {
         let rendererJs;
         try {

@@ -1,4 +1,4 @@
-type Updater = (value: any) => any;
+﻿type Updater = (value: any) => any;
 
 /**
  * Common Record class extended by various Discord data structures, like User, Channel, Guild, etc.

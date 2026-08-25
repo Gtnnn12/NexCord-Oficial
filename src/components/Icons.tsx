@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -803,7 +803,7 @@ export const ComponentsIcon = (props?: any) => {
     );
 };
 
-// ─── Compatibility icons for Equicord/Vencord plugins ─────────────────────────
+// â”€â”€â”€ Compatibility icons for Equicord/Vencord plugins â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function HeadphonesIcon(props: IconProps) {
     return (

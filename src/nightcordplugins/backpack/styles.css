@@ -1,4 +1,4 @@
-.backpack-popout {
+﻿.backpack-popout {
     background: var(--background-floating, #2b2d31) !important;
     border-radius: 8px;
     box-shadow: var(--elevation-high);
@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-/* Override les styles des ChatBarButton à l'intérieur du popout */
+/* Override les styles des ChatBarButton Ã  l'intÃ©rieur du popout */
 .backpack-popout-grid .expression-picker-chat-input-button {
     display: flex;
     align-items: center;

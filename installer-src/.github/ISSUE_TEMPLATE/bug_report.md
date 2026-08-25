@@ -1,4 +1,4 @@
----
+﻿---
 name: Bug report
 about: File a report for a feature that isn't working correctly.
 title: ''

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 NexCord Team
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -72,7 +72,7 @@ function handleFluxDispatch(action: any) {
     }
 }
 
-// ─── Smart Account Matching Algorithm ─────────────────────────────────────────
+// â”€â”€â”€ Smart Account Matching Algorithm â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function rankTotpAccount(account: TotpAccount, targetEmail: string, targetUsername: string): number {
     const accName = account.name.toLowerCase();
@@ -110,7 +110,7 @@ function rankTotpAccount(account: TotpAccount, targetEmail: string, targetUserna
     return 10;
 }
 
-// ─── Input Code Filler ────────────────────────────────────────────────────────
+// â”€â”€â”€ Input Code Filler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function fillCodeIntoInput(input: HTMLInputElement, code: string) {
     if (!input || !code) return;
@@ -149,7 +149,7 @@ function fillCodeIntoInput(input: HTMLInputElement, code: string) {
     }
 }
 
-// ─── 2FA Auto-Fill Suggestion Card Injection & Manual Click Entry ─────────────
+// â”€â”€â”€ 2FA Auto-Fill Suggestion Card Injection & Manual Click Entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function isInside2FASetupModal(el: HTMLElement): boolean {
     const modal = el.closest('[data-mana-component="modal"], [class*="modal__"], [class*="container__8a031"], [role="dialog"]');
@@ -277,7 +277,7 @@ function injectAutofillBanner(input: HTMLInputElement, accounts: TotpAccount[]) 
     }
 }
 
-// ─── Scan for 2FA / MFA Code Inputs ───────────────────────────────────────────
+// â”€â”€â”€ Scan for 2FA / MFA Code Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function scanForMfaCodeInputs() {
     // Clean up any improperly placed cards in setup modals
@@ -393,7 +393,7 @@ function scanForMfaCodeInputs() {
     }
 }
 
-// ─── Lifecycle ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Lifecycle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function startMfaModalObserver() {
     if (modalObserver) return;

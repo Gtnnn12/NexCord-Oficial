@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -106,7 +106,7 @@ export function SetAvatarModal({ userId, modalProps }: { userId: string; modalPr
                         <span className={cl("preview-label")}>Original</span>
                         <img src={originalAvatar} className={cl("avatar")} alt="original" />
                     </div>
-                    <span className={cl("arrow")}>→</span>
+                    <span className={cl("arrow")}>â†’</span>
                     <div className={cl("preview-box")}>
                         <span className={cl("preview-label")}>Local</span>
                         <img
@@ -141,7 +141,7 @@ export function SetAvatarModal({ userId, modalProps }: { userId: string; modalPr
                     }}
                     onClick={() => fileInputRef.current?.click()}
                 >
-                    {isDragging ? "Drop here!" : "⬆ Drag an image or click to upload (for GIFs or WebP use a URL instead)"}
+                    {isDragging ? "Drop here!" : "â¬† Drag an image or click to upload (for GIFs or WebP use a URL instead)"}
                     <input
                         ref={fileInputRef}
                         type="file"

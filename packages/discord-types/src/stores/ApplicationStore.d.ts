@@ -1,4 +1,4 @@
-import { Application, FluxStore } from "..";
+﻿import { Application, FluxStore } from "..";
 import { ApplicationType } from "../../enums";
 
 export interface ApplicationStoreState {

@@ -1,4 +1,4 @@
-import {log} from "./log";
+﻿import {log} from "./log";
 import {action} from "../../stores/installation";
 
 export default function doSanityCheck(config) {
@@ -9,6 +9,6 @@ export default function doSanityCheck(config) {
         return true;
     }
 
-    log("❌ Something went wrong internally.");
+    log("âŒ Something went wrong internally.");
     return false;
 }

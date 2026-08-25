@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -679,9 +679,9 @@ input:checked + .nc-wb-switch-slider:before {
 </head>
 <body>
 <div class="nc-wb-overlay">
-    <div class="nc-wb-close" id="btn-close">✕</div>
+    <div class="nc-wb-close" id="btn-close">âœ•</div>
     <div class="nc-wb-header" id="drag-header">
-        <h3>🎯 WordBomb Helper</h3>
+        <h3>ðŸŽ¯ WordBomb Helper</h3>
     </div>
     
     <!-- Home View -->
@@ -761,7 +761,7 @@ input:checked + .nc-wb-switch-slider:before {
 
     <!-- Footer -->
     <div class="nc-wb-footer">
-        <div class="nc-wb-settings-btn" id="btn-settings">⚙</div>
+        <div class="nc-wb-settings-btn" id="btn-settings">âš™</div>
         <div class="nc-wb-status-footer" id="status-footer">LPS: 50 | Error: 0%</div>
     </div>
 </div>
@@ -845,7 +845,7 @@ input:checked + .nc-wb-switch-slider:before {
                         const textObj = Object.values(pages)[0];
                         if (textObj && textObj.extract) {
                             themeWords.clear();
-                            const words = textObj.extract.toLowerCase().match(/[a-zàâçéèêëîïôûùüÿñæœ]+/g) || [];
+                            const words = textObj.extract.toLowerCase().match(/[a-zÃ Ã¢Ã§Ã©Ã¨ÃªÃ«Ã®Ã¯Ã´Ã»Ã¹Ã¼Ã¿Ã±Ã¦Å“]+/g) || [];
                             words.forEach(w => {
                                 if (w.length > 3) themeWords.add(w);
                             });
@@ -870,12 +870,12 @@ input:checked + .nc-wb-switch-slider:before {
         if (isSettingsOpen) {
             homeView.style.display = 'none';
             settingsView.style.display = 'flex';
-            btnSettings.innerText = '✕';
+            btnSettings.innerText = 'âœ•';
             window.worldBombAPI.resize(326, 450);
         } else {
             settingsView.style.display = 'none';
             homeView.style.display = 'flex';
-            btnSettings.innerText = '⚙';
+            btnSettings.innerText = 'âš™';
             
             // Adjust height based on definition container visibility
             const hasDef = document.getElementById('definition-container').style.display !== 'none';

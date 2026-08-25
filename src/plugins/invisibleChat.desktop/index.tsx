@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -133,7 +133,7 @@ export async function buildEmbed(message: any, revealed: string): Promise<void> 
         color: "#45f5f5",
         rawDescription: revealed,
         footer: {
-            text: "Made with ❤️ by c0dine and Sammy!",
+            text: "Made with â¤ï¸ by c0dine and Sammy!",
         },
     });
 

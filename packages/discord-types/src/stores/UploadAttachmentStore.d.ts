@@ -1,4 +1,4 @@
-import { CloudUpload, FluxStore } from "..";
+﻿import { CloudUpload, FluxStore } from "..";
 import { DraftType } from "../../enums";
 
 export class UploadAttachmentStore extends FluxStore {

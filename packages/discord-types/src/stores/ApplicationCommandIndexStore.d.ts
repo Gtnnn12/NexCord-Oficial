@@ -1,4 +1,4 @@
-import { Application, Channel, FluxStore } from "..";
+﻿import { Application, Channel, FluxStore } from "..";
 import { CommandArgument, CommandContext } from "../common/messages/Commands";
 import {
     ApplicationCommandHandlerType,

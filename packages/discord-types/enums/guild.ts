@@ -1,4 +1,4 @@
-export const enum GuildScheduledEventStatus {
+﻿export const enum GuildScheduledEventStatus {
     SCHEDULED = 1,
     ACTIVE = 2,
     COMPLETED = 3,

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -50,7 +50,7 @@ function PronounsChatComponent({ message }: { message: Message; }) {
                 <span
                     {...tooltipProps}
                     className={classes(TimestampClasses.timestampInline, TimestampClasses.timestamp)}
-                >• {pronouns}</span>
+                >â€¢ {pronouns}</span>
             )}
         </Tooltip>
     );

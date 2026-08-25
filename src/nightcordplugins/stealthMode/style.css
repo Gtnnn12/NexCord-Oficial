@@ -1,4 +1,4 @@
-/* Stealth Mode - hide NexCord plugin UI (but NOT settings access) */
+﻿/* Stealth Mode - hide NexCord plugin UI (but NOT settings access) */
 
 /* Plugin buttons: header bar, channel toolbar, chat bar, user area */
 body.NexCord-stealth .vc-header-bar-btns,

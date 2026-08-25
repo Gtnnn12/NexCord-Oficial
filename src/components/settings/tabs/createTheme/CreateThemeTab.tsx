@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -34,7 +34,7 @@ const colorPresets = [
     "#86ac86", "#88aab3", "#8693b5", "#8a89ba", "#ad94bb",
 ];
 
-// ── Storage key ──────────────────────────────────────────
+// â”€â”€ Storage key â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const STORAGE_KEY = "vc-create-theme-settings";
 
 interface ThemeSettings {
@@ -69,19 +69,19 @@ function loadSettings(): ThemeSettings {
 
 function saveSettings(s: ThemeSettings) {
     try {
-        // Don't save the base64 image in localStorage (too large) — save everything else
+        // Don't save the base64 image in localStorage (too large) â€” save everything else
         const toSave = { ...s, bgImage: null };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     } catch { /* ignore */ }
 }
 
-// ── Style injection IDs ──────────────────────────────────
+// â”€â”€ Style injection IDs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ID_VARS = "vc-ct-vars";
 const ID_OVERRIDES = "vc-ct-overrides";
 const ID_BG = "vc-ct-bg";
 const ID_GLASS = "vc-ct-glass";
 
-// ── Helpers ──────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function hexToHSL(hex: string) {
     const r = parseInt(hex.substring(0, 2), 16) / 255;
     const g = parseInt(hex.substring(2, 4), 16) / 255;
@@ -221,9 +221,9 @@ export function removeAll() {
     [ID_VARS, ID_OVERRIDES, ID_BG, ID_GLASS].forEach(removeStyle);
 }
 
-// ── Auto-apply on load if previously enabled ─────────────
+// â”€â”€ Auto-apply on load if previously enabled â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function initOnLoad() {
-    // Toujours nettoyer les styles résiduels au démarrage
+    // Toujours nettoyer les styles rÃ©siduels au dÃ©marrage
     [ID_VARS, ID_OVERRIDES, ID_BG, ID_GLASS].forEach(id => document.getElementById(id)?.remove());
     // Re-appliquer seulement si enabled
     try {
@@ -233,12 +233,12 @@ export function removeAll() {
         if (s.enabled) {
             applyColorVars(s.color);
             applyColorOverrides(s.color).catch(console.error);
-            // Ne pas appliquer glass/bg au démarrage pour éviter les artefacts visuels
+            // Ne pas appliquer glass/bg au dÃ©marrage pour Ã©viter les artefacts visuels
         }
     } catch { /* ignore */ }
 })();
 
-// ── Main Tab ─────────────────────────────────────────────
+// â”€â”€ Main Tab â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export function CreateThemeTab() {
     const [settings, setSettingsState] = useState<ThemeSettings>(() => loadSettings());
     const fileRef = useRef<HTMLInputElement>(null);
@@ -346,7 +346,7 @@ export function CreateThemeTab() {
     return (
         <div className={cl("root")}>
 
-            {/* ── Color Section ── */}
+            {/* â”€â”€ Color Section â”€â”€ */}
             <div className={cl("section")}>
                 <div className={cl("section-title")}>Theme Color</div>
                 <div className={cl("color-row")} style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -419,8 +419,8 @@ export function CreateThemeTab() {
                 {(contrastWarning || nitroThemeEnabled) && (
                     <ErrorCard className={Margins.top8}>
                         <div style={{ fontWeight: 700, marginBottom: 4 }}>Your theme won't look good!</div>
-                        {contrastWarning && <Paragraph>› Selected color won't contrast well with text</Paragraph>}
-                        {nitroThemeEnabled && <Paragraph>› Nitro themes aren't supported</Paragraph>}
+                        {contrastWarning && <Paragraph>â€º Selected color won't contrast well with text</Paragraph>}
+                        {nitroThemeEnabled && <Paragraph>â€º Nitro themes aren't supported</Paragraph>}
                         <div style={{ display: "flex", gap: 4, marginTop: 8 }}>
                             {contrastWarning && fixableContrast &&
                                 <Button onClick={() => setDiscordTheme(oppositeTheme)} color={Button.Colors.RED} size={Button.Sizes.SMALL}>
@@ -435,9 +435,9 @@ export function CreateThemeTab() {
                 )}
             </div>
 
-            {/* Background Image, Glass Effect et Window Effect supprimés */}
+            {/* Background Image, Glass Effect et Window Effect supprimÃ©s */}
 
-            {/* ── Enable toggle ── */}
+            {/* â”€â”€ Enable toggle â”€â”€ */}
             <div className={cl("section")}>
                 <label className={cl("live-toggle")}>
                     <input
@@ -449,7 +449,7 @@ export function CreateThemeTab() {
                 </label>
                 <div className={cl("section-desc")}>
                     When enabled, your theme stays active even after closing this tab or restarting Discord
-                    (color &amp; glass only — background image must be re-uploaded each session).
+                    (color &amp; glass only â€” background image must be re-uploaded each session).
                 </div>
             </div>
 

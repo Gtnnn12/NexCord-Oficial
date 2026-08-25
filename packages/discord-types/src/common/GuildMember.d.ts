@@ -1,4 +1,4 @@
-import { GuildMemberFlags } from "../../enums";
+﻿import { GuildMemberFlags } from "../../enums";
 import { Collectibles, DisplayNameStyles } from "./Channel";
 
 export interface GuildMember {

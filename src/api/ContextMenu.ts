@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -141,7 +141,7 @@ export function _usePatchContextMenu(props: ContextMenuProps) {
     props.contextMenuAPIArguments ??= [];
     const contextMenuPatches = navPatches.get(props.navId);
 
-    // ── Stealth Mode Bypass ──
+    // â”€â”€ Stealth Mode Bypass â”€â”€
     try {
         const { isStealthModeEnabled } = require("./HeaderBar");
         if (isStealthModeEnabled()) return props;

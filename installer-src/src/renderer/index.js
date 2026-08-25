@@ -1,4 +1,4 @@
-import App from "./App.svelte";
+﻿import App from "./App.svelte";
 
 const appElement = document.getElementById("app");
 const app = new App({

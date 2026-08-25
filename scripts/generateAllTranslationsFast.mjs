@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+﻿import { readFileSync, writeFileSync } from "fs";
 
 const strings = JSON.parse(readFileSync("scripts/extractedStrings.json", "utf8"));
 const atcContent = readFileSync("src/nightcordplugins/autoTranslateNightcord/index.ts", "utf8");
@@ -101,11 +101,11 @@ export default definePlugin({
             type: 4, // select
             options: [
                 { label: "English", value: "en", default: true },
-                { label: "Français", value: "fr" },
-                { label: "العربية", value: "ar" },
-                { label: "Español", value: "es" },
-                { label: "Русский", value: "ru" },
-                { label: "中文", value: "zh" },
+                { label: "FranÃ§ais", value: "fr" },
+                { label: "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©", value: "ar" },
+                { label: "EspaÃ±ol", value: "es" },
+                { label: "Ð ÑƒÑÑÐºÐ¸Ð¹", value: "ru" },
+                { label: "ä¸­æ–‡", value: "zh" },
             ]
         },
     },

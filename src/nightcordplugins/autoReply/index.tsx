@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,11 +13,11 @@ import { React, RestAPI, useState } from "@webpack/common";
 import plugins from "~plugins";
 import { t } from "../autoTranslateNightcord";
 
-// ── Stores ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Stores â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const UserStore = findStoreLazy("UserStore");
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     active: {
@@ -28,7 +28,7 @@ const settings = definePluginSettings({
     },
     messages: {
         type: OptionType.STRING,
-        description: "Reply messages separated by | — e.g.: Hi!|I'm away|Come back later",
+        description: "Reply messages separated by | â€” e.g.: Hi!|I'm away|Come back later",
         default: "Hi! I'm currently away, I'll get back to you as soon as possible.",
         restartNeeded: false,
     },
@@ -80,7 +80,7 @@ const settings = definePluginSettings({
     },
     minDelayMs: {
         type: OptionType.SLIDER,
-        description: "Minimum delay before reply (ms) — to appear natural",
+        description: "Minimum delay before reply (ms) â€” to appear natural",
         markers: [0, 200, 500, 1000, 2000],
         default: 1000,
         restartNeeded: false,
@@ -94,13 +94,13 @@ const settings = definePluginSettings({
     },
 });
 
-// ── Internal state ──────────────────────────────────────────────────────────────
+// â”€â”€ Internal state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const lastReplied = new Map<string, number>();
 let sequentialIndex = 0;
 const _pendingReplyTimers = new Set<ReturnType<typeof setTimeout>>();
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getMessages(): string[] {
     const raw = settings.store.messages ?? "";
@@ -173,7 +173,7 @@ async function sendAutoReply(message: any) {
     }
 }
 
-// ── Icon ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function AutoReplyIcon({ active, height = 20, width = 20, className }: {
     active?: boolean; height?: string | number; width?: string | number; className?: string;
@@ -198,7 +198,7 @@ function AutoReplyIcon({ active, height = 20, width = 20, className }: {
     );
 }
 
-// ── Chat Bar Button ────────────────────────────────────────────────────────────
+// â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const AutoReplyButton: ChatBarButtonFactory = ({ isMainChat }) => {
     const [active, setActive] = useState(settings.store.active);
@@ -206,15 +206,15 @@ const AutoReplyButton: ChatBarButtonFactory = ({ isMainChat }) => {
     if (!isMainChat) return null;
 
     function toggle() {
-        // Session toggle only — does not persist between restarts
+        // Session toggle only â€” does not persist between restarts
         settings.store.active = !settings.store.active;
         setActive(settings.store.active);
         // DO NOT write to settings.store.active directly if you want it to be persistent
     }
 
     const tooltip = active
-        ? t("Auto Reply: Enabled — click to disable")
-        : t("Auto Reply: Disabled — click to enable");
+        ? t("Auto Reply: Enabled â€” click to disable")
+        : t("Auto Reply: Disabled â€” click to enable");
 
     return (
         <ChatBarButton
@@ -230,7 +230,7 @@ const AutoReplyButton: ChatBarButtonFactory = ({ isMainChat }) => {
     );
 };
 
-// ── Plugin ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "AutoReply",
@@ -271,7 +271,7 @@ export default definePlugin({
 
     start() {
         _pendingReplyTimers.clear();
-        // Always OFF at startup — the button toggle is session-only
+        // Always OFF at startup â€” the button toggle is session-only
     },
 
     stop() {

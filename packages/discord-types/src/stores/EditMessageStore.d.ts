@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "../../enums";
+﻿import { ApplicationCommandOptionType } from "../../enums";
 import { FluxStore, Message } from "..";
 
 /** Slate node type values used in the rich text editor. */

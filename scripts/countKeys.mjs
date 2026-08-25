@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+﻿import { readFileSync } from "fs";
 
 const content = readFileSync("src/nightcordplugins/autoTranslateNightcord/index.ts", "utf8");
 const matches = content.match(/"en":/g) || [];

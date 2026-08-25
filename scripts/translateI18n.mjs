@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import path from "path";
 
 const filepath = path.join(process.cwd(), "src/api/i18n.ts");
@@ -21,7 +21,7 @@ while ((match = regex.exec(content)) !== null) {
 console.log("Missing translations for AR:", missing.length);
 
 async function translateBatch(keys) {
-    const SEP = "\n⟦SEP⟧\n";
+    const SEP = "\nâŸ¦SEPâŸ§\n";
     const combined = keys.join(SEP);
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=${encodeURIComponent(combined)}`;
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });

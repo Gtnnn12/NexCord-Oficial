@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -144,7 +144,7 @@ function OutputDeviceComponent() {
         <>
             {settings.store.showOutputDeviceHeader && <Heading>Output device</Heading>}
             <Select options={Object.values(configModule.getOutputDevices()).map((device: any /* i am NOT typing this*/) => {
-                return { value: device.id, label: settings.store.showOutputDeviceHeader ? device.name : `🔊 ${device.name}` };
+                return { value: device.id, label: settings.store.showOutputDeviceHeader ? device.name : `ðŸ”Š ${device.name}` };
             })}
                 serialize={identity}
                 isSelected={value => value === outputDevice}
@@ -172,7 +172,7 @@ function InputDeviceComponent() {
         <div style={{ marginTop: "10px" }}>
             {settings.store.showInputDeviceHeader && <Heading>Input device</Heading>}
             <Select options={Object.values(configModule.getInputDevices()).map((device: any /* i am NOT typing this*/) => {
-                return { value: device.id, label: settings.store.showInputDeviceHeader ? device.name : `🎤 ${device.name}` };
+                return { value: device.id, label: settings.store.showInputDeviceHeader ? device.name : `ðŸŽ¤ ${device.name}` };
             })}
                 serialize={identity}
                 isSelected={value => value === inputDevice}
@@ -200,7 +200,7 @@ function VideoDeviceComponent() {
         <div style={{ marginTop: "10px" }}>
             {settings.store.showVideoDeviceHeader && <Heading>Camera</Heading>}
             <Select options={Object.values(configModule.getVideoDevices()).map((device: any /* i am NOT typing this*/) => {
-                return { value: device.id, label: settings.store.showVideoDeviceHeader ? device.name : `📷 ${device.name}` };
+                return { value: device.id, label: settings.store.showVideoDeviceHeader ? device.name : `ðŸ“· ${device.name}` };
             })}
                 serialize={identity}
                 isSelected={value => value === videoDevice}
@@ -220,7 +220,7 @@ function VoiceSettings() {
     const [showSettings, setShowSettings] = useState(settings.store.uncollapseSettingsByDefault);
     return <div style={{ marginTop: "20px" }}>
         <div style={{ marginBottom: "10px" }}>
-            <Link className="vc-panelsettings-underline-on-hover" style={{ color: "var(--text-default)" }} onClick={() => { setShowSettings(!showSettings); }}>{!showSettings ? "► Settings" : "▼ Hide"}</Link>
+            <Link className="vc-panelsettings-underline-on-hover" style={{ color: "var(--text-default)" }} onClick={() => { setShowSettings(!showSettings); }}>{!showSettings ? "â–º Settings" : "â–¼ Hide"}</Link>
         </div>
 
         {

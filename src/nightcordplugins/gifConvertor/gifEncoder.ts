@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -9,11 +9,11 @@
  * Octree colour quantisation + GIF-spec LZW compression
  */
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface Color { r: number; g: number; b: number; }
 
-// ─── Octree quantiser ────────────────────────────────────────────────────────
+// â”€â”€â”€ Octree quantiser â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class OctreeNode {
     children: Array<OctreeNode | null> = new Array(8).fill(null);
@@ -102,10 +102,10 @@ class OctreeQuantizer {
     }
 }
 
-// ─── Quantisation helper ─────────────────────────────────────────────────────
+// â”€â”€â”€ Quantisation helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function quantize(rgba: Uint8ClampedArray, totalPixels: number) {
-    // Fast path: ≤ 256 unique colours
+    // Fast path: â‰¤ 256 unique colours
     const colorMap = new Map<number, number>();
     for (let i = 0; i < rgba.length; i += 4) {
         const key = (rgba[i] << 16) | (rgba[i + 1] << 8) | rgba[i + 2];
@@ -127,7 +127,7 @@ function quantize(rgba: Uint8ClampedArray, totalPixels: number) {
         return { palette, indices };
     }
 
-    // Octree quantisation (≤ 256 colours)
+    // Octree quantisation (â‰¤ 256 colours)
     const q = new OctreeQuantizer(256);
     for (let i = 0; i < rgba.length; i += 4) q.addColor(rgba[i], rgba[i + 1], rgba[i + 2]);
     const palette = q.buildPalette();
@@ -138,7 +138,7 @@ function quantize(rgba: Uint8ClampedArray, totalPixels: number) {
     return { palette, indices };
 }
 
-// ─── LZW encoder ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ LZW encoder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function lzwEncode(pixels: Uint8Array, minCode: number): Uint8Array {
     const clearCode = 1 << minCode;
@@ -180,7 +180,7 @@ function lzwEncode(pixels: Uint8Array, minCode: number): Uint8Array {
     emit(table.get(prefix)!); emit(eofCode);
     if (bitLen > 0) bytes.push(bitBuf & 0xFF);
 
-    // Pack into sub-blocks (≤ 255 bytes)
+    // Pack into sub-blocks (â‰¤ 255 bytes)
     const out: number[] = [minCode];
     for (let i = 0; i < bytes.length;) {
         const sz = Math.min(255, bytes.length - i);
@@ -191,7 +191,7 @@ function lzwEncode(pixels: Uint8Array, minCode: number): Uint8Array {
     return new Uint8Array(out);
 }
 
-// ─── GIF stream builder ───────────────────────────────────────────────────────
+// â”€â”€â”€ GIF stream builder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function buildGIF(w: number, h: number, frames: { palette: Color[], indices: Uint8Array, delayMs?: number }[]): Uint8Array {
     const buf: number[] = [];
@@ -252,7 +252,7 @@ function buildGIF(w: number, h: number, frames: { palette: Color[], indices: Uin
     return new Uint8Array(buf);
 }
 
-// ─── Public API ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Public API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /** Maximum dimension for the output GIF (preserves aspect ratio). */
 const MAX_DIM = 512;

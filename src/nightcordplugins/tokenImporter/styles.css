@@ -1,4 +1,4 @@
-/* ── TokenImporter ── */
+﻿/* â”€â”€ TokenImporter â”€â”€ */
 
 .ti-content {
     padding: 14px 16px 16px;
@@ -60,7 +60,7 @@
     font-weight: 700;
 }
 
-/* Barre titre + bouton vérifier */
+/* Barre titre + bouton vÃ©rifier */
 .ti-bar {
     display: flex;
     align-items: center;
@@ -236,7 +236,7 @@
     gap: 5px;
 }
 
-/* Token masqué en points */
+/* Token masquÃ© en points */
 .ti-token-hidden {
     font-size: 13px;
     color: rgba(255, 255, 255, 0.45) !important;

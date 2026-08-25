@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -101,7 +101,7 @@ handle(IpcEvents.RELAUNCH, async () => {
     app.exit();
 });
 
-// Handler pour VencordNative.NexCord.relaunch() — utilisé par les boutons Restart dans les settings plugins
+// Handler pour VencordNative.NexCord.relaunch() â€” utilisÃ© par les boutons Restart dans les settings plugins
 handle(IpcEvents.RELAUNCH_APP, async () => {
     setBadgeCount(0);
 
@@ -117,9 +117,9 @@ handle(IpcEvents.RELAUNCH_APP, async () => {
         return;
     }
 
-    // Sur Windows packagé (NSIS/Squirrel), app.relaunch() peut échouer silencieusement
+    // Sur Windows packagÃ© (NSIS/Squirrel), app.relaunch() peut Ã©chouer silencieusement
     // car process.execPath pointe vers le binaire Electron interne et non le launcher.
-    // On utilise spawn pour relancer directement l'exécutable principal.
+    // On utilise spawn pour relancer directement l'exÃ©cutable principal.
     if (app.isPackaged && process.platform === "win32") {
         const { spawn } = await import("node:child_process");
         spawn(process.execPath, [], {

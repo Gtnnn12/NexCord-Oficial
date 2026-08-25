@@ -1,4 +1,4 @@
-import { FluxStore, User } from "..";
+﻿import { FluxStore, User } from "..";
 
 /** returned by takeSnapshot for persistence */
 export interface UserStoreSnapshot {

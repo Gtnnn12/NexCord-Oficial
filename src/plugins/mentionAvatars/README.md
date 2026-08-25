@@ -1,4 +1,4 @@
-# MentionAvatars
+﻿# MentionAvatars
 
 Shows user avatars and role icons inside mentions
 

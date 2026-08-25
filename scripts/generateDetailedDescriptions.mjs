@@ -1,4 +1,4 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 
 const pluginsDir = path.join(process.cwd(), 'src', 'nightcordplugins');

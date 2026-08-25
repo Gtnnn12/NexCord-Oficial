@@ -1,4 +1,4 @@
-import logs from "../stores/logs";
+﻿import logs from "../stores/logs";
 import {status, progress} from "../stores/installation";
 
 function log(entry) {

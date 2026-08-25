@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export const DEV_GITHUB = "https://github.com/Gtnnn12/NexCord";
+export const DEV_GITHUB = "https://github.com/Gtnnn12/NexCord-Oficial";
 
 export const VENCORD_GUILD_ID = "1015060230222131221";
 export const REGULAR_ROLE_ID = "1026504932959977532";
@@ -793,7 +793,7 @@ export const EquicordDevs = Object.freeze({
         id: 703634705152606318n
     },
     Tolgchu: {
-        name: "✨Tolgchu✨",
+        name: "âœ¨Tolgchuâœ¨",
         id: 329671025312923648n
     },
     DaBluLite: {
@@ -1078,7 +1078,7 @@ export const EquicordDevs = Object.freeze({
         id: 707309693449535599n
     },
     seth: {
-        name: "S€th",
+        name: "Sâ‚¬th",
         id: 1273447359417942128n
     },
     SteelTech: {

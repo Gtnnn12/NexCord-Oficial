@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -78,7 +78,7 @@ export const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         description: "Automatically translate your messages before sending. You can also shift/right click the translate button to toggle this",
         default: false,
-        disabled: () => true // Disabled — never auto-translate
+        disabled: () => true // Disabled â€” never auto-translate
     },
     autoTranslateReceived: {
         type: OptionType.BOOLEAN,

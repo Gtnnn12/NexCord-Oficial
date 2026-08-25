@@ -1,4 +1,4 @@
-import { Guild, FluxStore } from "..";
+﻿import { Guild, FluxStore } from "..";
 
 export class GuildStore extends FluxStore {
     getGuild(guildId: string): Guild;

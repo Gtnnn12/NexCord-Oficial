@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { GuildScheduledEventEntityType, GuildScheduledEventPrivacyLevel, GuildScheduledEventStatus, RecurrenceRuleFrequency } from "../../enums";
 
 export interface GuildScheduledEventEntityMetadata {

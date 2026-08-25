@@ -1,4 +1,4 @@
-# No Unblock To Jump
+﻿# No Unblock To Jump
 
 Removes the popup preventing you to jump to a message from a blocked/ignored user or likely spammer (eg: in search results)
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,7 +25,7 @@ export function Collapsible({ title, children }) {
                         marginLeft: "auto",
                         color: "var(--text-muted)",
                         paddingRight: "5px"
-                    }}>{isOpen ? "▼" : "▶"}</div>
+                    }}>{isOpen ? "â–¼" : "â–¶"}</div>
                     <Heading tag="h4">{title}</Heading>
                 </div>
             </TextButton>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -16,7 +16,7 @@ import { SafeSearchableSelect } from "@components/SafeSearchableSelect";
 
 import { t } from "../autoTranslateNightcord";
 
-// ─── Icons ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function ShieldIcon(props: any) {
     return <VSafetyIcon width={props.width || 16} height={props.height || 16} {...props} />;
@@ -103,7 +103,7 @@ function ServerIcon(props: any) {
     );
 }
 
-// ─── Stores / Actions ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Stores / Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const GuildMemberActions = findByPropsLazy("setCommunicationDisabledUntil", "kickUser", "banUser", "setNickname");
 const VoiceActions = findByPropsLazy("setChannel", "setServerMute");
@@ -115,7 +115,7 @@ const InviteActions = findByPropsLazy("resolveInvite");
 const PrivateChannelActions = findByPropsLazy("ensurePrivateChannel");
 const VoiceStateStore = findByPropsLazy("getVoiceState");
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface SharedUser {
     id: string;
@@ -138,7 +138,7 @@ interface ShareLog {
     success: boolean;
 }
 
-// ─── Settings ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     sharedUsers: {
@@ -155,7 +155,7 @@ const settings = definePluginSettings({
     }
 });
 
-// ─── Data helpers ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Data helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function parseDuration(str: string): number {
     const match = str.match(/^(\d+)([smhdwy]?)$/);
@@ -224,12 +224,12 @@ function formatRelativeTime(timestamp: number): string {
 function getTimerColor(ms: number): string {
     if (ms === Infinity) return "var(--text-muted)";
     if (ms <= 0) return "var(--status-danger)";
-    if (ms < 3600000) return "#f0b232"; // < 1h → orange
-    if (ms < 86400000) return "#f0b232"; // < 1d → orange
+    if (ms < 3600000) return "#f0b232"; // < 1h â†’ orange
+    if (ms < 86400000) return "#f0b232"; // < 1d â†’ orange
     return "var(--status-positive)";
 }
 
-// ─── Permission chip config ────────────────────────────────────────────────────
+// â”€â”€â”€ Permission chip config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const PERM_CONFIG: Record<string, { label: string; color: string; bg: string; }> = {
     all: { label: "Full Access", color: "#fff", bg: "#5865f2" },
@@ -257,7 +257,7 @@ function getCmdColor(cmd: string): string {
     return CMD_COLOR[cmd.toLowerCase()] ?? "rgba(255,255,255,0.15)";
 }
 
-// ─── DM helpers ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ DM helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function sendDM(userId: string, content: string) {
     try {
@@ -271,7 +271,7 @@ async function sendDM(userId: string, content: string) {
     } catch (e) { console.error("[SharePerms] DM error:", e); }
 }
 
-// ─── Header Button ────────────────────────────────────────────────────────────
+// â”€â”€â”€ Header Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function SharePermsButton() {
     return (
@@ -283,7 +283,7 @@ function SharePermsButton() {
     );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Styles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MODAL_STYLES = `
 .sp-modal-root {
@@ -399,7 +399,7 @@ const MODAL_STYLES = `
     min-height: 0;
 }
 
-/* ── Active tab ── */
+/* â”€â”€ Active tab â”€â”€ */
 .sp-access-card {
     display: flex;
     align-items: center;
@@ -532,7 +532,7 @@ const MODAL_STYLES = `
     color: #ed4245;
 }
 
-/* ── Add tab ── */
+/* â”€â”€ Add tab â”€â”€ */
 .sp-form-section {
     margin-bottom: 18px;
 }
@@ -645,7 +645,7 @@ const MODAL_STYLES = `
     flex-shrink: 0 !important;
 }
 
-/* ── Logs tab ── */
+/* â”€â”€ Logs tab â”€â”€ */
 .sp-log-section-title {
     font-size: 10px;
     font-weight: 700;
@@ -754,7 +754,7 @@ const MODAL_STYLES = `
     white-space: nowrap;
 }
 
-/* ── Empty state ── */
+/* â”€â”€ Empty state â”€â”€ */
 .sp-empty {
     display: flex;
     flex-direction: column;
@@ -790,7 +790,7 @@ const MODAL_STYLES = `
     line-height: 1.5;
 }
 
-/* ── Logs header ── */
+/* â”€â”€ Logs header â”€â”€ */
 .sp-logs-header {
     display: flex;
     align-items: center;
@@ -825,7 +825,7 @@ const MODAL_STYLES = `
 }
 `;
 
-// ─── Log section helper ────────────────────────────────────────────────────────
+// â”€â”€â”€ Log section helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function groupLogsByDate(logs: ShareLog[]): { title: string; entries: ShareLog[] }[] {
     const today = new Date();
@@ -847,7 +847,7 @@ function groupLogsByDate(logs: ShareLog[]): { title: string; entries: ShareLog[]
     return Object.entries(groups).map(([title, entries]) => ({ title, entries }));
 }
 
-// ─── Main Modal ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function SharePermsModal({ rootProps }: { rootProps: any; }) {
     const [tab, setTab] = React.useState<"active" | "add" | "logs">("active");
@@ -881,7 +881,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
     const activeCount = users.length;
     const logCount = logs.length;
 
-    // ── Grant access ──────────────────────────────────────────────────────────
+    // â”€â”€ Grant access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleGrant = async () => {
         if (newUserIds.length === 0 || !newGuildId) return;
         setIsGranting(true);
@@ -904,15 +904,15 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
 
                 const guild = GuildStore.getGuild(newGuildId) as any;
                 const usesInfo = newUser.maxUses > 0 ? `${newUser.maxUses} times` : "Unlimited";
-                const content = "🛡 **NexCord — Permission Access Granted**\n\n" +
+                const content = "ðŸ›¡ **NexCord â€” Permission Access Granted**\n\n" +
                     "Hello! You have been granted remote administrative access to my account permissions.\n\n" +
                     `**Server:** ${guild?.name ?? newGuildId}\n` +
                     `**Validity:** ${newDuration === "0" ? "Permanent" : newDuration}\n` +
                     `**Usage Limit:** ${usesInfo}\n` +
                     `**Permissions:** ${newPerms.map(p => PERM_CONFIG[p]?.label || p).join(", ")}\n\n` +
                     "**Available Commands:**\n" +
-                    "`+timeout <ID> <duration>` · `+kick <ID>` · `+ban <ID>` · `+rename <ID> <name>`\n" +
-                    "`+mute <ID>` · `+unmute <ID>` · `+disconnect <ID>` · `+move <ID>`\n" +
+                    "`+timeout <ID> <duration>` Â· `+kick <ID>` Â· `+ban <ID>` Â· `+rename <ID> <name>`\n" +
+                    "`+mute <ID>` Â· `+unmute <ID>` Â· `+disconnect <ID>` Â· `+move <ID>`\n" +
                     "`+addrole <ID> <RoleID>`\n\n" +
                     "*Please use these permissions responsibly.*";
                 await sendDM(userId, content);
@@ -922,14 +922,14 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
             setNewUserIds([]);
             setNewGuildId("");
             setNewPerms(["all"]);
-            showToast("Access granted ✓", Toasts.Type.SUCCESS);
+            showToast("Access granted âœ“", Toasts.Type.SUCCESS);
             setTab("active");
         } finally {
             setIsGranting(false);
         }
     };
 
-    // ── Revoke ────────────────────────────────────────────────────────────────
+    // â”€â”€ Revoke â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleRevoke = async (index: number) => {
         const u = users[index];
         const updated = [...users];
@@ -939,7 +939,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
 
         if (u) {
             const guild = GuildStore.getGuild(u.guildId) as any;
-            await sendDM(u.id, "🛡 **NexCord — Permission Access Revoked**\n\n" +
+            await sendDM(u.id, "ðŸ›¡ **NexCord â€” Permission Access Revoked**\n\n" +
                 "Your administrative remote access has been revoked.\n\n" +
                 `**Server:** ${guild?.name ?? u.guildId}\n` +
                 "**Status:** Access Terminated");
@@ -947,7 +947,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
         showToast("Access revoked", Toasts.Type.MESSAGE);
     };
 
-    // ── Permission toggle ─────────────────────────────────────────────────────
+    // â”€â”€ Permission toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const togglePerm = (val: string) => {
         if (val === "all") {
             setNewPerms(["all"]);
@@ -962,7 +962,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
         }
     };
 
-    // ── Clear logs ────────────────────────────────────────────────────────────
+    // â”€â”€ Clear logs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleClearLogs = () => {
         clearLogs();
         setLogs([]);
@@ -1012,7 +1012,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
             {/* Content */}
             <ModalContent className="sp-content">
 
-                {/* ── Tab: Active ─────────────────────────────────────────── */}
+                {/* â”€â”€ Tab: Active â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 {tab === "active" && (
                     <div>
                         {users.length === 0 ? (
@@ -1095,7 +1095,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                     </div>
                 )}
 
-                {/* ── Tab: Add ────────────────────────────────────────────── */}
+                {/* â”€â”€ Tab: Add â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 {tab === "add" && (
                     <div>
                         <div className="sp-form-section">
@@ -1228,7 +1228,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
                     </div>
                 )}
 
-                {/* ── Tab: Logs ───────────────────────────────────────────── */}
+                {/* â”€â”€ Tab: Logs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 {tab === "logs" && (
                     <div>
                         <div className="sp-logs-header">
@@ -1293,7 +1293,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
 
                                             {/* Status + time */}
                                             <span className={`sp-log-status ${isSuccess ? "success" : "failed"}`}>
-                                                {isSuccess ? "✓" : "✗"}
+                                                {isSuccess ? "âœ“" : "âœ—"}
                                             </span>
                                             <Tooltip text={new Date(log.timestamp).toLocaleString("en-US")}>
                                                 {(tooltipProps: any) => (
@@ -1315,7 +1315,7 @@ function SharePermsModal({ rootProps }: { rootProps: any; }) {
     );
 }
 
-// ─── Id resolver ──────────────────────────────────────────────────────────────
+// â”€â”€â”€ Id resolver â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function resolveId(arg: string): string {
     if (!arg) return "";
@@ -1323,7 +1323,7 @@ function resolveId(arg: string): string {
     return match ? match[1] : arg;
 }
 
-// ─── Plugin ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "SharePerms",
@@ -1358,7 +1358,7 @@ export default definePlugin({
         const channel = ChannelStore.getChannel(message.channel_id);
         // type 1 = DM, type 3 = Group DM
         const isDM = channel?.type === 1 || channel?.type === 3 || (!channel && !message.guild_id);
-        // Accept any channel in the target guild — includes text (0), voice chat (2),
+        // Accept any channel in the target guild â€” includes text (0), voice chat (2),
         // announcement (5), stage (13), threads (10/11/12), etc.
         // If ChannelStore hasn't loaded the channel yet (returns null), fall back to
         // message.guild_id which is always present in MESSAGE_CREATE gateway payloads.
@@ -1376,7 +1376,7 @@ export default definePlugin({
         if (config.maxUses > 0) {
             const currentUses = config.usesMap?.[command] || 0;
             if (currentUses >= config.maxUses) {
-                sendBotMessage(message.channel_id, { content: `❌ Error: You have reached your limit of ${config.maxUses} uses for \`${command}\`.` });
+                sendBotMessage(message.channel_id, { content: `âŒ Error: You have reached your limit of ${config.maxUses} uses for \`${command}\`.` });
                 return;
             }
         }
@@ -1397,42 +1397,42 @@ export default definePlugin({
                 const d = parseDuration(durationStr);
                 const until = new Date(Date.now() + d).toISOString();
                 await RestAPI.patch({ url: `/guilds/${guildId}/members/${targetId}`, body: { communication_disabled_until: until } });
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> timed out until ${new Date(until).toLocaleString()}.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> timed out until ${new Date(until).toLocaleString()}.` });
                 success = true;
             }
             else if (command === "kick") {
                 if (!hasAll && !permsList.includes("kick")) return;
                 targetId = resolveId(args[0]);
                 await RestAPI.del({ url: `/guilds/${guildId}/members/${targetId}`, reason: args.slice(1).join(" ") || "." } as any);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> kicked.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> kicked.` });
                 success = true;
             }
             else if (command === "ban") {
                 if (!hasAll && !permsList.includes("ban")) return;
                 targetId = resolveId(args[0]);
                 await RestAPI.put({ url: `/guilds/${guildId}/bans/${targetId}`, body: { delete_message_seconds: 0, reason: args.slice(1).join(" ") || "." } } as any);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> banned.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> banned.` });
                 success = true;
             }
             else if (command === "unmute") {
                 if (!hasAll && !permsList.includes("mute_voice")) return;
                 targetId = resolveId(args[0]);
                 await VoiceActions.setServerMute(guildId, targetId, false);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> voice unmuted.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> voice unmuted.` });
                 success = true;
             }
             else if (command === "untimeout") {
                 if (!hasAll && !permsList.includes("timeout")) return;
                 targetId = resolveId(args[0]);
                 await RestAPI.patch({ url: `/guilds/${guildId}/members/${targetId}`, body: { communication_disabled_until: null } });
-                sendBotMessage(channelId, { content: `✅ Timeout removed from <@${targetId}>.` });
+                sendBotMessage(channelId, { content: `âœ… Timeout removed from <@${targetId}>.` });
                 success = true;
             }
             else if (command === "unban") {
                 if (!hasAll && !permsList.includes("ban")) return;
                 targetId = resolveId(args[0]);
                 await RestAPI.del({ url: `/guilds/${guildId}/bans/${targetId}` } as any);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> unbanned.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> unbanned.` });
                 success = true;
             }
             else if (command === "rename") {
@@ -1441,11 +1441,11 @@ export default definePlugin({
                 const newName = args.slice(1).join(" ");
                 try {
                     await RestAPI.patch({ url: `/guilds/${guildId}/members/${targetId}`, body: { nick: newName } });
-                    sendBotMessage(channelId, { content: `✅ <@${targetId}> renamed to ${newName}.` });
+                    sendBotMessage(channelId, { content: `âœ… <@${targetId}> renamed to ${newName}.` });
                     success = true;
                 } catch {
                     await GuildMemberActions.setNickname(guildId, targetId, newName, "SharePerms");
-                    sendBotMessage(channelId, { content: `✅ <@${targetId}> renamed to ${newName}.` });
+                    sendBotMessage(channelId, { content: `âœ… <@${targetId}> renamed to ${newName}.` });
                     success = true;
                 }
             }
@@ -1457,21 +1457,21 @@ export default definePlugin({
                 const member = MemberStore.getMember(guildId, targetId);
                 const roles = new Set([...(member?.roles || []), roleId]);
                 await MemberRoleActions.updateMemberRoles(guildId, targetId, Array.from(roles));
-                sendBotMessage(channelId, { content: `✅ Role <@&${roleId}>{t("added to")}<@${targetId}>.` });
+                sendBotMessage(channelId, { content: `âœ… Role <@&${roleId}>{t("added to")}<@${targetId}>.` });
                 success = true;
             }
             else if (command === "mute") {
                 if (!hasAll && !permsList.includes("mute_voice")) return;
                 targetId = resolveId(args[0]);
                 await VoiceActions.setServerMute(guildId, targetId, true);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> voice muted.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> voice muted.` });
                 success = true;
             }
             else if (command === "disconnect") {
                 if (!hasAll && !permsList.includes("disconnect_voice")) return;
                 targetId = resolveId(args[0]);
                 await VoiceActions.setChannel(guildId, targetId, null);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}> disconnected from voice.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}> disconnected from voice.` });
                 success = true;
             }
             else if (command === "move") {
@@ -1480,11 +1480,11 @@ export default definePlugin({
                 const authorVoiceState = VoiceStateStore.getVoiceState(guildId, message.author.id);
                 const destChannelId = authorVoiceState?.channelId;
                 if (!destChannelId) {
-                    sendBotMessage(channelId, { content: "❌ Error: You must be in a voice channel to move someone." });
+                    sendBotMessage(channelId, { content: "âŒ Error: You must be in a voice channel to move someone." });
                     return;
                 }
                 await VoiceActions.setChannel(guildId, targetId, destChannelId);
-                sendBotMessage(channelId, { content: `✅ <@${targetId}>{t("moved to")}<#${destChannelId}>.` });
+                sendBotMessage(channelId, { content: `âœ… <@${targetId}>{t("moved to")}<#${destChannelId}>.` });
                 success = true;
             }
 
@@ -1499,7 +1499,7 @@ export default definePlugin({
         } catch (e: any) {
             console.error("[SharePerms] Command error:", e);
             const errorMsg = e.body?.message || e.message || JSON.stringify(e);
-            sendBotMessage(channelId, { content: `❌ Error: ${errorMsg}` });
+            sendBotMessage(channelId, { content: `âŒ Error: ${errorMsg}` });
             saveLog({ userId: message.author.id, command: command || "unknown", targetId: targetId || "unknown", timestamp: Date.now(), success: false });
         }
     },

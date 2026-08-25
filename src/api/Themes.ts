@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -48,7 +48,7 @@ async function toggle(isEnabled: boolean) {
 /**
  * Collect all active online theme URLs from both sources:
  * - Settings.enabledThemeLinks  (ThemeLibrary plugin)
- * - Settings.themeLinks         (Online Themes tab — manual URLs)
+ * - Settings.themeLinks         (Online Themes tab â€” manual URLs)
  *
  * Both are merged, deduplicated, and filtered by light/dark preference.
  */
@@ -74,7 +74,7 @@ function collectOnlineLinks(activeTheme: "light" | "dark" | undefined): string[]
  * waiting for remote CSS to download.
  *
  * Each URL gets its own <link> element created/removed as needed, so
- * toggling a single theme only touches that one element — no full reload.
+ * toggling a single theme only touches that one element â€” no full reload.
  */
 function applyOnlineThemesNonBlocking(links: string[]) {
     const newSet = new Set(links);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,7 +21,7 @@ const settings = definePluginSettings({
     },
 });
 
-// ── Popover state (plain DOM, no React needed for a single floating button) ──
+// â”€â”€ Popover state (plain DOM, no React needed for a single floating button) â”€â”€
 
 let popoverEl: HTMLDivElement | null = null;
 let repositionTarget: Range | null = null;

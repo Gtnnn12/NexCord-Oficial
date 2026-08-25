@@ -1,10 +1,10 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// ─── Environment detection ────────────────────────────────────────────────────
+// â”€â”€â”€ Environment detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Works in Electron (Discord desktop) AND browser extensions (Chrome/Firefox)
 
 const IS_ELECTRON = typeof process !== "undefined" && process.versions?.electron;
@@ -20,7 +20,7 @@ if (IS_ELECTRON) {
     } catch { }
 }
 
-// ─── Unified fetch (Electron net OR browser fetch) ────────────────────────────
+// â”€â”€â”€ Unified fetch (Electron net OR browser fetch) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function netGet(url: string, headers?: Record<string, string>): Promise<string> {
     const defaultHeaders: Record<string, string> = {
@@ -43,14 +43,14 @@ async function netGet(url: string, headers?: Record<string, string>): Promise<st
     return resp.text();
 }
 
-// ─── Fetch dynamique du client_id SoundCloud ─────────────────────────────────
-// Même logique que sc_fetch_client_id / sc_parse_js_for_clientid en C :
-//   Étape 1 : GET soundcloud.com → extraire les <script src="...">
-//   Étape 2 : GET le dernier bundle JS → chercher client_id:"XXXXXXXX"
+// â”€â”€â”€ Fetch dynamique du client_id SoundCloud â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// MÃªme logique que sc_fetch_client_id / sc_parse_js_for_clientid en C :
+//   Ã‰tape 1 : GET soundcloud.com â†’ extraire les <script src="...">
+//   Ã‰tape 2 : GET le dernier bundle JS â†’ chercher client_id:"XXXXXXXX"
 
 export async function fetchSoundCloudClientId(_?: any): Promise<string | null> {
     try {
-        // Étape 1 : charger soundcloud.com
+        // Ã‰tape 1 : charger soundcloud.com
         const html = await netGet("https://soundcloud.com/", {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "en-US,en;q=0.5",
@@ -68,12 +68,12 @@ export async function fetchSoundCloudClientId(_?: any): Promise<string | null> {
 
         if (scriptUrls.length === 0) return null;
 
-        // Étape 2 : tester les bundles JS (on cherche dans les plus récents)
+        // Ã‰tape 2 : tester les bundles JS (on cherche dans les plus rÃ©cents)
         for (const jsUrl of scriptUrls.slice(-5).reverse()) {
             try {
                 const js = await netGet(jsUrl);
 
-                // Patterns mis à jour pour 2024/2025
+                // Patterns mis Ã  jour pour 2024/2025
                 const patterns = [
                     /client_id\s*:\s*"([a-zA-Z0-9]{32})"/,
                     /client_id\s*=\s*"([a-zA-Z0-9]{32})"/,
@@ -95,7 +95,7 @@ export async function fetchSoundCloudClientId(_?: any): Promise<string | null> {
     }
 }
 
-// ─── Recherche de pistes ──────────────────────────────────────────────────────
+// â”€â”€â”€ Recherche de pistes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function searchSoundCloud(
     _: any,
@@ -108,7 +108,7 @@ export async function searchSoundCloud(
         const url = `https://api-v2.soundcloud.com/search/tracks?q=${encodeURIComponent(query)}&client_id=${clientId}&limit=${limit}&offset=${offset}`;
         return await netGet(url);
     } catch (e: any) {
-        // Retourner le code HTTP pour détecter l'expiration du client_id
+        // Retourner le code HTTP pour dÃ©tecter l'expiration du client_id
         throw new Error(e?.message ?? String(e));
     }
 }
@@ -131,7 +131,7 @@ export async function fetchLyrics(
         // 1. Essayer la correspondance exacte
         try {
             const exactUrl = `https://lrclib.net/api/get?track_name=${encodeURIComponent(cleanTitle)}&artist_name=${encodeURIComponent(artist)}&duration=${durationSec}`;
-            const res = await netGet(exactUrl, { "User-Agent": "NexCord/1.26.2 (https://github.com/Gtnnn12/NexCord)" });
+            const res = await netGet(exactUrl, { "User-Agent": "NexCord/1.26.2 (https://github.com/Gtnnn12/NexCord-Oficial)" });
             if (res) {
                 const parsed = JSON.parse(res);
                 if (parsed?.plainLyrics || parsed?.syncedLyrics) {
@@ -140,10 +140,10 @@ export async function fetchLyrics(
             }
         } catch { }
 
-        // 2. Recherche générale
+        // 2. Recherche gÃ©nÃ©rale
         try {
             const searchUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(`${cleanTitle} ${artist}`)}`;
-            const res = await netGet(searchUrl, { "User-Agent": "NexCord/1.26.2 (https://github.com/Gtnnn12/NexCord)" });
+            const res = await netGet(searchUrl, { "User-Agent": "NexCord/1.26.2 (https://github.com/Gtnnn12/NexCord-Oficial)" });
             if (res) {
                 const list = JSON.parse(res);
                 if (Array.isArray(list) && list.length > 0) {
@@ -163,7 +163,7 @@ export async function fetchLyrics(
 
 
 
-// ─── Résolution de l'URL de stream ───────────────────────────────────────────
+// â”€â”€â”€ RÃ©solution de l'URL de stream â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function resolveStreamUrl(_: any, url: string, clientId: string): Promise<string | null> {
     try {
@@ -242,10 +242,10 @@ export async function fetchSoundCloudUserTracks(
     }
 }
 
-// ─── SoundCloud Account Authentication (OAuth / Session) ──────────────────────────
+// â”€â”€â”€ SoundCloud Account Authentication (OAuth / Session) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-// ─── Read oauth_token from browser (Chrome / Edge / Brave) ────────────────────
-// Uses PowerShell + winsqlite3.dll (ships with Windows 10+) – zero external deps.
+// â”€â”€â”€ Read oauth_token from browser (Chrome / Edge / Brave) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Uses PowerShell + winsqlite3.dll (ships with Windows 10+) â€“ zero external deps.
 
 export async function getBrowserSoundCloudToken(_?: any): Promise<{
     token: string;
@@ -936,7 +936,7 @@ export async function uploadSoundCloudTrack(
             }
         }
 
-        // ── Helper: DataDome interactive Captcha Solver ───────────────────────
+        // â”€â”€ Helper: DataDome interactive Captcha Solver â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const handleCaptchaChallenge = async (captchaUrl: string): Promise<boolean> => {
             console.log("[SoundCloudNative] DataDome CAPTCHA challenge detected, opening verification window:", captchaUrl);
             return new Promise<boolean>((resolve) => {
@@ -986,8 +986,8 @@ export async function uploadSoundCloudTrack(
                             const isDone = await captchaWin.webContents.executeJavaScript(`
                                 (function() {
                                     const text = document.body ? document.body.innerText : '';
-                                    return text.includes("Vérification de l'appareil") || 
-                                           text.includes("disponible après vérification") ||
+                                    return text.includes("VÃ©rification de l'appareil") || 
+                                           text.includes("disponible aprÃ¨s vÃ©rification") ||
                                            text.includes("Device check") ||
                                            document.querySelector(".captcha-success, .success, .check") !== null;
                                 })()
@@ -1016,7 +1016,7 @@ export async function uploadSoundCloudTrack(
             });
         };
 
-        // ── Open ONE background window on soundcloud.com/upload ───────────────
+        // â”€â”€ Open ONE background window on soundcloud.com/upload â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         win = new BrowserWindow({
             show: false,
             width: 1280,
@@ -1055,7 +1055,7 @@ export async function uploadSoundCloudTrack(
             await new Promise(r => setTimeout(r, 400));
         }
 
-        // ── Helper: run fetch() inside the real soundcloud.com renderer ───────
+        // â”€â”€ Helper: run fetch() inside the real soundcloud.com renderer â”€â”€â”€â”€â”€â”€â”€
         const scFetch = async (
             url: string,
             method: string,
@@ -1111,7 +1111,7 @@ export async function uploadSoundCloudTrack(
 
         const audioBuffer = Buffer.from(payload.audioBase64, "base64");
 
-        // ── Step 1: Get upload policy ─────────────────────────────────────────
+        // â”€â”€ Step 1: Get upload policy â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const policyUrl = `https://api-v2.soundcloud.com/uploads/track-upload-policy?client_id=${encodeURIComponent(payload.clientId)}`;
         const policyBody = JSON.stringify({
             filename: payload.audioFileName || "track.mp3",
@@ -1131,11 +1131,11 @@ export async function uploadSoundCloudTrack(
 
         if (!s3Url || !uploadUid) throw new Error("Invalid upload policy received from SoundCloud.");
 
-        // ── Step 2: Upload audio to S3 (no DataDome — it's AWS) ───────────────
+        // â”€â”€ Step 2: Upload audio to S3 (no DataDome â€” it's AWS) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
         await uploadBufferToS3(s3Url, policyData, audioBuffer, payload.audioFileName || "track.mp3", payload.audioMime || "audio/mpeg", ua);
 
-        // ── Step 3: Trigger transcoding ───────────────────────────────────────
+        // â”€â”€ Step 3: Trigger transcoding â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         try {
             const transcodeUrl = `https://api-v2.soundcloud.com/uploads/${encodeURIComponent(uploadUid)}/track-transcoding?client_id=${encodeURIComponent(payload.clientId)}`;
             await scFetch(transcodeUrl, "POST", "{}");
@@ -1143,7 +1143,7 @@ export async function uploadSoundCloudTrack(
             console.warn("[SoundCloudNative] Transcoding trigger note:", e);
         }
 
-        // ── Step 4: Create track metadata ─────────────────────────────────────
+        // â”€â”€ Step 4: Create track metadata â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         const createTrackUrl = `https://api-v2.soundcloud.com/tracks?client_id=${encodeURIComponent(payload.clientId)}`;
         const exactTrackPayload: any = {
             track: {
@@ -1189,7 +1189,7 @@ export async function uploadSoundCloudTrack(
             try { createdTrack = JSON.parse(createdTrackBody); } catch { }
         }
 
-        // ── Step 5: Artwork upload (Multi-endpoint retry) ─────────────────────
+        // â”€â”€ Step 5: Artwork upload (Multi-endpoint retry) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         if (payload.artworkBase64 && (createdTrack?.id || createdTrack?.urn)) {
             try {
                 const trackId = createdTrack.id;
@@ -1294,7 +1294,7 @@ export async function uploadSoundCloudTrack(
     }
 }
 
-// ─── Listening Together ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Listening Together â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Electron : intercept navigation events on BrowserWindow
 // Browser extension : intercept clicks on <a> tags pointing to NexCord.st/listen
 

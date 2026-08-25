@@ -1,4 +1,4 @@
-import { FluxStore, GuildMember } from "..";
+﻿import { FluxStore, GuildMember } from "..";
 
 export interface PendingRoleUpdates {
     added: string[];

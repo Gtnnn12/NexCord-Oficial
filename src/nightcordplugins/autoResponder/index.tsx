@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -34,7 +34,7 @@ const settings = definePluginSettings({
                 gap: "12px",
                 color: "#FFFFFF"
             }}>
-                <span style={{ fontSize: "24px" }}>⚠️</span>
+                <span style={{ fontSize: "24px" }}>âš ï¸</span>
                 <div>
                     <div style={{ fontWeight: "bold", color: "var(--status-warning)" }}>{t("API Key Required")}</div>
                     <div style={{ fontSize: "13px", marginTop: "4px" }}>
@@ -76,7 +76,7 @@ const settings = definePluginSettings({
     },
     blacklistedUsers: {
         type: OptionType.STRING,
-        description: "Blacklisted User IDs (comma separated) — AutoResponder will not reply to these users.",
+        description: "Blacklisted User IDs (comma separated) â€” AutoResponder will not reply to these users.",
         default: "",
         restartNeeded: false,
     },
@@ -105,7 +105,7 @@ async function handleMessage(message: any) {
     const currentUser = UserStore.getCurrentUser();
     if (!currentUser || message.author.id === currentUser.id) return;
 
-    // Vérification de la blacklist utilisateurs
+    // VÃ©rification de la blacklist utilisateurs
     const blacklistedUsers = settings.store.blacklistedUsers?.split(",").map((id: string) => id.trim()) || [];
     if (blacklistedUsers.includes(message.author.id)) {
         return;
@@ -140,7 +140,7 @@ async function handleMessage(message: any) {
             return;
         }
 
-        // Récupération de l'historique récent pour la cohérence
+        // RÃ©cupÃ©ration de l'historique rÃ©cent pour la cohÃ©rence
         let localHistory = "";
         try {
             const msgs = MessageStore.getMessages(message.channel_id).toArray().slice(-15);
@@ -150,7 +150,7 @@ async function handleMessage(message: any) {
             }).join("\n");
         } catch { }
 
-        const prompt = `Tu es l'utilisateur (MOI). Réponds au dernier message de L'AMI.
+        const prompt = `Tu es l'utilisateur (MOI). RÃ©ponds au dernier message de L'AMI.
         
 MES INFOS PERSONNELLES :
 ${settings.store.personalInfo}
@@ -166,14 +166,14 @@ ${localHistory}
 
 LATEST MESSAGE : "${message.content}"
 
-RÈGLES DE COMPORTEMENT (CRUCIAL) :
-1. RÉPONSES COURTES : Fais des réponses concises (1 ou 2 phrases max). Ne fais pas de longs paragraphes.
-2. DISCRÉTION DES INFOS : N'utilise mes infos personnelles (ex: Paris) que si c'est pertinent. Ne ramène pas tout à Paris à chaque message.
-3. STYLE ÉCRIT NATUREL : À l'écrit, on ne dit pas "heu..." ou "attends" quand on calcule. On donne juste le résultat ou on continue la phrase. Supprime toute trace d'hésitation orale.
-4. HUMAIN : Parle comme un pote sur Discord (langage SMS léger autorisé si mon style le permet).
+RÃˆGLES DE COMPORTEMENT (CRUCIAL) :
+1. RÃ‰PONSES COURTES : Fais des rÃ©ponses concises (1 ou 2 phrases max). Ne fais pas de longs paragraphes.
+2. DISCRÃ‰TION DES INFOS : N'utilise mes infos personnelles (ex: Paris) que si c'est pertinent. Ne ramÃ¨ne pas tout Ã  Paris Ã  chaque message.
+3. STYLE Ã‰CRIT NATUREL : Ã€ l'Ã©crit, on ne dit pas "heu..." ou "attends" quand on calcule. On donne juste le rÃ©sultat ou on continue la phrase. Supprime toute trace d'hÃ©sitation orale.
+4. HUMAIN : Parle comme un pote sur Discord (langage SMS lÃ©ger autorisÃ© si mon style le permet).
 
 MISSION :
-Réponds de manière naturelle. NE RENVOIE QUE LE TEXTE DE TA RÉPONSE.`;
+RÃ©ponds de maniÃ¨re naturelle. NE RENVOIE QUE LE TEXTE DE TA RÃ‰PONSE.`;
 
         const reply = await groqChat({
             messages: [
@@ -184,8 +184,8 @@ Réponds de manière naturelle. NE RENVOIE QUE LE TEXTE DE TA RÉPONSE.`;
             maxTokens: 500
         });
 
-        if (reply && !reply.startsWith("❌")) {
-            // Délai réaliste : base fixe + temps proportionnel à la longueur du message
+        if (reply && !reply.startsWith("âŒ")) {
+            // DÃ©lai rÃ©aliste : base fixe + temps proportionnel Ã  la longueur du message
             const baseDelay = Math.floor(Math.random() * (settings.store.delayMax - settings.store.delayMin + 1) + settings.store.delayMin);
             const extraDelay = reply.length > 100 ? 2 : 0; // +2s si message long
             const totalDelay = (baseDelay + extraDelay) * 1000;

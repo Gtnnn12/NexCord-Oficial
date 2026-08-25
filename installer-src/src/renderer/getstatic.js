@@ -1,4 +1,4 @@
-import path from "path";
+﻿import path from "path";
 import * as url from "url";
 
 const isDevelopment = process.env.NODE_ENV !== "production";

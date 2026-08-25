@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,10 +25,10 @@ const regexes: regexes = {
     // matches imperial units, converts them to metric
     imperial: {
         farenheight: {
-            regex: /(-?\d+(?:\.\d+)?)°?(f)(?!\w)/ig,
+            regex: /(-?\d+(?:\.\d+)?)Â°?(f)(?!\w)/ig,
             convert(...groups) {
                 const c = ((parseFloat(groups[1]) - 32) * (5 / 9)).toFixed(2);
-                return `${c}°C`;
+                return `${c}Â°C`;
             },
         },
         feetInchesMark: {
@@ -95,10 +95,10 @@ const regexes: regexes = {
     metric: {
         // i dont think people ever write metric units as 1m3cm or something like that
         celcius: {
-            regex: /(-?\d+(?:\.\d+)?)\s?°?c(?!\w)/ig,
+            regex: /(-?\d+(?:\.\d+)?)\s?Â°?c(?!\w)/ig,
             convert(...groups) {
                 const f = ((parseFloat(groups[1]) * (9 / 5)) + 32).toFixed(2);
-                return `${f}°F`;
+                return `${f}Â°F`;
             }
         },
         // convert to inches

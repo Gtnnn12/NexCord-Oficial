@@ -1,4 +1,4 @@
-import { getCurrentChannel } from "@utils/discord";
+﻿import { getCurrentChannel } from "@utils/discord";
 import { isObjectEmpty } from "@utils/misc";
 import { ChannelStore, GuildMemberCountStore, GuildStore, PermissionsBits, PermissionStore, SelectedChannelStore, Tooltip, useEffect, useStateFromStores, VoiceStateStore } from "@webpack/common";
 
@@ -100,7 +100,7 @@ export function MemberCount({ isTooltip, tooltipGuildId }: { isTooltip?: true; t
         return null;
 
     const formattedVoiceCount = numberFormat(voiceActivityCount ?? 0);
-    const formattedOnlineCount = onlineCount != null ? numberFormat(onlineCount) : "…";
+    const formattedOnlineCount = onlineCount != null ? numberFormat(onlineCount) : "â€¦";
 
     return (
         <div className={cl("widget", { tooltip: isTooltip, "member-list": !isTooltip })}>

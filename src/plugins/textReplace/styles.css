@@ -1,4 +1,4 @@
-.vc-textReplace-input-grid {
+﻿.vc-textReplace-input-grid {
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: 0.25em 1em;

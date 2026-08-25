@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+﻿import {writable} from "svelte/store";
 
 export default function readWritable(initial) {
     const {subscribe, set, update} = writable(initial);

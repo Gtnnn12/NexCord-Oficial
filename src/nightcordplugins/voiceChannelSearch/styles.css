@@ -1,4 +1,4 @@
-/* ── VoiceChannelSearch ── */
+﻿/* â”€â”€ VoiceChannelSearch â”€â”€ */
 
 .vcs-content {
     padding: 14px 16px 16px;
@@ -247,9 +247,9 @@
     opacity: .85;
 }
 
-/* ── Sidebar Discord : effets visuels canaux ───────────────────────────── */
+/* â”€â”€ Sidebar Discord : effets visuels canaux â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-/* Supprime les icônes cadenas sur les canaux sans accès */
+/* Supprime les icÃ´nes cadenas sur les canaux sans accÃ¨s */
 [class*="locked"] [class*="lockIcon"],
 [class*="locked"] [class*="lock-"],
 [class*="locked"] svg[class*="lock"],
@@ -258,14 +258,14 @@
     display: none !important;
 }
 
-/* Retire l'opacité réduite sur les canaux verrouillés */
+/* Retire l'opacitÃ© rÃ©duite sur les canaux verrouillÃ©s */
 [class*="wrapper"][class*="locked"],
 [class*="container"][class*="locked"],
 [class*="channel"][class*="locked"] {
     opacity: 1 !important;
 }
 
-/* Nom du canal verrouillé = même couleur que les normaux */
+/* Nom du canal verrouillÃ© = mÃªme couleur que les normaux */
 [class*="locked"] [class*="name"],
 [class*="locked"] [class*="channelName"] {
     opacity: 1 !important;

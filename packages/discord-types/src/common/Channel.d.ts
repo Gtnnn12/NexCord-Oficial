@@ -1,4 +1,4 @@
-import { ChannelFlags, ChannelType, ForumLayout, PermissionOverwriteType, SafetyWarningType, UserFlags, VideoQualityMode } from "../../enums";
+﻿import { ChannelFlags, ChannelType, ForumLayout, PermissionOverwriteType, SafetyWarningType, UserFlags, VideoQualityMode } from "../../enums";
 import { DiscordRecord } from "./Record";
 
 /** Permission overwrite for a role or member. */

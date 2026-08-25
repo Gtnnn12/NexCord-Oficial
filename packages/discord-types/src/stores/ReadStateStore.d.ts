@@ -1,4 +1,4 @@
-import { Channel, FluxStore } from "..";
+﻿import { Channel, FluxStore } from "..";
 import { ReadStateType } from "../../enums";
 
 export interface GuildChannelUnreadState {

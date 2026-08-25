@@ -1,4 +1,4 @@
-/* ── Export DM Plugin ── */
+﻿/* â”€â”€ Export DM Plugin â”€â”€ */
 
 .edm-content {
     padding: 14px 16px 16px;
@@ -7,7 +7,7 @@
     gap: 12px;
 }
 
-/* ── Barre de recherche ── */
+/* â”€â”€ Barre de recherche â”€â”€ */
 .edm-search-bar {
     display: flex;
     align-items: center;
@@ -52,7 +52,7 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* ── Labels ── */
+/* â”€â”€ Labels â”€â”€ */
 .edm-label {
     margin: 0 !important;
     font-size: 11px !important;
@@ -62,7 +62,7 @@
     color: rgba(255, 255, 255, 0.5) !important;
 }
 
-/* ── Liste conversations ── */
+/* â”€â”€ Liste conversations â”€â”€ */
 .edm-channel-list {
     display: flex;
     flex-direction: column;
@@ -164,7 +164,7 @@
     flex-shrink: 0;
 }
 
-/* ── Options ── */
+/* â”€â”€ Options â”€â”€ */
 .edm-options-row {
     display: flex;
     gap: 14px;
@@ -192,7 +192,7 @@
     cursor: pointer;
 }
 
-/* ── Formats ── */
+/* â”€â”€ Formats â”€â”€ */
 .edm-format-row {
     display: flex;
     gap: 6px;
@@ -236,7 +236,7 @@
     text-align: center;
 }
 
-/* ── Status ── */
+/* â”€â”€ Status â”€â”€ */
 .edm-status {
     padding: 8px 12px;
     border-radius: 6px;
@@ -247,7 +247,7 @@
 .edm-status--done    { background: rgba(59,165,92,0.12);  color: #3ba55c; }
 .edm-status--error   { background: rgba(237,66,69,0.12);  color: #ed4245; }
 
-/* ── Bouton export ── */
+/* â”€â”€ Bouton export â”€â”€ */
 .edm-export-btn {
     background: var(--brand-500, #5865f2);
     color: #fff;

@@ -1,4 +1,4 @@
-# Better Folders
+﻿# Better Folders
 
 Better Folders offers a variety of options to improve your folder experience
 

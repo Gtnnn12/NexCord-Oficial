@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,25 +12,25 @@ import { registerMediaPermissionsForSession } from "../../nightcord/main/mediaPe
 
 const openWindows = new Map<string, BrowserWindow>();
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Réglages partagés (thème, audio, zoom, etc.) entre toutes les instances
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// RÃ©glages partagÃ©s (thÃ¨me, audio, zoom, etc.) entre toutes les instances
 //
 // Chaque instance tourne dans sa propre session Electron (persist:NexCord-mi-{userId}),
-// donc son localStorage est totalement vide au premier lancement : Discord démarre
-// avec ses réglages par défaut (pas de device audio choisi, thème par défaut, etc.),
-// ce qui donne l'impression d'une fenêtre "vide" tant que l'utilisateur n'a pas tout
-// reconfiguré à la main.
+// donc son localStorage est totalement vide au premier lancement : Discord dÃ©marre
+// avec ses rÃ©glages par dÃ©faut (pas de device audio choisi, thÃ¨me par dÃ©faut, etc.),
+// ce qui donne l'impression d'une fenÃªtre "vide" tant que l'utilisateur n'a pas tout
+// reconfigurÃ© Ã  la main.
 //
-// On capture donc le localStorage de la fenêtre qui déclenche l'ouverture (le plus
-// souvent la fenêtre principale) et on le sauvegarde sur disque. Ce cache est ensuite
-// injecté dans chaque nouvelle instance via le preload, mais UNIQUEMENT pour les clés
-// qui n'existent pas encore dans le profil ciblé — on ne touche jamais à un réglage
-// déjà personnalisé pour ne rien casser.
-// ─────────────────────────────────────────────────────────────────────────────
+// On capture donc le localStorage de la fenÃªtre qui dÃ©clenche l'ouverture (le plus
+// souvent la fenÃªtre principale) et on le sauvegarde sur disque. Ce cache est ensuite
+// injectÃ© dans chaque nouvelle instance via le preload, mais UNIQUEMENT pour les clÃ©s
+// qui n'existent pas encore dans le profil ciblÃ© â€” on ne touche jamais Ã  un rÃ©glage
+// dÃ©jÃ  personnalisÃ© pour ne rien casser.
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SHARED_SETTINGS_FILE = join(app.getPath("userData"), "NexCord-mi-shared-settings.json");
 
-// Clés qu'on ne veut jamais copier d'une fenêtre à l'autre (identité du compte / session)
+// ClÃ©s qu'on ne veut jamais copier d'une fenÃªtre Ã  l'autre (identitÃ© du compte / session)
 const SHARED_SETTINGS_BLOCKLIST = new Set([
     "token",
     "default_token",
@@ -82,8 +82,8 @@ function saveSharedSettings(settings: Record<string, string>): void {
 }
 
 /**
- * Capture le localStorage de la fenêtre qui a déclenché l'action (event.sender)
- * et le fusionne avec le cache déjà présent sur disque. Ne lève jamais d'erreur :
+ * Capture le localStorage de la fenÃªtre qui a dÃ©clenchÃ© l'action (event.sender)
+ * et le fusionne avec le cache dÃ©jÃ  prÃ©sent sur disque. Ne lÃ¨ve jamais d'erreur :
  * en cas de souci on retombe simplement sur le cache existant.
  */
 async function captureAndMergeSharedSettings(sourceEvent: any): Promise<Record<string, string>> {
@@ -106,18 +106,18 @@ async function captureAndMergeSharedSettings(sourceEvent: any): Promise<Record<s
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Intercepte les IPC de contrôle de fenêtre pour une instance multi.
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Intercepte les IPC de contrÃ´le de fenÃªtre pour une instance multi.
 //
 // Discord natif utilise ipcMain.handle("DISCORD_WINDOW_CLOSE" | "DISCORD_WINDOW_MINIMIZE" | ...)
-// Ces handlers sont enregistrés GLOBALEMENT par Discord sur ipcMain, donc ils
-// attrapent tous les événements de toutes les fenêtres et appellent injectedGetWindow(key)
-// qui retourne toujours la fenêtre principale.
+// Ces handlers sont enregistrÃ©s GLOBALEMENT par Discord sur ipcMain, donc ils
+// attrapent tous les Ã©vÃ©nements de toutes les fenÃªtres et appellent injectedGetWindow(key)
+// qui retourne toujours la fenÃªtre principale.
 //
-// Pour contourner ça, on utilise webContents.ipc.handle sur le webContents
-// de chaque fenêtre multi-instance — ces handlers sont LOCAUX à ce webContents
-// et ont priorité sur les handlers globaux ipcMain pour ce sender.
-// ─────────────────────────────────────────────────────────────────────────────
+// Pour contourner Ã§a, on utilise webContents.ipc.handle sur le webContents
+// de chaque fenÃªtre multi-instance â€” ces handlers sont LOCAUX Ã  ce webContents
+// et ont prioritÃ© sur les handlers globaux ipcMain pour ce sender.
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let isAppQuitting = false;
 app.on("before-quit", () => {
@@ -127,7 +127,7 @@ app.on("before-quit", () => {
 function registerWindowControlIpc(win: BrowserWindow): () => void {
     const wc = win.webContents as any; // webContents.ipc existe depuis Electron 20
 
-    // Canaux Discord natif (découverts dans _core_extracted/bundle.js)
+    // Canaux Discord natif (dÃ©couverts dans _core_extracted/bundle.js)
     const CLOSE = "DISCORD_WINDOW_CLOSE";
     const MINIMIZE = "DISCORD_WINDOW_MINIMIZE";
     const MAXIMIZE = "DISCORD_WINDOW_MAXIMIZE";
@@ -197,20 +197,20 @@ function registerWindowControlIpc(win: BrowserWindow): () => void {
     };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Intercepte les IPC de badge/notification Discord pour une instance multi.
 //
-// Discord natif émet DISCORD_SET_BADGE_COUNT (et d'autres canaux de badge) via
-// ipcRenderer → ipcMain de façon globale. Le handler global de Discord appelle
-// injectedGetWindow() qui retourne toujours la fenêtre principale. Résultat :
-// le badge rouge (ping) s'affiche sur l'icône Discord principal, jamais sur
-// l'icône de la fenêtre multi-instance.
+// Discord natif Ã©met DISCORD_SET_BADGE_COUNT (et d'autres canaux de badge) via
+// ipcRenderer â†’ ipcMain de faÃ§on globale. Le handler global de Discord appelle
+// injectedGetWindow() qui retourne toujours la fenÃªtre principale. RÃ©sultat :
+// le badge rouge (ping) s'affiche sur l'icÃ´ne Discord principal, jamais sur
+// l'icÃ´ne de la fenÃªtre multi-instance.
 //
 // On surcharge ces canaux sur le webContents local de chaque instance (via
 // webContents.ipc.on) pour intercepter les messages avant qu'ils n'atteignent
 // le handler global, et on applique flashFrame + setOverlayIcon directement
 // sur la bonne BrowserWindow.
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 import { setBadgeCount } from "../../nightcord/main/appBadge";
 
@@ -238,7 +238,7 @@ function registerNotificationIpc(win: BrowserWindow): () => void {
     const wc = win.webContents as any;
     const cleanups: Array<() => void> = [];
 
-    // ── Badge count handler ──────────────────────────────────────────────────
+    // â”€â”€ Badge count handler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleBadge = (_event: any, count?: number) => {
         if (win.isDestroyed()) return;
         try {
@@ -250,7 +250,7 @@ function registerNotificationIpc(win: BrowserWindow): () => void {
         } catch { }
     };
 
-    // ── Notification handler ─────────────────────────────────────────────────
+    // â”€â”€ Notification handler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const handleNotification = (_event: any) => {
         if (win.isDestroyed()) return;
         try {
@@ -276,7 +276,7 @@ function registerNotificationIpc(win: BrowserWindow): () => void {
             const senderWin = BrowserWindow.fromWebContents(event.sender);
             if (senderWin !== win) return;
             handleBadge(event, count);
-            // Empêche la propagation au handler global de Discord
+            // EmpÃªche la propagation au handler global de Discord
             event.returnValue = undefined;
         };
         const guardedNotif = (event: Electron.IpcMainEvent) => {
@@ -297,9 +297,9 @@ function registerNotificationIpc(win: BrowserWindow): () => void {
     return () => { for (const fn of cleanups) fn(); };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Crée le script de préchargement qui injecte le token
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// CrÃ©e le script de prÃ©chargement qui injecte le token
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function createTokenPreload(token: string, sharedSettings: Record<string, string> = {}): string {
     const dir = join(app.getPath("userData"), "NexCord-mi-preloads");
@@ -312,7 +312,7 @@ function createTokenPreload(token: string, sharedSettings: Record<string, string
     const settingsLiteral = JSON.stringify(JSON.stringify(sharedSettings ?? {}));
 
     // Inner script: runs in main world via webFrame.executeJavaScript.
-    // Must be plain JavaScript — no TypeScript syntax, no template literals.
+    // Must be plain JavaScript â€” no TypeScript syntax, no template literals.
     const innerLines = [
         "(function() {",
         "  var RAW_TOKEN = " + tokenLiteral + ";",
@@ -360,7 +360,7 @@ function createTokenPreload(token: string, sharedSettings: Record<string, string
     const innerLiteralForNode = JSON.stringify(innerLines);
 
     const script = [
-        "// NexCord MultiInstance — token preload",
+        "// NexCord MultiInstance â€” token preload",
         "(function() {",
         "  try {",
         "    var wf = null;",
@@ -379,9 +379,9 @@ function createTokenPreload(token: string, sharedSettings: Record<string, string
     return filePath;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Ouvre une nouvelle fenêtre Discord isolée
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Ouvre une nouvelle fenÃªtre Discord isolÃ©e
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Compteur d'icones detached : tourne de 1 a 5
 let iconCounter = 1;
@@ -422,7 +422,7 @@ export async function openInstanceWindow(
         // En donnant un ID different a chaque fenetre, elles ne se regroupent pas
         const uniqueAppId = `NexCord.instance.${userId}.${Date.now()}`;
 
-        // Icone : rotation 1→2→3→4→5→1→... depuis multi-instance-icons/
+        // Icone : rotation 1â†’2â†’3â†’4â†’5â†’1â†’... depuis multi-instance-icons/
         let currentIconPath = "";
         const iconDir = getDetachedIconDir();
         currentIconPath = join(iconDir, `${iconCounter}.ico`);
@@ -515,7 +515,7 @@ export async function openInstanceWindow(
             win.setFullScreen(false);
         });
 
-        // Avant fermeture : désinscrit les service workers et coupe le gateway
+        // Avant fermeture : dÃ©sinscrit les service workers et coupe le gateway
         // pour stopper toutes les notifications push
         win.on("close", () => {
             wc.executeJavaScript(`
@@ -533,20 +533,20 @@ export async function openInstanceWindow(
             `).catch(() => {});
         });
 
-        // Enregistre les handlers IPC de contrôle de fenêtre (DISCORD_WINDOW_*) sur ce webContents
-        // Doit être fait AVANT que Discord charge son JS (dom-ready)
+        // Enregistre les handlers IPC de contrÃ´le de fenÃªtre (DISCORD_WINDOW_*) sur ce webContents
+        // Doit Ãªtre fait AVANT que Discord charge son JS (dom-ready)
         const wc = win.webContents;
         const cleanupIpc = registerWindowControlIpc(win);
-        // Redirige les IPC de badge/notification vers CETTE fenêtre (pas la fenêtre principale)
+        // Redirige les IPC de badge/notification vers CETTE fenÃªtre (pas la fenÃªtre principale)
         const cleanupNotifIpc = registerNotificationIpc(win);
 
         win.once("closed", () => {
             cleanupIpc();
             cleanupNotifIpc();
             openWindows.delete(userId);
-            // Nettoie les service workers de la session pour couper définitivement les notifs
+            // Nettoie les service workers de la session pour couper dÃ©finitivement les notifs
             ses.clearStorageData({ storages: ["serviceworkers"] }).catch(() => {});
-            // Supprime le fichier de preload temporaire pour éviter qu'ils s'accumulent sur disque
+            // Supprime le fichier de preload temporaire pour Ã©viter qu'ils s'accumulent sur disque
             try { unlinkSync(preloadPath); } catch {}
         });
 
@@ -609,11 +609,11 @@ export async function openInstanceWindow(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Fenetres « groupées » — meme groupe que NexCord dans la barre des taches
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Fenetres Â« groupÃ©es Â» â€” meme groupe que NexCord dans la barre des taches
 // Principe : on ne touche PAS a setAppDetails => la fenetre herite de l'AppId
 // du processus principal (com.NexCord.app), Windows la groupe automatiquement
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const openGroupedWindows = new Map<string, BrowserWindow>();
 
@@ -705,7 +705,7 @@ export async function openInstanceWindowGrouped(
             win.setFullScreen(false);
         });
 
-        // Avant fermeture : désinscrit les service workers et coupe le gateway
+        // Avant fermeture : dÃ©sinscrit les service workers et coupe le gateway
         win.on("close", () => {
             wc.executeJavaScript(`
                 (async () => {
@@ -721,10 +721,10 @@ export async function openInstanceWindowGrouped(
             `).catch(() => {});
         });
 
-        // Enregistre les handlers IPC de contrôle de fenêtre pour cette instance groupée
+        // Enregistre les handlers IPC de contrÃ´le de fenÃªtre pour cette instance groupÃ©e
         const wc = win.webContents;
         const cleanupIpc = registerWindowControlIpc(win);
-        // Redirige les IPC de badge/notification vers CETTE fenêtre (pas la fenêtre principale)
+        // Redirige les IPC de badge/notification vers CETTE fenÃªtre (pas la fenÃªtre principale)
         const cleanupNotifIpc = registerNotificationIpc(win);
 
         win.once("closed", () => {
@@ -791,9 +791,9 @@ export async function openInstanceWindowGrouped(
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Split screen : positionne les deux fenêtres côte à côte
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Split screen : positionne les deux fenÃªtres cÃ´te Ã  cÃ´te
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function arrangeSplit(_: any, userId: string): Promise<void> {
     try {
@@ -817,9 +817,9 @@ export async function arrangeSplit(_: any, userId: string): Promise<void> {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Liste / ferme les instances
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function getOpenInstances(_: any): Promise<string[]> {
     return [...openWindows.entries(), ...openGroupedWindows.entries()]

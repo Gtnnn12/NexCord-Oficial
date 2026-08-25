@@ -1,4 +1,4 @@
-export type Locale = "en" | "de" | "fr" | "es" | "it" | "pt" | "pl";
+﻿export type Locale = "en" | "de" | "fr" | "es" | "it" | "pt" | "pl";
 export type TranslationMap = Record<string, Partial<Record<Locale, string>>>;
 
 const LOCALE_ALIASES: Record<string, Locale> = {

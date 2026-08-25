@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -48,7 +48,7 @@ interface CachedMessage {
     savedAt: number; // timestamp for cache cleanup
 }
 
-// In-memory cache — mirror of IndexedDB for fast access
+// In-memory cache â€” mirror of IndexedDB for fast access
 let memCache: Record<string, CachedMessage> = {};
 let dbLoaded = false;
 

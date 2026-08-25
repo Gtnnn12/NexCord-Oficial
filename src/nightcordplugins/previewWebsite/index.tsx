@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,7 @@ import { React } from "@webpack/common";
 
 import { t } from "../autoTranslateNightcord";
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const settings = definePluginSettings({
     autoExpand: {
@@ -62,7 +62,7 @@ export const settings = definePluginSettings({
     },
 });
 
-// ── URL Extraction & Filtering ─────────────────────────────────────────────────
+// â”€â”€ URL Extraction & Filtering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MEDIA_EXTENSIONS = /\.(png|jpe?g|gif|webp|svg|mp4|webm|mov|mkv|mp3|ogg|wav|flac|m4a|pdf)(\?[^#]*)?(#.*)?$/i;
 
@@ -138,7 +138,7 @@ function extractValidUrls(content: string): string[] {
     return (limit && limit > 0) ? valid.slice(0, limit) : valid;
 }
 
-// ── Single Preview Card Component ──────────────────────────────────────────────
+// â”€â”€ Single Preview Card Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function PreviewCard({ url }: { url: string; }) {
     const [isExpanded, setIsExpanded] = React.useState(settings.store.autoExpand);
@@ -216,7 +216,7 @@ function PreviewCard({ url }: { url: string; }) {
                         <button
                             className="pw-btn pw-scale-badge"
                             onClick={cycleScale}
-                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% — ${t("Click to change zoom")}`}
+                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% â€” ${t("Click to change zoom")}`}
                         >
                             <span>{Math.round(scaleMode * 100)}%</span>
                         </button>
@@ -335,7 +335,7 @@ function PreviewCard({ url }: { url: string; }) {
     );
 }
 
-// ── Message Accessory Component ────────────────────────────────────────────────
+// â”€â”€ Message Accessory Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function WebsitePreviewAccessory({ message }: { message: any; }) {
     const urls = React.useMemo(() => {
@@ -353,7 +353,7 @@ function WebsitePreviewAccessory({ message }: { message: any; }) {
     );
 }
 
-// ── Plugin Definition ──────────────────────────────────────────────────────────
+// â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const ACCESSORY_ID = "NexCord-website-preview";
 

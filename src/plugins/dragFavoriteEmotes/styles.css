@@ -1,4 +1,4 @@
-.vc-drag-favorite-emotes-indicator::before {
+﻿.vc-drag-favorite-emotes-indicator::before {
     content: "";
     position: absolute;
     z-index: 1;

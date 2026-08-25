@@ -1,4 +1,4 @@
-export const enum Theme {
+﻿export const enum Theme {
     UNSET = 0,
     DARK = 1,
     LIGHT = 2,

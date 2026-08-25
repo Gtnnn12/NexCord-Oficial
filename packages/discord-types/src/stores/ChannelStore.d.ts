@@ -1,4 +1,4 @@
-import { Channel, FluxStore } from "..";
+﻿import { Channel, FluxStore } from "..";
 
 /** Debug info for channel store state. */
 export interface ChannelStoreDebugInfo {

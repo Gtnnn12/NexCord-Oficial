@@ -1,4 +1,4 @@
-# User Voice Show
+﻿# User Voice Show
 
 Shows an indicator when a user is in a Voice Channel
 

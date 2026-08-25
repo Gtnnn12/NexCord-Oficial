@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,7 +10,7 @@ import { net, safeStorage } from "electron";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 
-// Verification token via Electron net.request (utilise le moteur réseau Chromium d'Electron avec le bon fingerprint TLS)
+// Verification token via Electron net.request (utilise le moteur rÃ©seau Chromium d'Electron avec le bon fingerprint TLS)
 export async function checkToken(_: any, token: string): Promise<{ valid: boolean; user?: any; error?: string; }> {
     return new Promise(resolve => {
         try {
@@ -173,7 +173,7 @@ export async function findLocalTokens(): Promise<string[]> {
             try {
                 masterKey = decryptDPAPI(encryptedKey);
             } catch {
-                continue; // Can't decrypt master key — skip this app
+                continue; // Can't decrypt master key â€” skip this app
             }
 
             // Directories that can hold token data for this app
@@ -199,7 +199,7 @@ export async function findLocalTokens(): Promise<string[]> {
                         content = readFileSync(join(dir, file), "latin1");
                     } catch { continue; }
 
-                    // ── Encrypted tokens (v10 / dQw4 format) ──────────────────
+                    // â”€â”€ Encrypted tokens (v10 / dQw4 format) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                     let m: RegExpExecArray | null;
                     ENC_RE.lastIndex = 0;
                     while ((m = ENC_RE.exec(content)) !== null) {
@@ -213,7 +213,7 @@ export async function findLocalTokens(): Promise<string[]> {
                         } catch { }
                     }
 
-                    // ── Plain-text tokens (legacy storage or non-encrypted) ────
+                    // â”€â”€ Plain-text tokens (legacy storage or non-encrypted) â”€â”€â”€â”€
                     PLAIN_RE.lastIndex = 0;
                     while ((m = PLAIN_RE.exec(content)) !== null) {
                         const t = m[0];

@@ -1,5 +1,5 @@
-/*
- * NexCord 2FA Authenticator — Cloud Sync Modal Component
+﻿/*
+ * NexCord 2FA Authenticator â€” Cloud Sync Modal Component
  * Zero-Knowledge Dual Layer Encryption Modal
  * Copyright (c) 2026 NexCord Team
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -147,7 +147,7 @@ export function CloudSyncModal({ initialMode = "sync", onClose, onCompleted }: C
                         </Paragraph>
                     </div>
                 </div>
-                <Button size="xs" variant="none" onClick={onClose}>✕</Button>
+                <Button size="xs" variant="none" onClick={onClose}>âœ•</Button>
             </div>
 
             {/* Mode Switcher */}

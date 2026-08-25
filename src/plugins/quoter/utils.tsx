@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -346,7 +346,7 @@ function drawQuoteText(
                     const y = quoteY - emojiSize * CUSTOM_EMOJI_BASELINE_OFFSET;
                     ctx.drawImage(image, x, y, emojiSize, emojiSize);
                 } else {
-                    ctx.fillText("□", x, quoteY);
+                    ctx.fillText("â–¡", x, quoteY);
                 }
             }
 

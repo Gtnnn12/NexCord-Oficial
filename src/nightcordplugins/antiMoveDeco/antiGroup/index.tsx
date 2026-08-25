@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -71,7 +71,7 @@ async function leaveGroupDM(channelId: string) {
                 });
                 await new Promise(resolve => setTimeout(resolve, 500));
             } catch (msgError) {
-                log(`❌ Error lors de l'envoi du message automatique: ${msgError}`, "error");
+                log(`âŒ Error lors de l'envoi du message automatique: ${msgError}`, "error");
             }
         }
 
@@ -79,7 +79,7 @@ async function leaveGroupDM(channelId: string) {
 
         if (settings.store.showNotifications) {
             showNotification({
-                title: "🛡️ AntiGroup - Group left",
+                title: "ðŸ›¡ï¸ AntiGroup - Group left",
                 body: `You have automatically left the group "${channelName}"`,
                 icon: undefined
             });
@@ -87,10 +87,10 @@ async function leaveGroupDM(channelId: string) {
     } catch (error) {
         const channel = ChannelStore.getChannel(channelId);
         const channelName = channel?.name || "Unknown group";
-        log(`❌ ERREUR lors de la sortie du groupe "${channelName}" (${channelId}): ${error}`, "error");
+        log(`âŒ ERREUR lors de la sortie du groupe "${channelName}" (${channelId}): ${error}`, "error");
         if (settings.store.showNotifications) {
             showNotification({
-                title: "❌ AntiGroup - Error",
+                title: "âŒ AntiGroup - Error",
                 body: `Could not automatically leave the group "${channelName}"`,
                 icon: undefined
             });
@@ -136,8 +136,8 @@ export default definePlugin({
 
             if (settings.store.showNotifications) {
                 showNotification({
-                    title: "🚨 AntiGroup - Groupe detected",
-                    body: `Added to group "${channel.name || "Unnamed"}" — Auto leaving in ${settings.store.delay / 1000}s`,
+                    title: "ðŸš¨ AntiGroup - Groupe detected",
+                    body: `Added to group "${channel.name || "Unnamed"}" â€” Auto leaving in ${settings.store.delay / 1000}s`,
                     icon: undefined
                 });
             }
@@ -147,10 +147,10 @@ export default definePlugin({
     },
 
     start() {
-        log("[AntiGroup] Plugin démarré");
+        log("[AntiGroup] Plugin dÃ©marrÃ©");
     },
 
     stop() {
-        log("[AntiGroup] Plugin arrêté");
+        log("[AntiGroup] Plugin arrÃªtÃ©");
     }
 });

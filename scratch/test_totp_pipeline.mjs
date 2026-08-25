@@ -1,4 +1,4 @@
-import crypto from "crypto";
+﻿import crypto from "crypto";
 
 // In Node 20+, globalThis.crypto is already available
 globalThis.btoa = (str) => Buffer.from(str, 'binary').toString('base64');

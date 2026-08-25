@@ -1,4 +1,4 @@
-import { Channel, FluxStore } from "..";
+﻿import { Channel, FluxStore } from "..";
 
 export interface ThreadJoined {
     channel: Channel;

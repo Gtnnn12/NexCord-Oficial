@@ -1,4 +1,4 @@
-export const enum ApplicationType {
+﻿export const enum ApplicationType {
     DEPRECATED_GAME = 1,
     TICKETED_EVENTS = 3,
     GUILD_ROLE_SUBSCRIPTIONS = 4,

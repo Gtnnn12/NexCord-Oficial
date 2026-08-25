@@ -1,4 +1,4 @@
-# Super Reaction Tweaks
+﻿# Super Reaction Tweaks
 
 This plugin applies configurable various tweaks to super reactions.
 

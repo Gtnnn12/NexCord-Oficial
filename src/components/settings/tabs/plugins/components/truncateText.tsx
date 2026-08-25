@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -29,7 +29,7 @@ export function useTruncatedText(text: string) {
 
         while (start < end) {
             const mid = Math.floor((start + end) / 2);
-            const testText = currentText.slice(0, mid).trim() + "…";
+            const testText = currentText.slice(0, mid).trim() + "â€¦";
             el.textContent = testText;
 
             if (el.scrollHeight <= maxHeight) {
@@ -38,7 +38,7 @@ export function useTruncatedText(text: string) {
                 end = mid;
             }
         }
-        const finalText = currentText.slice(0, end - 1).trim() + "…";
+        const finalText = currentText.slice(0, end - 1).trim() + "â€¦";
         setTruncated(finalText);
     }, [text]);
 

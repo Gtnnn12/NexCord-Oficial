@@ -1,7 +1,7 @@
-# Privacy Policy
+﻿# Privacy Policy
 
 This file is a short summary. The full, always up to date Privacy Policy is published at
-**https://nightcord.st/privacy** — that page is the canonical version; if anything here ever
+**https://nightcord.st/privacy** â€” that page is the canonical version; if anything here ever
 conflicts with it, the website version applies.
 
 ## Summary
@@ -11,17 +11,17 @@ keybinds) runs entirely on your device and is never sent to us.
 
 A small set of **opt-in** features talk to our backend at `api.nightcord.st`:
 
-- Signing in with Discord (OAuth2, scopes `identify` and `guilds.join`) — stores your Discord
+- Signing in with Discord (OAuth2, scopes `identify` and `guilds.join`) â€” stores your Discord
   user ID, username, display name, avatar URL, and OAuth access/refresh tokens so you stay
   signed in. We never see your Discord password.
-- Cloud Settings Sync — your full plugin configuration, if you turn this on, linked to your
+- Cloud Settings Sync â€” your full plugin configuration, if you turn this on, linked to your
   Discord user ID so it can be restored on another device.
-- Per-plugin sync — individual plugins may store settings server-side, keyed by plugin name and
+- Per-plugin sync â€” individual plugins may store settings server-side, keyed by plugin name and
   your Discord user ID, with a private/public toggle you control.
-- Custom profile badges — any badge image you choose to upload, linked to your Discord user ID.
-- Community-role cosmetic badges — your Discord user ID plus the roles you hold in the official
+- Custom profile badges â€” any badge image you choose to upload, linked to your Discord user ID.
+- Community-role cosmetic badges â€” your Discord user ID plus the roles you hold in the official
   Nightcord server, used only to grant cosmetic badges.
-- Username-history lookups — on demand only, forwards the looked-up Discord user ID to a
+- Username-history lookups â€” on demand only, forwards the looked-up Discord user ID to a
   third-party username-history provider.
 
 If you never sign in with Discord inside Nightcord, none of the above applies to you.

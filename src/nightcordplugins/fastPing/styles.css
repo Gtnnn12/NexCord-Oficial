@@ -1,7 +1,7 @@
-.fastping-popover {
+﻿.fastping-popover {
     position: fixed;
     z-index: 9999;
-    /* On passe à -115% pour le monter encore plus */
+    /* On passe Ã  -115% pour le monter encore plus */
     transform: translate(-50%, -115%); 
     animation: fastping-pop-in 0.12s ease-out;
     pointer-events: auto;
@@ -36,7 +36,7 @@
 @keyframes fastping-pop-in {
     from {
         opacity: 0;
-        /* Le point de départ suit le mouvement (-105%) */
+        /* Le point de dÃ©part suit le mouvement (-105%) */
         transform: translate(-50%, -105%);
     }
     to {

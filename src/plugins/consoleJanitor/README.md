@@ -1,4 +1,4 @@
-# ConsoleJanitor
+﻿# ConsoleJanitor
 
 Disables annoying console messages/errors. This plugin mainly removes errors/warnings that happen all the time and Discord logger messages.
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -39,7 +39,7 @@ export async function applyStoredMellowtelConsent() {
 
     try {
         const mellowtel = await getMellowtel();
-        // Mellowtel desactivado: no se envía telemetría
+        // Mellowtel desactivado: no se envÃ­a telemetrÃ­a
         return;
     } catch (e) {
         console.error("[Mellowtel] Failed to re-apply stored consent", e);

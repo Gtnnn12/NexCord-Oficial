@@ -1,4 +1,4 @@
-# MoreQuickReactions
+﻿# MoreQuickReactions
 
 Increases the number of reactions available in the Quick React hover menu.
 

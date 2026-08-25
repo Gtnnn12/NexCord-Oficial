@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -92,7 +92,7 @@ function DevCard({ id, role, description }: { id: string; role: string; descript
             navigator.clipboard.writeText(id);
         }
         setCopied(true);
-        try { showToast("ID copié !", Toasts.Type.SUCCESS); } catch {}
+        try { showToast("ID copiÃ© !", Toasts.Type.SUCCESS); } catch {}
         setTimeout(() => setCopied(false), 1500);
     };
 
@@ -131,7 +131,7 @@ function DevCard({ id, role, description }: { id: string; role: string; descript
                     >
                         <span>{id}</span>
                         {copied ? (
-                            <span style={{ color: "var(--status-positive, #43b581)", fontWeight: "bold", fontSize: "10px" }}>✓ Copié</span>
+                            <span style={{ color: "var(--status-positive, #43b581)", fontWeight: "bold", fontSize: "10px" }}>âœ“ CopiÃ©</span>
                         ) : (
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -156,7 +156,7 @@ function DevTeamSection() {
                 <QuickAction
                     Icon={GithubIcon}
                     text="Source Code"
-                    action={() => (typeof VencordNative !== "undefined" && VencordNative?.native?.openExternal) ? VencordNative.native.openExternal("https://github.com/Gtnnn12/NexCord") : window.open("https://github.com/Gtnnn12/NexCord", "_blank")}
+                    action={() => (typeof VencordNative !== "undefined" && VencordNative?.native?.openExternal) ? VencordNative.native.openExternal("https://github.com/Gtnnn12/NexCord-Oficial") : window.open("https://github.com/Gtnnn12/NexCord-Oficial", "_blank")}
                 />
                 <QuickAction
                     Icon={PaintbrushIcon}
@@ -236,7 +236,7 @@ function StealthModeSection() {
             <Heading className={Margins.top20}>{t("Stealth Mode")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 {enabled
-                    ? "Stealth mode is enabled â€” all NexCord visual elements are hidden. Shortcut: Ctrl+Shift+H"
+                    ? "Stealth mode is enabled Ã¢â‚¬â€ all NexCord visual elements are hidden. Shortcut: Ctrl+Shift+H"
                     : t("Hides all NexCord visual elements without disabling plugins. Shortcut: Ctrl+Shift+H")}
             </Paragraph>
             <Button
@@ -257,7 +257,7 @@ function StealthModeButton() {
             onClick={toggleStealthMode}
             variant={enabled ? "dangerPrimary" : "primary"}
         >
-            {enabled ? t("✓ Stealth Mode Enabled — Click to disable") : t("Enable Stealth Mode")}
+            {enabled ? t("âœ“ Stealth Mode Enabled â€” Click to disable") : t("Enable Stealth Mode")}
         </Button>
     );
 }
@@ -555,7 +555,7 @@ function EquicordSettings() {
                 onClick={toggleCompactMode}
                 variant={compactActive ? "dangerPrimary" : "primary"}
             >
-                {compactActive ? t("✓ Compact Mode Enabled — Click to disable") : t("Enable Compact Mode")}
+                {compactActive ? t("âœ“ Compact Mode Enabled â€” Click to disable") : t("Enable Compact Mode")}
             </Button>
 
             <Divider className={Margins.top20} />

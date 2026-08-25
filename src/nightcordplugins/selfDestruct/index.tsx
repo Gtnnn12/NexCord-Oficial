@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,12 +13,12 @@ import { React } from "@webpack/common";
 import plugins from "~plugins";
 import { t } from "../autoTranslateNightcord";
 
-// ── Discord internals ──────────────────────────────────────────────────────────
+// â”€â”€ Discord internals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MessageActions = findByPropsLazy("deleteMessage", "startEditMessage");
 const UserStore = findStoreLazy("UserStore");
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     active: {
@@ -37,7 +37,7 @@ const settings = definePluginSettings({
     },
 });
 
-// ── Timer tracking ─────────────────────────────────────────────────────────────
+// â”€â”€ Timer tracking â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface TimerEntry {
     channelId: string;
@@ -89,7 +89,7 @@ function cleanup() {
     timerListeners.clear();
 }
 
-// ── Timer Badge Component (rendered on messages) ───────────────────────────────
+// â”€â”€ Timer Badge Component (rendered on messages) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function TimerBadge({ messageId }: { messageId: string; }) {
     const [remaining, setRemaining] = React.useState<number | null>(null);
@@ -143,7 +143,7 @@ function TimerBadge({ messageId }: { messageId: string; }) {
                 userSelect: "none",
                 width: "fit-content",
             }}
-            title={t("SelfDestruct — this message will be deleted automatically")}
+            title={t("SelfDestruct â€” this message will be deleted automatically")}
         >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="#ed4245" strokeWidth="2" fill="none" />
@@ -154,7 +154,7 @@ function TimerBadge({ messageId }: { messageId: string; }) {
     );
 }
 
-// ── Chat Bar Icon ──────────────────────────────────────────────────────────────
+// â”€â”€ Chat Bar Icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function SelfDestructIcon({ active, width = 20, height = 20 }: { active?: boolean; width?: number; height?: number; }) {
     return (
@@ -183,7 +183,7 @@ function SelfDestructIcon({ active, width = 20, height = 20 }: { active?: boolea
     );
 }
 
-// ── Chat Bar Button ────────────────────────────────────────────────────────────
+// â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SelfDestructButton: ChatBarButtonFactory = ({ isMainChat }) => {
     const [active, setActive] = React.useState(settings.store.active);
@@ -199,8 +199,8 @@ const SelfDestructButton: ChatBarButtonFactory = ({ isMainChat }) => {
     const delayStr = delaySec >= 60 ? `${Math.floor(delaySec / 60)}m${delaySec % 60 ? (delaySec % 60) + "s" : ""}` : `${delaySec}s`;
 
     const tooltip = active
-        ? t("SelfDestruct: ON") + ` (${delayStr}) — ` + t("click to disable")
-        : t("SelfDestruct: OFF — click to enable");
+        ? t("SelfDestruct: ON") + ` (${delayStr}) â€” ` + t("click to disable")
+        : t("SelfDestruct: OFF â€” click to enable");
 
     return (
         <ChatBarButton
@@ -216,7 +216,7 @@ const SelfDestructButton: ChatBarButtonFactory = ({ isMainChat }) => {
     );
 };
 
-// ── Plugin ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "SelfDestruct",
@@ -253,7 +253,7 @@ export default definePlugin({
     },
 
     start() {
-        // Reset au démarrage — pas de timers persistants
+        // Reset au dÃ©marrage â€” pas de timers persistants
     },
 
     stop() {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -48,7 +48,7 @@ function FriendInviteCard({ invite }: { invite: FriendInvite; }) {
                         {invite.code}
                     </HeadingTertiary>
                     <span>
-                        Expires {Parser.parse(`<t:${new Date(invite.expires_at).getTime() / 1000}:R>`)} • {invite.uses}/{invite.max_uses} uses
+                        Expires {Parser.parse(`<t:${new Date(invite.expires_at).getTime() / 1000}:R>`)} â€¢ {invite.uses}/{invite.max_uses} uses
                     </span>
                 </div>
                 <Flex justifyContent="end">

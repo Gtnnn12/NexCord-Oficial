@@ -1,4 +1,4 @@
-import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "../../enums";
+﻿import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "../../enums";
 
 export type ActivityPlatform = "desktop" | "mobile" | "web" | "embedded" | "xbox" | "playstation" | "samsung" | "ios" | "android";
 

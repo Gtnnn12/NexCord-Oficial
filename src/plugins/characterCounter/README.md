@@ -1,4 +1,4 @@
-# Character Counter
+﻿# Character Counter
 
 Adds a character counter to the message input box
 

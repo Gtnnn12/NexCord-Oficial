@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -16,7 +16,7 @@ const VoiceStateStore = findStoreLazy("VoiceStateStore");
 
 const DS_KEY = "followme-target-v1";
 
-// ── Etat global ──────────────────────────────────────────────────────────────
+// â”€â”€ Etat global â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let targetId: string | null = null;
 let targetName: string = "";
 
@@ -75,7 +75,7 @@ function followMe(userId: string) {
 
     notifyAll();
     persist().catch(() => { });
-    Toasts.show({ message: t("Following Me: {name} 🏃‍♂️").replace("{name}", targetName), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
+    Toasts.show({ message: t("Following Me: {name} ðŸƒâ€â™‚ï¸").replace("{name}", targetName), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
 function unfollowMe() {
@@ -86,7 +86,7 @@ function unfollowMe() {
     Toasts.show({ message: t("Stopped forcing {name} to follow").replace("{name}", name), type: Toasts.Type.MESSAGE, id: Toasts.genId() });
 }
 
-// ── Icone ──
+// â”€â”€ Icone â”€â”€
 function FollowMeIcon({ filled = false }: { filled?: boolean; }) {
     return (
         <svg width="20" height="20" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@ function FollowMeIcon({ filled = false }: { filled?: boolean; }) {
     );
 }
 
-// ── HeaderBar Button ──
+// â”€â”€ HeaderBar Button â”€â”€
 function FollowMeHeaderButton() {
     const tid = useFollowMeId();
     if (!tid) return null;
@@ -116,7 +116,7 @@ function FollowMeHeaderButton() {
     );
 }
 
-// ── Context Menu ──
+// â”€â”€ Context Menu â”€â”€
 const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
     if (!children || !Array.isArray(children)) return;
     try {
@@ -138,7 +138,7 @@ const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
     }
 };
 
-// ── Plugin ───────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default definePlugin({
     name: "FollowMe",
     enabledByDefault: false,

@@ -1,4 +1,4 @@
-export const enum ComponentType {
+﻿export const enum ComponentType {
     UNKNOWN = -1,
     ACTION_ROW = 1,
     BUTTON = 2,
@@ -96,7 +96,7 @@ export const enum MessageType {
      *
      * Value: 3
      * Name: CALL
-     * Rendered Content: participated ? "{author} started a call{ended ? " that lasted {duration}" : " — Join the call"}." : "You missed a call from {author} that lasted {duration}."
+     * Rendered Content: participated ? "{author} started a call{ended ? " that lasted {duration}" : " â€” Join the call"}." : "You missed a call from {author} that lasted {duration}."
      * Deletable: false
      */
     CALL = 3,

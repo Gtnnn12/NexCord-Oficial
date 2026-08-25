@@ -1,4 +1,4 @@
-import { Activity, OnlineStatus } from "../common";
+﻿import { Activity, OnlineStatus } from "../common";
 import { FluxStore } from "./FluxStore";
 
 export interface UserAndActivity {

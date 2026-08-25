@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync, writeFileSync } from "fs";
+﻿import { readdirSync, readFileSync, statSync, writeFileSync } from "fs";
 import { join } from "path";
 
 const targetDirs = ["src/nightcordplugins", "src/components", "src/plugins", "src/api"];

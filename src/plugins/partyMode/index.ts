@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -43,7 +43,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "PartyMode",
-    description: "Allows you to use party mode cause the party never ends ✨",
+    description: "Allows you to use party mode cause the party never ends âœ¨",
     tags: ["Fun"],
     authors: [Devs.UwUDev],
     reporterTestable: ReporterTestable.None,

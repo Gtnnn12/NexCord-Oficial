@@ -1,4 +1,4 @@
-export const enum PermissionOverwriteType {
+﻿export const enum PermissionOverwriteType {
     ROLE = 0,
     MEMBER = 1,
     OWNER = 2

@@ -1,4 +1,4 @@
-# Nightcord Development Guidelines & Agent Instructions
+﻿# Nightcord Development Guidelines & Agent Instructions
 
 ## 1. UI & Visual Aesthetics
 - **Strict Zero-Emoji Policy**: NEVER use any emojis in any user-facing text, buttons, modals, toasts, badge labels, or UI cards. Always use clean, minimalist SVG vector icons and crisp typography.

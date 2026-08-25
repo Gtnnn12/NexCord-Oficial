@@ -1,4 +1,4 @@
-export const enum RelationshipType {
+﻿export const enum RelationshipType {
     NONE = 0,
     FRIEND = 1,
     BLOCKED = 2,

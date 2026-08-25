@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord TOTP Authenticator Styles (Discord Native Design System)
  * Copyright (c) 2026 NexCord Team
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -68,7 +68,7 @@
     margin-top: 12px;
 }
 
-/* ─── Account Card (Styled like Discord Connected Accounts) ─────────────────── */
+/* â”€â”€â”€ Account Card (Styled like Discord Connected Accounts) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .totp-card {
     display: flex;
@@ -233,7 +233,7 @@
     gap: 6px;
 }
 
-/* ─── Empty State ───────────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Empty State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .totp-empty-box {
     display: flex;
@@ -259,7 +259,7 @@
     margin-bottom: 12px;
 }
 
-/* ─── Inline Add / Edit Panel ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Inline Add / Edit Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .totp-edit-panel {
     background: var(--background-secondary, #2b2d31);
@@ -338,7 +338,7 @@
     border-top: 1px solid var(--background-modifier-accent, rgba(255, 255, 255, 0.08));
 }
 
-/* ─── Cloud Sync Modal & Badges ──────────────────────────────────────────────── */
+/* â”€â”€â”€ Cloud Sync Modal & Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .totp-cloud-modal {
     padding: 20px 24px 24px;
@@ -455,7 +455,7 @@
     border-radius: 4px;
 }
 
-/* ─── 2FA Login Auto-Fill Suggestion Card ────────────────────────────────────── */
+/* â”€â”€â”€ 2FA Login Auto-Fill Suggestion Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .NexCord-2fa-autofill-card {
     display: flex;

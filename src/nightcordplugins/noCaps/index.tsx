@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,7 @@ import plugins from "~plugins";
 
 import { t } from "../autoTranslateNightcord";
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const settings = definePluginSettings({
     isActive: {
@@ -56,7 +56,7 @@ const COMMON_ACRONYMS = new Set([
     "TLDR", "DM", "PM", "OOF", "WTF", "WTH", "EZ", "WP", "SMH", "IRL", "FR"
 ]);
 
-// ── Icon Component ─────────────────────────────────────────────────────────────
+// â”€â”€ Icon Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function NoCapsIcon({ enabled }: { enabled: boolean; }) {
     return (
@@ -100,8 +100,8 @@ const NoCapsChatBarButton: ChatBarButtonFactory = ({ type }) => {
     };
 
     const tooltip = enabled
-        ? t("NoCaps: enabled — click to disable")
-        : t("NoCaps: disabled — click to enable");
+        ? t("NoCaps: enabled â€” click to disable")
+        : t("NoCaps: disabled â€” click to enable");
 
     return (
         <ChatBarButton
@@ -117,7 +117,7 @@ const NoCapsChatBarButton: ChatBarButtonFactory = ({ type }) => {
     );
 };
 
-// ── Helper: Process text ───────────────────────────────────────────────────────
+// â”€â”€ Helper: Process text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function convertNoCaps(text: string): string {
     if (!text || typeof text !== "string") return text;
@@ -184,7 +184,7 @@ export function convertNoCaps(text: string): string {
     return converted;
 }
 
-// ── Plugin Definition ──────────────────────────────────────────────────────────
+// â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "NoCaps",

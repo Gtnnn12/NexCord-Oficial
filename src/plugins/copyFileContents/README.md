@@ -1,4 +1,4 @@
-# CopyFileContents
+﻿# CopyFileContents
 
 Adds a button to text file attachments to copy their contents.
 

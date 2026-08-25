@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -100,7 +100,7 @@ function hiddenReplyComponent() {
         case "displayText":
             return <Paragraph style={{ marginTop: "0px", marginBottom: "0px" }}>
                 <i>
-                    ↓ Replying to blocked message
+                    â†“ Replying to blocked message
                 </i>
             </Paragraph>;
         case "hideReply":

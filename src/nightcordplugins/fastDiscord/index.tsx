@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -159,7 +159,7 @@ function removeCss() {
 /* IMPORTANT: We do NOT touch MessageStore._channelMessages directly because  */
 /* MessageLoggerEnhanced monkey-patches MessageStore.getMessage and maintains  */
 /* its own cache (combinedMessageCache). Deleting raw store entries bypasses   */
-/* this patch → stale references → crash on DM load.                          */
+/* this patch â†’ stale references â†’ crash on DM load.                          */
 /*                                                                            */
 /* Instead, we only force the native GC, which is sufficient to free memory   */
 /* without corrupting the internal state of the stores.                       */
@@ -186,7 +186,7 @@ function startCacheCleaner() {
     stopCacheCleaner();
     cacheCleanerInterval = setInterval(() => {
         if (!settings.store.limitMsgCache) return;
-        // Only use the native GC — no direct manipulation of MessageStore
+        // Only use the native GC â€” no direct manipulation of MessageStore
         forceGC();
     }, cacheCleanIntervalMs());
 }
@@ -466,7 +466,7 @@ export default definePlugin({
     settings,
 
     patches: [
-        // Disable "X is typing..." dots — patch targeting only the animation
+        // Disable "X is typing..." dots â€” patch targeting only the animation
         {
             find: "dotCycle",
             predicate: () => settings.store.disableTypingDots && !isPluginEnabled("NoTypingAnimation"),
@@ -475,7 +475,7 @@ export default definePlugin({
                 replace: (_, focused) => `_focused:${focused}=false`
             }
         },
-        // Disable video autoplay — strict regex to avoid touching other modules
+        // Disable video autoplay â€” strict regex to avoid touching other modules
         {
             find: "autoplay:!0",
             predicate: () => settings.store.noVideoAutoplay,

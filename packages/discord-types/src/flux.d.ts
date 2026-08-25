@@ -1,4 +1,4 @@
-import { FluxStore } from "./stores/FluxStore";
+﻿import { FluxStore } from "./stores/FluxStore";
 
 export class FluxEmitter {
     constructor();

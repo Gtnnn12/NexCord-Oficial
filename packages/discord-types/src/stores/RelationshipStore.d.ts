@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { Message, MessageJSON } from "../common/messages";
 import { RelationshipType } from "../../enums";
 

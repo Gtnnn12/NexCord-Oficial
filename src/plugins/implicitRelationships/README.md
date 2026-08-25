@@ -1,4 +1,4 @@
-# ImplicitRelationships
+﻿# ImplicitRelationships
 
 Shows your implicit relationships in the Friends tab.
 

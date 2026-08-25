@@ -1,4 +1,4 @@
-// please keep in alphabetical order
+﻿// please keep in alphabetical order
 export * from "./AccessibilityStore";
 export * from "./ActiveJoinedThreadsStore";
 export * from "./ApplicationCommandIndexStore";

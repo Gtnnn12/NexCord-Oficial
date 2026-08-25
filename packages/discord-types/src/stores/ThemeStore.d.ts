@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export type ThemePreference = "dark" | "light" | "unknown";
 export type SystemTheme = "dark" | "light";

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -1002,7 +1002,7 @@ function AliasRow({ alias, emojiRef }: { alias: string; emojiRef: StoredEmojiRef
                 ) : (
                     <BaseText weight="semibold">:{alias}:</BaseText>
                 )}
-                <BaseText className={cl("row-arrow")}>→</BaseText>
+                <BaseText className={cl("row-arrow")}>â†’</BaseText>
                 <EmojiPreview emojiRef={emojiRef} />
                 <BaseText>{`:${normalizeEmojiName(emojiRef.name)}:`}</BaseText>
                 {error && <BaseText className={cl("row-error")}>{error}</BaseText>}

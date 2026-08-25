@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -82,8 +82,8 @@ function getMarkerInfo(content: string) {
     if (trimmed.startsWith("SC:") && trimmed.endsWith(":SC")) {
         return { start: "SC:", end: ":SC", trimmed };
     }
-    if (trimmed.startsWith("🔒SECURE:") && trimmed.endsWith(":ENDSECURE")) {
-        return { start: "🔒SECURE:", end: ":ENDSECURE", trimmed };
+    if (trimmed.startsWith("ðŸ”’SECURE:") && trimmed.endsWith(":ENDSECURE")) {
+        return { start: "ðŸ”’SECURE:", end: ":ENDSECURE", trimmed };
     }
     return null;
 }
@@ -1125,7 +1125,7 @@ export default definePlugin({
         const password = getChannelPassword(channelId);
         if (!password) {
             Toasts.show({
-                message: "❌ No encryption password set for this channel.",
+                message: "âŒ No encryption password set for this channel.",
                 type: Toasts.Type.FAILURE,
                 id: Toasts.genId()
             });
@@ -1142,7 +1142,7 @@ export default definePlugin({
         } catch (error) {
             const errorMessage = getErrorMessage(error);
             Toasts.show({
-                message: `❌ Message encryption failed: ${errorMessage}`,
+                message: `âŒ Message encryption failed: ${errorMessage}`,
                 type: Toasts.Type.FAILURE,
                 id: Toasts.genId()
             });

@@ -1,4 +1,4 @@
-# ImageFilename
+﻿# ImageFilename
 
 Display the file name of images & GIFs as a tooltip when hovering over them
 

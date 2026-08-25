@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+﻿import { readFileSync } from "fs";
 
 const c = readFileSync("src/api/i18n.ts", "utf8");
 const keys = [];

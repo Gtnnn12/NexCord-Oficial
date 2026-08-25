@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 /** Context for media engine settings. */
 export type MediaEngineContextType = "default" | "stream";

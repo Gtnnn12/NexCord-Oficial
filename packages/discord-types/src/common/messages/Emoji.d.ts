@@ -1,4 +1,4 @@
-/** Union type for both custom (guild) emojis and unicode emojis. */
+﻿/** Union type for both custom (guild) emojis and unicode emojis. */
 export type Emoji = CustomEmoji | UnicodeEmoji;
 
 /**

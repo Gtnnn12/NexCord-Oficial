@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ import plugins from "~plugins";
 // IA eliminada
 import { t } from "../autoTranslateNightcord";
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     isActive: {
@@ -39,23 +39,23 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Correction level",
         options: [
-            { label: "Soft — obvious mistakes only", value: "low", default: true },
-            { label: "Normal — mistakes + style", value: "medium" },
-            { label: "Aggressive — full rewrite", value: "high" },
+            { label: "Soft â€” obvious mistakes only", value: "low", default: true },
+            { label: "Normal â€” mistakes + style", value: "medium" },
+            { label: "Aggressive â€” full rewrite", value: "high" },
         ],
         default: "low",
     },
 });
 
-// ── Correction via groqManager ────────────────────────────────────────────────
+// â”€â”€ Correction via groqManager â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const LANG_PROMPTS: Record<string, string> = {
-    fr: "Tu es un correcteur orthographique. Corrige UNIQUEMENT les fautes d'orthographe et de grammaire. Retourne le texte corrigé sans explication ni guillemets. INTERDIT: ajouter des mots, changer le sens, reformuler. Si le texte est correct, retourne-le identique.",
+    fr: "Tu es un correcteur orthographique. Corrige UNIQUEMENT les fautes d'orthographe et de grammaire. Retourne le texte corrigÃ© sans explication ni guillemets. INTERDIT: ajouter des mots, changer le sens, reformuler. Si le texte est correct, retourne-le identique.",
     en: "You are a spell-checker. Fix ONLY spelling and grammar mistakes. Return the corrected text without explanation or quotes. FORBIDDEN: adding words, changing meaning, rephrasing. If already correct, return as-is.",
-    es: "Eres un corrector ortográfico. Corrige SOLO errores ortográficos y gramaticales. Devuelve el texte corrigé sans explication. PROHIBIDO: añadir palabras, cambiar el sentido.",
-    de: "Du bist ein Rechtschreibprüfer. Korrigiere NUR Rechtschreib- und Grammatikfehler. Gib den korrigierten Text ohne Erklärung zurück. VERBOTEN: Wörter hinzufügen, Bedeutung ändern.",
+    es: "Eres un corrector ortogrÃ¡fico. Corrige SOLO errores ortogrÃ¡ficos y gramaticales. Devuelve el texte corrigÃ© sans explication. PROHIBIDO: aÃ±adir palabras, cambiar el sentido.",
+    de: "Du bist ein RechtschreibprÃ¼fer. Korrigiere NUR Rechtschreib- und Grammatikfehler. Gib den korrigierten Text ohne ErklÃ¤rung zurÃ¼ck. VERBOTEN: WÃ¶rter hinzufÃ¼gen, Bedeutung Ã¤ndern.",
     it: "Sei un correttore ortografico. Correggi SOLO errori ortografici e grammaticali. Restituisci il testo corretto senza spiegazioni. VIETATO: aggiungere parole, cambiare il significato.",
-    pt: "Você é um corretor ortográfico. Corrija SOMENTE erros ortográficos e gramaticais. Retorne o texto corrigido sem explicação. PROIBIDO: adicionar palavras, mudar o sentido.",
+    pt: "VocÃª Ã© um corretor ortogrÃ¡fico. Corrija SOMENTE erros ortogrÃ¡ficos e gramaticais. Retorne o texto corrigido sem explicaÃ§Ã£o. PROIBIDO: adicionar palavras, mudar o sentido.",
 };
 
 const AGGR_SUFFIX: Record<string, string> = {
@@ -79,19 +79,19 @@ async function correctText(text: string): Promise<string> {
             ],
             temperature: 0,
             maxTokens: 512,
-            // Forcer un modèle léger pour la correction — économise le quota du 70B pour l'IA
+            // Forcer un modÃ¨le lÃ©ger pour la correction â€” Ã©conomise le quota du 70B pour l'IA
             forceModel: "llama-3.1-8b-instant",
         });
 
         if (!corrected || corrected.trim() === "" || corrected === text) return text;
 
-        // Sécurité contre les répétitions infinies ou les hallucinations
+        // SÃ©curitÃ© contre les rÃ©pÃ©titions infinies ou les hallucinations
         if (corrected.toLowerCase().includes("correction:") || corrected.toLowerCase().includes("text:")) return text;
 
-        // Sécurité : réponse trop différente → on n'applique pas
+        // SÃ©curitÃ© : rÃ©ponse trop diffÃ©rente â†’ on n'applique pas
         if (corrected.length > text.length * 1.5 || corrected.length < text.length * 0.4) return text;
 
-        // En mode low : vérification plus stricte du nombre de mots
+        // En mode low : vÃ©rification plus stricte du nombre de mots
         if (aggr === "low") {
             const srcWords = text.trim().split(/\s+/).filter(w => w.length > 0).length;
             const corrWords = corrected.trim().split(/\s+/).filter(w => w.length > 0).length;
@@ -100,14 +100,14 @@ async function correctText(text: string): Promise<string> {
                 return text;
             }
         }
-        return corrected.replace(/^"(.*)"$/, "$1").trim(); // Nettoie les guillemets éventuels
+        return corrected.replace(/^"(.*)"$/, "$1").trim(); // Nettoie les guillemets Ã©ventuels
     } catch (e: any) {
         console.warn("[AutoCorrect] Error correction:", e.message);
         return text; // En cas d'error, envoyer le texte original
     }
 }
 
-// ── Chat Bar Button ────────────────────────────────────────────────────────────
+// â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function AutoCorrectIcon({ enabled }: { enabled: boolean; }) {
     return (
@@ -138,7 +138,7 @@ const AutoCorrectChatBarButton: ChatBarButtonFactory = ({ type }) => {
 
     const toggle = async () => {
         if (!enabled) {
-            // Vérifie que la clé API est configurée avant d'activer
+            // VÃ©rifie que la clÃ© API est configurÃ©e avant d'activer
             const key = await getGroqKey();
             if (!key) {
                 showApiKeyWarning("AutoCorrect");
@@ -151,8 +151,8 @@ const AutoCorrectChatBarButton: ChatBarButtonFactory = ({ type }) => {
     };
 
     const tooltip = enabled
-        ? t("AutoCorrect: enabled — click to disable")
-        : t("AutoCorrect: disabled — click to enable");
+        ? t("AutoCorrect: enabled â€” click to disable")
+        : t("AutoCorrect: disabled â€” click to enable");
 
     return (
         <ChatBarButton
@@ -168,7 +168,7 @@ const AutoCorrectChatBarButton: ChatBarButtonFactory = ({ type }) => {
     );
 };
 
-// ── Plugin ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "AutoCorrect",

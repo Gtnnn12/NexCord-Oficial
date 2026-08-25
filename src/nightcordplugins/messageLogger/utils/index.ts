@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -38,8 +38,8 @@ export * from "./misc";
 interface Id { id: string, time: number; message?: LoggedMessageJSON; }
 export const DISCORD_EPOCH = 14200704e5;
 
-// Guard: vérifie qu'un élément est bien un objet Message (pas un snowflake string/bigint brut).
-// Discord peut stocker des IDs bruts dans le tableau de messages (messages partiels, références),
+// Guard: vÃ©rifie qu'un Ã©lÃ©ment est bien un objet Message (pas un snowflake string/bigint brut).
+// Discord peut stocker des IDs bruts dans le tableau de messages (messages partiels, rÃ©fÃ©rences),
 // et faire `'flags' in snowflakeString` crashe avec "Cannot use 'in' operator to search for 'flags' in <snowflake>".
 function isMessageObject(m: unknown): m is LoggedMessageJSON {
     return m !== null && typeof m === "object" && typeof (m as any).id === "string";
@@ -48,7 +48,7 @@ function isMessageObject(m: unknown): m is LoggedMessageJSON {
 export function reAddDeletedMessages(messages: LoggedMessageJSON[], deletedMessages: LoggedMessageJSON[], channelStart: boolean, channelEnd: boolean) {
     if (!messages.length || !deletedMessages?.length) return;
 
-    // Séparer les objets Message valides des snowflakes/primitives bruts que Discord peut injecter
+    // SÃ©parer les objets Message valides des snowflakes/primitives bruts que Discord peut injecter
     const validMessages = messages.filter(isMessageObject);
     const rawItems = messages.filter(m => !isMessageObject(m));
 
@@ -67,8 +67,8 @@ export function reAddDeletedMessages(messages: LoggedMessageJSON[], deletedMessa
 
     allMessages.sort((a, b) => b.time - a.time);
 
-    // Modifier l'array d'origine en place pour éviter de casser les références Webpack.
-    // Les éléments bruts (snowflakes) sont réinsérés à la fin pour préserver les attentes de Discord.
+    // Modifier l'array d'origine en place pour Ã©viter de casser les rÃ©fÃ©rences Webpack.
+    // Les Ã©lÃ©ments bruts (snowflakes) sont rÃ©insÃ©rÃ©s Ã  la fin pour prÃ©server les attentes de Discord.
     messages.length = 0;
     for (const entry of allMessages) {
         messages.push(entry.message!);

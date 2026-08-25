@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -226,12 +226,12 @@ function formatSize(bytes: number) {
 }
 
 function buildTxt(messages: RichMessage[], channelName: string): string {
-    const lines = [`=== ${t("Export DMs")} — ${channelName} ===`, `${t("Exported on")} ${new Date().toLocaleString()}`, `${t("Total:")} ${messages.length} ${t("messages")}`, ""];
+    const lines = [`=== ${t("Export DMs")} â€” ${channelName} ===`, `${t("Exported on")} ${new Date().toLocaleString()}`, `${t("Total:")} ${messages.length} ${t("messages")}`, ""];
     for (const m of messages) {
         const d = new Date(m.timestamp).toLocaleString();
         if (m.referencedMessage) lines.push(`  > [${m.referencedMessage.authorName}]: ${m.referencedMessage.content}`);
         lines.push(`[${d}]${m.editedAt ? ` ${t("(edited)")}` : ""} ${m.authorName}: ${m.content}`);
-        for (const a of m.attachments) lines.push(`  [${getMediaType(a.url, a.contentType).toUpperCase()}] ${a.filename} (${formatSize(a.size)}) — ${a.url}`);
+        for (const a of m.attachments) lines.push(`  [${getMediaType(a.url, a.contentType).toUpperCase()}] ${a.filename} (${formatSize(a.size)}) â€” ${a.url}`);
         for (const e of m.embeds) { if (e.url) lines.push(`  [LIEN] ${e.title ?? "Embed"}: ${e.url}`); }
         for (const s of m.stickers) lines.push(`  [STICKER] ${s.name}`);
         if (m.reactions.length) lines.push(`  ${m.reactions.map(r => `${r.emoji} x${r.count}`).join(" ")}`);
@@ -256,11 +256,11 @@ function buildCsv(messages: RichMessage[]): string {
 }
 
 function buildMd(messages: RichMessage[], channelName: string): string {
-    const lines = [`# ${t("Export DMs")} — ${channelName}`, `> ${t("Exported on")} ${new Date().toLocaleString()} · **${messages.length} ${t("messages")}**`, ""];
+    const lines = [`# ${t("Export DMs")} â€” ${channelName}`, `> ${t("Exported on")} ${new Date().toLocaleString()} Â· **${messages.length} ${t("messages")}**`, ""];
     for (const m of messages) {
         const d = new Date(m.timestamp).toLocaleString();
         if (m.referencedMessage) lines.push(`> **${m.referencedMessage.authorName}**: ${m.referencedMessage.content}`);
-        lines.push(`**${m.authorName}** — *${d}*${m.editedAt ? ` ${t("(edited)")}` : ""}${m.pinned ? ` ${t("[pinned]")}` : ""}`);
+        lines.push(`**${m.authorName}** â€” *${d}*${m.editedAt ? ` ${t("(edited)")}` : ""}${m.pinned ? ` ${t("[pinned]")}` : ""}`);
         if (m.content) lines.push(m.content);
         for (const a of m.attachments) lines.push(`[${a.filename}](${a.url}) *(${formatSize(a.size)})*`);
         for (const e of m.embeds) { if (e.url) lines.push(`[${e.title ?? "Lien"}](${e.url})`); }
@@ -370,7 +370,7 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
             if (!includeEmbeds) msgs = msgs.map(m => ({ ...m, embeds: [] }));
             if (!includeReactions) msgs = msgs.map(m => ({ ...m, reactions: [] }));
 
-            setProgress(`${prefix}${msgs.length} ${t("messages")} — ${t("generating file...")}`);
+            setProgress(`${prefix}${msgs.length} ${t("messages")} â€” ${t("generating file...")}`);
             const safeName = ch.name.replace(/[^a-z0-9_-]/gi, "_").slice(0, 40) || "DM";
             const date = new Date().toISOString().slice(0, 10);
 
@@ -440,7 +440,7 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
                         autoFocus
                     />
                     {search && (
-                        <button className="edm-search-clear" onClick={() => setSearch("")}>✕</button>
+                        <button className="edm-search-clear" onClick={() => setSearch("")}>âœ•</button>
                     )}
                 </div>
 
@@ -468,11 +468,11 @@ function ExportDMModal({ rootProps }: { rootProps: any; }) {
                                     <span className="edm-channel-name">{c.name}</span>
                                     {c.type === 3 && (
                                         <span className="edm-group-tag">
-                                            {t("Group")} · {c.recipientCount + 1}
+                                            {t("Group")} Â· {c.recipientCount + 1}
                                         </span>
                                     )}
                                 </div>
-                                {isSel && <span className="edm-check">✓</span>}
+                                {isSel && <span className="edm-check">âœ“</span>}
                             </div>
                         );
                     })}

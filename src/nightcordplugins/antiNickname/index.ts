@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -81,7 +81,7 @@ export default definePlugin({
             // nick null or empty = already reset (by us or the admin), nothing to do
             if (!nick) return;
 
-            // Someone forced a nick on us — reset immediately
+            // Someone forced a nick on us â€” reset immediately
             setTimeout(() => resetNick(guildId, nick, currentUser.id), 300);
         }
     },

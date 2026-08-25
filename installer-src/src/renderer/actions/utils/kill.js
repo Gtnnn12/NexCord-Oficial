@@ -1,4 +1,4 @@
-const path = require("path");
+﻿const path = require("path");
 const fs   = require("fs");
 const {execSync, exec} = require("child_process");
 
@@ -57,7 +57,7 @@ export async function killDiscord(resPath, log) {
     await waitForExit(exeName, 3000);
     await new Promise(r => setTimeout(r, 400));
 
-    if (log) log(`✅ ${procName} fermé.`);
+    if (log) log(`âœ… ${procName} fermÃ©.`);
 }
 
 export function startDiscord(resPath) {

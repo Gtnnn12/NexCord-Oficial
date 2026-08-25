@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,7 +12,7 @@ import { Provider, SyncedLyric } from "@nightcordplugins/musicControls/spotify/l
 interface GoogleData {
     src: string;
     sentences: {
-        // 🏳️‍⚧️
+        // ðŸ³ï¸â€âš§ï¸
         trans: string;
         orig: string;
         src_translit?: string;

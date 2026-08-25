@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export type ReducedMotionPreference = "auto" | "reduce" | "no-preference";
 export type ForcedColorsPreference = "none" | "active";

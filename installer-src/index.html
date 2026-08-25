@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -484,7 +484,7 @@
     <div class="content">
       <div class="header">
         <h1>Nightcord</h1>
-        <p>// discord client mod — select your installation target</p>
+        <p>// discord client mod â€” select your installation target</p>
       </div>
 
       <div>
@@ -652,7 +652,7 @@
               Use the <strong style="color:var(--accent)">+ Manual Path</strong> button to enter the path manually.
             </span>
           </div>`;
-        setStatus('error', 'No installations auto-detected — use manual path.');
+        setStatus('error', 'No installations auto-detected â€” use manual path.');
         return;
       }
 
@@ -718,10 +718,10 @@
       const card = document.querySelectorAll('.discord-card')[index];
       const isThirdParty = card && card.dataset.thirdParty === '1';
       if (isThirdParty) {
-        setStatus('loading', `&#9888; ${selected.name}: Vencord/Equicord detected — clicking Inject will replace it with Nightcord.`);
+        setStatus('loading', `&#9888; ${selected.name}: Vencord/Equicord detected â€” clicking Inject will replace it with Nightcord.`);
         document.getElementById('btn-inject').textContent = 'Replace with Nightcord';
       } else {
-        setStatus('idle', `Selected: ${selected.name} — ${selected.path}`);
+        setStatus('idle', `Selected: ${selected.name} â€” ${selected.path}`);
         document.getElementById('btn-inject').textContent = 'Inject Nightcord';
       }
     }
@@ -831,7 +831,7 @@
           el.classList.add('loaded');
         }
       } catch (e) {
-        // silently fail — not critical
+        // silently fail â€” not critical
       }
     }
 

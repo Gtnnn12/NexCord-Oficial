@@ -1,4 +1,4 @@
-name: Bug/Crash Report
+﻿name: Bug/Crash Report
 description: Create a bug or crash report for Equicord. ALWAYS FIRST USE OUR SUPPORT CHANNEL! ONLY USE THIS FORM IF YOU ARE A CONTRIBUTOR OR WERE TOLD TO DO SO IN THE SUPPORT CHANNEL.
 labels: [bug]
 title: "[Bug] <title>"

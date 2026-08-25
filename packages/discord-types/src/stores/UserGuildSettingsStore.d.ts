@@ -1,4 +1,4 @@
-import { Channel, FluxStore, Guild } from "..";
+﻿import { Channel, FluxStore, Guild } from "..";
 import { ChannelOverrideFlags, GuildSettingsFlags, NotifyHighlights, UserNotificationSetting } from "../../enums";
 
 export interface MuteConfig {

@@ -1,4 +1,4 @@
-/* ── Mass DM Plugin ── */
+﻿/* â”€â”€ Mass DM Plugin â”€â”€ */
 
 .mdm-modal {
     width: 620px;
@@ -198,7 +198,7 @@
     color: #fff;
 }
 
-/* ── Progression ── */
+/* â”€â”€ Progression â”€â”€ */
 
 .mdm-stats {
     display: flex;
@@ -279,7 +279,7 @@
     }
 }
 
-/* ── Editable Delay ── */
+/* â”€â”€ Editable Delay â”€â”€ */
 
 .mdm-delay-value {
     color: var(--text-link);

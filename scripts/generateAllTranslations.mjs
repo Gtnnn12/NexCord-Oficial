@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+﻿import { readFileSync, writeFileSync } from "fs";
 
 // Load all extracted strings
 const strings = JSON.parse(readFileSync("scripts/extractedStrings.json", "utf8"));
@@ -114,9 +114,9 @@ export default definePlugin({
             type: 4, // select
             options: [
                 { label: "English", value: "en", default: true },
-                { label: "Español", value: "es" },
-                { label: "Русский", value: "ru" },
-                { label: "中文", value: "zh" },
+                { label: "EspaÃ±ol", value: "es" },
+                { label: "Ð ÑƒÑÑÐºÐ¸Ð¹", value: "ru" },
+                { label: "ä¸­æ–‡", value: "zh" },
             ]
         },
     },

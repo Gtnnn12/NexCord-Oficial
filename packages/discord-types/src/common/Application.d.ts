@@ -1,4 +1,4 @@
-import { ActivityLabelType, ApplicationFlags, ApplicationType, CarouselItemType, LinkedGameType, OrientationLockState } from "../../enums";
+﻿import { ActivityLabelType, ApplicationFlags, ApplicationType, CarouselItemType, LinkedGameType, OrientationLockState } from "../../enums";
 import { Guild } from "./Guild";
 import { User } from "./User";
 

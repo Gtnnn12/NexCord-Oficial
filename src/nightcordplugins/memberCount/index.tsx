@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -68,7 +68,7 @@ export const cl = classNameFactory("vc-membercount-");
 export default definePlugin({
     name: "MemberCount",
     enabledByDefault: true,
-    description: "Shows the number of online members, total members, and users in voice channels on the server — in the member list and tooltip.",
+    description: "Shows the number of online members, total members, and users in voice channels on the server â€” in the member list and tooltip.",
     tags: ["Servers", "Utility"],
     authors: [Devs.Ven, Devs.Commandtechno, Devs.Apexo],
     settings,

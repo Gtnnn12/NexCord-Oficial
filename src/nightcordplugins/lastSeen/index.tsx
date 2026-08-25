@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -16,7 +16,7 @@ import { t } from "../autoTranslateNightcord";
 const Section = findComponentByCodeLazy("headingVariant:", '"section"', "headingIcon:");
 const PresenceStore = findByPropsLazy("getStatus", "getActivities");
 
-// ── Settings ───────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const settings = definePluginSettings({
     language: {
@@ -24,12 +24,12 @@ const settings = definePluginSettings({
         description: "Language for the date/time display",
         options: [
             { label: "English", value: "en", default: true },
-            { label: "Français", value: "fr" }
+            { label: "FranÃ§ais", value: "fr" }
         ]
     }
 });
 
-// ── Storage ────────────────────────────────────────────────────────────────
+// â”€â”€ Storage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const STORAGE_PREFIX = "NexCord_lastseen_";
 
@@ -48,7 +48,7 @@ function setLastSeen(userId: string, ts: number) {
     }
 }
 
-// ── Format ─────────────────────────────────────────────────────────────────
+// â”€â”€ Format â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function formatDate(ts: number): string {
     const now = new Date();
@@ -71,9 +71,9 @@ function formatDate(ts: number): string {
     return t("{date} at {time}").replace("{date}", dateStr).replace("{time}", timeStr);
 }
 
-// ── Handlers ───────────────────────────────────────────────────────────────
+// â”€â”€ Handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-// Handle a single presence entry — called from multiple events
+// Handle a single presence entry â€” called from multiple events
 function handlePresenceEntry(entry: any) {
     if (!entry) return;
 
@@ -92,7 +92,7 @@ function handlePresenceEntry(entry: any) {
     setLastSeen(userId, Date.now());
 }
 
-// PRESENCE_UPDATE — may dispatch single user or array
+// PRESENCE_UPDATE â€” may dispatch single user or array
 function onPresenceUpdate(data: any) {
     if (Array.isArray(data?.updates)) {
         for (const entry of data.updates) handlePresenceEntry(entry);
@@ -137,7 +137,7 @@ function onReactionAdd(data: any) {
     if (userId) setLastSeen(userId, Date.now());
 }
 
-// ── Component ──────────────────────────────────────────────────────────────
+// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function LastSeenText({ userId }: { userId: string; }) {
     const status = useStateFromStores([PresenceStore], () => PresenceStore.getStatus(userId));
@@ -178,7 +178,7 @@ const LastSeenSection = ErrorBoundary.wrap(
     { noop: true }
 );
 
-// ── Plugin ─────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "LastSeen",

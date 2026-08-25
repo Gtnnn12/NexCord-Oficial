@@ -1,4 +1,4 @@
-import { Channel, CustomEmoji, Emoji, FluxStore } from "..";
+﻿import { Channel, CustomEmoji, Emoji, FluxStore } from "..";
 import { EmojiIntention, LoadState } from "../../enums";
 
 /** Emoji picker category names. */
@@ -371,7 +371,7 @@ export class EmojiStore extends FluxStore {
     get categories(): EmojiCategory[];
     /**
      * Current skin tone modifier surrogate for emoji diversity.
-     * Empty string for default yellow, or skin tone modifier (🏻🏼🏽🏾🏿).
+     * Empty string for default yellow, or skin tone modifier (ðŸ»ðŸ¼ðŸ½ðŸ¾ðŸ¿).
      */
     get diversitySurrogate(): string;
     /** Frecency tracker for emoji picker usage. */

@@ -1,16 +1,16 @@
-```js
+﻿```js
 /*
  * NexCord Installer
  *
- * Instala/desinstala NexCord en la instalación existente de Discord.
+ * Instala/desinstala NexCord en la instalaciÃ³n existente de Discord.
  *
  * IMPORTANTE:
  * - No solicita credenciales.
- * - No solicita contraseña.
+ * - No solicita contraseÃ±a.
  * - No solicita token.
- * - No crea una segunda sesión de Discord.
- * - Utiliza la sesión que ya existe en Discord.
- * - Utiliza únicamente el EquilotlCli.exe local.
+ * - No crea una segunda sesiÃ³n de Discord.
+ * - Utiliza la sesiÃ³n que ya existe en Discord.
+ * - Utiliza Ãºnicamente el EquilotlCli.exe local.
  * - Verifica el SHA-256 del instalador antes de ejecutarlo.
  *
  * Uso:
@@ -41,9 +41,9 @@ import {
     fileURLToPath
 } from "url";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CONFIGURACIÓN
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// CONFIGURACIÃ“N
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const BASE_DIR = join(
     dirname(fileURLToPath(import.meta.url)),
@@ -62,13 +62,13 @@ const INSTALLER_PATH = join(
 );
 
 // SHA-256 del EquilotlCli.exe que ya tienes.
-// Si el archivo cambia, el instalador se detendrá.
+// Si el archivo cambia, el instalador se detendrÃ¡.
 const EXPECTED_INSTALLER_SHA256 =
     "79932382d859747318f642c3e23297c7a0174398cc489e8fb4222cc2758c16e8";
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // UTILIDADES
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function sha256File(filePath) {
     const data = readFileSync(filePath);
@@ -82,7 +82,7 @@ function sha256File(filePath) {
 function verifyInstaller() {
     if (!existsSync(INSTALLER_PATH)) {
         throw new Error(
-            `No se encontró el instalador local:\n${INSTALLER_PATH}`
+            `No se encontrÃ³ el instalador local:\n${INSTALLER_PATH}`
         );
     }
 
@@ -98,7 +98,7 @@ function verifyInstaller() {
                 `Esperado: ${EXPECTED_INSTALLER_SHA256}`,
                 `Actual:   ${hash}`,
                 "",
-                "NexCord no ejecutará este archivo."
+                "NexCord no ejecutarÃ¡ este archivo."
             ].join("\n")
         );
     }
@@ -106,9 +106,9 @@ function verifyInstaller() {
     console.log("[NexCord] Instalador verificado.");
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // DISCORD
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getDiscordChannels() {
     if (process.platform !== "win32") {
@@ -173,13 +173,13 @@ function findInstalledDiscord() {
     }
 
     throw new Error(
-        "No se encontró una instalación de Discord."
+        "No se encontrÃ³ una instalaciÃ³n de Discord."
     );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ACTUALIZACIONES INCOMPLETAS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function cleanIncompleteDiscordUpdates() {
     if (process.platform !== "win32") {
@@ -239,7 +239,7 @@ function cleanIncompleteDiscordUpdates() {
                     );
 
                     console.log(
-                        `[NexCord] Eliminada actualización incompleta: ${versionDir}`
+                        `[NexCord] Eliminada actualizaciÃ³n incompleta: ${versionDir}`
                     );
                 } catch (error) {
                     console.warn(
@@ -251,9 +251,9 @@ function cleanIncompleteDiscordUpdates() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LIMPIEZA / RESTAURACIÓN
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// LIMPIEZA / RESTAURACIÃ“N
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function cleanPreviousInstallation(isUninstall) {
     console.log(
@@ -328,7 +328,7 @@ function cleanPreviousInstallation(isUninstall) {
                 }
             }
 
-            // Desinstalación:
+            // DesinstalaciÃ³n:
             // restaurar el app.asar original.
             if (
                 isUninstall &&
@@ -369,14 +369,14 @@ function cleanPreviousInstallation(isUninstall) {
         );
     } else {
         console.log(
-            "[NexCord] No había instalaciones anteriores que limpiar."
+            "[NexCord] No habÃ­a instalaciones anteriores que limpiar."
         );
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ABRIR DISCORD
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function launchDiscord() {
     if (process.platform !== "win32") {
@@ -425,9 +425,9 @@ function launchDiscord() {
     );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // ARGUMENTOS
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const argStart =
     process.argv.indexOf("--");
@@ -443,9 +443,9 @@ const isUninstall =
 const isRepair =
     args.includes("--repair");
 
-// ─────────────────────────────────────────────────────────────────────────────
-// EJECUCIÓN
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// EJECUCIÃ“N
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 try {
     cleanIncompleteDiscordUpdates();
@@ -456,7 +456,7 @@ try {
 
     if (isUninstall) {
         console.log(
-            "[NexCord] Desinstalación completada."
+            "[NexCord] DesinstalaciÃ³n completada."
         );
 
         process.exit(0);
@@ -477,7 +477,7 @@ try {
         }
     }
 
-    // Nunca descargar un instalador externo automáticamente.
+    // Nunca descargar un instalador externo automÃ¡ticamente.
     verifyInstaller();
 
     const mappedArgs = args.map(arg => {
@@ -508,11 +508,11 @@ try {
 
     /*
      * Estas variables solamente indican al inyector
-     * dónde están los archivos compilados de NexCord.
+     * dÃ³nde estÃ¡n los archivos compilados de NexCord.
      *
      * No contienen credenciales.
      * No contienen tokens.
-     * No contienen contraseñas.
+     * No contienen contraseÃ±as.
      */
 
     execFileSync(
@@ -548,11 +548,11 @@ try {
     );
 
     console.log(
-        "[NexCord] Instalación completada."
+        "[NexCord] InstalaciÃ³n completada."
     );
 
     console.log(
-        "[NexCord] Se utilizará la sesión existente de Discord."
+        "[NexCord] Se utilizarÃ¡ la sesiÃ³n existente de Discord."
     );
 
     launchDiscord();

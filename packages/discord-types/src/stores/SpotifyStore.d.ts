@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { ActivityFlags } from "../../enums";
 
 export type SpotifyDeviceType = "computer" | "smartphone" | "speaker" | "tv" | "game_console" | "automobile" | "unknown";

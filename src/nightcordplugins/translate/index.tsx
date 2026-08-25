@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -220,7 +220,7 @@ export default definePlugin({
     },
 
     start() {
-        // Force disable outgoing auto-translate — only incoming is supported
+        // Force disable outgoing auto-translate â€” only incoming is supported
         settings.store.autoTranslate = false;
 
         setOnAutoTranslateReceivedToggled((enabled) => {

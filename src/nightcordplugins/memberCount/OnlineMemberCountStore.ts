@@ -1,4 +1,4 @@
-import { proxyLazy } from "@utils/lazy";
+﻿import { proxyLazy } from "@utils/lazy";
 import { sleep } from "@utils/misc";
 import { Queue } from "@utils/Queue";
 import { ChannelActionCreators, ChannelStore, Flux, FluxDispatcher, GuildChannelStore } from "@webpack/common";

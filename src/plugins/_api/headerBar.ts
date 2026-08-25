@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,7 @@ export default definePlugin({
     authors: [Devs.Ven],
 
     patches: [
-        // Patch 1 : barre de titre (header bar) - méthode Equicord Avril 2026
+        // Patch 1 : barre de titre (header bar) - mÃ©thode Equicord Avril 2026
         {
             find: '?"BACK_FORWARD_NAVIGATION":',
             replacement: {

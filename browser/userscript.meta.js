@@ -1,4 +1,4 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name            Equicord
 // @description     A Discord client mod - Web version
 // @version         %version%

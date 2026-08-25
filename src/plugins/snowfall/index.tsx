@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -136,7 +136,7 @@ class CopleSnow {
         minSize: 10,
         maxSize: 30,
         type: "text" as "text" | "solid" | "image",
-        content: "❄" as string | string[],
+        content: "â„" as string | string[],
         fadeOut: true,
         autoplay: true,
         interval: 200
@@ -417,7 +417,7 @@ const SnowfallManager: React.FC = () => {
                 };
 
                 if (newSettings.type === "image") updateOptions.content = SNOWFLAKE_SVGS;
-                else if (newSettings.type === "text") updateOptions.content = "❄";
+                else if (newSettings.type === "text") updateOptions.content = "â„";
 
                 snow.updateOptions(updateOptions);
             }

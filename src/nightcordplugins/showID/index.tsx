@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -12,7 +12,7 @@ import { BaseText } from "@components/BaseText";
 
 const Section = findComponentByCodeLazy("headingVariant:", '"section"', "headingIcon:");
 
-// ── Icons ──────────────────────────────────────────────────────────────────
+// â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CopyIcon = () => (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}>
@@ -27,7 +27,7 @@ const CheckIcon = () => (
     </svg>
 );
 
-// ── Copy Button ────────────────────────────────────────────────────────────
+// â”€â”€ Copy Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function CopyButton({ text }: { text: string; }) {
     const [copied, setCopied] = useState(false);
@@ -76,7 +76,7 @@ function CopyButton({ text }: { text: string; }) {
     );
 }
 
-// ── ID Section ─────────────────────────────────────────────────────────────
+// â”€â”€ ID Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const UserIDSection = ErrorBoundary.wrap(({ userId }: { userId: string; }) => (
     <div style={{ display: "flex", alignItems: "center" }}>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -109,7 +109,7 @@ export async function finalizeStreamRecording(
         const sourcePath = activeTempPath;
         activeTempPath = null;
 
-        // Patche la durée EBML avec fixWebmDuration AVANT de déplacer le fichier
+        // Patche la durÃ©e EBML avec fixWebmDuration AVANT de dÃ©placer le fichier
         if (durationMs > 0 && /\.(webm|mkv)$/i.test(filename)) {
             try {
                 const rawBuf = await readFile(sourcePath);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -249,7 +249,7 @@ export const DeeplLanguages = {
     "mr": "Marathi",
     "mn": "Mongolian",
     "ne": "Nepali",
-    "nb": "Norwegian (Bokmål)",
+    "nb": "Norwegian (BokmÃ¥l)",
     "oc": "Occitan",
     "om": "Oromo",
     "pag": "Pangasinan",
@@ -349,7 +349,7 @@ export const KagiLanguages = {
     "ban": "Balinese",
     "bal": "Baluchi",
     "bm": "Bambara",
-    "bci": "Baoulé",
+    "bci": "BaoulÃ©",
     "ba": "Bashkir",
     "eu": "Basque",
     "btk": "Batak",
@@ -503,7 +503,7 @@ export const KagiLanguages = {
     "se": "Northern Sami",
     "ns": "Northern Sotho",
     "no": "Norwegian",
-    "nb": "Norwegian (Bokmål)",
+    "nb": "Norwegian (BokmÃ¥l)",
     "nn": "Norwegian (Nynorsk)",
     "nus": "Nuer",
     "oc": "Occitan",
@@ -520,7 +520,7 @@ export const KagiLanguages = {
     "pt_pt": "Portuguese (Portugal)",
     "pa": "Punjabi",
     "qu": "Quechua",
-    "kek": "Qʼeqchiʼ",
+    "kek": "QÊ¼eqchiÊ¼",
     "rm": "Rhaeto_Romanic",
     "rom": "Romani",
     "ro": "Romanian",
@@ -587,7 +587,7 @@ export const KagiLanguages = {
     "vec": "Venetian",
     "vi": "Vietnamese",
     "vo": "Volapuk",
-    "vro": "Võro",
+    "vro": "VÃµro",
     "wa": "Walloon",
     "war": "Waray",
     "cy": "Welsh",

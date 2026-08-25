@@ -1,5 +1,5 @@
-/**
- * paths.js — Exact port of C# DetectDiscord().
+﻿/**
+ * paths.js â€” Exact port of C# DetectDiscord().
  *
  * C# returns the `resources` path (app-X.X.XXXX\resources), not discord_desktop_core.
  * This is the single source of truth for all other actions.
@@ -14,7 +14,7 @@ export const platforms = {
     canary:      "Discord Canary"
 };
 
-// Internal channel → folder name (no spaces)
+// Internal channel â†’ folder name (no spaces)
 const channelDirs = {
     stable:      "Discord",
     ptb:         "DiscordPTB",
@@ -28,7 +28,7 @@ export const locations = {stable: "", ptb: "", canary: ""};
  * Mirrors C# DetectDiscord():
  *   foreach dir in Directory.GetDirectories(dPath, "app-*")
  *       var resources = Path.Combine(dir, "resources");
- *       if (Directory.Exists(resources)) → add to list
+ *       if (Directory.Exists(resources)) â†’ add to list
  */
 const getDiscordPath = (channel) => {
     try {
@@ -76,7 +76,7 @@ export const getBrowsePath = (channel) => {
 export const validatePath = (_channel, proposedPath) => {
     // Accept: the resources folder directly
     if (fs.existsSync(path.join(proposedPath, "app.asar"))) return proposedPath;
-    // Accept: app-X.X.XXXX folder → resources subfolder
+    // Accept: app-X.X.XXXX folder â†’ resources subfolder
     const res = path.join(proposedPath, "resources");
     if (fs.existsSync(path.join(res, "app.asar"))) return res;
     return "";

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -184,7 +184,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                 <ModalHeader separator={false} style={{ padding: "20px 24px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", flexDirection: "column", flex: 1, gap: 4 }}>
                         <Text variant="heading-xl/bold" style={{ color: "#ffffff", fontSize: "20px", fontWeight: 700, margin: 0 }}>
-                            {plugin.name} – {t("Tutorial")}
+                            {plugin.name} â€“ {t("Tutorial")}
                         </Text>
                         <Text variant="text-sm/normal" style={{ color: "#949ba4", fontSize: "14px", margin: 0 }}>
                             {t("Watch full plugin guide and feature demonstration")}
@@ -368,9 +368,9 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     const isNexCord = !PluginMeta[plugin.name]?.userPlugin;
     const iconType = isNexCord ? "NexCord" : "other";
 
-    // Le système de like ne s'applique qu'aux plugins NexCord (pas Vencord/Equicord,
-    // pas User Plugins), et jamais aux plugins required (y compris ceux affichés comme
-    // required parce qu'une dépendance active en a besoin, d'où le check sur `disabled`).
+    // Le systÃ¨me de like ne s'applique qu'aux plugins NexCord (pas Vencord/Equicord,
+    // pas User Plugins), et jamais aux plugins required (y compris ceux affichÃ©s comme
+    // required parce qu'une dÃ©pendance active en a besoin, d'oÃ¹ le check sur `disabled`).
     const isNexCordFolderPlugin = PluginMeta[plugin.name]?.folderName?.startsWith("src/nightcordplugins/") ?? false;
     const canShowLikeBadge = !plugin.required && !disabled;
 
@@ -383,8 +383,8 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                 </ModalHeader>
                 <ModalContent style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "16px", alignItems: "center" } as any}>
                     {isNexCord ? (
-                        <a href="https://github.com/Gtnnn12/NexCord" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none", color: "var(--text-normal)", fontSize: "20px", fontWeight: 600 }}>
-                            <img src="https://raw.githubusercontent.com/Gtnnn12/NexCord/main/nexcord.ico" alt="NexCord" style={{ width: 64, height: 64, borderRadius: "50%" }} />
+                        <a href="https://github.com/Gtnnn12/NexCord-Oficial" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none", color: "var(--text-normal)", fontSize: "20px", fontWeight: 600 }}>
+                            <img src="https://raw.githubusercontent.com/Gtnnn12/NexCord-Oficial/main/nexcord.ico" alt="NexCord" style={{ width: 64, height: 64, borderRadius: "50%" }} />
                             NexCord
                         </a>
                     ) : (

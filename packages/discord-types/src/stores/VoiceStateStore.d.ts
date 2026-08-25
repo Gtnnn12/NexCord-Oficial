@@ -1,4 +1,4 @@
-import { DiscordRecord } from "../common";
+﻿import { DiscordRecord } from "../common";
 import { FluxStore } from "./FluxStore";
 
 export type UserVoiceStateRecords = Record<string, VoiceState>;

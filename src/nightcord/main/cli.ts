@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -71,12 +71,12 @@ const extraOptions = {
     "enable-features": {
         type: "string",
         description: "Enable specific Chromium features",
-        argumentName: "feature1,feature2,…"
+        argumentName: "feature1,feature2,â€¦"
     },
     "disable-features": {
         type: "string",
         description: "Disable specific Chromium features",
-        argumentName: "feature1,feature2,…"
+        argumentName: "feature1,feature2,â€¦"
     },
     "ozone-platform": {
         hidden: process.platform !== "linux",

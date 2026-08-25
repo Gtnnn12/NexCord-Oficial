@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -110,7 +110,7 @@ export function WordBombOverlay() {
                         if (w.length < 3 || w.length > 15) return false;
                         if (w[0] === w[0].toUpperCase()) return false;
                         if (w === w.toUpperCase() && w.length > 1) return false;
-                        return /^[a-zœæéèêëàâäîïôöùûüç]+$/i.test(w);
+                        return /^[a-zÅ“Ã¦Ã©Ã¨ÃªÃ«Ã Ã¢Ã¤Ã®Ã¯Ã´Ã¶Ã¹Ã»Ã¼Ã§]+$/i.test(w);
                     })
                     .map(w => w.toLowerCase());
 
@@ -144,7 +144,7 @@ export function WordBombOverlay() {
                 if (pages) {
                     const text = Object.values(pages)[0] as any;
                     if (text?.extract) {
-                        const words = text.extract.toLowerCase().match(/[a-zàâçéèêëîïôûùüÿñæœ]+/g) || [];
+                        const words = text.extract.toLowerCase().match(/[a-zÃ Ã¢Ã§Ã©Ã¨ÃªÃ«Ã®Ã¯Ã´Ã»Ã¹Ã¼Ã¿Ã±Ã¦Å“]+/g) || [];
                         setThemeWords(new Set<string>(words.filter((w: string) => w.length > 3)));
                     }
                 }
@@ -254,7 +254,7 @@ export function WordBombOverlay() {
                         model: "llama-3.1-8b-instant",
                         temperature: 0.7,
                         max_tokens: 150,
-                        messages: [{ role: "user", content: `Donne une très courte définition (1 phrase simple) pour le mot suivant, en expliquant ce que c'est concrètement, sans donner sa nature grammaticale. Fais-le obligatoirement en français. Mot: "${word}"` }],
+                        messages: [{ role: "user", content: `Donne une trÃ¨s courte dÃ©finition (1 phrase simple) pour le mot suivant, en expliquant ce que c'est concrÃ¨tement, sans donner sa nature grammaticale. Fais-le obligatoirement en franÃ§ais. Mot: "${word}"` }],
                     }),
                 })
                     .then(r => r.json())
@@ -271,14 +271,14 @@ export function WordBombOverlay() {
             if (wbNative?.sequence) {
                 await wbNative.sequence(word, lps, humanChance, -1, -1);
             } else {
-                // Fallback ComponentDispatch : tape lettre par lettre puis SUBMIT (Entrée)
+                // Fallback ComponentDispatch : tape lettre par lettre puis SUBMIT (EntrÃ©e)
                 if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
                 const delay = Math.round(1000 / lps);
                 for (const char of word) {
                     ComponentDispatch?.dispatchToLastSubscribed("INSERT_TEXT", { rawText: char, plainText: char });
                     await new Promise(r => setTimeout(r, delay));
                 }
-                // Entrée pour valider le mot
+                // EntrÃ©e pour valider le mot
                 await new Promise(r => setTimeout(r, 50));
                 ComponentDispatch?.dispatchToLastSubscribed("SUBMIT", {});
             }
@@ -300,8 +300,8 @@ export function WordBombOverlay() {
             onClick={e => e.stopPropagation()}
         >
             <div className="nc-wb-header" onMouseDown={handleMouseDown}>
-                <h3 style={{ margin: 0, fontSize: "14px" }}>🎯 WordBomb Helper</h3>
-                <div className="nc-wb-close" onClick={unmountOverlay}>✕</div>
+                <h3 style={{ margin: 0, fontSize: "14px" }}>ðŸŽ¯ WordBomb Helper</h3>
+                <div className="nc-wb-close" onClick={unmountOverlay}>âœ•</div>
             </div>
 
             <div className="nc-wb-content">
@@ -329,7 +329,7 @@ export function WordBombOverlay() {
                         <div style={{ display: "flex", gap: "8px" }}>
                             <button onClick={() => processSearch(syllable)} style={{ flex: 1, padding: "10px", background: "#7c3aed", border: "none", borderRadius: "8px", color: "white", cursor: "pointer" }}>{t("FIND")}</button>
                             <button onClick={handleReroll} title={t("Reroll")} style={{ width: "45px", height: "45px", background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "12px", color: "#fff", cursor: "pointer", fontSize: "18px" }}>
-                                🔄
+                                ðŸ”„
                             </button>
                         </div>
 
@@ -362,11 +362,11 @@ export function WordBombOverlay() {
                             </select>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px", borderTop: "1px solid #4b5563", paddingTop: "10px" }}>
-                            <label style={{ fontSize: "13px", color: "#ef4444", fontWeight: "bold" }}>{t("🚫 No Spaces or Dashes")}</label>
+                            <label style={{ fontSize: "13px", color: "#ef4444", fontWeight: "bold" }}>{t("ðŸš« No Spaces or Dashes")}</label>
                             <input type="checkbox" checked={noSpace} onChange={e => { setNoSpace(e.target.checked); setSetting("wb_noSpace", String(e.target.checked)); }} style={{ transform: "scale(1.2)" }} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "12px", borderTop: "1px solid #4b5563", paddingTop: "10px" }}>
-                            <label style={{ fontSize: "13px", color: "#60a5fa", fontWeight: "bold" }}>{t("📚 Safe Mode (Def.)")}</label>
+                            <label style={{ fontSize: "13px", color: "#60a5fa", fontWeight: "bold" }}>{t("ðŸ“š Safe Mode (Def.)")}</label>
                             <input type="checkbox" checked={safeMode} onChange={e => { setSafeMode(e.target.checked); setSetting("wb_safeMode", String(e.target.checked)); }} style={{ transform: "scale(1.2)" }} />
                         </div>
                         <div style={{ fontSize: "10px", opacity: 0.6, marginTop: "4px", marginBottom: "15px" }}>
@@ -379,7 +379,7 @@ export function WordBombOverlay() {
 
             <div className="nc-wb-footer">
                 <div className="nc-wb-settings-btn" onClick={() => setIsSettingsOpen(!isSettingsOpen)}>
-                    {isSettingsOpen ? "✕" : "⚙"}
+                    {isSettingsOpen ? "âœ•" : "âš™"}
                 </div>
                 <div className="nc-wb-status">
                     {status} | LPS: {lps} | Human: {humanChance}%

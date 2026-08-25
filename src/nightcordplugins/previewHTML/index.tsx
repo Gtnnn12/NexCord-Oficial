@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -13,7 +13,7 @@ import { React } from "@webpack/common";
 
 import { t } from "../autoTranslateNightcord";
 
-// ── Settings ───────────────────────────────────────────────────────────────────
+// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const settings = definePluginSettings({
     autoExpand: {
@@ -160,7 +160,7 @@ function injectScrollbarStyle(rawHtml: string): string {
     return `${scrollbarStyle}${rawHtml}`;
 }
 
-// ── Single HTML Preview Card ──────────────────────────────────────────────────
+// â”€â”€ Single HTML Preview Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function HtmlCard({ item }: { item: HtmlItem; }) {
     const [isExpanded, setIsExpanded] = React.useState(settings.store.autoExpand);
@@ -288,7 +288,7 @@ function HtmlCard({ item }: { item: HtmlItem; }) {
                         <button
                             className="phtml-btn phtml-scale-badge"
                             onClick={cycleScale}
-                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% — ${t("Click to change zoom")}`}
+                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% â€” ${t("Click to change zoom")}`}
                         >
                             <span>{Math.round(scaleMode * 100)}%</span>
                         </button>
@@ -410,7 +410,7 @@ function HtmlCard({ item }: { item: HtmlItem; }) {
     );
 }
 
-// ── Message Accessory Component ────────────────────────────────────────────────
+// â”€â”€ Message Accessory Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function HtmlPreviewAccessory({ message }: { message: any; }) {
     const items = React.useMemo(() => {
@@ -428,7 +428,7 @@ function HtmlPreviewAccessory({ message }: { message: any; }) {
     );
 }
 
-// ── Plugin Definition ──────────────────────────────────────────────────────────
+// â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const ACCESSORY_ID = "NexCord-html-preview";
 

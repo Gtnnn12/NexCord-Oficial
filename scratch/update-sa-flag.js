@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const img = fs.readFileSync('SA.png');
 const b64 = 'data:image/png;base64,' + img.toString('base64');
 let content = fs.readFileSync('src/components/settings/tabs/LanguageTab.tsx', 'utf8');

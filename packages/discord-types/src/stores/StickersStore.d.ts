@@ -1,4 +1,4 @@
-import { FluxStore, GuildSticker, PremiumStickerPack, Sticker } from "..";
+﻿import { FluxStore, GuildSticker, PremiumStickerPack, Sticker } from "..";
 import { LoadState } from "../../enums";
 
 export type StickerGuildMap = Map<string, GuildSticker[]>;

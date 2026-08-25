@@ -1,15 +1,15 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
- * AUTO-GENERATED — do not edit by hand.
+ * AUTO-GENERATED â€” do not edit by hand.
  * Update by running: node scripts/updateTutorialList.mjs
  */
 
 /**
  * Maps a plugin's `name` to the basename (without extension) of its tutorial
- * video in https://github.com/Gtnnn12/NexCord-tutorials/src/branch/main/videos
+ * video in https://github.com/Gtnnn12/NexCord-Oficial-tutorials/src/branch/main/videos
  */
 export const TUTORIAL_VIDEOS: ReadonlyMap<string, string> = new Map([
     ["Abbreviation", "Abbreviation"],

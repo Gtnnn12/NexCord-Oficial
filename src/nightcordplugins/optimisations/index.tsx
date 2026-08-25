@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -33,7 +33,7 @@ let noVideoAutoplay = false;
 const settings = definePluginSettings({
     disableSpringAnimations: {
         type: OptionType.BOOLEAN,
-        description: "Désactiver les animations spring de l'interface Discord (boutons, modals, etc.)",
+        description: "DÃ©sactiver les animations spring de l'interface Discord (boutons, modals, etc.)",
         default: true,
         disabled: () => isPluginEnabled("DisableAnimations"),
         onChange(val: boolean) {
@@ -45,63 +45,63 @@ const settings = definePluginSettings({
     },
     disableTypingDots: {
         type: OptionType.BOOLEAN,
-        description: "Désactiver les points \"X est en train d'écrire...\"",
+        description: "DÃ©sactiver les points \"X est en train d'Ã©crire...\"",
         default: true,
         disabled: () => isPluginEnabled("NoTypingAnimation"),
         restartNeeded: true
     },
     noGifAvatars: {
         type: OptionType.BOOLEAN,
-        description: "Bloquer les avatars GIF animés dans les listes et messages",
+        description: "Bloquer les avatars GIF animÃ©s dans les listes et messages",
         default: true,
         restartNeeded: true,
         onChange(v: boolean) { noGifAvatars = v; }
     },
     noAnimatedEmoji: {
         type: OptionType.BOOLEAN,
-        description: "Désactiver l'animation des emojis Discord",
+        description: "DÃ©sactiver l'animation des emojis Discord",
         default: false,
         restartNeeded: true,
         onChange(v: boolean) { noAnimatedEmoji = v; }
     },
     noStickers: {
         type: OptionType.BOOLEAN,
-        description: "Empêcher l'autoplay des stickers animés Lottie",
+        description: "EmpÃªcher l'autoplay des stickers animÃ©s Lottie",
         default: false,
         restartNeeded: true,
         onChange(v: boolean) { noStickers = v; }
     },
     noActivities: {
         type: OptionType.BOOLEAN,
-        description: "Masquer la section Activités (jeux, Spotify, etc.) dans le panneau membres",
+        description: "Masquer la section ActivitÃ©s (jeux, Spotify, etc.) dans le panneau membres",
         default: false,
         restartNeeded: true,
         onChange(v: boolean) { noActivities = v; }
     },
     noVideoAutoplay: {
         type: OptionType.BOOLEAN,
-        description: "Bloquer l'autoplay des vidéos intégrées dans les messages (MP4, WebM)",
+        description: "Bloquer l'autoplay des vidÃ©os intÃ©grÃ©es dans les messages (MP4, WebM)",
         default: false,
         restartNeeded: true,
         onChange(v: boolean) { noVideoAutoplay = v; }
     },
     noSoundboardPreview: {
         type: OptionType.BOOLEAN,
-        description: "Désactiver la prévisualisation audio du soundboard au survol",
+        description: "DÃ©sactiver la prÃ©visualisation audio du soundboard au survol",
         default: true,
         restartNeeded: true,
         onChange(v: boolean) { noSoundboardPreview = v; }
     },
     limitMsgCache: {
         type: OptionType.BOOLEAN,
-        description: "Exécuter le nettoyage mémoire (Garbage Collector) sur les canaux inactifs",
+        description: "ExÃ©cuter le nettoyage mÃ©moire (Garbage Collector) sur les canaux inactifs",
         default: true,
         restartNeeded: false,
         onChange(v: boolean) { limitMsgCache = v; if (!v) stopCacheCleaner(); else startCacheCleaner(); }
     },
     reduceFpsBackground: {
         type: OptionType.BOOLEAN,
-        description: "Limiter Discord à ~10 FPS quand la fenêtre est en arrière-plan",
+        description: "Limiter Discord Ã  ~10 FPS quand la fenÃªtre est en arriÃ¨re-plan",
         default: true,
         restartNeeded: false,
         onChange(v: boolean) { applyBgFpsPatch(v); }
@@ -154,7 +154,7 @@ const forceGC = () => {
 };
 
 function pruneMessageCaches() {
-    // Only call native V8 GC — do NOT mutate or delete MessageStore._channelMessages directly,
+    // Only call native V8 GC â€” do NOT mutate or delete MessageStore._channelMessages directly,
     // as wiping channel message objects corrupts Discord's internal pagination state (hasMoreBefore)
     // and causes older DM history to be cut off with a false "start of message history" header.
     forceGC();

@@ -1,4 +1,4 @@
-import {remote} from "electron";
+﻿import {remote} from "electron";
 
 export function showRestartNotice() {
     remote.dialog.showMessageBox({

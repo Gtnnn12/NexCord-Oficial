@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -122,7 +122,7 @@ function NotificationSettings() {
             <Heading className={Margins.top16 + " " + Margins.bottom8}>Notification Log Limit</Heading>
             <Paragraph className={Margins.bottom16}>
                 The amount of notifications to save in the log until old ones are removed.
-                Set to <code>0</code> to disable Notification log and <code>∞</code> to never automatically remove old Notifications
+                Set to <code>0</code> to disable Notification log and <code>âˆž</code> to never automatically remove old Notifications
             </Paragraph>
             <Slider
                 markers={[0, 25, 50, 75, 100, 200]}
@@ -131,8 +131,8 @@ function NotificationSettings() {
                 stickToMarkers={true}
                 initialValue={settings.logLimit}
                 onValueChange={v => settings.logLimit = v}
-                onValueRender={v => v === 200 ? "∞" : v}
-                onMarkerRender={v => v === 200 ? "∞" : v}
+                onValueRender={v => v === 200 ? "âˆž" : v}
+                onMarkerRender={v => v === 200 ? "âˆž" : v}
             />
         </div>
     );

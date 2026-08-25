@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -37,7 +37,7 @@ const KNOWN_PLUGINS_KEY = "EquicordChangelog_KnownPlugins";
 const KNOWN_SETTINGS_KEY = "EquicordChangelog_KnownSettings";
 const LAST_REPO_CHECK_KEY = "EquicordChangelog_LastRepoCheck";
 const GITEA_API_BASE = `https://api.github.com/repos`;
-const NexCord_RELEASES_REPO = "Gtnnn12/NexCord";
+const NexCord_RELEASES_REPO = "Gtnnn12/NexCord-Oficial";
 const NexCord_REPO_URL = `https://github.com/${NexCord_RELEASES_REPO}`;
 
 type KnownPluginSettingsMap = Map<string, Set<string>>;

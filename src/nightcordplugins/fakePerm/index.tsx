@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -338,7 +338,7 @@ export default definePlugin({
         }
     ],
 
-    // ─── Runtime PermissionStore & GuildMemberStore overrides ────────────────
+    // â”€â”€â”€ Runtime PermissionStore & GuildMemberStore overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     _origCan: null as ((...a: any[]) => any) | null,
     _origGetChannelPerms: null as ((...a: any[]) => any) | null,
     _origGetGuildPerms: null as ((...a: any[]) => any) | null,
@@ -469,7 +469,7 @@ export default definePlugin({
         }
     },
 
-    // ─── GuildMemberStore Interception for Fake Nicknames & Roles ────────────
+    // â”€â”€â”€ GuildMemberStore Interception for Fake Nicknames & Roles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     _patchMemberStore() {
         if (GuildMemberStore) {
             if (!this._origGetMember && typeof GuildMemberStore.getMember === "function") {
@@ -554,7 +554,7 @@ export default definePlugin({
         }
     },
 
-    // ─── VoiceState & RestAPI Interception for Mute/Deafen/Disconnect/Move/Nick/Roles ─
+    // â”€â”€â”€ VoiceState & RestAPI Interception for Mute/Deafen/Disconnect/Move/Nick/Roles â”€
     _patchVoiceStore() {
         if (VoiceStateStore) {
             if (!this._origGetVoiceState && typeof VoiceStateStore.getVoiceStateForUser === "function") {
@@ -880,7 +880,7 @@ export default definePlugin({
     options: {
         enabled: {
             type: OptionType.BOOLEAN,
-            description: "Enable fake permissions (admin UI) — visual only, server still checks real perms",
+            description: "Enable fake permissions (admin UI) â€” visual only, server still checks real perms",
             default: false,
             onChange(v: boolean) {
                 isEnabled = Boolean(v);

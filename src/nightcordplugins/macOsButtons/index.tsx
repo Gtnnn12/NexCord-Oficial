@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -100,21 +100,21 @@ function injectMacOsButtons() {
     const sep = document.createElement("div");
     sep.className = "macos-sep";
 
-    // Rouge — Close
+    // Rouge â€” Close
     const btnClose = document.createElement("button");
     btnClose.className = "macos-btn macos-btn-close";
     btnClose.title = "Close";
     btnClose.innerHTML = `<span class="macos-btn-icon"><svg width="6" height="6" viewBox="0 0 6 6" fill="none"><path d="M1 1L5 5M5 1L1 5" stroke="#4d0000" stroke-width="1.3" stroke-linecap="round"/></svg></span>`;
     btnClose.addEventListener("click", (e) => { e.stopPropagation(); Native.closeWindow(); });
 
-    // Jaune — Minimiser
+    // Jaune â€” Minimiser
     const btnMin = document.createElement("button");
     btnMin.className = "macos-btn macos-btn-min";
     btnMin.title = "Minimiser";
     btnMin.innerHTML = `<span class="macos-btn-icon"><svg width="7" height="2" viewBox="0 0 7 2" fill="none"><path d="M0.5 1H6.5" stroke="#6d4c00" stroke-width="1.3" stroke-linecap="round"/></svg></span>`;
     btnMin.addEventListener("click", (e) => { e.stopPropagation(); Native.minimizeWindow(); });
 
-    // Vert — Maximiser
+    // Vert â€” Maximiser
     const btnMax = document.createElement("button");
     btnMax.className = "macos-btn macos-btn-max";
     btnMax.title = "Maximiser / Restaurer";
@@ -125,7 +125,7 @@ function injectMacOsButtons() {
     container.appendChild(btnMin);
     container.appendChild(btnMax);
 
-    // Pousser les icônes Discord à gauche pour ne pas se chevaucher
+    // Pousser les icÃ´nes Discord Ã  gauche pour ne pas se chevaucher
     pushToolbarLeft();
 
     // Focus / unfocus
@@ -135,7 +135,7 @@ function injectMacOsButtons() {
 }
 
 function pushToolbarLeft() {
-    // Largeur occupée par nos boutons : sep(1) + gap(8) + 3×btn(13) + gaps(16) + padding(24) ≈ 90px
+    // Largeur occupÃ©e par nos boutons : sep(1) + gap(8) + 3Ã—btn(13) + gaps(16) + padding(24) â‰ˆ 90px
     const W = 90;
     const styleId = "macos-toolbar-push";
     if (document.getElementById(styleId)) return;
@@ -159,7 +159,7 @@ function removeMacOsButtons() {
 
 export default definePlugin({
     name: "MacOsButtons",
-    description: "Replaces Windows buttons with macOS-style buttons — red, yellow, green.",
+    description: "Replaces Windows buttons with macOS-style buttons â€” red, yellow, green.",
     authors: [{ name: "NexCord",
      id: 0n }],
     required: false,

@@ -1,4 +1,4 @@
-import { DiscordRecord } from './Record';
+﻿import { DiscordRecord } from './Record';
 import {
     GuildDefaultMessageNotifications,
     GuildExplicitContentFilter,

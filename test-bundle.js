@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -18171,7 +18171,7 @@ var require_GitLabProvider = __commonJS({
             fileInfo.url,
             // Original filename
             this.normalizeFilename(fileInfo.url)
-            // Normalized filename (spaces/underscores → dashes)
+            // Normalized filename (spaces/underscores â†’ dashes)
           ];
           const matchingAssetName = possibleNames.find((name) => updateInfo.assets.has(name));
           const assetUrl = matchingAssetName ? updateInfo.assets.get(matchingAssetName) : void 0;

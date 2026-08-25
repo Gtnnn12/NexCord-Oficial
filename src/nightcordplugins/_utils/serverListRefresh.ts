@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -39,13 +39,13 @@ export function forceServerListRerender(): void {
             let node: any = (el as any)[fiberKey];
 
             while (node) {
-                // Class component → use forceUpdate()
+                // Class component â†’ use forceUpdate()
                 if (node.stateNode?.forceUpdate) {
                     node.stateNode.forceUpdate();
                     return;
                 }
 
-                // Function component with useState/useReducer → dispatch a
+                // Function component with useState/useReducer â†’ dispatch a
                 // no-op action through the first hook queue we find.
                 const hooks = node.memoizedState;
                 if (hooks?.queue?.dispatch) {
@@ -58,7 +58,7 @@ export function forceServerListRerender(): void {
                 node = node.return;
             }
         } catch {
-            // Never surface errors — the guild list will pick up changes on its
+            // Never surface errors â€” the guild list will pick up changes on its
             // next natural re-render anyway.
         }
     }, 0);

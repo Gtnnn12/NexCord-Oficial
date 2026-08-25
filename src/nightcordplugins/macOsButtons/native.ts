@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -7,7 +7,7 @@
 import { BrowserWindow } from "electron";
 
 function getWin(event: any) {
-    // On récupère la fenêtre qui a envoyé l'événement IPC
+    // On rÃ©cupÃ¨re la fenÃªtre qui a envoyÃ© l'Ã©vÃ©nement IPC
     return BrowserWindow.fromWebContents(event.sender);
 }
 

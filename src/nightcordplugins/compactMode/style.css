@@ -1,4 +1,4 @@
-/* Compact Mode - replace all NexCord plugin UI with a single compact toggle icon */
+﻿/* Compact Mode - replace all NexCord plugin UI with a single compact toggle icon */
 
 /* Compact Popout Menu Styles */
 .compact-popout-container {
@@ -54,9 +54,9 @@
     color: var(--white-500, #ffffff);
 }
 
-/* ── NexCord Quick Settings Popout ── */
+/* â”€â”€ NexCord Quick Settings Popout â”€â”€ */
 
-/* Force ALL child elements to use white text — defeats any theme override */
+/* Force ALL child elements to use white text â€” defeats any theme override */
 .nc-settings-popout,
 .nc-settings-popout * {
     color: #ffffff !important;
@@ -87,7 +87,7 @@
 .nc-settings-popout-section-label {
     font-size: 10px;
     font-weight: 700;
-    /* Slightly muted — override the blanket rule with a more specific selector */
+    /* Slightly muted â€” override the blanket rule with a more specific selector */
     color: rgba(255, 255, 255, 0.55) !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -191,9 +191,9 @@
     transform: scale(1.12) !important;
 }
 
-/* ══════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NexCord FULL SETTINGS MODAL
-   ══════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Override Discord modal sizing */
 .nc-modal-wrapper {
@@ -215,7 +215,7 @@
     border-radius: 12px;
 }
 
-/* ── Sidebar ── */
+/* â”€â”€ Sidebar â”€â”€ */
 .nc-modal-sidebar {
     width: 210px;
     flex-shrink: 0;
@@ -302,7 +302,7 @@
     text-overflow: ellipsis;
 }
 
-/* ── Content area ── */
+/* â”€â”€ Content area â”€â”€ */
 .nc-modal-content {
     flex: 1;
     min-width: 0;

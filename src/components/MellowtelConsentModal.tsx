@@ -1,4 +1,4 @@
-import { React } from "@webpack/common";
+﻿import { React } from "@webpack/common";
 const { useState, useRef, useEffect } = React;
 import type { UIEvent } from "react";
 
@@ -68,7 +68,7 @@ function MellowtelOnboardingContent({ onClose }: { onClose: () => void }) {
 
     const applyDefaultPreset = async () => {
         // Only ensure enabledByDefault / required plugins are marked enabled in settings.
-        // We deliberately do NOT call stopPlugin() on everything — that causes Discord to
+        // We deliberately do NOT call stopPlugin() on everything â€” that causes Discord to
         // crash when plugins throw (e.g. RangeError in enhancedLogic, Maximum call stack).
         // Plugins that are already running stay running. We only update the stored settings
         // so that on next load, only the expected plugins are active.

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -162,7 +162,7 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
         }
     };
 
-    // Apply saved profile directly via Discord REST API — no "Edit Profile → Save" needed
+    // Apply saved profile directly via Discord REST API â€” no "Edit Profile â†’ Save" needed
     const handleLoadProfile = async (preset: SavedProfileConfig) => {
         try {
             const currentUser = UserStore.getCurrentUser();
@@ -172,11 +172,11 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
             }
             const userProfile = UserProfileStore.getUserProfile(currentUser.id);
 
-            showToast(t("Applying profile…"), Toasts.Type.MESSAGE);
+            showToast(t("Applying profileâ€¦"), Toasts.Type.MESSAGE);
 
             let anyError = false;
 
-            // ── 1. Custom status (instant, no REST needed) ───────────────────
+            // â”€â”€ 1. Custom status (instant, no REST needed) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             if (preset.customStatus && CustomStatusSettings) {
                 try {
                     CustomStatusSettings.updateSetting({
@@ -190,7 +190,7 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
                 }
             }
 
-            // ── 2. Nitro colors (theme_colors, accent_color) ─────────────────
+            // â”€â”€ 2. Nitro colors (theme_colors, accent_color) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             // Discord REST rejects these for non-real-Nitro accounts with 500.
             // Apply them locally via FluxDispatcher so they show immediately
             // without hitting the API (same approach as customProfile plugin).
@@ -208,14 +208,14 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
                     if (preset.themeColors !== undefined) nitroBody.theme_colors = preset.themeColors ?? null;
                     if (preset.accentColor !== undefined) nitroBody.accent_color = preset.accentColor ?? null;
                     RestAPI.patch({ url: "/users/@me/profile", body: nitroBody }).catch(() => {
-                        // Silently fail — non-Nitro accounts can't persist colors via REST
+                        // Silently fail â€” non-Nitro accounts can't persist colors via REST
                     });
                 } catch (e) {
                     logger.error("Failed to apply Nitro colors", e);
                 }
             }
 
-            // ── 3. PATCH /users/@me  (global name + avatar) ─────────────────
+            // â”€â”€ 3. PATCH /users/@me  (global name + avatar) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             // Discord accepts: global_name, avatar (base64)
             const userPatch: Record<string, any> = {};
 
@@ -238,8 +238,8 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
                 }
             }
 
-            // ── 4. PATCH /users/@me/profile  (bio + banner only) ─────────────
-            // Do NOT send theme_colors / accent_color here — causes 500 for non-Nitro
+            // â”€â”€ 4. PATCH /users/@me/profile  (bio + banner only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // Do NOT send theme_colors / accent_color here â€” causes 500 for non-Nitro
             const profilePatch: Record<string, any> = {};
 
             // bio: send empty string to clear, or the saved value
@@ -247,7 +247,7 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
                 profilePatch.bio = preset.bio ?? "";
             }
 
-            // banner — only upload if hash differs; send null to clear banner
+            // banner â€” only upload if hash differs; send null to clear banner
             if (preset.bannerDataUrl && userProfile && preset.bannerHash !== userProfile.banner) {
                 profilePatch.banner = preset.bannerDataUrl;
             } else if (preset.bannerHash === null && userProfile?.banner) {
@@ -266,7 +266,7 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
             }
 
             if (!anyError) {
-                showToast(t("Profile applied instantly! ✔"), Toasts.Type.SUCCESS);
+                showToast(t("Profile applied instantly! âœ”"), Toasts.Type.SUCCESS);
             }
         } catch (err) {
             logger.error("Failed to load profile", err);
@@ -300,7 +300,7 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
             body: (
                 <TextInput
                     value={name}
-                    placeholder={t("Enter new name…")}
+                    placeholder={t("Enter new nameâ€¦")}
                     onChange={(val) => name = val}
                 />
             ),

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -321,7 +321,7 @@ export default definePlugin({
                         You can't see your own buttons on your profile, but everyone else can see it fine.
                     </Paragraph>
                     <Paragraph>
-                        Some weird unicode text ("fonts" 𝖑𝖎𝖐𝖊 𝖙𝖍𝖎𝖘) may cause the rich presence to not show up, try using normal letters instead.
+                        Some weird unicode text ("fonts" ð–‘ð–Žð–ð–Š ð–™ð–ð–Žð–˜) may cause the rich presence to not show up, try using normal letters instead.
                     </Paragraph>
                 </Flex>
 

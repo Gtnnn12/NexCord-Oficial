@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
  * Extract all plugin names, descriptions, and setting keys from plugin source files.
  * Outputs a JSON file ready for translation.

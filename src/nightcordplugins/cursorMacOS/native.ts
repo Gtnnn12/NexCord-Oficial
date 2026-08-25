@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -8,7 +8,7 @@ import { execSync } from "child_process";
 import * as path from "path";
 import * as fs from "fs";
 
-// Mapping: style value → folder path segments inside mac/mac/
+// Mapping: style value â†’ folder path segments inside mac/mac/
 const STYLE_FOLDER: Record<string, [string, string]> = {
     modern_shadow:    ["1. Sierra and newer",      "2. With Shadow"],
     modern_no_shadow: ["1. Sierra and newer",      "1. No Shadow"],
@@ -22,11 +22,11 @@ const SIZE_FOLDER: Record<string, string> = {
     xl:     "3. XtraLarge",
 };
 
-// Windows registry cursor key names → .cur file names in the pack
+// Windows registry cursor key names â†’ .cur file names in the pack
 const CURSOR_MAP: Record<string, string> = {
     Arrow:           "Normal",
     Hand:            "Link",
-    AppStarting:     "Link",       // closest match — "working in background"
+    AppStarting:     "Link",       // closest match â€” "working in background"
     Wait:            "Pan",        // spinning wheel closest to Pan
     IBeam:           "Text",
     SizeAll:         "Move",
@@ -43,7 +43,7 @@ const CURSOR_MAP: Record<string, string> = {
 function getCursorsDir(event: any): string {
     // __dirname in main process points to the compiled output folder.
     // The mac/ folder is at the root of the repo (beside src/, dist/, etc.)
-    // In production the app is packaged — cursors live in extraResources/mac.
+    // In production the app is packaged â€” cursors live in extraResources/mac.
     // We try both locations.
     const appPath = (event.sender as any).getOwnerBrowserWindow?.()?.webContents?.getURL?.() ?? "";
 

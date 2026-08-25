@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ import { t } from "../autoTranslateNightcord";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-/* ── State ── */
+/* â”€â”€ State â”€â”€ */
 const state = {
     running: false,
     finished: false,
@@ -99,7 +99,7 @@ async function startBomb(guildId: string, roleId: string | "all", message: strin
 
     for (const m of members) {
         if (state.aborted) {
-            state.log.push(`⛔ ${t("Stopped.")}`);
+            state.log.push(`â›” ${t("Stopped.")}`);
             state.notify();
             break;
         }
@@ -125,12 +125,12 @@ async function startBomb(guildId: string, roleId: string | "all", message: strin
 
             if (ok) {
                 state.done++;
-                state.log.push(`✅ ${accountTag} ${name}`);
+                state.log.push(`âœ… ${accountTag} ${name}`);
             } else {
-                state.log.push(`❌ ${accountTag} ${name} — ${t("DMs closed or error")}`);
+                state.log.push(`âŒ ${accountTag} ${name} â€” ${t("DMs closed or error")}`);
             }
         } catch (e: any) {
-            state.log.push(`❌ ${accountTag} ${name} — ${e?.message ?? t("error (rate limit?)")}`);
+            state.log.push(`âŒ ${accountTag} ${name} â€” ${e?.message ?? t("error (rate limit?)")}`);
         }
 
         tokenIndex++;
@@ -236,7 +236,7 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                                     className="dmb-token-toggle"
                                     onClick={() => setShowTokenSection(!showTokenSection)}
                                 >
-                                    {showTokenSection ? t("Hide Tokens") : `🔑 ${t("Add Secondary Tokens")} (${tokenCount})`}
+                                    {showTokenSection ? t("Hide Tokens") : `ðŸ”‘ ${t("Add Secondary Tokens")} (${tokenCount})`}
                                 </button>
                             </div>
                             {showTokenSection && (
@@ -259,7 +259,7 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                             rows={4}
                         />
                         <p className="dmb-warn">
-                            ⚠️ {t("Intensive botting can get your account banned. Delay:")}{" "}
+                            âš ï¸ {t("Intensive botting can get your account banned. Delay:")}{" "}
                             {editingDelay ? (
                                 <input
                                     className="dmb-delay-input"
@@ -293,7 +293,7 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                             )}
                             {tokenCount > 0 && (
                                 <span className="dmb-token-active-badge">
-                                    {" "}⚡ {t("Rotating across {count} accounts").replace("{count}", String(tokenCount + 1))}
+                                    {" "}âš¡ {t("Rotating across {count} accounts").replace("{count}", String(tokenCount + 1))}
                                 </span>
                             )}
                         </p>
@@ -309,7 +309,7 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                             <div className="dmb-bar-fill" style={{ width: `${pct}%` }} />
                         </div>
                         {s.finished && (
-                            <p className="dmb-done">✅ {t("Finished with {done} DMs sent.").replace("{done}", String(s.done))}</p>
+                            <p className="dmb-done">âœ… {t("Finished with {done} DMs sent.").replace("{done}", String(s.done))}</p>
                         )}
                         <div className="dmb-log" ref={logRef}>
                             {s.log.map((line, i) => <div key={i} className="dmb-log-line">{line}</div>)}
@@ -322,13 +322,13 @@ function DMBombModal({ rootProps, guildId }: { rootProps: any; guildId: string; 
                 {idle && (
                     <>
                         <button className="dmb-btn dmb-btn-secondary" onClick={rootProps.onClose}>{t("Cancel")}</button>
-                        <button className="dmb-btn dmb-btn-danger" onClick={() => startBomb(guildId, roleId, msg)} disabled={!msg.trim()}>💥 {t("Bombard")}</button>
+                        <button className="dmb-btn dmb-btn-danger" onClick={() => startBomb(guildId, roleId, msg)} disabled={!msg.trim()}>ðŸ’¥ {t("Bombard")}</button>
                     </>
                 )}
                 {s.running && (
                     <>
                         <button className="mdm-btn mdm-btn-secondary" onClick={rootProps.onClose}>{t("Background")}</button>
-                        <button className="dmb-btn dmb-btn-danger" onClick={() => { state.aborted = true; }}>⛔ {t("Stop")}</button>
+                        <button className="dmb-btn dmb-btn-danger" onClick={() => { state.aborted = true; }}>â›” {t("Stop")}</button>
                     </>
                 )}
                 {s.finished && (

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ import Canvas from "./Canvas";
 import CharSelectModal from "./Picker";
 
 export default function SekaiStickersModal({ modalProps, settings }: { modalProps: RenderModalProps; settings: any; }) {
-    const [text, setText] = React.useState<string>("奏でーかわいい");
+    const [text, setText] = React.useState<string>("å¥ã§ãƒ¼ã‹ã‚ã„ã„");
     const [character, setChracter] = React.useState<number>(49);
     const [fontSize, setFontSize] = React.useState<number>(characters[character].defaultText.s);
     const [rotate, setRotate] = React.useState<number>(characters[character].defaultText.r);

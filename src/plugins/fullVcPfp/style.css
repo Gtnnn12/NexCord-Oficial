@@ -1,4 +1,4 @@
-div[data-selenium-video-tile] div[role="img"] {
+﻿div[data-selenium-video-tile] div[role="img"] {
     width: 100% !important;
     height: 100% !important;
     border-radius: unset !important;

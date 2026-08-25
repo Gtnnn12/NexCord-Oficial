@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a modification for Discord's desktop app
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -62,7 +62,7 @@ function patchResourcesDir(resourcesDir: string) {
         }, null, 2));
 
         const indexJs = [
-            "// NexCord Injector — auto-generated",
+            "// NexCord Injector â€” auto-generated",
             "\"use strict\";",
             "const path = require(\"path\");",
             "const fs = require(\"fs\");",

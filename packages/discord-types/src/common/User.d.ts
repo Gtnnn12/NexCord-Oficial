@@ -1,4 +1,4 @@
-// TODO: a lot of optional params can also be null, not just undef
+﻿// TODO: a lot of optional params can also be null, not just undef
 
 import { DiscordRecord } from "./Record";
 import { AvatarDecorationData, ClanData, Collectibles, DisplayNameStyles } from "./Channel";

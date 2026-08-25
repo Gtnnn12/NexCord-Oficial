@@ -1,4 +1,4 @@
-# FullSearchContext
+﻿# FullSearchContext
 
 Makes the message context menu in message search results have all options you'd expect.
 

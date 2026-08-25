@@ -1,4 +1,4 @@
-import { FluxStore, Guild, User, Application, ApplicationInstallParams, ProfileEffect } from "..";
+﻿import { FluxStore, Guild, User, Application, ApplicationInstallParams, ProfileEffect } from "..";
 import { ApplicationFlags, ApplicationIntegrationType } from "../../enums";
 
 export interface MutualFriend {

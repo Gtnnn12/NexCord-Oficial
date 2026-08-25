@@ -1,4 +1,4 @@
-const fs = require("fs");
+﻿const fs = require("fs");
 const path = require("path");
 
 const pluginDir = "c:\\Users\\zzafi\\Documents\\GitHub\\nightcord\\src\\nightcordplugins";

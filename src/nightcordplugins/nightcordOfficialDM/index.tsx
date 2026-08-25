@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -78,7 +78,7 @@ function replaceDiscordWithNexCord(text: string): string {
         .replace(/Message officiel de Discord/gi, "Message officiel de NexCord")
         .replace(/Message de discorde officiel/gi, "Message officiel de NexCord")
         .replace(/Team Discord/gi, "Team NexCord")
-        .replace(/l'équipe Discord/gi, "l'équipe NexCord")
+        .replace(/l'Ã©quipe Discord/gi, "l'Ã©quipe NexCord")
         .replace(/official Discord notifications/gi, "official NexCord notifications")
         .replace(/notifications officielles de Discord/gi, "notifications officielles de NexCord")
         .replace(/Discord ne vous demandera/gi, "NexCord ne vous demandera")
@@ -648,7 +648,7 @@ async function fetchMastodonFeed(): Promise<any[]> {
     return [];
 }
 
-// ─── Urgent Message Modal (System Alert for NexCord Messages) ──────────────
+// â”€â”€â”€ Urgent Message Modal (System Alert for NexCord Messages) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface UrgentMessageModalProps extends ModalProps {
     onClose: () => void;
@@ -863,7 +863,7 @@ function handleChannelSelect(e: any) {
     const id = typeof e === "string" ? e : (e?.channelId || e?.channel_id || e?.channel?.id || e?.id);
     if (id === NexCord_CHANNEL_ID || id === "999999999999999990") {
         if (settings.store.isDmClosed) {
-            // Reopen the DM — remove isAppLoaded guard so this works from search too
+            // Reopen the DM â€” remove isAppLoaded guard so this works from search too
             settings.store.isDmClosed = false;
             setTimeout(() => {
                 try {
@@ -899,7 +899,7 @@ const NexCordProfileSections = ErrorBoundary.wrap(({ isSideBar }: { isSideBar: b
             </BaseText>
         </Section>
         <Section
-            heading="Compte créé le"
+            heading="Compte crÃ©Ã© le"
             headingVariant={isSideBar ? "text-xs/semibold" : "text-xs/medium"}
             headingColor={isSideBar ? "text-strong" : "text-default"}
         >
@@ -919,7 +919,7 @@ export function NexCordSystemBanner() {
                 </svg>
                 <div>
                     <div className="NexCord-official-banner-title">
-                        Ce salon est réservé aux notifications officielles de NexCord.
+                        Ce salon est rÃ©servÃ© aux notifications officielles de NexCord.
                     </div>
                     <div className="NexCord-official-banner-sub">
                         NexCord ne te demandera jamais ton mot de passe ou ton token de compte.
@@ -984,7 +984,7 @@ export default definePlugin({
                 replace: "$1,$self.renderNexCordProfileSections({userId:$2,isSideBar:false}),"
             }
         },
-        // Direct React Component patch for DM list — filters out NexCord DM when closed
+        // Direct React Component patch for DM list â€” filters out NexCord DM when closed
         {
             find: '"dm-quick-launcher"===',
             replacement: {

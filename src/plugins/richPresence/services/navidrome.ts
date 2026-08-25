@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -227,7 +227,7 @@ async function getActivity(signal?: AbortSignal): Promise<Activity | null> {
         const largeText = customFormat(nd_largeTextString, track);
         if (largeText) {
             if (Number(nd_activityType ?? 2) === 0) {
-                stateString = stateString ? `${stateString} • ${largeText}` : largeText;
+                stateString = stateString ? `${stateString} â€¢ ${largeText}` : largeText;
             } else {
                 assets.large_text = largeText;
             }

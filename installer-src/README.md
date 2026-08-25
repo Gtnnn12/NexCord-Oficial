@@ -1,4 +1,4 @@
-<h1 align="center">BetterDiscord Installer</h1>
+﻿<h1 align="center">BetterDiscord Installer</h1>
 
 <p align="center">
   <a href="#overview">Overview</a> |
@@ -42,19 +42,19 @@ These will link you to the latest builds found in the [releases](https://github.
 
 ```
 .
-├──assets                  // Contains static assets (such as images) used by the installer.
-|  └──images               // Images (logos, backgrounds, etc...) used by the installer.
-├──scripts                 // Scripts needed for development and contributing.
-└──src                     // The installer's source code.
-    ├──main                // Electron "main" process. Creates and configures the BrowserWindow.
-    └──renderer            // Electron "renderer" process. Contains most components and scripts.
-        ├──actions         // Scripts performed by the installer such as installing, repairing and uninstalling.
-        |  └──utils        // Common utilities used by installer actions (such as killing discord).
-        ├──common          // Common UI components such as buttons, checkboxes, radios, etc...
-        ├──pages           // Component files for each page in the installer's setup process.
-        ├──stores          // Svelte store used for storing global data.
-        |  └──types        // Used for defining custom svelte stores.
-        └──transitions     // Contains custom Svelte transitions and animations.
+â”œâ”€â”€assets                  // Contains static assets (such as images) used by the installer.
+|  â””â”€â”€images               // Images (logos, backgrounds, etc...) used by the installer.
+â”œâ”€â”€scripts                 // Scripts needed for development and contributing.
+â””â”€â”€src                     // The installer's source code.
+    â”œâ”€â”€main                // Electron "main" process. Creates and configures the BrowserWindow.
+    â””â”€â”€renderer            // Electron "renderer" process. Contains most components and scripts.
+        â”œâ”€â”€actions         // Scripts performed by the installer such as installing, repairing and uninstalling.
+        |  â””â”€â”€utils        // Common utilities used by installer actions (such as killing discord).
+        â”œâ”€â”€common          // Common UI components such as buttons, checkboxes, radios, etc...
+        â”œâ”€â”€pages           // Component files for each page in the installer's setup process.
+        â”œâ”€â”€stores          // Svelte store used for storing global data.
+        |  â””â”€â”€types        // Used for defining custom svelte stores.
+        â””â”€â”€transitions     // Contains custom Svelte transitions and animations.
 ```
 
 ---

@@ -1,4 +1,4 @@
-// Nightcord 28540e1c5e5a09d22618dcdfa9c376370cab6dce
+﻿// Nightcord 28540e1c5e5a09d22618dcdfa9c376370cab6dce
 // Standalone: true
 // Platform: Universal
 // Updater Disabled: false

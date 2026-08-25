@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -67,7 +67,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
         return availableGuilds.filter(g => g.name.toLowerCase().includes(q));
     }, [availableGuilds, search]);
 
-    // Sélectionner tout par défaut
+    // SÃ©lectionner tout par dÃ©faut
     useEffect(() => {
         setSelected(new Set(availableGuilds.map(g => g.id)));
     }, [availableGuilds]);
@@ -140,7 +140,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                         autoFocus
                     />
                     {search && (
-                        <button className="las-search-clear" onClick={() => setSearch("")}>✕</button>
+                        <button className="las-search-clear" onClick={() => setSearch("")}>âœ•</button>
                     )}
                 </div>
 
@@ -174,7 +174,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                                     : <div className="las-avatar-placeholder">{g.name.replace(/\s+/g, "").slice(0, 2).toUpperCase()}</div>
                                 }
                                 <span className="las-guild-name">{g.name}</span>
-                                {isSel && <span className="las-check">✓</span>}
+                                {isSel && <span className="las-check">âœ“</span>}
                             </div>
                         );
                     })}
@@ -189,7 +189,7 @@ function LeaveAllServersModal({ rootProps }: { rootProps: any; }) {
                 <div className="las-footer-info">
                     <span>{t("{count} servers selected").replace("{count}", selected.size.toString())}</span>
                     {settings.store.safeMode && (
-                        <span className="las-safe-note">{t("· Safe mode active (owners excluded)")}</span>
+                        <span className="las-safe-note">{t("Â· Safe mode active (owners excluded)")}</span>
                     )}
                 </div>
 

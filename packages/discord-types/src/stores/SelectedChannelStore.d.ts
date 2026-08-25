@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export interface ChannelFollowingDestination {
     guildId?: string;

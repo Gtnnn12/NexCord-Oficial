@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -776,7 +776,7 @@ function ModalComponent({
                                 ...settings
                             });
 
-                            // Wait longer on first launch — the media stack needs more time to settle
+                            // Wait longer on first launch â€” the media stack needs more time to settle
                             const isFirstStream = !MediaEngineStore.getMediaEngine().connections.size;
                             const delay = isFirstStream ? 800 : 100;
 

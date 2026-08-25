@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { PremiumType } from "../../enums";
 
 export interface OverridePremiumTypeState {

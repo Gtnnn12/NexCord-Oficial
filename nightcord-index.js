@@ -1,17 +1,17 @@
-// Nightcord entry point
+﻿// Nightcord entry point
 "use strict";
 const path = require("path");
 const Module = require("module");
 const fs = require("fs");
 const { app } = require("electron");
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PENDING UPDATE CHECK — must run BEFORE any dist/ file is loaded (= locked).
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// PENDING UPDATE CHECK â€” must run BEFORE any dist/ file is loaded (= locked).
 // When the in-app updater stages an update it writes a marker file next to this
 // script.  We apply it here (simple file copy) while nothing is locked yet,
 // then delete the marker and continue the normal boot.
 // This is what prevents the infinite-restart loop.
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function applyPendingUpdate() {
     const possibleMarkers = [
         path.join(__dirname, "dist", "desktop", "nightcord-pending-update.json"),
@@ -35,7 +35,7 @@ const { app } = require("electron");
         return;
     }
 
-    console.log("[Nightcord] Applying pending update from", stagingDir, "→", destDir);
+    console.log("[Nightcord] Applying pending update from", stagingDir, "â†’", destDir);
 
     function copyDirSync(src, dest) {
         if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
@@ -65,18 +65,18 @@ const { app } = require("electron");
     try { fs.unlinkSync(markerPath); } catch { }
     try { fs.rmSync(stagingDir, { recursive: true, force: true }); } catch { }
 })();
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // Nightcord mod data directory is managed by DATA_DIR in constants.ts
 const nightcordData = path.join(app.getPath("appData"), "Nightcord");
 
 
-// AppUserModelId unique — Windows reconnaît Nightcord comme app séparée de Discord
+// AppUserModelId unique â€” Windows reconnaÃ®t Nightcord comme app sÃ©parÃ©e de Discord
 app.setAppUserModelId("com.squirrel.Discord.Discord");
 
-// Flags Chromium utiles uniquement (suppression des flags qui nuisent au démarrage :
-// process-per-site, renderer-process-limit, enable-low-end-device-mode forçaient
-// des sous-processus et désactivaient l'accélération GPU → freeze sur splash screen)
+// Flags Chromium utiles uniquement (suppression des flags qui nuisent au dÃ©marrage :
+// process-per-site, renderer-process-limit, enable-low-end-device-mode forÃ§aient
+// des sous-processus et dÃ©sactivaient l'accÃ©lÃ©ration GPU â†’ freeze sur splash screen)
 app.commandLine.appendSwitch("enable-gpu-rasterization");
 app.commandLine.appendSwitch("enable-zero-copy");
 app.commandLine.appendSwitch("disk-cache-size", "104857600");
@@ -84,11 +84,11 @@ app.commandLine.appendSwitch("disk-cache-size", "104857600");
 app.once("ready", () => {
     try {
         // Liste des modules natifs qui causent des erreurs 403 inutiles
-        // NB: discord_overlay est intentionnellement ABSENT de cette liste —
+        // NB: discord_overlay est intentionnellement ABSENT de cette liste â€”
         //     il doit pouvoir s'initialiser localement pour que l'overlay en jeu fonctionne.
-        //     Seuls les modules vraiment inutiles pour Nightcord sont bloqués.
+        //     Seuls les modules vraiment inutiles pour Nightcord sont bloquÃ©s.
         const BLOCKED_MODULES = new Set([
-            // "discord_overlay",  // RETIRE — nécessaire pour l'overlay in-game
+            // "discord_overlay",  // RETIRE â€” nÃ©cessaire pour l'overlay in-game
             "discord_rpc",
             "discord_dispatch",
             "discord_erinn",
@@ -97,7 +97,7 @@ app.once("ready", () => {
         const { session, shell } = require("electron");
         const { webContents: webContentsModule } = require("electron");
 
-        // URLs Discord légitimes à ne pas bloquer dans will-navigate
+        // URLs Discord lÃ©gitimes Ã  ne pas bloquer dans will-navigate
         function isDiscordUrl(url) {
             return url.startsWith("https://discord.com") ||
                 url.startsWith("https://canary.discord.com") ||
@@ -199,22 +199,22 @@ app.once("ready", () => {
             });
         }
 
-        // Patcher tous les webContents créés (fenêtres ET popups)
+        // Patcher tous les webContents crÃ©Ã©s (fenÃªtres ET popups)
         app.on("browser-window-created", (_, win) => {
             patchWebContents(win.webContents);
         });
 
-        // Patcher aussi les webContents créés sans BrowserWindow (popups détachés, etc.)
+        // Patcher aussi les webContents crÃ©Ã©s sans BrowserWindow (popups dÃ©tachÃ©s, etc.)
         app.on("web-contents-created", (_, wc) => {
             patchWebContents(wc);
         });
 
-        // Patcher les webContents déjà existants au moment du ready
+        // Patcher les webContents dÃ©jÃ  existants au moment du ready
         for (const wc of webContentsModule.getAllWebContents()) {
             patchWebContents(wc);
         }
 
-        console.log("[Nightcord] Patch liens externes activé sur TOUS les webContents (avec did-create-window) ✓");
+        console.log("[Nightcord] Patch liens externes activÃ© sur TOUS les webContents (avec did-create-window) âœ“");
 
         app.once("browser-window-created", (_, win) => {
 
@@ -227,15 +227,15 @@ app.once("ready", () => {
                         let isBlocked = false;
                         for (const m of BLOCKED_MODULES) { if (url.includes(m)) { isBlocked = true; break; } }
                         if (isBlocked) {
-                            // Bloquer silencieusement — évite le 403 + les logs d'erreur
-                            console.log("[Nightcord] Module bloqué (inutile pour Nightcord):", url.split("/").slice(-2).join("/"));
+                            // Bloquer silencieusement â€” Ã©vite le 403 + les logs d'erreur
+                            console.log("[Nightcord] Module bloquÃ© (inutile pour Nightcord):", url.split("/").slice(-2).join("/"));
                             callback({ cancel: true });
                         } else {
                             callback({});
                         }
                     }
                 );
-                console.log("[Nightcord] Filtre modules 403 activé ✓");
+                console.log("[Nightcord] Filtre modules 403 activÃ© âœ“");
             } catch (e) {
                 console.warn("[Nightcord] Impossible d'activer le filtre modules:", e.message);
             }
@@ -246,14 +246,14 @@ app.once("ready", () => {
 });
 
 
-// Modules bundlés dans nightcord-dist/modules/
+// Modules bundlÃ©s dans nightcord-dist/modules/
 const bundledModulesPath = path.join(path.dirname(process.execPath), "modules");
 const moduleDataPath = path.join(app.getPath("appData"), "discord", "module_data");
 
-// ── DÉTECTION AUTOMATIQUE du dossier modules de Discord stable ───────────────
+// â”€â”€ DÃ‰TECTION AUTOMATIQUE du dossier modules de Discord stable â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Les modules natifs (discord_voice, discord_krisp...) sont dans AppData\Local\Discord\app-X.X.XXXX\modules\
 // et NON dans AppData\Roaming\discord\module_data\ (qui est souvent vide).
-// On détecte automatiquement la version installée pour avoir le bon chemin.
+// On dÃ©tecte automatiquement la version installÃ©e pour avoir le bon chemin.
 const discordLocalBase = path.join(app.getPath("appData"), "..", "Local", "Discord");
 let discordNativeModulesPath = null;
 try {
@@ -264,10 +264,10 @@ try {
         .sort((a, b) => b.name.localeCompare(a.name, undefined, { numeric: true }));
     if (entries.length > 0) {
         discordNativeModulesPath = entries[0].full;
-        console.log("[Nightcord] Modules natifs Discord détectés:", discordNativeModulesPath);
+        console.log("[Nightcord] Modules natifs Discord dÃ©tectÃ©s:", discordNativeModulesPath);
     }
 } catch (e) {
-    console.warn("[Nightcord] Impossible de détecter les modules natifs Discord:", e.message);
+    console.warn("[Nightcord] Impossible de dÃ©tecter les modules natifs Discord:", e.message);
 }
 
 // Utilise un Set pour les ajouts O(1) (au lieu de .includes() O(n) en boucle)
@@ -282,7 +282,7 @@ function addGlobalPath(p) {
     } catch (_) { }
 }
 
-// Priorité aux modules bundlés (portables, dans nightcord-dist/modules/)
+// PrioritÃ© aux modules bundlÃ©s (portables, dans nightcord-dist/modules/)
 addGlobalPath(bundledModulesPath);
 
 // Ajout des modules natifs Discord (discord_voice, discord_krisp, etc.)
@@ -333,14 +333,14 @@ try {
     }
 } catch (e) { }
 
-// Ce patch garantit que les modules chargés depuis l'asar Discord (qui ont
-// parent.paths = []) trouvent quand même les modules natifs Nightcord.
-// Node.js injecte déjà Module.globalPaths nativement dans tous les autres cas.
+// Ce patch garantit que les modules chargÃ©s depuis l'asar Discord (qui ont
+// parent.paths = []) trouvent quand mÃªme les modules natifs Nightcord.
+// Node.js injecte dÃ©jÃ  Module.globalPaths nativement dans tous les autres cas.
 const _globalPathsArr = Module.globalPaths.slice();
 const _origResolve = Module._resolveLookupPaths;
 Module._resolveLookupPaths = function (request, parent) {
-    // Uniquement pour les contextes asar isolés (paths vide) —
-    // dans tous les autres cas, Node gère globalPaths lui-même, on ne touche à rien.
+    // Uniquement pour les contextes asar isolÃ©s (paths vide) â€”
+    // dans tous les autres cas, Node gÃ¨re globalPaths lui-mÃªme, on ne touche Ã  rien.
     if (parent && (!parent.paths || parent.paths.length === 0)) {
         parent.paths = _globalPathsArr.slice();
     }
@@ -348,7 +348,7 @@ Module._resolveLookupPaths = function (request, parent) {
 };
 
 // Chercher discord_desktop_core dans cet ordre :
-// 1. modules bundlés (portable)
+// 1. modules bundlÃ©s (portable)
 // 2. modules natifs Discord local (AppData\Local\Discord\app-X\modules\)
 // 3. module_data Roaming (fallback)
 const coreModuleDir = path.join(bundledModulesPath, "discord_desktop_core-1", "discord_desktop_core");

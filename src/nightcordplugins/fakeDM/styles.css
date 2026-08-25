@@ -1,4 +1,4 @@
-/* ── FakeDM styles ── */
+﻿/* â”€â”€ FakeDM styles â”€â”€ */
 
 /* Fond semi-transparent */
 .fdm-backdrop {
@@ -13,10 +13,10 @@
     to   { opacity: 1; }
 }
 
-/* Panneau principal — position calculée par JS près du bouton */
+/* Panneau principal â€” position calculÃ©e par JS prÃ¨s du bouton */
 .fdm-panel {
     position: fixed;
-    /* left et top injectés inline par React */
+    /* left et top injectÃ©s inline par React */
     z-index: 9998;
     background: #2b2d31;
     border: 1px solid rgba(255,255,255,0.1);
@@ -63,7 +63,7 @@
 }
 .fdm-close:hover { color: #fff; }
 
-/* Sélecteur expéditeur */
+/* SÃ©lecteur expÃ©diteur */
 .fdm-sender-row {
     display: flex;
     gap: 6px;

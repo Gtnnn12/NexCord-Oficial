@@ -1,4 +1,4 @@
-import { IconProps } from "@utils/types";
+﻿import { IconProps } from "@utils/types";
 import { React } from "@webpack/common";
 
 export function LangIcon(props: IconProps) {

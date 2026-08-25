@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -6,7 +6,7 @@
 
 import { t } from "../autoTranslateNightcord";
 /*
- * NexCord – WorldBomb Assistant Plugin
+ * NexCord â€“ WorldBomb Assistant Plugin
  * Inspired by "cheat worldbomb" Python scripts.
  */
 
@@ -25,7 +25,7 @@ const TrophyIcon = (props: any) => (
 export default definePlugin({
     name: "WordBomb",
     enabledByDefault: false,
-    description: "Assistant BombParty/WordBomb avec overlay persistant, IA intégrée et alphabet track.",
+    description: "Assistant BombParty/WordBomb avec overlay persistant, IA intÃ©grÃ©e et alphabet track.",
     authors: [{ name: "NexCord",
      id: 0n }],
     dependencies: ["HeaderBarAPI"],

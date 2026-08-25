@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -184,7 +184,7 @@ function ExcludedPluginsList({ search }: { search: string; }) {
 
 import { SearchStatus, TUTORIAL_CACHE } from "./components/Common";
 
-// Fallback select natif si le composant Discord n'est pas trouvé
+// Fallback select natif si le composant Discord n'est pas trouvÃ©
 function NativeSelect({ options, select, isSelected }: any) {
     const currentVal = options.find((o: any) => isSelected(o.value))?.value ?? options.find((o: any) => o.default)?.value ?? options[0]?.value;
     return (
@@ -235,7 +235,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
         };
     }, []);
 
-    // Static list — no fetch, no CORS issues.
+    // Static list â€” no fetch, no CORS issues.
     // Also populate TUTORIAL_CACHE so the SearchStatus.TUTORIAL filter works.
     const tutorialPlugins = useMemo(() => {
         for (const name of Object.values(Plugins).map(p => p.name).filter(Boolean)) {
@@ -459,7 +459,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
 
     const handleRestartNeeded = useCallback((name: string, key: string) => changes.handleChange(`${name}:${key}`), [changes]);
 
-    // Only filter/categorize plugin DATA here — no JSX created yet
+    // Only filter/categorize plugin DATA here â€” no JSX created yet
         const { nightcordData, othersData, requiredData } = useMemo(() => {
         const nightcordData: typeof sortedPlugins = [];
         const othersData: typeof sortedPlugins = [];
@@ -485,7 +485,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                 }
             }
         }
-        // Toujours trier par nombre de likes décroissant, mais forcer AutoCallRecorder en premier
+        // Toujours trier par nombre de likes dÃ©croissant, mais forcer AutoCallRecorder en premier
         const byLikes = (a: typeof sortedPlugins[number], b: typeof sortedPlugins[number]) => {
             if (a.name === "AutoCallRecorder") return -1;
             if (b.name === "AutoCallRecorder") return 1;
@@ -555,7 +555,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
             for (const pluginName in Plugins) {
                 const plugin = Plugins[pluginName];
 
-                // Les plugins APIs ne peuvent pas être configurés directement
+                // Les plugins APIs ne peuvent pas Ãªtre configurÃ©s directement
                 if (pluginName.endsWith("API")) continue;
 
                 const shouldBeEnabled = Boolean(plugin.required) || Boolean(plugin.enabledByDefault);
@@ -859,7 +859,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, padding: "8px 0" }}>
                                 <UserPluginsTabIcon />
                                 <span style={{ color: "var(--header-primary)", fontWeight: 600, fontSize: 14 }}>
-                                    {t("User Plugins — from your local folder")}
+                                    {t("User Plugins â€” from your local folder")}
                                 </span>
                             </div>
                             <div style={{
@@ -874,7 +874,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                                 alignItems: "center",
                                 gap: 10
                             }}>
-                                <span style={{ fontSize: 18 }}>ℹ️</span>
+                                <span style={{ fontSize: 18 }}>â„¹ï¸</span>
                                 <div>
                                     {t("Note: User plugins require installing the client via a local build, not from the website installer.")}
                                 </div>
@@ -885,7 +885,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                                 </div>
                             ) : (
                                 <div style={{ textAlign: "center", padding: "48px 16px", color: "var(--text-muted)" }}>
-                                    <div style={{ fontSize: 32, marginBottom: 12 }}>📁</div>
+                                    <div style={{ fontSize: 32, marginBottom: 12 }}>ðŸ“</div>
                                     <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 8 }}>{t("No user plugins found")}</div>
                                     <div style={{ fontSize: 13 }}>{t("Add .tsx files to your")} <code>Documents/Nightcord/userplugins/</code> {t("folder and rebuild with a local build.")}</div>
                                 </div>
@@ -922,7 +922,7 @@ export default function PluginSettings({ premiumOnly = false }: PluginSettingsPr
                             ref={sentinelRef}
                             style={{ height: 40, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: 13 }}
                         >
-                            {t("Loading more plugins…")}
+                            {t("Loading more pluginsâ€¦")}
                         </div>
                     )}
                 </>

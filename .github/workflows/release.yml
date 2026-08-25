@@ -1,12 +1,12 @@
-name: Build & Release Nightcord
+﻿name: Build & Release Nightcord
 
 on:
   push:
     tags:
-      - "v*"          # déclenché sur : git tag v1.0.0 && git push --tags
+      - "v*"          # dÃ©clenchÃ© sur : git tag v1.0.0 && git push --tags
 
 permissions:
-  contents: write    # nécessaire pour créer la GitHub Release
+  contents: write    # nÃ©cessaire pour crÃ©er la GitHub Release
 
 jobs:
   build:
@@ -44,13 +44,13 @@ jobs:
       - name: Package nightcord-dist.zip
         shell: pwsh
         run: |
-          # nightcord-dist.zip — structure attendue par l'installeur (Program.cs EnsureDistAsync) :
+          # nightcord-dist.zip â€” structure attendue par l'installeur (Program.cs EnsureDistAsync) :
           # la racine du zip = _distDir (%LOCALAPPDATA%\Nightcord\dist\)
-          # => patcher.js DOIT être à la racine, pas dans un sous-dossier dist\desktop\
+          # => patcher.js DOIT Ãªtre Ã  la racine, pas dans un sous-dossier dist\desktop\
           $staging = "nightcord-dist-staging"
           New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
-          # Fichiers JS compilés : on copie le CONTENU de dist\desktop\ à la racine du staging
+          # Fichiers JS compilÃ©s : on copie le CONTENU de dist\desktop\ Ã  la racine du staging
           # (patcher.js, renderer.js, preload.js, etc. directement accessibles)
           if (Test-Path "dist\desktop") {
             Copy-Item "dist\desktop\*" "$staging\" -Recurse -Force
@@ -74,9 +74,9 @@ jobs:
             if (Test-Path $f) { Copy-Item $f "$staging\" }
           }
 
-          # Sanity-check : patcher.js doit être à la racine
+          # Sanity-check : patcher.js doit Ãªtre Ã  la racine
           if (-not (Test-Path "$staging\patcher.js")) {
-            Write-Error "BUILD ERROR: patcher.js absent de la racine du staging — l'installeur ne pourra pas fonctionner."
+            Write-Error "BUILD ERROR: patcher.js absent de la racine du staging â€” l'installeur ne pourra pas fonctionner."
             exit 1
           }
 

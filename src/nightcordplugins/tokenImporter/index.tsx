@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -450,7 +450,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                         <div className="ti-bar">
                             <div className="ti-search-wrap">
                                 <input className="ti-search-input" placeholder={t("Search accounts...")} value={accountSearch} onChange={e => setAccountSearch(e.target.value)} />
-                                {accountSearch && <button className="ti-search-clear" onClick={() => setAccountSearch("")}>✕</button>}
+                                {accountSearch && <button className="ti-search-clear" onClick={() => setAccountSearch("")}>âœ•</button>}
                             </div>
                             <button className="ti-verify-btn" disabled={verifying} style={{ marginRight: 6, opacity: verifying ? 0.7 : 1, cursor: verifying ? "not-allowed" : "pointer" }} onClick={async () => {
                                 if (verifying) return;
@@ -492,7 +492,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                 <FolderIcon width={12} height={12} style={{ marginRight: 4 }} /> {t("Scan local Discords")}{verifying ? "..." : ""}
                             </button>
                             <button className="ti-verify-btn" style={{ marginRight: 6, opacity: copied ? 0.7 : 1 }} onClick={() => { copyMyToken(); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
-                                {copied ? t("Copied ✓") : t("My Token")}
+                                {copied ? t("Copied âœ“") : t("My Token")}
                             </button>
 
                             <button
@@ -518,7 +518,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                             </button>
                         </div>
                         {!loaded ? <div className="ti-empty" style={{ opacity: 0.5 }}>{t("Loading accounts...")}</div>
-                            : accounts.length === 0 ? <div className="ti-empty">{t("No accounts — add tokens via the tab above.")}</div>
+                            : accounts.length === 0 ? <div className="ti-empty">{t("No accounts â€” add tokens via the tab above.")}</div>
                                 : filteredAccounts.length === 0 ? <div className="ti-empty">{t("No accounts match your search.")}</div>
                                     : <div className="ti-list">
                                         {filteredAccounts.map(a => {
@@ -534,7 +534,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                                             {st === "invalid" && <span className="ti-st ti-st--bad"><CrossIcon /></span>}
                                                             {st === "checking" && <span className="ti-st ti-st--loading">...</span>}
                                                         </span>
-                                                        <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(a.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>••••••••••••••••••••••••</span>
+                                                        <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(a.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</span>
                                                     </div>
                                                     <div className="ti-row-actions">
                                                         <button className="ti-switch-btn" onClick={() => switchToAccount(a.token, a.id)}>{t("Switch")}</button>
@@ -593,7 +593,7 @@ function TokenModal({ rootProps }: { rootProps: any; }) {
                                                 : <div className="ti-avatar ti-avatar--ph">{r.status === "checking" ? "..." : "?"}</div>}
                                             <div className="ti-row-info">
                                                 {r.status === "valid" ? <span className="ti-username">{r.username}</span>
-                                                    : <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(r.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>{r.status === "checking" ? "Checking..." : "••••••••••••••••••••••••"}</span>}
+                                                    : <span className="ti-token-hidden" onClick={() => navigator.clipboard.writeText(r.token)} title={t("Copy token")} style={{ cursor: "pointer" }}>{r.status === "checking" ? "Checking..." : "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"}</span>}
                                             </div>
                                             <span className={`ti-badge ti-badge--${r.status === "rate_limited" || r.status === "error" ? "warn" : r.status === "valid" ? "valid" : "invalid"}`}>
                                                 {r.status === "valid" ? <CheckIcon /> : r.status === "checking" ? "..." : r.status === "rate_limited" ? "Slow" : r.status === "error" ? "!" : <CrossIcon />}

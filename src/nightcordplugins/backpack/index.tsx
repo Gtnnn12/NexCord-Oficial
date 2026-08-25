@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -16,7 +16,7 @@ import { ContextMenuApi,Menu, Popout, React, Tooltip, useEffect, useRef, useStat
 const STORE_KEY = "Backpack_packedButtons";
 
 
-// ─── Persistence ──────────────────────────────────────────────────────────────
+// â”€â”€â”€ Persistence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async function loadPacked(): Promise<string[]> {
     try { return (await DataStore.get<string[]>(STORE_KEY)) ?? []; }
@@ -39,7 +39,7 @@ async function unpackButton(id: string) {
     await savePacked([...BackpackedButtons]);
 }
 
-// ─── SVG Icons (Chevron Up = fermé, Chevron Down = ouvert) ──────────────────
+// â”€â”€â”€ SVG Icons (Chevron Up = fermÃ©, Chevron Down = ouvert) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function ChevronUpIcon(props: Record<string, any>) {
     const { width = 20, height = 20, ...rest } = props;
@@ -59,8 +59,8 @@ function ChevronDownIcon(props: Record<string, any>) {
     );
 }
 
-// ─── Backpack Popout (left-click) ────────────────────────────────────────────
-// Renders the actual components of the packed buttons — they work just like in the bar
+// â”€â”€â”€ Backpack Popout (left-click) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Renders the actual components of the packed buttons â€” they work just like in the bar
 
 const backpackListeners = (require("@api/ChatButtons") as any).backpackListeners as Set<() => void>;
 
@@ -103,7 +103,7 @@ function BackpackPopout({ chatBarProps, closePopout }: { chatBarProps: ChatBarPr
                             {...tooltipProps}
                             style={{ overflow: "visible" }}
                             onClick={e => {
-                                // Désactivation de la fermeture automatique pour permettre d'activer plusieurs plugins
+                                // DÃ©sactivation de la fermeture automatique pour permettre d'activer plusieurs plugins
                                 // closePopout();
                             }}
                         >
@@ -123,7 +123,7 @@ function BackpackPopout({ chatBarProps, closePopout }: { chatBarProps: ChatBarPr
     );
 }
 
-// ─── Context Menu (right-click) ────────────────────────────────────────────────
+// â”€â”€â”€ Context Menu (right-click) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function BackpackContextMenu() {
     const { available, packed } = useBackpack();
@@ -152,7 +152,7 @@ function BackpackContextMenu() {
     );
 }
 
-// ─── Chat Bar Button ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const BackpackChatBarButton: ChatBarButtonFactory = props => {
     const { isMainChat, ...chatBarProps } = props;
@@ -162,16 +162,16 @@ const BackpackChatBarButton: ChatBarButtonFactory = props => {
     // Compte le nombre de popups/modals ouverts AU-DESSUS du backpack
     const overlayCount = useRef(0);
 
-    // Observe TOUT ce qui apparaît dans le DOM layer de Discord
-    // Discord rend ses modals/popups dans des containers spéciaux hors du popout
+    // Observe TOUT ce qui apparaÃ®t dans le DOM layer de Discord
+    // Discord rend ses modals/popups dans des containers spÃ©ciaux hors du popout
     useEffect(() => {
         if (!isOpen) {
             overlayCount.current = 0;
             return;
         }
 
-        // Snapshot des enfants de body au moment où le backpack s'ouvre
-        // Tout nouvel enfant qui apparaît ensuite = portal/popup = on bloque la fermeture
+        // Snapshot des enfants de body au moment oÃ¹ le backpack s'ouvre
+        // Tout nouvel enfant qui apparaÃ®t ensuite = portal/popup = on bloque la fermeture
         const bodyChildrenAtOpen = new Set(Array.from(document.body.children));
 
         function looksLikeOverlay(node: HTMLElement): boolean {
@@ -182,7 +182,7 @@ const BackpackChatBarButton: ChatBarButtonFactory = props => {
             return ["layerContainer", "focusLock", "backdrop", "modal"].some(p => cls.includes(p));
         }
 
-        // Observer les enfants directs de document.body (c'est là que Discord insère ses portals)
+        // Observer les enfants directs de document.body (c'est lÃ  que Discord insÃ¨re ses portals)
         const observer = new MutationObserver(mutations => {
             for (const m of mutations) {
                 for (const node of Array.from(m.addedNodes)) {
@@ -269,7 +269,7 @@ async function isExistingUser(): Promise<boolean> {
     return false;
 }
 
-// ─── Plugin Definition ────────────────────────────────────────────────────────
+// â”€â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "Backpack",

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -113,8 +113,8 @@ function UpdateLogCard({
                             {isRepositoryFetch
                                 ? isUpToDate
                                     ? `Repository check: ${log.fromHash.slice(0, 7)} (up to date)`
-                                    : `Repository check: ${log.fromHash.slice(0, 7)} → ${log.toHash.slice(0, 7)}`
-                                : `Update: ${log.fromHash.slice(0, 7)} → ${log.toHash.slice(0, 7)}`}
+                                    : `Repository check: ${log.fromHash.slice(0, 7)} â†’ ${log.toHash.slice(0, 7)}`
+                                : `Update: ${log.fromHash.slice(0, 7)} â†’ ${log.toHash.slice(0, 7)}`}
                         </span>
                         <Button
                             size="min"
@@ -140,21 +140,21 @@ function UpdateLogCard({
                     <div className="vc-changelog-log-meta">
                         {formatTimestamp(log.timestamp)}
                         {log.commits.length > 0 &&
-                            ` • ${log.commits.length} commits available`}
-                        {log.commits.length === 0 && " • No new commits"}
+                            ` â€¢ ${log.commits.length} commits available`}
+                        {log.commits.length === 0 && " â€¢ No new commits"}
                         {log.newPlugins.length > 0 &&
-                            ` • ${log.newPlugins.length} new plugins`}
+                            ` â€¢ ${log.newPlugins.length} new plugins`}
                         {log.updatedPlugins.length > 0 &&
-                            ` • ${log.updatedPlugins.length} updated plugins`}
+                            ` â€¢ ${log.updatedPlugins.length} updated plugins`}
                         {log.newSettings &&
                             getNewSettingsSize(log.newSettings) > 0 &&
-                            ` • ${getNewSettingsEntries(log.newSettings).reduce((sum, [, arr]) => sum + arr.length, 0)} new settings`}
+                            ` â€¢ ${getNewSettingsEntries(log.newSettings).reduce((sum, [, arr]) => sum + arr.length, 0)} new settings`}
                     </div>
                 </div>
                 <div
                     className={`vc-changelog-log-toggle ${isExpanded ? "expanded" : ""}`}
                 >
-                    ▼
+                    â–¼
                 </div>
             </div>
 

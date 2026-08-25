@@ -1,4 +1,4 @@
-.NexCord-official-banner {
+﻿.NexCord-official-banner {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -58,7 +58,7 @@
     width: 340px;
 }
 
-/* ─── Urgent Message Modal (Mana System System Alert Modal) ─────────────────── */
+/* â”€â”€â”€ Urgent Message Modal (Mana System System Alert Modal) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .NexCord-urgent-modal-root {
     background: transparent !important;

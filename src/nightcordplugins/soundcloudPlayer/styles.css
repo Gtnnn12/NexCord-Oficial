@@ -1,4 +1,4 @@
-/* ── SoundCord Player — Premium Full-Featured Music Station ── */
+﻿/* â”€â”€ SoundCord Player â€” Premium Full-Featured Music Station â”€â”€ */
 
 .sc-modal-root {
     max-width: 1260px !important;
@@ -77,7 +77,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     position: relative !important;
 }
 
-/* ── Header ──────────────────────────────────────────────────────────────── */
+/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-header {
     padding: 14px 20px;
@@ -162,7 +162,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     border-color: rgba(237, 66, 69, 0.3);
 }
 
-/* ── Settings Drawer ─────────────────────────────────────────────────────── */
+/* â”€â”€ Settings Drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-settings-drawer {
     padding: 10px 20px;
@@ -186,7 +186,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     white-space: nowrap;
 }
 
-/* ── Search Container ────────────────────────────────────────────────────── */
+/* â”€â”€ Search Container â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-search-container {
     padding: 16px 20px 8px;
@@ -269,7 +269,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     cursor: not-allowed;
 }
 
-/* ── Genre Pills ─────────────────────────────────────────────────────────── */
+/* â”€â”€ Genre Pills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-genre-pills {
     display: flex;
@@ -308,7 +308,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     border-color: transparent !important;
 }
 
-/* ── Tabs Row ────────────────────────────────────────────────────────────── */
+/* â”€â”€ Tabs Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-tabs-row {
     padding: 0 20px;
@@ -391,7 +391,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     background: rgba(237, 66, 69, 0.1);
 }
 
-/* ── Main Body ───────────────────────────────────────────────────────────── */
+/* â”€â”€ Main Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-main-body {
     flex: 1;
@@ -410,7 +410,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     border-radius: 3px;
 }
 
-/* ── Discover Grid ───────────────────────────────────────────────────────── */
+/* â”€â”€ Discover Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-discover-grid {
     display: grid;
@@ -471,7 +471,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     transform: scale(1.1);
 }
 
-/* ── Track List & Cards ──────────────────────────────────────────────────── */
+/* â”€â”€ Track List & Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-tracklist {
     display: flex;
@@ -679,7 +679,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     background: rgba(237, 66, 69, 0.1);
 }
 
-/* ── Empty State ─────────────────────────────────────────────────────────── */
+/* â”€â”€ Empty State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-empty-state {
     flex: 1;
@@ -705,7 +705,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     line-height: 1.4;
 }
 
-/* ── Home Screen ─────────────────────────────────────────────────────────── */
+/* â”€â”€ Home Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-home-screen {
     flex: 1;
@@ -879,7 +879,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     color: var(--status-danger, #ed4245);
 }
 
-/* ── Bottom Docked Player ────────────────────────────────────────────────── */
+/* â”€â”€ Bottom Docked Player â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-docked-player {
     background: #18191c;
@@ -1129,7 +1129,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     font-variant-numeric: tabular-nums;
 }
 
-/* ── Disabled / Inactive Buttons ─────────────────────────────────────────── */
+/* â”€â”€ Disabled / Inactive Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-dock-btn--disabled,
 .sc-tab-btn--disabled {
@@ -1151,7 +1151,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     50% { transform: scale(1.3); opacity: 1; }
 }
 
-/* ── Load More Button ────────────────────────────────────────────────────── */
+/* â”€â”€ Load More Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-load-more-row {
     display: flex;
@@ -1165,7 +1165,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     font-weight: 600 !important;
 }
 
-/* ── Paroles / Lyrics Split View ─────────────────────────────────────────── */
+/* â”€â”€ Paroles / Lyrics Split View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-lyrics-split-layout {
     display: flex;
@@ -1293,7 +1293,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     font-weight: 500;
 }
 
-/* ── Clickable Artist Names ─────────────────────────────────────────────── */
+/* â”€â”€ Clickable Artist Names â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-artist-name--clickable {
     cursor: pointer;
@@ -1305,7 +1305,7 @@ body:has(.sc-modal-root--fullscreen) [class*="layerContainer"] {
     text-decoration: underline !important;
 }
 
-/* ── Artist Profile Page View ───────────────────────────────────────────── */
+/* â”€â”€ Artist Profile Page View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .sc-artist-view {
     display: flex;

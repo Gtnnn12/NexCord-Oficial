@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -23,7 +23,7 @@ export async function changeHypeSquadHouse(houseId: number) {
             1: "Bravery",
             2: "Brilliance",
             3: "Balance",
-            0: isFr ? "Quitté / Aucune" : "Left / None"
+            0: isFr ? "QuittÃ© / Aucune" : "Left / None"
         };
 
         showToast(isFr ? "Changement de maison HypeSquad..." : "Updating HypeSquad house...", Toasts.Type.MESSAGE);
@@ -40,7 +40,7 @@ export async function changeHypeSquadHouse(houseId: number) {
             const TokenStore = (window as any).Vencord?.Webpack?.findByProps?.("getToken");
             const token = TokenStore?.getToken?.() || (window as any).localStorage?.token?.replace(/"/g, "");
             if (!token) {
-                showToast("Impossible de récupérer le token Discord", Toasts.Type.FAILURE);
+                showToast("Impossible de rÃ©cupÃ©rer le token Discord", Toasts.Type.FAILURE);
                 return;
             }
 
@@ -57,7 +57,7 @@ export async function changeHypeSquadHouse(houseId: number) {
         const isOk = res?.ok || res?.status === 204 || res?.status === 200 || (res?.body && !res?.body?.message);
         if (isOk) {
             showToast(
-                isFr ? `Maison HypeSquad mise à jour : ${houseNames[houseId] ?? houseId} !` : `HypeSquad House updated: ${houseNames[houseId] ?? houseId}!`,
+                isFr ? `Maison HypeSquad mise Ã  jour : ${houseNames[houseId] ?? houseId} !` : `HypeSquad House updated: ${houseNames[houseId] ?? houseId}!`,
                 Toasts.Type.SUCCESS
             );
             setTimeout(() => location.reload(), 600);

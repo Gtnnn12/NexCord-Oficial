@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -92,7 +92,7 @@ export function initNexCordTray(injectorPath: string) {
                 }
             });
 
-            console.log("[NexCord] Tray created ✓", iconPath ?? "(icon from exe)");
+            console.log("[NexCord] Tray created âœ“", iconPath ?? "(icon from exe)");
         } catch (e) {
             console.error("[NexCord] Failed to create tray:", e);
         }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -28,7 +28,7 @@ const DISCORD_KT_DELAY = 1471228928;
 
 export default definePlugin({
     name: "MessageLatency",
-    description: "Displays an indicator for messages that took ≥n seconds to send",
+    description: "Displays an indicator for messages that took â‰¥n seconds to send",
     tags: ["Chat", "Utility"],
     authors: [Devs.arHSM],
 

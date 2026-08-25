@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 import { readFileSync } from "fs";
 
 const content = readFileSync("src/nightcordplugins/autoTranslateNightcord/index.ts", "utf8");

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -54,7 +54,7 @@ function getMediaFromMessage(message: Message): MediaItem[] {
     if (!message) return media;
     const rawMsg = message as any;
 
-    // Attachments — use proxy_url (works without auth, no CORS issues)
+    // Attachments â€” use proxy_url (works without auth, no CORS issues)
     if (message.attachments && Array.isArray(message.attachments)) {
         for (const attachment of message.attachments) {
             const url = attachment.proxy_url || attachment.url;
@@ -67,11 +67,11 @@ function getMediaFromMessage(message: Message): MediaItem[] {
         }
     }
 
-    // Embeds — images, videos (proxy_url only — no CORS)
+    // Embeds â€” images, videos (proxy_url only â€” no CORS)
     if (message.embeds && Array.isArray(message.embeds)) {
         let embedIndex = 0;
         for (const embed of message.embeds) {
-            // Image embed — use proxy_url (works for external images via Discord proxy)
+            // Image embed â€” use proxy_url (works for external images via Discord proxy)
             if (embed.image) {
                 const url = embed.image.proxy_url || embed.image.url;
                 if (url && !seenUrls.has(url)) {
@@ -83,7 +83,7 @@ function getMediaFromMessage(message: Message): MediaItem[] {
                 }
             }
 
-            // Video embed — only if Discord provides proxy_url (skips YouTube etc.)
+            // Video embed â€” only if Discord provides proxy_url (skips YouTube etc.)
             if (embed.video) {
                 const url = embed.video.proxy_url;
                 if (url && !seenUrls.has(url)) {
@@ -220,7 +220,7 @@ async function downloadMedia(media: MediaItem[]) {
         return;
     }
 
-    // Use Electron native dialog — works in servers, DMs, and group DMs
+    // Use Electron native dialog â€” works in servers, DMs, and group DMs
     const dir = await Native.pickDirectory();
     if (!dir) return; // user cancelled
 
@@ -242,7 +242,7 @@ async function downloadMedia(media: MediaItem[]) {
 
     const tasks = media.map(v => ({ url: v.url, filename: uniqueName(v.filename) }));
 
-    showToast(`Downloading ${total} file(s)…`, Toasts.Type.MESSAGE);
+    showToast(`Downloading ${total} file(s)â€¦`, Toasts.Type.MESSAGE);
 
     for (let i = 0; i < tasks.length; i++) {
         const { url, filename } = tasks[i];
@@ -258,9 +258,9 @@ async function downloadMedia(media: MediaItem[]) {
     }
 
     if (failed === 0) {
-        showToast(`✅ Done! Saved ${succeeded} file(s).`, Toasts.Type.SUCCESS);
+        showToast(`âœ… Done! Saved ${succeeded} file(s).`, Toasts.Type.SUCCESS);
     } else {
-        showToast(`⚠️ Done! Saved ${succeeded} / ${total}. ${failed} failed.`, Toasts.Type.SUCCESS);
+        showToast(`âš ï¸ Done! Saved ${succeeded} / ${total}. ${failed} failed.`, Toasts.Type.SUCCESS);
     }
 }
 

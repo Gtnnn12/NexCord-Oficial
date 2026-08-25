@@ -1,4 +1,4 @@
-import { t } from "../../autoTranslateNightcord";
+﻿import { t } from "../../autoTranslateNightcord";
 /*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
@@ -382,14 +382,14 @@ const EventDetailsModal = ErrorBoundary.wrap(function EventDetailsModal({ event,
                         <div className={cl("modal-grid")}>
                             <DetailField label={t("Summary")} value={event.details} wide={true} preserve={true} />
                             {((event.type === "message" || event.type === "message_delete") && !event.content && !settings.store.captureMessageContent) ? (
-                                <DetailField label={t("Message Content")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est désactivée dans les paramètres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
+                                <DetailField label={t("Message Content")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est dÃ©sactivÃ©e dans les paramÃ¨tres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
                             ) : (
                                 <DetailField label={t("Message Content")} value={event.content} wide={true} preserve={true} />
                             )}
                             {(event.type === "message_edit" && !event.before && !event.after && !settings.store.captureMessageContent) ? (
                                 <>
-                                    <DetailField label={t("Before")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est désactivée dans les paramètres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
-                                    <DetailField label={t("After")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est désactivée dans les paramètres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
+                                    <DetailField label={t("Before")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est dÃ©sactivÃ©e dans les paramÃ¨tres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
+                                    <DetailField label={t("After")} value={(document.documentElement.lang || "en-US").startsWith("fr") ? "[La capture du contenu des messages est dÃ©sactivÃ©e dans les paramÃ¨tres de Surveillance]" : "[Message content capture is disabled in Surveillance settings]"} wide={true} preserve={true} />
                                 </>
                             ) : (
                                 <>

@@ -1,4 +1,4 @@
-import { FluxStore, Guild, Role } from "..";
+﻿import { FluxStore, Guild, Role } from "..";
 
 export class GuildRoleStore extends FluxStore {
     getRolesSnapshot(guildId: string): Record<string, Role>;

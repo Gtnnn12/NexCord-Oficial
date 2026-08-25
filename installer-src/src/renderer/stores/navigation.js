@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+﻿import {writable} from "svelte/store";
 
 export const state = {direction: 1};
 export const hasLoaded = writable(false);

@@ -1,4 +1,4 @@
-import logs from "../../stores/logs";
+﻿import logs from "../../stores/logs";
 import {progress, status} from "../../stores/installation";
 
 export default async function reset() {

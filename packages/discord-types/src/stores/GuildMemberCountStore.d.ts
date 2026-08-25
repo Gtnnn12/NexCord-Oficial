@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export class GuildMemberCountStore extends FluxStore {
     getMemberCounts(): Record<string, number>;

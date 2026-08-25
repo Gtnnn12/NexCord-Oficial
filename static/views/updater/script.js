@@ -1,4 +1,4 @@
-const { update, version: currentVersion } = await VesktopUpdaterNative.getData();
+﻿const { update, version: currentVersion } = await VesktopUpdaterNative.getData();
 
 document.getElementById("current-version").textContent = currentVersion;
 document.getElementById("new-version").textContent = update.version;

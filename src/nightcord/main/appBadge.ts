@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -60,7 +60,7 @@ export function setBadgeCount(count: number, targetWin: BrowserWindow = mainWin)
                     app.dock!.setBadge("");
                     break;
                 }
-                app.dock!.setBadge(count === -1 ? "•" : count.toString());
+                app.dock!.setBadge(count === -1 ? "â€¢" : count.toString());
             }
             break;
         case "win32": {

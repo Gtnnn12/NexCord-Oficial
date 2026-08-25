@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -14,15 +14,15 @@ import { t } from "../autoTranslateNightcord";
 
 const DS_KEY = "FakeFriends_state";
 
-// fakeState is in memory only — does NOT persist across restarts
+// fakeState is in memory only â€” does NOT persist across restarts
 const fakeState = new Map<string, "pending" | "accepted">();
 
 async function persistState() {
-    // No persistence — fakeState reset on restart intentionally
+    // No persistence â€” fakeState reset on restart intentionally
 }
 
 async function loadState() {
-    // No loading at startup — fakeState starts empty
+    // No loading at startup â€” fakeState starts empty
 }
 
 const FAKE_DM_PHRASES = [
@@ -37,7 +37,7 @@ const FAKE_DM_PHRASES = [
     "hey, cool nickname", "hi, do you stream?", "yo, we follow each other?",
 ];
 
-// ── Patch RelationshipStore ────────────────────────────────────────────────────
+// â”€â”€ Patch RelationshipStore â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let origGetRelType: Function | null = null;
 let origIsFriend: Function | null = null;
 let origGetFriendIDs: Function | null = null;
@@ -90,7 +90,7 @@ function unpatchStore() {
     if (origGetMutable) { store.getMutableRelationships = origGetMutable; origGetMutable = null; }
 }
 
-// ── Patch acceptFriend ─────────────────────────────────────────────────────────
+// â”€â”€ Patch acceptFriend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let origAccept: Function | null = null;
 
 function patchAcceptFriend() {
@@ -122,7 +122,7 @@ function unpatchAcceptFriend() {
     } catch { }
 }
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function makeUserPayload(user: any) {
     const bot = isBot(user);
     return {
@@ -178,7 +178,7 @@ async function addPendingRequest(user: any) {
     });
 }
 
-// ── Reapplying fakeStates at startup ──────────────────────────────────
+// â”€â”€ Reapplying fakeStates at startup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // After reload, we redispatch all saved states
 async function reapplyFakeStates() {
     for (const [userId, state] of fakeState) {
@@ -207,7 +207,7 @@ async function reapplyFakeStates() {
     }
 }
 
-// ── Fake DM ────────────────────────────────────────────────────────────────────
+// â”€â”€ Fake DM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function getChannelClass(): any {
     try {
@@ -426,7 +426,7 @@ async function doFakeFriendRequest(userId: string) {
     await addPendingRequest(user);
 }
 
-// ── Modal React pour saisir un nombre ─────────────────────────────────────────────
+// â”€â”€ Modal React pour saisir un nombre â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function askCount(title: string, max: number): Promise<number | null> {
     return new Promise(resolve => {
         const resolveRef = { current: resolve, done: false };
@@ -520,7 +520,7 @@ function askCount(title: string, max: number): Promise<number | null> {
     });
 }
 
-// ── Candidats d'un serveur ────────────────────────────────────────────────────
+// â”€â”€ Candidats d'un serveur â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function fetchAllGuildMembers(guildId: string): Promise<void> {
     const queries = [
         ..."abcdefghijklmnopqrstuvwxyz0123456789".split(""),
@@ -560,7 +560,7 @@ function getGuildCandidates(guildId: string): string[] {
     });
 }
 
-// ── Fake Friend Request avec saisie du nombre ─────────────────────────────────
+// â”€â”€ Fake Friend Request avec saisie du nombre â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function floodGuild(guildId: string) {
     Toasts.show({ message: t("Loading members..."), type: Toasts.Type.MESSAGE, id: "ff-loading" });
     await fetchAllGuildMembers(guildId);
@@ -593,7 +593,7 @@ async function floodGuild(guildId: string) {
     Toasts.show({ message: t("{count} fake friend request(s) sent!").replace("{count}", sent.toString()), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
-// ── Remove fake requests pour un serveur ──────────────────────────────────────
+// â”€â”€ Remove fake requests pour un serveur â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function removeFakeFriendsForGuild(guildId: string) {
     const memberIds = new Set<string>(GuildMemberStore.getMemberIds(guildId) as string[]);
     const toRemove = [...fakeState.keys()].filter(id => memberIds.has(id));
@@ -617,7 +617,7 @@ async function removeFakeFriendsForGuild(guildId: string) {
     Toasts.show({ message: t("{count} fake request(s) removed!").replace("{count}", toRemove.length.toString()), type: Toasts.Type.SUCCESS, id: Toasts.genId() });
 }
 
-// ── Fake Message Request ─────────────────────────────────────────────────────
+// â”€â”€ Fake Message Request â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function fakeMessageRequestGuild(guildId: string) {
     const candidates = getGuildCandidates(guildId);
     if (!candidates.length) {
@@ -788,7 +788,7 @@ async function sendIncomingMessageRequest(user: any) {
     });
 }
 
-// ── Context menus ──────────────────────────────────────────────────────────────
+// â”€â”€ Context menus â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const userContextPatch: NavContextMenuPatchCallback = (children, props) => {
     if (!children || !Array.isArray(children)) return;
     try {
@@ -856,7 +856,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, props) => {
                 action={() => floodGuild(guildId)} />
         ];
 
-        // Bouton "Remove fake friend requests" — visible seulement si des fakes existent pour ce serveur
+        // Bouton "Remove fake friend requests" â€” visible seulement si des fakes existent pour ce serveur
         if (fakeCount > 0) {
             items.push(
                 <Menu.MenuItem
@@ -878,7 +878,7 @@ const guildContextPatch: NavContextMenuPatchCallback = (children, props) => {
     }
 };
 
-// ── Plugin ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default definePlugin({
     name: "FakeFriends",
     enabledByDefault: false,
@@ -895,10 +895,10 @@ export default definePlugin({
         addContextMenuPatch("user-context", userContextPatch);
         addContextMenuPatch("guild-context", guildContextPatch);
 
-        // Charger l'état persistant puis réappliquer les dispatches
+        // Charger l'Ã©tat persistant puis rÃ©appliquer les dispatches
         await loadState();
         if (fakeState.size > 0) {
-            // Délai pour laisser Discord se charger complètement
+            // DÃ©lai pour laisser Discord se charger complÃ¨tement
             setTimeout(() => reapplyFakeStates(), 3000);
         }
     },
@@ -907,7 +907,7 @@ export default definePlugin({
         removeContextMenuPatch("user-context", userContextPatch);
         removeContextMenuPatch("guild-context", guildContextPatch);
         unpatchAcceptFriend();
-        // On ne clear pas fakeState au stop — persistant intentionnellement
+        // On ne clear pas fakeState au stop â€” persistant intentionnellement
         // Pour reset : clic Reset dans le plugin ou "Remove fake friend requests"
         unpatchStore();
         unpatchChannelStore();

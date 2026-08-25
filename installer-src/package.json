@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "nightcord-installer",
   "productName": "Nightcord Installer",
   "description": "A simple standalone program which automates the installation, removal and maintenance of Nightcord.",
@@ -36,7 +36,7 @@
   "build": {
     "appId": "app.nightcord.installer",
     "productName": "Nightcord",
-    "copyright": "Copyright © 2026 Nightcord",
+    "copyright": "Copyright Â© 2026 Nightcord",
     "directories": {
       "output": "../release/installer"
     },

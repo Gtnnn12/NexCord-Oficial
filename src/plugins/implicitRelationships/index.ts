@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2023 Vendicated and contributors
  *
@@ -46,7 +46,7 @@ export default definePlugin({
             find: "#{intl::FRIENDS_ALL_HEADER}",
             replacement: {
                 match: /toString\(\)\}\);case (\i\.\i)\.PENDING/,
-                replace: 'toString()});case $1.IMPLICIT:return "Implicit — "+arguments[1];case $1.BLOCKED'
+                replace: 'toString()});case $1.IMPLICIT:return "Implicit â€” "+arguments[1];case $1.BLOCKED'
             },
         },
         // No friends page

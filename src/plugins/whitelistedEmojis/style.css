@@ -1,4 +1,4 @@
-.emoji-container {
+﻿.emoji-container {
     display: grid;
     gap: 10px;
     background-color: var(--background-secondary-alt);

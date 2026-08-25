@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,7 +25,7 @@ export async function pickDirectory(_event: IpcMainInvokeEvent): Promise<string 
 
 /**
  * Downloads a single file from `url` and saves it as `filename` inside `dir`.
- * Runs in main process — no CORS/CSP restrictions.
+ * Runs in main process â€” no CORS/CSP restrictions.
  */
 export async function downloadFile(
     _event: IpcMainInvokeEvent,

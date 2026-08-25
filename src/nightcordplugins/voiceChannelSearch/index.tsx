@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,12 +25,12 @@ interface VoiceChannel {
     guildIcon: string | null;
     memberCount: number;
     canAccess: boolean; // false = channel visible but no permission to join
-    // Pre-built unique search index: "channel name · server name"
+    // Pre-built unique search index: "channel name Â· server name"
     searchIndex: string;
     memberIds?: string[];
 }
 
-// Scan cache — avoids rescanning if done recently
+// Scan cache â€” avoids rescanning if done recently
 let scanCache: VoiceChannel[] | null = null;
 let scanCacheAt = 0;
 const SCAN_TTL = 10000; // 10s de cache
@@ -73,7 +73,7 @@ async function scan(): Promise<VoiceChannel[]> {
 
                     const allChannels = GuildChannelStore.getChannels?.(guildId) ?? {};
 
-                    // Collect ALL items from ALL keys — don't assume the key names
+                    // Collect ALL items from ALL keys â€” don't assume the key names
                     const seen = new Set<string>();
                     for (const key of Object.keys(allChannels)) {
                         const arr = allChannels[key];
@@ -165,7 +165,7 @@ function VoiceSearchModal({ rootProps, channels }: { rootProps: any; channels: V
         setJoiningId(ch.channelId);
         try {
             ChannelActions.selectVoiceChannel(ch.channelId);
-            // Petit délai pour l'effet visuel avant de fermer
+            // Petit dÃ©lai pour l'effet visuel avant de fermer
             await new Promise(r => setTimeout(r, 400));
         } catch { }
         setJoiningId(null);
@@ -223,7 +223,7 @@ function VoiceSearchModal({ rootProps, channels }: { rootProps: any; channels: V
                                     <span className="vcs-icon">
                                         {ch.canAccess
                                             ? (ch.channelType === 13 ? <StageIcon /> : <VoiceIcon />)
-                                            : <span style={{ opacity: 0.5, fontSize: 13 }}>🔒</span>
+                                            : <span style={{ opacity: 0.5, fontSize: 13 }}>ðŸ”’</span>
                                         }
                                     </span>
                                     <div className="vcs-info">
@@ -233,7 +233,7 @@ function VoiceSearchModal({ rootProps, channels }: { rootProps: any; channels: V
                                             <span className="vcs-guild-name">{ch.guildName}</span>
                                             {ch.memberCount > 0 && (
                                                 <div className="vcs-members-info">
-                                                    <span className="vcs-members-count"> · {ch.memberCount}</span>
+                                                    <span className="vcs-members-count"> Â· {ch.memberCount}</span>
                                                     <div className="vcs-member-avatars">
                                                         {ch.memberIds?.map((uId: string) => {
                                                             const user = UserStore.getUser(uId);
@@ -256,7 +256,7 @@ function VoiceSearchModal({ rootProps, channels }: { rootProps: any; channels: V
                             ))}
                             {displayList!.length > 80 && !query && (
                                 <div className="vcs-empty" style={{ fontSize: 11, opacity: 0.5 }}>
-                                    {displayList!.length - 80} {t("more channels — use search")}
+                                    {displayList!.length - 80} {t("more channels â€” use search")}
                                 </div>
                             )}
                         </div>

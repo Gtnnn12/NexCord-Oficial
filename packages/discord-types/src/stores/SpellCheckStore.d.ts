@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 
 export class SpellCheckStore extends FluxStore {
     hasLearnedWord(word: string): boolean;

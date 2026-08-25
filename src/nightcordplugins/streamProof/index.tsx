@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -106,7 +106,7 @@ function disableStreamProof() {
     });
 }
 
-// ── Eye Icons ──────────────────────────────────────────────────────────────────
+// â”€â”€ Eye Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function EyeIcon({ height = 20, width = 20 }: { height?: number; width?: number; }) {
     return (
@@ -146,7 +146,7 @@ function EyeSlashIcon({ height = 20, width = 20 }: { height?: number; width?: nu
     );
 }
 
-// ── Chat Bar Button ────────────────────────────────────────────────────────────
+// â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
     useStateFromStores([StreamerModeStore, StreamStore, RTCConnectionStore], () => isStreaming());
@@ -165,8 +165,8 @@ const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
 
     const active = streamProofActive;
     const tooltip = active
-        ? t("StreamProof : ON — click to disable")
-        : t("StreamProof : OFF — click to enable");
+        ? t("StreamProof : ON â€” click to disable")
+        : t("StreamProof : OFF â€” click to enable");
 
     return (
         <ChatBarButton tooltip={tooltip} onClick={toggle}>
@@ -177,7 +177,7 @@ const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
     );
 };
 
-// ── Plugin ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "StreamProof",

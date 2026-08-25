@@ -1,4 +1,4 @@
-export const API_BASE = "https://api.NexCord.st";
+﻿export const API_BASE = "https://api.NexCord.st";
 
 import * as DataStore from "./DataStore";
 

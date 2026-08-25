@@ -1,4 +1,4 @@
-import LoadingPage from "./pages/Loading.svelte";
+﻿import LoadingPage from "./pages/Loading.svelte";
 import LicensePage from "./pages/License.svelte";
 import ActionsPage from "./pages/Actions.svelte";
 import PlatformsPage from "./pages/Platforms.svelte";

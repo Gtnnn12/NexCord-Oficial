@@ -1,4 +1,4 @@
-/* eslint-disable simple-header/header */
+﻿/* eslint-disable simple-header/header */
 
 /*!
  * idb-keyval v6.2.0
@@ -87,7 +87,7 @@ export function set(
 
 /**
  * Set multiple values at once. This is faster than calling set() multiple times.
- * It's also atomic – if one of the pairs can't be added, none will be added.
+ * It's also atomic â€“ if one of the pairs can't be added, none will be added.
  *
  * @param entries Array of entries, where each entry is an array of `[key, value]`.
  * @param customStore Method to get a custom store. Use with caution (see the docs).

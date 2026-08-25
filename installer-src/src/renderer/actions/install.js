@@ -1,4 +1,4 @@
-import {progress, status} from "../stores/installation";
+﻿import {progress, status} from "../stores/installation";
 import {remote} from "electron";
 import {promises as fs} from "fs";
 import {createWriteStream} from "fs";
@@ -182,8 +182,8 @@ async function downloadDist() {
         progress.set(FETCH_RELEASE_PROGRESS);
     }
     catch (error) {
-        log(`❌ Failed to query release API at ${RELEASE_API}`);
-        log(`❌ ${error.message}`);
+        log(`âŒ Failed to query release API at ${RELEASE_API}`);
+        log(`âŒ ${error.message}`);
         throw error;
     }
 
@@ -197,12 +197,12 @@ async function downloadDist() {
             progress.set(overall);
             status.set(`Downloading Nightcord... (${dlMB}/${totalMB} MB)`);
         });
-        log("✅ Package downloaded successfully");
+        log("âœ… Package downloaded successfully");
         progress.set(DOWNLOAD_PACKAGE_PROGRESS);
     }
     catch (error) {
-        log(`❌ Failed to download package from ${assetUrl}`);
-        log(`❌ ${error.message}`);
+        log(`âŒ Failed to download package from ${assetUrl}`);
+        log(`âŒ ${error.message}`);
         throw error;
     }
 
@@ -212,14 +212,14 @@ async function downloadDist() {
         await fs.mkdir(distDir, { recursive: true });
         
         execSync(`powershell.exe -NoProfile -Command "Expand-Archive -Path '${tmpZip}' -DestinationPath '${distDir}' -Force"`);
-        log("✅ Package extracted successfully");
+        log("âœ… Package extracted successfully");
         progress.set(EXTRACTION_PROGRESS);
         
         await safeDelete(tmpZip);
     }
     catch (error) {
-        log("❌ Failed to extract package");
-        log(`❌ ${error.message}`);
+        log("âŒ Failed to extract package");
+        log(`âŒ ${error.message}`);
         throw error;
     }
 }
@@ -246,9 +246,9 @@ async function applyDefaultPluginsSetting() {
     try {
         const settingsDir = path.join(process.env.APPDATA, "Nightcord", "settings");
         await fs.mkdir(settingsDir, { recursive: true });
-        log("✅ Plugin settings preserved");
+        log("âœ… Plugin settings preserved");
     } catch (err) {
-        log(`⚠️ Could not verify plugin settings: ${err.message}`);
+        log(`âš ï¸ Could not verify plugin settings: ${err.message}`);
     }
 }
 
@@ -354,12 +354,12 @@ async function injectShims(paths) {
             log("4. Starting Discord...");
             startDiscord(resPath);
 
-            log("✅ Injection successful!");
+            log("âœ… Injection successful!");
             progress.set(progress.value + progressPerLoop);
         }
         catch (err) {
-            log(`❌ Could not inject into ${resPath}`);
-            log(`❌ ${err.message}`);
+            log(`âŒ Could not inject into ${resPath}`);
+            log(`âŒ ${err.message}`);
             return err;
         }
     }
@@ -372,13 +372,13 @@ export default async function(paths) {
         const localAppData = process.env.LOCALAPPDATA;
         if (!localAppData) throw new Error("LOCALAPPDATA environment variable is missing.");
         await fs.mkdir(path.join(localAppData, "Nightcord"), { recursive: true });
-        log("✅ Local AppData directory prepared");
+        log("âœ… Local AppData directory prepared");
         progress.set(MAKE_DIR_PROGRESS);
         lognewline("Downloading Nightcord package...");
         const distLocal = path.join(__dirname, "dist", "patcher.js");
         const hasLocalDist = await safeExists(distLocal);
         if (hasLocalDist) {
-            log("✅ Using local dist folder");
+            log("âœ… Using local dist folder");
         } else {
             await downloadDist();
         }
@@ -391,8 +391,8 @@ export default async function(paths) {
         lognewline("Install complete!");
         return true;
     } catch (err) {
-        lognewline("❌ Installation failed");
-        log(`❌ ${err.message}`);
+        lognewline("âŒ Installation failed");
+        log(`âŒ ${err.message}`);
         return false;
     }
 }

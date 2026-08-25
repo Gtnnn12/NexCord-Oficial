@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -67,13 +67,13 @@ export function removeProfileBadge(badge: ProfileBadge) {
  * You probably don't need to use this.
  */
 export function _getBadges(args: BadgeUserArgs) {
-    // ── Stealth Mode Bypass ──
+    // â”€â”€ Stealth Mode Bypass â”€â”€
     try {
         const { isStealthModeEnabled } = require("./HeaderBar");
         if (isStealthModeEnabled()) return [];
     } catch { }
 
-    // ── Hidden badge sources (per-profile, synced via cloud) ──
+    // â”€â”€ Hidden badge sources (per-profile, synced via cloud) â”€â”€
     const hiddenSources = getHiddenBadgeSources(args.userId);
     const isHidden = (source: string) => hiddenSources.includes(source as any);
 

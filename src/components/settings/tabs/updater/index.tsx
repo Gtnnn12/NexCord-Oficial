@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -21,7 +21,7 @@ import { Toasts } from "@webpack/common";
 import { t } from "@api/i18n";
 import "../../../../../DOMAIN.json";
 
-// Version locale depuis package.json (injectée au build)
+// Version locale depuis package.json (injectÃ©e au build)
 declare const VERSION: string;
 
 function UpdaterTab() {
@@ -56,9 +56,9 @@ function UpdaterTab() {
             // Strip any residual HTML and truncate to keep the UI clean
             if (detail) {
                 detail = detail.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-                if (detail.length > 300) detail = detail.substring(0, 300) + "…";
+                if (detail.length > 300) detail = detail.substring(0, 300) + "â€¦";
             }
-            setError(t("Check for Updates") + " — " + (detail ?? "Please check your connection."));
+            setError(t("Check for Updates") + " â€” " + (detail ?? "Please check your connection."));
         } finally {
             setChecking(false);
         }
@@ -110,8 +110,8 @@ function UpdaterTab() {
                     <div>
                         <Span size="sm" color="text-subtle">{t("GitHub")}</Span>
                         <div>
-                            <Link href={`https://github.com/Gtnnn12/NexCord`} style={{ fontSize: 13 }}>
-                                Gtnnn12/NexCord
+                            <Link href={`https://github.com/Gtnnn12/NexCord-Oficial`} style={{ fontSize: 13 }}>
+                                Gtnnn12/NexCord-Oficial
                             </Link>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ function UpdaterTab() {
                 </Card>
             )}
 
-            {/* Résultat vérification */}
+            {/* RÃ©sultat vÃ©rification */}
             {checked && !error && (
                 outdated ? (
                     <Card style={{ padding: "10px 16px", marginBottom: 12, borderLeft: "3px solid var(--status-warning)" }}>
@@ -135,7 +135,7 @@ function UpdaterTab() {
                     </Card>
                 ) : (
                     <Card style={{ padding: "10px 16px", marginBottom: 12, borderLeft: "3px solid var(--status-positive)" }}>
-                        <Span size="sm" style={{ color: "var(--text-positive)" }}>{t("You are running the latest version ✓")}</Span>
+                        <Span size="sm" style={{ color: "var(--text-positive)" }}>{t("You are running the latest version âœ“")}</Span>
                     </Card>
                 )
             )}
@@ -157,7 +157,7 @@ function UpdaterTab() {
                         onClick={handleUpdate}
                         disabled={downloading}
                     >
-                        {downloading ? "Installing..." : "🚀 Update Now (Automatic)"}
+                        {downloading ? "Installing..." : "ðŸš€ Update Now (Automatic)"}
                     </Button>
                 )}
             </Flex>

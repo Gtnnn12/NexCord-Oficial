@@ -1,4 +1,4 @@
-/* ── Custom Profile Plugin Redesign - Premium Aesthetic ── */
+﻿/* â”€â”€ Custom Profile Plugin Redesign - Premium Aesthetic â”€â”€ */
 
 /* Modal Resizing & Root */
 .cp-modal-root {
@@ -12,7 +12,7 @@
     color: #dbdee1;
 }
 
-/* ── Header ── */
+/* â”€â”€ Header â”€â”€ */
 .cp-header {
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@
     letter-spacing: -0.2px;
 }
 
-/* ── Single-Column Layout ── */
+/* â”€â”€ Single-Column Layout â”€â”€ */
 .cp-layout {
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
     max-height: 75vh;
 }
 
-/* ── Tabs (Segmented Control) ── */
+/* â”€â”€ Tabs (Segmented Control) â”€â”€ */
 .cp-tabs {
     display: flex;
     margin: 0 24px 16px 24px;
@@ -70,7 +70,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Form Content ── */
+/* â”€â”€ Form Content â”€â”€ */
 .cp-settings-content {
     padding: 0 24px 24px 24px;
     overflow-y: auto;
@@ -104,7 +104,7 @@
     background: #4e5058;
 }
 
-/* ── Form Elements ── */
+/* â”€â”€ Form Elements â”€â”€ */
 .cp-label, .cp-section-label {
     display: block;
     font-size: 12px;
@@ -122,7 +122,7 @@
     line-height: 1.5;
 }
 
-/* ── Form Fields ── */
+/* â”€â”€ Form Fields â”€â”€ */
 .cp-field {
     display: flex;
     flex-direction: column;
@@ -167,8 +167,8 @@
     border-radius: 2px;
 }
 
-/* ── Image Uploads ── */
-/* ── Image Upload Card ── */
+/* â”€â”€ Image Uploads â”€â”€ */
+/* â”€â”€ Image Upload Card â”€â”€ */
 .cp-image-card {
     display: flex;
     align-items: center;
@@ -280,7 +280,7 @@
     background: #383a40;
 }
 
-/* ── Toggles (Settings Rows) ── */
+/* â”€â”€ Toggles (Settings Rows) â”€â”€ */
 .cp-toggle-row {
     display: flex;
     align-items: center;
@@ -345,7 +345,7 @@
     transform: translateX(20px);
 }
 
-/* ── Colors ── */
+/* â”€â”€ Colors â”€â”€ */
 .cp-color-row {
     display: flex;
     align-items: center;
@@ -384,7 +384,7 @@
     flex: 1;
 }
 
-/* ── Badges Selection ── */
+/* â”€â”€ Badges Selection â”€â”€ */
 .cp-badges {
     display: flex;
     flex-wrap: wrap;
@@ -428,7 +428,7 @@
 }
 
 /* Decorations / Effects */
-/* ── Effect / Decoration Chip Grid ── */
+/* â”€â”€ Effect / Decoration Chip Grid â”€â”€ */
 .cp-effect-grid {
     display: flex;
     flex-wrap: wrap;
@@ -497,7 +497,7 @@
     color: #949ba4 !important;
 }
 
-/* ── Footer ── */
+/* â”€â”€ Footer â”€â”€ */
 .cp-footer {
     display: flex;
     align-items: center;

@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+﻿const { execSync } = require("child_process");
 
 const {
     readFileSync,
@@ -42,7 +42,7 @@ function findDiscordApp() {
 
     if (!existsSync(base)) {
         throw new Error(
-            `No existe la instalación de Discord: ${base}`
+            `No existe la instalaciÃ³n de Discord: ${base}`
         );
     }
 
@@ -83,7 +83,7 @@ function findDiscordApp() {
 
     if (!best) {
         throw new Error(
-            "No se encontró ninguna instalación app-X.X.X de Discord."
+            "No se encontrÃ³ ninguna instalaciÃ³n app-X.X.X de Discord."
         );
     }
 
@@ -102,7 +102,7 @@ function verifyDiscordApp(discordApp) {
 
     if (!existsSync(discordExe)) {
         throw new Error(
-            `No se encontró Discord.exe en ${discordApp}`
+            `No se encontrÃ³ Discord.exe en ${discordApp}`
         );
     }
 
@@ -120,7 +120,7 @@ function verifyDiscordApp(discordApp) {
 
     if (versionInfo !== DISCORD_VERSION) {
         console.warn(
-            `[nexcord] ADVERTENCIA: se esperaba Discord ${DISCORD_VERSION}, pero se encontró ${versionInfo}.`
+            `[nexcord] ADVERTENCIA: se esperaba Discord ${DISCORD_VERSION}, pero se encontrÃ³ ${versionInfo}.`
         );
     }
 }
@@ -199,11 +199,11 @@ function buildNexCordFromDiscord(discordApp) {
      * Discord.exe es un ejecutable propio de Discord aunque internamente
      * utilice Electron 42.7.1.
      *
-     * Sustituirlo por electron.exe rompe la combinación:
+     * Sustituirlo por electron.exe rompe la combinaciÃ³n:
      *
      *     Discord.exe
      *     + snapshots
-     *     + módulos
+     *     + mÃ³dulos
      *     + recursos
      *
      * y puede provocar EXCEPTION_BREAKPOINT dentro de V8.
@@ -257,7 +257,7 @@ function buildNexCordFromDiscord(discordApp) {
     }
 
     /*
-     * Verificación crítica del ejecutable.
+     * VerificaciÃ³n crÃ­tica del ejecutable.
      */
 
     const sourceDiscordExe = join(
@@ -272,7 +272,7 @@ function buildNexCordFromDiscord(discordApp) {
 
     if (!existsSync(outputDiscordExe)) {
         throw new Error(
-            "No se copió Discord.exe original."
+            "No se copiÃ³ Discord.exe original."
         );
     }
 
@@ -347,7 +347,7 @@ function buildNexCordFromDiscord(discordApp) {
 
     if (!existsSync(nightcordAsar)) {
         throw new Error(
-            "No se encontró dist/nightcord.asar. Ejecuta primero el build."
+            "No se encontrÃ³ dist/nightcord.asar. Ejecuta primero el build."
         );
     }
 
@@ -453,7 +453,7 @@ function buildNexCordFromDiscord(discordApp) {
 
     if (!existsSync(appAsarSrc)) {
         throw new Error(
-            "No se encontró _app.asar ni app.asar original de Discord."
+            "No se encontrÃ³ _app.asar ni app.asar original de Discord."
         );
     }
 
@@ -667,7 +667,7 @@ require(
 
     /*
      * ================================================================
-     * VERIFICACIÓN FINAL
+     * VERIFICACIÃ“N FINAL
      * ================================================================
      */
 
@@ -678,7 +678,7 @@ require(
 
     if (!existsSync(finalExe)) {
         throw new Error(
-            "ERROR CRÍTICO: falta Discord.exe en nexcord-dist."
+            "ERROR CRÃTICO: falta Discord.exe en nexcord-dist."
         );
     }
 
@@ -692,7 +692,7 @@ require(
 
     if (sourceSize !== finalSize) {
         throw new Error(
-            `ERROR CRÍTICO: Discord.exe fue alterado durante el build. Original=${sourceSize}, final=${finalSize}`
+            `ERROR CRÃTICO: Discord.exe fue alterado durante el build. Original=${sourceSize}, final=${finalSize}`
         );
     }
 
@@ -752,7 +752,7 @@ function copyNexCordToPackagedApp(context) {
     }
 
     /*
-     * Verificación de que electron-builder no nos cambió el ejecutable.
+     * VerificaciÃ³n de que electron-builder no nos cambiÃ³ el ejecutable.
      */
 
     const sourceExe = join(
@@ -779,7 +779,7 @@ function copyNexCordToPackagedApp(context) {
 
         if (sourceSize !== destinationSize) {
             throw new Error(
-                `[nexcord] Discord.exe cambió durante afterPack: source=${sourceSize}, destination=${destinationSize}`
+                `[nexcord] Discord.exe cambiÃ³ durante afterPack: source=${sourceSize}, destination=${destinationSize}`
             );
         }
     }

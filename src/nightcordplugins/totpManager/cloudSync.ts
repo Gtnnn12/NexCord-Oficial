@@ -1,5 +1,5 @@
-/*
- * NexCord 2FA Authenticator — Cloud Synchronization Manager
+﻿/*
+ * NexCord 2FA Authenticator â€” Cloud Synchronization Manager
  * Secure zero-knowledge cloud backup via cloud.NexCord.st
  * Copyright (c) 2026 NexCord Team
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -103,7 +103,7 @@ export async function getValidCloudToken(promptAuth = false): Promise<string | n
     return token || null;
 }
 
-// ─── Cloud Remote Interaction (api.NexCord.st / cloud.NexCord.st) ─────────
+// â”€â”€â”€ Cloud Remote Interaction (api.NexCord.st / cloud.NexCord.st) â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function pushEncryptedVaultToCloud(envelope: EncryptedVaultEnvelope): Promise<boolean> {
     await saveLocalVaultEnvelope(envelope);
@@ -228,7 +228,7 @@ export async function pullEncryptedVaultFromCloud(): Promise<EncryptedVaultEnvel
     return await getLocalVaultEnvelope();
 }
 
-// ─── High-Level Sync Operations ───────────────────────────────────────────────
+// â”€â”€â”€ High-Level Sync Operations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Encrypts current local accounts with user Master Password and syncs to NexCord Cloud.

@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
   <img src="https://nightcord.st/image.png" width="96" height="96" alt="Nightcord Logo">
 
 # Nightcord
@@ -20,18 +20,18 @@ Nightcord is a fork of Equicord, which itself builds on top of Vencord. We strip
 
 ## What's in it
 
-* **Faster startup** — no obfuscation means the client loads noticeably quicker and sits lighter on your CPU and RAM.
-* **Auto-updates** — checks for updates in the background on launch and applies them silently.
-* **Plugin support** — compatible with the existing plugin ecosystem. Install community plugins straight from Git links.
-* **Better audio** — hardware-optimized voice modules for cleaner, louder audio out of the box.
-* **Custom styling** — smoother UI, custom icons, and various quality-of-life improvements.
+* **Faster startup** â€” no obfuscation means the client loads noticeably quicker and sits lighter on your CPU and RAM.
+* **Auto-updates** â€” checks for updates in the background on launch and applies them silently.
+* **Plugin support** â€” compatible with the existing plugin ecosystem. Install community plugins straight from Git links.
+* **Better audio** â€” hardware-optimized voice modules for cleaner, louder audio out of the box.
+* **Custom styling** â€” smoother UI, custom icons, and various quality-of-life improvements.
 
 ---
 
 ## Installation (Windows)
 
 1. Download **`nightcord-install.ps1`**
-2. Right-click → **Run with PowerShell**
+2. Right-click â†’ **Run with PowerShell**
 3. Follow the steps, restart Discord, done.
 
 ---
@@ -81,11 +81,11 @@ https://source.nightcord.st/nightcord/nightcord
 
 ## Credits
 
-Nightcord wouldn't exist without [Equicord](https://github.com/Equicord/Equicord) and [Vencord](https://github.com/Vendicated/Vencord). A huge chunk of what makes this work comes directly from their projects. We're fully aware of that and genuinely appreciate everything they've built — we're just taking it in a different direction. Big thanks to everyone who's contributed to both.
+Nightcord wouldn't exist without [Equicord](https://github.com/Equicord/Equicord) and [Vencord](https://github.com/Vendicated/Vencord). A huge chunk of what makes this work comes directly from their projects. We're fully aware of that and genuinely appreciate everything they've built â€” we're just taking it in a different direction. Big thanks to everyone who's contributed to both.
 
 ### Special Thanks
 A massive thank you to the owner of **Illegalcord**, with whom we are proudly partnered. They have been incredibly helpful in brainstorming, sharing ideas, and collaborating on plugins. Our smooth and constructive exchanges have been invaluable, and we want to highlight their exemplary, minimalist work that very few can match. 
-➡️ [Check out Illegalcord here](https://github.com/ImHisako/Illegalcord)
+âž¡ï¸ [Check out Illegalcord here](https://github.com/ImHisako/Illegalcord)
 
 ---
 

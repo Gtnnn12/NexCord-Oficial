@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -132,7 +132,7 @@ function TroubleshootingSettings() {
         return `${mb.toFixed(mb >= 10 ? 0 : 1)} MB`;
     };
 
-    const lastApiAt = apiStatus.at ? new Date(apiStatus.at).toLocaleTimeString() : "—";
+    const lastApiAt = apiStatus.at ? new Date(apiStatus.at).toLocaleTimeString() : "â€”";
     const apiStatusClass = apiStatus.status
         ? apiStatus.status >= 200 && apiStatus.status < 300
             ? cl("api-status-success")
@@ -157,14 +157,14 @@ function TroubleshootingSettings() {
                 </div>
 
                 <Forms.FormText className={cl("cache-text")}>
-                    Cache: {cacheStats ? `${formatBytes(cacheStats.bytes)} • ${cacheStats.entries} entries` : "Unknown"}
+                    Cache: {cacheStats ? `${formatBytes(cacheStats.bytes)} â€¢ ${cacheStats.entries} entries` : "Unknown"}
                 </Forms.FormText>
             </div>
 
             <Forms.FormText className={cl("api-text")}>
                 <span>Last API call: </span>
                 <span className={apiStatusClass}>{apiStatus.message}</span>
-                <span className={cl("api-time")}> • {lastApiAt}</span>
+                <span className={cl("api-time")}> â€¢ {lastApiAt}</span>
             </Forms.FormText>
         </div>
     );
@@ -1235,7 +1235,7 @@ export default definePlugin({
                             Note from example-git
                         </Forms.FormText>
                         <Forms.FormText className={cl("author-text")}>
-                            Old TikTok-TTS API died, so I set up a new cloudflare worker. It's rate-limited and stricter than the old one by design — please don't abuse it so it can stay available for plugins like this.
+                            Old TikTok-TTS API died, so I set up a new cloudflare worker. It's rate-limited and stricter than the old one by design â€” please don't abuse it so it can stay available for plugins like this.
                         </Forms.FormText>
                     </div>
                 </div>

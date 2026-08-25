@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -143,7 +143,7 @@ function extractMentionUserId(data: MentionProps["data"]): string | null {
 }
 
 function MentionWrapper({ data, UserMention, RoleMention, parse, props }: MentionProps) {
-    // Extract the user ID upfront at render time — never rely on parsed children
+    // Extract the user ID upfront at render time â€” never rely on parsed children
     const resolvedId = extractMentionUserId(data);
 
     // A mention is "ready" when we have the ID AND the user is in the store
@@ -170,7 +170,7 @@ function MentionWrapper({ data, UserMention, RoleMention, parse, props }: Mentio
         if (!resolvedId) return;
         if (fetching.has(resolvedId)) return;
 
-        // User was cached since last render — just mark ready
+        // User was cached since last render â€” just mark ready
         if (UserStore.getUser(resolvedId)) {
             setIsReady(true);
             return;

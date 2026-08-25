@@ -1,4 +1,4 @@
-import { FluxStore, Message } from "..";
+﻿import { FluxStore, Message } from "..";
 
 export type JumpType = "ANIMATED" | "INSTANT";
 

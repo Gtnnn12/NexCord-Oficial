@@ -1,4 +1,4 @@
-import {writable} from "svelte/store";
+﻿import {writable} from "svelte/store";
 import {locations} from "../actions/paths";
 import readwritable from "./types/readwritable";
 

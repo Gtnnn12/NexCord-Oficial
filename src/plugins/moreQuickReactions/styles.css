@@ -1,4 +1,4 @@
-/* Fixes to make the quick reactions look better */
+﻿/* Fixes to make the quick reactions look better */
 
 .vc-better-quick-react {
     /* Discord officially has a 2px right margin and a 0px left margin, which is a hack for their selection border being cut off on the right */

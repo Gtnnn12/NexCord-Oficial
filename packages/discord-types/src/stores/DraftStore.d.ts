@@ -1,4 +1,4 @@
-import { FluxStore } from "..";
+﻿import { FluxStore } from "..";
 import { DraftType } from "../../enums";
 
 export interface Draft {

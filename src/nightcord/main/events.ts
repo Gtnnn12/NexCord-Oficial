@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,7 +15,7 @@ export const AppEvents = new EventEmitter<{
     voiceCallStateChanged: [boolean];
 }>();
 
-// FIX FUITE MEMOIRE : sans setMaxListeners, Node.js émet un warning dès 11 listeners
-// et peut retenir les références même après removeListener() dans certains cas.
-// On borne à 20 : tray (2) + appBadge (1) + ipc (1) + futurs listeners = largement suffisant.
+// FIX FUITE MEMOIRE : sans setMaxListeners, Node.js Ã©met un warning dÃ¨s 11 listeners
+// et peut retenir les rÃ©fÃ©rences mÃªme aprÃ¨s removeListener() dans certains cas.
+// On borne Ã  20 : tray (2) + appBadge (1) + ipc (1) + futurs listeners = largement suffisant.
 AppEvents.setMaxListeners(20);

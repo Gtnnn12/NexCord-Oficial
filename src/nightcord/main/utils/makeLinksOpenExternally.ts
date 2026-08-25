@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -11,8 +11,8 @@ import { Settings } from "../settings";
 import { createOrFocusPopup, setupPopout } from "./popout";
 import { execSteamURL, isDeckGameMode, steamOpenURL } from "./steamOS";
 
-// ── Overlay popout flood protection ──────────────────────────────────────────
-// When Discord's OOP overlay crashes (always in NexCord — we're not discord.exe),
+// â”€â”€ Overlay popout flood protection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// When Discord's OOP overlay crashes (always in NexCord â€” we're not discord.exe),
 // it enters a retry loop that rapidly fires window.open("/popout") dozens of times,
 // opening https://discord.com/popout in the user's browser.
 // We block overlay-specific popouts entirely and rate-limit the rest.
@@ -34,7 +34,7 @@ function isPopoutRateLimited(): boolean {
         popoutTimestamps.shift();
     }
     if (popoutTimestamps.length >= POPOUT_RATE_LIMIT_MAX) {
-        console.warn("[NexCord] Popout rate-limited — too many popout requests (overlay crash loop?)");
+        console.warn("[NexCord] Popout rate-limited â€” too many popout requests (overlay crash loop?)");
         return true;
     }
     popoutTimestamps.push(now);

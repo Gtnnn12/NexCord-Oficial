@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -15,8 +15,8 @@ import { domain } from "../../../DOMAIN.json";
 import { serializeErrors } from "./common";
 
 const GITEA_BASE = `https://api.github.com`;
-const API_BASE = `${GITEA_BASE}/repos/Gtnnn12/NexCord`;
-const REPO_URL = `https://github.com/Gtnnn12/NexCord`;
+const API_BASE = `${GITEA_BASE}/repos/Gtnnn12/NexCord-Oficial`;
+const REPO_URL = `https://github.com/Gtnnn12/NexCord-Oficial`;
 declare const VERSION: string;
 const CURRENT_VERSION = `v${VERSION}`;
 const ZIP_FILE = "NexCord-Installer.exe";
@@ -79,7 +79,7 @@ async function getUpdates() {
 }
 
 /**
- * Step 1 — download the zip and stage it to a temp folder.
+ * Step 1 â€” download the zip and stage it to a temp folder.
  * Does NOT touch any running files. Returns true when the zip is staged.
  */
 async function stageUpdate(): Promise<boolean> {
@@ -146,5 +146,5 @@ async function stageUpdate(): Promise<boolean> {
 ipcMain.handle(IpcEvents.GET_REPO, serializeErrors(() => REPO_URL));
 ipcMain.handle(IpcEvents.GET_UPDATES, serializeErrors(getUpdates));
 ipcMain.handle(IpcEvents.UPDATE, serializeErrors(fetchUpdates));
-// BUILD is now "stage update" — actual file swap happens on next startup via NexCord-index.js
+// BUILD is now "stage update" â€” actual file swap happens on next startup via NexCord-index.js
 ipcMain.handle(IpcEvents.BUILD, serializeErrors(stageUpdate));

@@ -1,4 +1,4 @@
-import { StickerFormatType, StickerType } from "../../../enums";
+﻿import { StickerFormatType, StickerType } from "../../../enums";
 
 interface BaseSticker {
     asset?: string;

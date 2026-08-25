@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -112,7 +112,7 @@ const settings = definePluginSettings({
     },
     maxVolume: {
         type: OptionType.SLIDER,
-        description: "Maximum allowed volume (dB) — sounds above are compressed",
+        description: "Maximum allowed volume (dB) â€” sounds above are compressed",
         markers: makeRange(-30, 0, 3),
         default: -6,
         stickToMarkers: false,
@@ -120,7 +120,7 @@ const settings = definePluginSettings({
     },
     attack: {
         type: OptionType.SLIDER,
-        description: "Reaction speed (ms) — lower = more reactive",
+        description: "Reaction speed (ms) â€” lower = more reactive",
         markers: [1, 5, 10, 15, 20, 30, 50],
         default: 2,
         stickToMarkers: false,
@@ -130,7 +130,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "AudioLimiter",
-    description: "Automatically caps the volume of other users — no more screaming or loud noises that pierce your ears.",
+    description: "Automatically caps the volume of other users â€” no more screaming or loud noises that pierce your ears.",
     authors: [{ name: "mushzi",
      id: 449282863582412850n }],
     settings,

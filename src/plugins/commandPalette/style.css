@@ -1,4 +1,4 @@
-.vc-cmdpal-shell {
+﻿.vc-cmdpal-shell {
     --cmdpal-top: clamp(24px, calc(32vh - 28px), calc(100vh - 504px));
 
     position: fixed;

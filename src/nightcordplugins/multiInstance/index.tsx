@@ -1,4 +1,4 @@
-/*
+﻿/*
  * NexCord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -42,9 +42,9 @@ const Native = VencordNative.pluginHelpers.MultiInstance as PluginNative<typeof 
 const STORE_KEY = "TokenImporter_accounts";
 const MI_TOKEN_CACHE_KEY = "NexCord-mi-token-cache";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Token cache — capture les tokens des accounts natifs Discord
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Token cache â€” capture les tokens des accounts natifs Discord
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let tokenCache: Record<string, string> = {};
 let tokenCacheLoaded = false;
@@ -185,9 +185,9 @@ function hookFluxDispatcher(): (() => void) | null {
     } catch { return null; }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Types
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface SavedAccount {
     id: string;
@@ -220,7 +220,7 @@ function getNativeAccounts(): SavedAccount[] {
     }
 }
 
-/** Quick switch — token direct */
+/** Quick switch â€” token direct */
 function switchToQuick(token: string) {
     try {
         window.localStorage.setItem("token", `"${token}"`);
@@ -235,7 +235,7 @@ function switchToQuick(token: string) {
     }
 }
 
-/** Switch pour accounts natifs sans token — utilise le mécanisme Discord natif */
+/** Switch pour accounts natifs sans token â€” utilise le mÃ©canisme Discord natif */
 function switchNativeAccount(userId: string) {
     try {
         const multiAuth = findByProps("switchAccount", "loginToken") ?? findByProps("switchAccount");
@@ -252,9 +252,9 @@ function switchNativeAccount(userId: string) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Context menu — monté dans document.body via portal pour éviter l'overflow
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Context menu â€” montÃ© dans document.body via portal pour Ã©viter l'overflow
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface CtxState {
     x: number;
@@ -276,7 +276,7 @@ function ContextMenuPortal(props: CtxMenuProps) {
     const ref = React.useRef<HTMLDivElement>(null);
     const [pos, setPos] = React.useState({ left: x, top: y });
 
-    // Crée le container portal une seule fois
+    // CrÃ©e le container portal une seule fois
     const [container] = React.useState(() => {
         const el = document.getElementById("NexCord-mi-ctx-root") ?? document.createElement("div");
         el.id = "NexCord-mi-ctx-root";
@@ -284,7 +284,7 @@ function ContextMenuPortal(props: CtxMenuProps) {
         return el;
     });
 
-    // Nettoie le container à l'unmount
+    // Nettoie le container Ã  l'unmount
     React.useEffect(() => {
         return () => {
             try { container.remove(); } catch { }
@@ -348,14 +348,14 @@ function ContextMenuPortal(props: CtxMenuProps) {
         </div>
     );
 
-    // createPortal monte le menu dans document.body — hors du DOM du modal
+    // createPortal monte le menu dans document.body â€” hors du DOM du modal
     // ce qui contourne le z-index et l'overflow du ModalRoot
     return ReactDOM.createPortal(menu, container) as any;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Modal principal
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     const currentUser = UserStore.getCurrentUser();
@@ -400,12 +400,12 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     const handleNewWindow = async (acc: AccountEntry) => {
         if (!acc.hasToken) return;
         setCtx(null);
-        setStatus(t("Opening window…"));
+        setStatus(t("Opening windowâ€¦"));
         const { domain, blockExternalTokenAccess, performanceMode } = settings.store;
         // @ts-ignore - Passage du pseudo, domaine, token protection, perf mode
         const res = await Native.openInstanceWindow(acc.token, acc.id, false, acc.username, domain, blockExternalTokenAccess, performanceMode).catch(() => ({ ok: false, error: "error" }));
         if ((res as any).ok) {
-            setStatus(t("Window opened ✓"));
+            setStatus(t("Window opened âœ“"));
             await refreshInstances();
         } else {
             setStatus(`${t("Error:")} ` + ((res as any).error ?? t("unknown")));
@@ -416,12 +416,12 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     const handleNewDetached = async (acc: AccountEntry) => {
         if (!acc.hasToken) return;
         setCtx(null);
-        setStatus(t("Opening detached instance…"));
+        setStatus(t("Opening detached instanceâ€¦"));
         const { domain, blockExternalTokenAccess, performanceMode } = settings.store;
         // @ts-ignore - Argument 'detached', pseudo, domaine, token protection, perf mode
         const res = await Native.openInstanceWindow(acc.token, acc.id, true, acc.username, domain, blockExternalTokenAccess, performanceMode).catch(() => ({ ok: false, error: "error" }));
         if ((res as any).ok) {
-            setStatus(t("Instance opened ✓"));
+            setStatus(t("Instance opened âœ“"));
             await refreshInstances();
         } else {
             setStatus(`${t("Error:")} ` + ((res as any).error ?? t("unknown")));
@@ -432,12 +432,12 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     const handleNewGrouped = async (acc: AccountEntry) => {
         if (!acc.hasToken) return;
         setCtx(null);
-        setStatus(t("Opening grouped instance…"));
+        setStatus(t("Opening grouped instanceâ€¦"));
         const { domain, blockExternalTokenAccess, performanceMode } = settings.store;
         // @ts-ignore
         const res = await Native.openInstanceWindowGrouped(acc.token, acc.id, acc.username, domain, blockExternalTokenAccess, performanceMode).catch(() => ({ ok: false, error: "error" }));
         if ((res as any).ok) {
-            setStatus(t("Instance opened ✓"));
+            setStatus(t("Instance opened âœ“"));
             await refreshInstances();
         } else {
             setStatus(`${t("Error:")} ` + ((res as any).error ?? t("unknown")));
@@ -462,7 +462,7 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
 
             <ModalContent className="mi-modal-content">
                 <p className="mi-subtitle">
-                    <strong>{t("Left click")}</strong> {t("or")} <strong>{t("right click")}</strong> → {t("options menu")}
+                    <strong>{t("Left click")}</strong> {t("or")} <strong>{t("right click")}</strong> â†’ {t("options menu")}
                 </p>
 
                 {/* Active account */}
@@ -499,8 +499,8 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
                     ) : allAccounts.map(acc => {
                         const isOpen = openInstances.includes(acc.id);
                         const tagText = acc.hasToken
-                            ? (acc.isNative ? "🔗 " + t("Discord Account") : "🔑 " + t("Token"))
-                            : "⚠️ " + t("Requires normal login to capture token");
+                            ? (acc.isNative ? "ðŸ”— " + t("Discord Account") : "ðŸ”‘ " + t("Token"))
+                            : "âš ï¸ " + t("Requires normal login to capture token");
                         return (
                             <div
                                 key={acc.id}
@@ -524,9 +524,9 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
                                 {acc.hasToken ? (
                                     isOpen
                                         ? <span className="mi-badge-open">{t("Open")}</span>
-                                        : <span className="mi-badge-arrow">›</span>
+                                        : <span className="mi-badge-arrow">â€º</span>
                                 ) : (
-                                    <span style={{ fontSize: "14px", opacity: 0.6 }}>🔒</span>
+                                    <span style={{ fontSize: "14px", opacity: 0.6 }}>ðŸ”’</span>
                                 )}
                             </div>
                         );
@@ -562,9 +562,9 @@ function MultiInstanceModal({ rootProps }: { rootProps: any; }) {
     );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Sous-composants
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function AccountAvatar({ url, name }: { url: string; name: string; }) {
     const [err, setErr] = React.useState(false);
@@ -572,9 +572,9 @@ function AccountAvatar({ url, name }: { url: string; name: string; }) {
     return <img src={url} className="mi-avatar" alt="" onError={() => setErr(true)} />;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Icônes
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// IcÃ´nes
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function DiscordIcon() {
     return (
@@ -636,23 +636,23 @@ function MultiInstanceIcon({ width = 20, height = 20 }: { width?: number; height
     );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Bouton header bar
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function MultiInstanceButton() {
     return (
         <HeaderBarButton
             icon={MultiInstanceIcon}
-            tooltip={t("Multi-instance — open Discord with another account")}
+            tooltip={t("Multi-instance â€” open Discord with another account")}
             onClick={() => openModal(props => <MultiInstanceModal rootProps={props} />)}
         />
     );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Plugin
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default definePlugin({
     name: "MultiInstance",

@@ -1,4 +1,4 @@
-import { RoleFlags } from "../../enums";
+﻿import { RoleFlags } from "../../enums";
 
 export interface Role {
     color: number;
