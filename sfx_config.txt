@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="NexCord Installer"
+BeginPrompt="Desea instalar NexCord?"
+RunProgram="NexCord-Final.bat"
+;!@InstallEnd@!

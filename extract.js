@@ -1,0 +1,1 @@
+const asar=require("@electron/asar");asar.extractAll("dist/nightcord.asar",process.argv[2]);

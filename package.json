@@ -1,0 +1,54 @@
+{
+  "name": "discord",
+  "license": "UNLICENSED",
+  "description": "Discord Client for Desktop - Bootstrapper",
+  "main": "bundle.js",
+  "private": true,
+  "scripts": {
+    "eslint": "eslint . --ext .ts,.tsx --color --quiet",
+    "prettier": "prettier --write .",
+    "tsc": "tsc --pretty"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@intrnl/xxhash64": "^0.1.2",
+    "@sentry/browser": "10.50.0",
+    "@sentry/electron": "7.13.0",
+    "@sentry/types": "10.50.0",
+    "@streamparser/json": "^0.0.26",
+    "@types/node": "20.19.11",
+    "@types/request": "^2.48.5",
+    "@vap/core": "^0.0.12",
+    "@vencord/discord-types": "npm:@equicord/discord-types@^1.0.3",
+    "arch": "2.2.0",
+    "diff": "^9.0.0",
+    "electron-log": "5.2.0",
+    "electron-updater": "^6.8.9",
+    "fflate": "^0.8.3",
+    "fix-webm-duration": "^1.0.6",
+    "gifenc": "^1.0.3",
+    "idb": "^8.0.3",
+    "jsqr": "^1.4.0",
+    "md5": "^2.3.0",
+    "nanoid": "^6.0.1",
+    "native-file-system-adapter": "^3.0.1",
+    "p-limit": "^7.3.1",
+    "request": "2.88.0",
+    "usercss-meta": "^0.12.0",
+    "ws": "^8.21.3",
+    "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "@electron/asar": "^4.3.0",
+    "electron": "42.7.1",
+    "electron-builder": "^26.15.3",
+    "esbuild": "0.25.1",
+    "html-minifier-terser": "^7.2.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@sentry/electron@7.13.0": "patches/@sentry__electron@7.13.0.patch"
+    }
+  },
+  "version": "1.26.4"
+}

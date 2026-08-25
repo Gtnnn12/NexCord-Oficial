@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NexCord Installer</title>
+    <HTA:APPLICATION
+        ID="objHTA"
+        APPLICATIONNAME="NexCord Installer"
+        BORDER="thin"
+        BORDERSTYLE="complex"
+        CAPTION="yes"
+        ICON="nexcord.ico"
+        MAXIMIZEBUTTON="no"
+        MINIMIZEBUTTON="yes"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        WINDOWSTATE="normal"
+    />
+    <style>
+        body {
+            background-color: #1e1f22;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #5865f2;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #b9bbbe;
+            margin-bottom: 30px;
+        }
+        button {
+            background-color: #5865f2;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            margin: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 200px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #4752c4;
+        }
+        button.uninstall {
+            background-color: #f04747;
+        }
+        button.uninstall:hover {
+            background-color: #d84040;
+        }
+        .status {
+            margin-top: 20px;
+            color: #43b581;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NexCord</h1>
+        <div class="subtitle">Cliente modificado de Discord</div>
+        <button onclick="Install()">Instalar</button>
+        <button onclick="Repair()">Reparar / Re-inyectar</button>
+        <button class="uninstall" onclick="Uninstall()">Desinstalar</button>
+        <div id="status" class="status"></div>
+    </div>
+
+    <script language="VBScript">
+        Dim shell, fso
+        Set shell = CreateObject("WScript.Shell")
+        Set fso = CreateObject("Scripting.FileSystemObject")
+
+        Function GetScriptFolder()
+            Dim path, pos
+            path = Replace(window.location.href, "file:///", "")
+            path = Replace(path, "/", "\")
+            GetScriptFolder = fso.GetParentFolderName(path)
+        End Function
+
+        Function GetLatestDiscordApp()
+            Dim localAppData, discordBase, folder, subfolder, latestName, latestApp
+            localAppData = shell.ExpandEnvironmentStrings("%LOCALAPPDATA%")
+            discordBase = localAppData & "\Discord"
+            If Not fso.FolderExists(discordBase) Then
+                Set GetLatestDiscordApp = Nothing
+                Exit Function
+            End If
+            latestName = ""
+            Set folder = fso.GetFolder(discordBase)
+            For Each subfolder In folder.SubFolders
+                If Left(subfolder.Name, 4) = "app-" Then
+                    If subfolder.Name > latestName Then
+                        latestName = subfolder.Name
+                        Set latestApp = subfolder
+                    End If
+                End If
+            Next
+            If latestName = "" Then
+                Set GetLatestDiscordApp = Nothing
+            Else
+                Set GetLatestDiscordApp = latestApp
+            End If
+        End Function
+
+        Sub SetStatus(text)
+            document.getElementById("status").innerHTML = text
+        End Sub
+
+        Sub Install()
+            SetStatus("Instalando...")
+            shell.Run "taskkill /F /IM Discord.exe", 0, True
+            Dim app, resourcesPath, srcPath
+            Set app = GetLatestDiscordApp()
+            If app Is Nothing Then
+                MsgBox "No se encontró Discord instalado.", vbExclamation, "NexCord"
+                SetStatus("")
+                Exit Sub
+            End If
+            resourcesPath = app.Path & "\resources"
+            srcPath = GetScriptFolder() & "\"
+            ' Limpiar
+            If fso.FolderExists(resourcesPath & "\app") Then fso.DeleteFolder resourcesPath & "\app", True
+            If fso.FileExists(resourcesPath & "\app.asar") Then fso.DeleteFile resourcesPath & "\app.asar"
+            If fso.FileExists(resourcesPath & "\NexCord.asar") Then fso.DeleteFile resourcesPath & "\NexCord.asar"
+            If fso.FileExists(resourcesPath & "\_app.asar") Then fso.DeleteFile resourcesPath & "\_app.asar"
+            ' Copiar archivos
+            fso.CopyFile srcPath & "resources\_app.asar", resourcesPath & "\_app.asar", True
+            fso.CopyFile srcPath & "dist\desktop.asar", resourcesPath & "\app.asar", True
+            fso.CopyFile srcPath & "dist\nightcord.asar", resourcesPath & "\NexCord.asar", True
+            ' Abrir Discord
+            shell.Run """" & app.Path & "\Discord.exe" & """", 1, False
+            SetStatus("Instalado correctamente")
+            MsgBox "NexCord instalado correctamente.", vbInformation, "NexCord"
+        End Sub
+
+        Sub Repair()
+            Install()
+        End Sub
+
+        Sub Uninstall()
+            SetStatus("Desinstalando...")
+            shell.Run "taskkill /F /IM Discord.exe", 0, True
+            Dim app, resourcesPath
+            Set app = GetLatestDiscordApp()
+            If app Is Nothing Then
+                MsgBox "No se encontró Discord instalado.", vbExclamation, "NexCord"
+                SetStatus("")
+                Exit Sub
+            End If
+            resourcesPath = app.Path & "\resources"
+            ' Limpiar
+            If fso.FolderExists(resourcesPath & "\app") Then fso.DeleteFolder resourcesPath & "\app", True
+            If fso.FileExists(resourcesPath & "\app.asar") Then fso.DeleteFile resourcesPath & "\app.asar"
+            If fso.FileExists(resourcesPath & "\NexCord.asar") Then fso.DeleteFile resourcesPath & "\NexCord.asar"
+            ' Restaurar app.asar desde _app.asar
+            If fso.FileExists(resourcesPath & "\_app.asar") Then
+                fso.CopyFile resourcesPath & "\_app.asar", resourcesPath & "\app.asar", True
+                fso.DeleteFile resourcesPath & "\_app.asar"
+            End If
+            ' Abrir Discord
+            shell.Run """" & app.Path & "\Discord.exe" & """", 1, False
+            SetStatus("Desinstalado correctamente")
+            MsgBox "NexCord desinstalado correctamente.", vbInformation, "NexCord"
+        End Sub
+    </script>
+</body>
+</html>

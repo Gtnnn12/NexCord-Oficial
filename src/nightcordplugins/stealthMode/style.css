@@ -1,0 +1,16 @@
+/* Stealth Mode - hide NexCord plugin UI (but NOT settings access) */
+
+/* Plugin buttons: header bar, channel toolbar, chat bar, user area */
+body.NexCord-stealth .vc-header-bar-btns,
+body.NexCord-stealth .vc-channel-toolbar-btns,
+body.NexCord-stealth .vc-chat-bar-btns,
+body.NexCord-stealth .vc-user-area-btns,
+
+/* Titlebar injected elements */
+body.NexCord-stealth #NexCord-titlebar-btn,
+body.NexCord-stealth #NexCord-titlebar-link-style,
+
+/* NexCordAI nav button */
+body.NexCord-stealth .nai-nav-item {
+    display: none !important;
+}
