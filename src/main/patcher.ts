@@ -445,7 +445,9 @@ app.on("web-contents-created", (_, wc) => {
     patchWebContents(wc);
 });
 
-process.env.DATA_DIR = join(app.getPath("userData"), "..", "NexCord");
+// FASE 1: los datos de usuario viven SIEMPRE en %APPDATA%\NexCord,
+// nunca dentro de la instalación de Discord.
+process.env.DATA_DIR = join(app.getPath("appData"), "NexCord");
 
 app.whenReady().then(() => {
     registerMediaPermissionsForSession(session.defaultSession);

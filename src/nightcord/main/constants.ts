@@ -18,8 +18,10 @@ export const PORTABLE =
     !process.execPath.toLowerCase().endsWith("electron.exe") &&
     !existsSync(join(NexCordDir, "Uninstall NexCord.exe"));
 
+// FASE 1: los datos de NexCord viven SIEMPRE en %APPDATA%\NexCord (userData propio),
+// nunca en %APPDATA%\discord ni en la carpeta de instalación de Discord.
 export const DATA_DIR =
-    process.env.NexCord_USER_DATA_DIR || (PORTABLE ? join(NexCordDir, "Data") : join(app.getPath("userData")));
+    process.env.NexCord_USER_DATA_DIR || join(app.getPath("appData"), "NexCord");
 
 mkdirSync(DATA_DIR, { recursive: true });
 

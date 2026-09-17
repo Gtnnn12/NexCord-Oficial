@@ -10,9 +10,12 @@ import type { Settings as TSettings, State as TState } from "shared/settings";
 import { SettingsStore } from "shared/utils/SettingsStore";
 
 import { DATA_DIR, VENCORD_SETTINGS_FILE } from "./constants";
+import { app } from "electron";
 
 const SETTINGS_FILE = VENCORD_SETTINGS_FILE;
-const LEGACY_SETTINGS_FILE = join(DATA_DIR, "settings.json");
+// FASE 1: ubicación antigua de settings.json (cuando DATA_DIR era el userData de Discord).
+// Se mantiene solo como origen de la migración automática.
+const LEGACY_SETTINGS_FILE = join(app.getPath("appData"), "discord", "settings.json");
 const STATE_FILE = join(DATA_DIR, "state.json");
 
 // Migration: If legacy DATA_DIR/settings.json exists, copy it to VENCORD_SETTINGS_FILE
