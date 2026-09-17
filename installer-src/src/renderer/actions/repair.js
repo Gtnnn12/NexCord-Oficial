@@ -1,4 +1,4 @@
-﻿import {progress} from "../stores/installation";
+import {progress} from "../stores/installation";
 import {promises as fs} from "fs";
 import path from "path";
 import {killDiscord, startDiscord} from "./utils/kill";
@@ -20,8 +20,8 @@ async function repairShims(paths) {
             startDiscord(resPath);
             progress.set(progress.value + progressPerLoop);
         } catch (err) {
-            log(`âŒ Could not repair Nightcord in ${resPath}`);
-            log(`âŒ ${err.message}`);
+            log(`❌ Could not repair Nightcord in ${resPath}`);
+            log(`❌ ${err.message}`);
             return err;
         }
     }
@@ -37,8 +37,8 @@ export default async function(paths) {
         lognewline("Repair complete!");
         return true;
     } catch (err) {
-        lognewline("âŒ Repair failed");
-        log(`âŒ ${err.message}`);
+        lognewline("❌ Repair failed");
+        log(`❌ ${err.message}`);
         return false;
     }
 }

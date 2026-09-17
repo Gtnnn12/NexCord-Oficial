@@ -1,10 +1,10 @@
-﻿{
+{
     "compilerOptions": {
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "skipLibCheck": false,
-        "allowJs": false,
+        "allowJs": true,
         "lib": [
             "DOM",
             "DOM.Iterable",
@@ -19,65 +19,25 @@
         "noImplicitAny": false,
         "target": "ESNEXT",
         "jsx": "preserve",
-        "baseUrl": "./src/",
+
         "paths": {
-            "@main/*": [
-                "./main/*"
-            ],
-            "@api/*": [
-                "./api/*"
-            ],
-            "@components/*": [
-                "./components/*"
-            ],
-            "@utils/*": [
-                "./utils/*"
-            ],
-            "@debug/*": [
-                "./debug/*"
-            ],
-            "@plugins/*": [
-                "./plugins/*"
-            ],
-            "@shared/*": [
-                "./shared/*"
-            ],
-            "@webpack/common": [
-                "./webpack/common"
-            ],
-            "@webpack/common/*": [
-                "./webpack/common/*"
-            ],
-            "@webpack": [
-                "./webpack/webpack"
-            ],
-            "@webpack/patcher": [
-                "./webpack/patchWebpack"
-            ],
-            "@webpack/wreq.d": [
-                "./webpack/wreq.d"
-            ],
-            "@nightcordplugins/*": [
-                "./nightcordplugins/*"
-            ],
-            "@equicordplugins/*": [
-                "./plugins/*"
-            ],
-            "@illegalcordplugins/*": [
-                "./illegalcordplugins/*"
-            ],
-            "main/*": [
-                "./nightcord/main/*"
-            ],
-            "shared/*": [
-                "./nightcord/shared/*",
-                "./shared/*"
-            ],
-            "renderer/*": [
-                "./nightcord/renderer/*"
-            ]
+            "@main/*": ["./src/main/*"],
+            "@api/*": ["./src/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@debug/*": ["./src/debug/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@plugins/*": ["./src/plugins/*"],
+            "@shared/*": ["./src/shared/*"],
+            "@webpack/common": ["./src/webpack/common"],
+            "@webpack/common/*": ["./src/webpack/common/*"],
+            "@webpack": ["./src/webpack/webpack"],
+            "@webpack/patcher": ["./src/webpack/patchWebpack"],
+            "@webpack/wreq.d": ["./src/webpack/wreq.d"],
+            "@webpack/types": ["./src/webpack/types"],
         },
+
         "plugins": [
+            // Transform paths in output .d.ts files (Include this line if you output declarations files)
             {
                 "transform": "typescript-transform-paths",
                 "afterDeclarations": true
@@ -85,13 +45,5 @@
         ],
         "outDir": "who-fucking-cares-dude"
     },
-    "include": [
-        "src/**/*",
-        "browser/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "scripts/**/*.mjs",
-        "eslint.config.mjs"
-    ]
+    "include": ["src/**/*", "browser/**/*", "scripts/**/*", "eslint.config.mjs"],
 }

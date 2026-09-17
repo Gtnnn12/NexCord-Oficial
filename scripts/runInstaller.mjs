@@ -1,570 +1,135 @@
-﻿```js
 /*
- * NexCord Installer
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2023 Vendicated and contributors
  *
- * Instala/desinstala NexCord en la instalaciÃ³n existente de Discord.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * IMPORTANTE:
- * - No solicita credenciales.
- * - No solicita contraseÃ±a.
- * - No solicita token.
- * - No crea una segunda sesiÃ³n de Discord.
- * - Utiliza la sesiÃ³n que ya existe en Discord.
- * - Utiliza Ãºnicamente el EquilotlCli.exe local.
- * - Verifica el SHA-256 del instalador antes de ejecutarlo.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Uso:
- *   pnpm inject
- *   pnpm uninject
- *   pnpm repair
- */
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import "./checkNodeVersion.js";
 
-import { execFileSync, exec } from "child_process";
-import {
-    createHash
-} from "crypto";
-import {
-    existsSync,
-    mkdirSync,
-    readFileSync,
-    readdirSync,
-    renameSync,
-    rmSync
-} from "fs";
-import {
-    dirname,
-    join
-} from "path";
-import {
-    fileURLToPath
-} from "url";
+import { execFileSync, execSync } from "child_process";
+import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { dirname, join } from "path";
+import { Readable } from "stream";
+import { finished } from "stream/promises";
+import { fileURLToPath } from "url";
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// CONFIGURACIÃ“N
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BASE_URL = "https://github.com/Vencord/Installer/releases/latest/download/";
+const INSTALLER_PATH_DARWIN = "VencordInstaller.app/Contents/MacOS/VencordInstaller";
 
-const BASE_DIR = join(
-    dirname(fileURLToPath(import.meta.url)),
-    ".."
-);
+const BASE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
+const FILE_DIR = join(BASE_DIR, "dist", "Installer");
+const ETAG_FILE = join(FILE_DIR, "etag.txt");
 
-const FILE_DIR = join(
-    BASE_DIR,
-    "dist",
-    "Installer"
-);
-
-const INSTALLER_PATH = join(
-    FILE_DIR,
-    "EquilotlCli.exe"
-);
-
-// SHA-256 del EquilotlCli.exe que ya tienes.
-// Si el archivo cambia, el instalador se detendrÃ¡.
-const EXPECTED_INSTALLER_SHA256 =
-    "79932382d859747318f642c3e23297c7a0174398cc489e8fb4222cc2758c16e8";
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// UTILIDADES
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function sha256File(filePath) {
-    const data = readFileSync(filePath);
-
-    return createHash("sha256")
-        .update(data)
-        .digest("hex")
-        .toLowerCase();
-}
-
-function verifyInstaller() {
-    if (!existsSync(INSTALLER_PATH)) {
-        throw new Error(
-            `No se encontrÃ³ el instalador local:\n${INSTALLER_PATH}`
-        );
-    }
-
-    console.log("[NexCord] Verificando instalador...");
-
-    const hash = sha256File(INSTALLER_PATH);
-
-    if (hash !== EXPECTED_INSTALLER_SHA256) {
-        throw new Error(
-            [
-                "El hash del instalador no coincide.",
-                "",
-                `Esperado: ${EXPECTED_INSTALLER_SHA256}`,
-                `Actual:   ${hash}`,
-                "",
-                "NexCord no ejecutarÃ¡ este archivo."
-            ].join("\n")
-        );
-    }
-
-    console.log("[NexCord] Instalador verificado.");
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// DISCORD
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function getDiscordChannels() {
-    if (process.platform !== "win32") {
-        return [];
-    }
-
-    const localAppData =
-        process.env.LOCALAPPDATA || "";
-
-    return [
-        "Discord",
-        "DiscordPTB",
-        "DiscordCanary",
-        "DiscordDevelopment"
-    ].map(channel => ({
-        channel,
-        base: join(localAppData, channel)
-    }));
-}
-
-function findDiscordVersions(base) {
-    if (!existsSync(base)) {
-        return [];
-    }
-
-    try {
-        return readdirSync(base)
-            .filter(name =>
-                /^app-\d+\.\d+\.\d+$/.test(name)
-            )
-            .sort((a, b) =>
-                b.localeCompare(a, undefined, {
-                    numeric: true
-                })
-            );
-    } catch {
-        return [];
+function getFilename() {
+    switch (process.platform) {
+        case "win32":
+            return "VencordInstallerCli.exe";
+        case "darwin":
+            return "VencordInstaller.MacOS.zip";
+        case "linux":
+            return "VencordInstallerCli-linux";
+        default:
+            throw new Error("Unsupported platform: " + process.platform);
     }
 }
 
-function findInstalledDiscord() {
-    for (const { channel, base } of getDiscordChannels()) {
-        const versions = findDiscordVersions(base);
+async function ensureBinary() {
+    const filename = getFilename();
+    console.log("Downloading " + filename);
 
-        if (versions.length === 0) {
-            continue;
+    mkdirSync(FILE_DIR, { recursive: true });
+
+    const downloadName = join(FILE_DIR, filename);
+    const outputFile = process.platform === "darwin"
+        ? join(FILE_DIR, "VencordInstaller")
+        : downloadName;
+
+    const etag = existsSync(outputFile) && existsSync(ETAG_FILE)
+        ? readFileSync(ETAG_FILE, "utf-8")
+        : null;
+
+    const res = await fetch(BASE_URL + filename, {
+        headers: {
+            "User-Agent": "Vencord (https://github.com/Vendicated/Vencord)",
+            "If-None-Match": etag
         }
-
-        const version = versions[0];
-
-        return {
-            channel,
-            base,
-            version,
-            appDir: join(base, version),
-            resourcesDir: join(
-                base,
-                version,
-                "resources"
-            )
-        };
-    }
-
-    throw new Error(
-        "No se encontrÃ³ una instalaciÃ³n de Discord."
-    );
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// ACTUALIZACIONES INCOMPLETAS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function cleanIncompleteDiscordUpdates() {
-    if (process.platform !== "win32") {
-        return;
-    }
-
-    for (const { base } of getDiscordChannels()) {
-        if (!existsSync(base)) {
-            continue;
-        }
-
-        let versions;
-
-        try {
-            versions = readdirSync(base)
-                .filter(name =>
-                    /^app-\d+\.\d+\.\d+$/.test(name)
-                );
-        } catch {
-            continue;
-        }
-
-        for (const version of versions) {
-            const versionDir = join(
-                base,
-                version
-            );
-
-            const resourcesDir = join(
-                versionDir,
-                "resources"
-            );
-
-            const appAsar = join(
-                resourcesDir,
-                "app.asar"
-            );
-
-            const backupAsar = join(
-                resourcesDir,
-                "_app.asar"
-            );
-
-            // Solo eliminar versiones realmente incompletas.
-            if (
-                existsSync(versionDir) &&
-                !existsSync(appAsar) &&
-                !existsSync(backupAsar)
-            ) {
-                try {
-                    rmSync(
-                        versionDir,
-                        {
-                            recursive: true,
-                            force: true
-                        }
-                    );
-
-                    console.log(
-                        `[NexCord] Eliminada actualizaciÃ³n incompleta: ${versionDir}`
-                    );
-                } catch (error) {
-                    console.warn(
-                        `[NexCord] No se pudo eliminar ${versionDir}: ${error.message}`
-                    );
-                }
-            }
-        }
-    }
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// LIMPIEZA / RESTAURACIÃ“N
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function cleanPreviousInstallation(isUninstall) {
-    console.log(
-        "[NexCord] Comprobando instalaciones anteriores..."
-    );
-
-    let cleaned = false;
-
-    for (const { resourcesDir } of getDiscordChannels()) {
-        if (!existsSync(resourcesDir)) {
-            continue;
-        }
-
-        const appDir = join(
-            resourcesDir,
-            "app"
-        );
-
-        const appAsar = join(
-            resourcesDir,
-            "app.asar"
-        );
-
-        const backupAsar = join(
-            resourcesDir,
-            "_app.asar"
-        );
-
-        try {
-            // Si existe nuestro app/loader anterior,
-            // eliminarlo antes de reinstalar.
-            if (existsSync(appDir)) {
-                let isNexCordApp = false;
-
-                try {
-                    const packageJson = join(
-                        appDir,
-                        "package.json"
-                    );
-
-                    if (existsSync(packageJson)) {
-                        const pkg = JSON.parse(
-                            readFileSync(
-                                packageJson,
-                                "utf8"
-                            )
-                        );
-
-                        isNexCordApp =
-                            pkg.name === "discord" ||
-                            pkg.name === "nexcord" ||
-                            pkg.name === "nightcord";
-                    }
-                } catch {
-                    isNexCordApp = false;
-                }
-
-                if (isNexCordApp && backupAsar) {
-                    rmSync(
-                        appDir,
-                        {
-                            recursive: true,
-                            force: true
-                        }
-                    );
-
-                    cleaned = true;
-
-                    console.log(
-                        `[NexCord] Loader anterior eliminado: ${resourcesDir}`
-                    );
-                }
-            }
-
-            // DesinstalaciÃ³n:
-            // restaurar el app.asar original.
-            if (
-                isUninstall &&
-                existsSync(backupAsar)
-            ) {
-                if (existsSync(appAsar)) {
-                    rmSync(
-                        appAsar,
-                        {
-                            recursive: true,
-                            force: true
-                        }
-                    );
-                }
-
-                renameSync(
-                    backupAsar,
-                    appAsar
-                );
-
-                cleaned = true;
-
-                console.log(
-                    `[NexCord] Discord original restaurado: ${resourcesDir}`
-                );
-            }
-        } catch (error) {
-            console.error(
-                `[NexCord] Error en ${resourcesDir}:`,
-                error.message
-            );
-        }
-    }
-
-    if (cleaned) {
-        console.log(
-            "[NexCord] Limpieza completada."
-        );
-    } else {
-        console.log(
-            "[NexCord] No habÃ­a instalaciones anteriores que limpiar."
-        );
-    }
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// ABRIR DISCORD
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function launchDiscord() {
-    if (process.platform !== "win32") {
-        return;
-    }
-
-    const discord = findInstalledDiscord();
-
-    const updateExe = join(
-        discord.base,
-        "Update.exe"
-    );
-
-    const exeName =
-        `${discord.channel}.exe`;
-
-    if (existsSync(updateExe)) {
-        console.log(
-            `[NexCord] Abriendo ${discord.channel}...`
-        );
-
-        exec(
-            `"${updateExe}" --processStart ${exeName}`
-        );
-
-        return;
-    }
-
-    const directExe = join(
-        discord.appDir,
-        `${discord.channel}.exe`
-    );
-
-    if (existsSync(directExe)) {
-        console.log(
-            `[NexCord] Abriendo ${discord.channel}...`
-        );
-
-        exec(`"${directExe}"`);
-
-        return;
-    }
-
-    console.warn(
-        "[NexCord] No se pudo localizar el ejecutable de Discord."
-    );
-}
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// ARGUMENTOS
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-const argStart =
-    process.argv.indexOf("--");
-
-const args =
-    argStart === -1
-        ? process.argv.slice(2)
-        : process.argv.slice(argStart + 1);
-
-const isUninstall =
-    args.includes("--uninstall");
-
-const isRepair =
-    args.includes("--repair");
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// EJECUCIÃ“N
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-try {
-    cleanIncompleteDiscordUpdates();
-
-    cleanPreviousInstallation(
-        isUninstall
-    );
-
-    if (isUninstall) {
-        console.log(
-            "[NexCord] DesinstalaciÃ³n completada."
-        );
-
-        process.exit(0);
-    }
-
-    if (!isRepair) {
-        const patcherPath = join(
-            BASE_DIR,
-            "dist",
-            "desktop",
-            "patcher.js"
-        );
-
-        if (!existsSync(patcherPath)) {
-            throw new Error(
-                "No existe dist/desktop/patcher.js. Ejecuta pnpm build primero."
-            );
-        }
-    }
-
-    // Nunca descargar un instalador externo automÃ¡ticamente.
-    verifyInstaller();
-
-    const mappedArgs = args.map(arg => {
-        if (arg === "--install") {
-            return "-install";
-        }
-
-        if (arg === "--repair") {
-            return "-repair";
-        }
-
-        return arg;
     });
 
-    if (
-        !mappedArgs.includes("-branch") &&
-        !mappedArgs.includes("--branch")
-    ) {
-        mappedArgs.push(
-            "-branch",
-            "auto"
-        );
+    if (res.status === 304) {
+        console.log("Up to date, not redownloading!");
+        return outputFile;
+    }
+    if (!res.ok)
+        throw new Error(`Failed to download installer: ${res.status} ${res.statusText}`);
+
+    writeFileSync(ETAG_FILE, res.headers.get("etag"));
+
+    if (process.platform === "darwin") {
+        console.log("Unzipping...");
+        const zip = new Uint8Array(await res.arrayBuffer());
+
+        const ff = await import("fflate");
+        const bytes = ff.unzipSync(zip, {
+            filter: f => f.name === INSTALLER_PATH_DARWIN
+        })[INSTALLER_PATH_DARWIN];
+
+        writeFileSync(outputFile, bytes, { mode: 0o755 });
+
+        console.log("Overriding security policy for installer binary (this is required to run it)");
+        console.log("xattr might error, that's okay");
+
+        const logAndRun = cmd => {
+            console.log("Running", cmd);
+            try {
+                execSync(cmd);
+            } catch { }
+        };
+        logAndRun(`sudo spctl --add '${outputFile}' --label "Vencord Installer"`);
+        logAndRun(`sudo xattr -d com.apple.quarantine '${outputFile}'`);
+    } else {
+        // WHY DOES NODE FETCH RETURN A WEB STREAM OH MY GOD
+        const body = Readable.fromWeb(res.body);
+        await finished(body.pipe(createWriteStream(outputFile, {
+            mode: 0o755,
+            autoClose: true
+        })));
     }
 
-    console.log(
-        "[NexCord] Instalando NexCord en Discord..."
-    );
+    console.log("Finished downloading!");
 
-    /*
-     * Estas variables solamente indican al inyector
-     * dÃ³nde estÃ¡n los archivos compilados de NexCord.
-     *
-     * No contienen credenciales.
-     * No contienen tokens.
-     * No contienen contraseÃ±as.
-     */
-
-    execFileSync(
-        INSTALLER_PATH,
-        mappedArgs,
-        {
-            stdio: "inherit",
-
-            env: {
-                ...process.env,
-
-                EQUICORD_USER_DATA_DIR:
-                    BASE_DIR,
-
-                EQUICORD_DIRECTORY:
-                    join(
-                        BASE_DIR,
-                        "dist",
-                        "desktop"
-                    ),
-
-                EQUICORD_DEV_INSTALL:
-                    "1",
-
-                NIGHTCORD_DIRECTORY:
-                    join(
-                        BASE_DIR,
-                        "dist",
-                        "desktop"
-                    )
-            }
-        }
-    );
-
-    console.log(
-        "[NexCord] InstalaciÃ³n completada."
-    );
-
-    console.log(
-        "[NexCord] Se utilizarÃ¡ la sesiÃ³n existente de Discord."
-    );
-
-    launchDiscord();
-} catch (error) {
-    console.error("");
-    console.error(
-        "[NexCord] ERROR:"
-    );
-    console.error(
-        error?.message || error
-    );
-
-    process.exit(1);
+    return outputFile;
 }
-```
+
+
+
+const installerBin = await ensureBinary();
+
+console.log("Now running Installer...");
+
+const argStart = process.argv.indexOf("--");
+const args = argStart === -1 ? [] : process.argv.slice(argStart + 1);
+
+try {
+    execFileSync(installerBin, args, {
+        stdio: "inherit",
+        env: {
+            ...process.env,
+            VENCORD_USER_DATA_DIR: BASE_DIR,
+            VENCORD_DEV_INSTALL: "1"
+        }
+    });
+} catch {
+    console.error("Something went wrong. Please check the logs above.");
+}

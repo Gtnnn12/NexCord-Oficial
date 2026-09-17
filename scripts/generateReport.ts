@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -20,8 +20,7 @@
 /// <reference types="../src/modules" />
 
 import { createHmac } from "crypto";
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
+import { readFileSync } from "fs";
 import pup, { JSHandle } from "puppeteer-core";
 
 const logStderr = (...data: any[]) => console.error(`${CANARY ? "CANARY" : "STABLE"} ---`, ...data);
@@ -42,7 +41,7 @@ let metaData = {
 const browser = await pup.launch({
     headless: true,
     executablePath: process.env.CHROMIUM_BIN,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ["--no-sandbox"]
 });
 
 const page = await browser.newPage();
@@ -87,20 +86,14 @@ const IGNORED_DISCORD_ERRORS = [
 function toCodeBlock(s: string, indentation = 0, isDiscord = false) {
     s = s.replace(/```/g, "`\u200B`\u200B`");
 
-    s = s.replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
-        String.fromCharCode(parseInt(hex, 16))
-    );
-
-    const indentationStr = " ".repeat(!isDiscord ? indentation : 0);
-    const content = s.split("\n").map(s => indentationStr + s).join("\n");
-
-    return `\`\`\`\n${content}\n${indentationStr}\`\`\``;
+    const indentationStr = Array(!isDiscord ? indentation : 0).fill(" ").join("");
+    return `\`\`\`\n${s.split("\n").map(s => indentationStr + s).join("\n")}\n${indentationStr}\`\`\``;
 }
 
 async function printReport() {
     console.log();
 
-    console.log("# Equicord Report" + (CANARY ? " (Canary)" : ""));
+    console.log("# Vencord Report" + (CANARY ? " (Canary)" : ""));
 
     console.log();
 
@@ -195,13 +188,13 @@ async function printReport() {
         if (embeds.length === 1) {
             embeds.push({
                 title: "No issues found",
-                description: "Seems like everything is working fine (for now)",
+                description: "Seems like everything is working fine (for now) <:shipit:1330992641466433556>",
                 color: 0x00ff00
             });
         }
 
         const body = JSON.stringify({
-            username: "Equicord Reporter" + (CANARY ? " (Canary)" : ""),
+            username: "Vencord Reporter" + (CANARY ? " (Canary)" : ""),
             embeds
         });
 
@@ -248,7 +241,7 @@ page.on("console", async e => {
 
     const firstArg = await rawArgs[0]?.jsonValue();
 
-    const isEquicord = firstArg === "[Equicord]";
+    const isVencord = firstArg === "[Vencord]";
     const isDebug = firstArg === "[PUP_DEBUG]";
     const isReporterMeta = firstArg === "[REPORTER_META]";
 
@@ -258,7 +251,7 @@ page.on("console", async e => {
     }
 
     outer:
-    if (isEquicord) {
+    if (isVencord) {
         try {
             var args = await Promise.all(e.args().map(a => a.jsonValue()));
         } catch {
@@ -359,8 +352,8 @@ page.on("pageerror", (e: any) => {
 
 await page.evaluateOnNewDocument(`
     if (location.host.endsWith("discord.com")) {
-        ${readFileSync("./dist/browser/browser.js", "utf-8")};
+        ${readFileSync("./dist/browser.js", "utf-8")};
     }
 `);
 
-await page.goto(CANARY ? "https://canary.discord.com/login" : "https://discord.com/login", { timeout: 120000 });
+await page.goto(CANARY ? "https://canary.discord.com/login" : "https://discord.com/login");

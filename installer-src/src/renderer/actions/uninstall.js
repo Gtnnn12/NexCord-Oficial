@@ -1,4 +1,4 @@
-﻿import {progress, status} from "../stores/installation";
+import {progress, status} from "../stores/installation";
 import {promises as fs} from "fs";
 import path from "path";
 import {killDiscord, startDiscord} from "./utils/kill";
@@ -117,11 +117,11 @@ async function deleteShims(paths) {
                 log("4. Skipping Discord restart (disabled in options).");
             }
 
-            log("âœ… Uninstallation successful!");
+            log("✅ Uninstallation successful!");
             progress.set(progress.value + progressPerLoop);
         } catch (err) {
-            log(`âŒ Could not remove Nightcord from ${resPath}`);
-            log(`âŒ ${err.message}`);
+            log(`❌ Could not remove Nightcord from ${resPath}`);
+            log(`❌ ${err.message}`);
             return err;
         }
     }
@@ -139,8 +139,8 @@ export default async function(paths) {
         lognewline("Uninstall complete!");
         return true;
     } catch (err) {
-        lognewline("âŒ Uninstallation failed");
-        log(`âŒ ${err.message}`);
+        lognewline("❌ Uninstallation failed");
+        log(`❌ ${err.message}`);
         return false;
     }
 }
