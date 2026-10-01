@@ -22,7 +22,7 @@ import { existsSync as fsExistsSync, statSync as fsStatSync } from "original-fs"
 import { dirname, join } from "path";
 
 import { registerMediaPermissionsForSession } from "../nightcord/main/mediaPermissions";
-import { RendererSettings } from "./settings";
+import { notifyRenderProcessGone, RendererSettings } from "./settings";
 import { patchTrayMenu } from "./trayMenu";
 import { IS_VANILLA } from "./utils/constants";
 
@@ -231,6 +231,13 @@ if (!IS_VANILLA) {
                     if (superIsFullScreen()) superSetFullScreen(false);
                 });
             }
+
+            // FASE 3 — registrar crashes del renderer para el auto-safe-mode
+            this.webContents.on("render-process-gone", (_event, details) => {
+                if (details?.reason && details.reason !== "clean-exit") {
+                    try { notifyRenderProcessGone(); } catch { }
+                }
+            });
 
             this.webContents.on("before-input-event", (event, input) => {
                 if (input.type === "keyDown" && input.key === "F11" && !input.control && !input.shift && !input.alt && !input.meta) {

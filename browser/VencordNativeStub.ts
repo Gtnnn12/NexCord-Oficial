@@ -131,6 +131,13 @@ window.VencordNative = {
         set: async (s: Settings) => localStorage.setItem("EquicordSettings", JSON.stringify(s)),
         getSettingsDir: async () => "LocalStorage",
         openFolder: async () => Promise.reject("settings:openFolder is not supported on web"),
+        // FASE 3 — enabled-plugins.json no existe en web: sin backend nativo,
+        // el arranque de plugins sigue gobernado por settings.json.
+        getEnabledPlugins: undefined as any,
+        setPluginEnabled: undefined as any,
+        setEnabledPlugins: undefined as any,
+        setPluginLoadTimes: undefined as any,
+        getSafeMode: undefined as any,
     },
 
     pluginHelpers: {} as any,

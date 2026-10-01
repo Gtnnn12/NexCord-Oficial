@@ -299,14 +299,6 @@ if (!IS_REPORTER) {
     });
 }
 
-/**
- * Same as {@link Settings} but unproxied. You should treat this as readonly,
- * as modifying properties on this will not save to disk or call settings
- * listeners.
- * WARNING: default values specified in plugin.options will not be ensured here. In other words,
- * settings for which you specified a default value may be uninitialised. If you need proper
- * handling for default values, use {@link Settings}
- */
 export const PlainSettings = settings;
 /**
  * A smart settings object. Altering props automagically saves
@@ -460,6 +452,25 @@ export function definePluginSettings<
 }
 
 type UseSettings<T extends object> = ResolveUseSettings<T>[keyof T];
+
+// ---------------------------------------------------------------------------
+// FASE 3 — enabled-plugins.json (fuente de verdad del estado ON/OFF) y log de
+// tiempos de carga. Se lee por IPC síncrono, igual que settings.json.
+// ---------------------------------------------------------------------------
+export type { PluginLoadTimes, PluginSettingsFlags, SafeModeInfo } from "@shared/pluginState";
+import { type SafeModeInfo } from "@shared/pluginState";
+
+/** true si hay backend nativo que soporta enabled-plugins.json (no web/reporter) */
+export const ENABLED_PLUGINS_ACTIVE =
+    !IS_REPORTER && typeof VencordNative !== "undefined" && !!VencordNative.settings?.getEnabledPlugins && !!VencordNative.settings?.getSafeMode;
+
+export const ENABLED_PLUGINS: PluginSettingsFlags =
+    ENABLED_PLUGINS_ACTIVE ? VencordNative.settings.getEnabledPlugins() : {};
+
+export const SAFE_MODE: SafeModeInfo =
+    ENABLED_PLUGINS_ACTIVE ? (VencordNative.settings.getSafeMode?.() ?? { active: false, reason: "" }) : { active: false, reason: "" };
+
+export const FIRST_TEN_PLUGINS = "__NexCord_firstTen_v1__";
 
 type ResolveUseSettings<T extends object> = {
     [Key in keyof T]:

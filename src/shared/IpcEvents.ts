@@ -43,6 +43,13 @@ export const enum IpcEvents {
 
     GET_PLUGIN_IPC_METHOD_MAP = "VencordGetPluginIpcMethodMap",
 
+    // FASE 3 — enabled-plugins.json (fuente de verdad del estado ON/OFF de plugins)
+    GET_ENABLED_PLUGINS = "NexCordGetEnabledPlugins",
+    GET_SAFE_MODE = "NexCordGetSafeMode",
+    SET_PLUGIN_ENABLED = "NexCordSetPluginEnabled",
+    SET_ENABLED_PLUGINS = "NexCordSetEnabledPlugins",
+    SET_PLUGIN_LOAD_TIMES = "NexCordSetPluginLoadTimes",
+
     CSP_IS_DOMAIN_ALLOWED = "VencordCspIsDomainAllowed",
     CSP_REMOVE_OVERRIDE = "VencordCspRemoveOverride",
     CSP_REQUEST_ADD_OVERRIDE = "VencordCspRequestAddOverride",

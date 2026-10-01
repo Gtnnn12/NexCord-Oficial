@@ -22,6 +22,15 @@ export function sendSync<T = any>(event: IpcEvents, ...args: any[]) {
 const PluginHelpers = {} as Record<string, Record<string, (...args: any[]) => Promise<any>>>;
 const pluginIpcMap = sendSync<PluginIpcMappings>(IpcEvents.GET_PLUGIN_IPC_METHOD_MAP);
 
+// FASE 3 — estado del modo seguro (lo rellena main; read-only en el renderer)
+const safeModeInfo = (() => {
+    try {
+        return sendSync<{ active: boolean; reason: string; }>(IpcEvents.GET_SAFE_MODE);
+    } catch {
+        return { active: false, reason: "" };
+    }
+})();
+
 for (const [plugin, methods] of Object.entries(pluginIpcMap)) {
     const map = PluginHelpers[plugin] = {};
     for (const [methodName, method] of Object.entries(methods)) {
@@ -55,6 +64,12 @@ export default {
         set: (settings: Settings, pathToNotify?: string) => invoke<void>(IpcEvents.SET_SETTINGS, settings, pathToNotify),
         getSettingsDir: () => invoke<string>(IpcEvents.GET_SETTINGS_DIR),
         openFolder: () => invoke<void>(IpcEvents.OPEN_SETTINGS_FOLDER),
+        // FASE 3 — enabled-plugins.json y modo seguro
+        getEnabledPlugins: () => sendSync<Record<string, { enabled?: boolean; }>>(IpcEvents.GET_ENABLED_PLUGINS),
+        setPluginEnabled: (name: string, enabled: boolean) => ipcRenderer.send(IpcEvents.SET_PLUGIN_ENABLED, name, enabled),
+        setEnabledPlugins: (data: Record<string, { enabled?: boolean; }>) => ipcRenderer.send(IpcEvents.SET_ENABLED_PLUGINS, data),
+        setPluginLoadTimes: (times: Record<string, number>) => ipcRenderer.send(IpcEvents.SET_PLUGIN_LOAD_TIMES, times),
+        getSafeMode: () => safeModeInfo,
     },
 
     quickCss: {

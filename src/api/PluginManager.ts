@@ -27,6 +27,8 @@ import { addMessageClickListener, addMessagePreEditListener, addMessagePreSendLi
 import { addMessagePopoverButton, removeMessagePopoverButton } from "@api/MessagePopover";
 import { addNicknameIcon, removeNicknameIcon } from "@api/NicknameIcons";
 import { Settings, SettingsStore } from "@api/Settings";
+import { ENABLED_PLUGINS, ENABLED_PLUGINS_ACTIVE, FIRST_TEN_PLUGINS, SAFE_MODE } from "@api/Settings";
+import type { PluginLoadTimes } from "@shared/pluginState";
 import { disableStyle, enableStyle } from "@api/Styles";
 import { Logger } from "@utils/Logger";
 import { onlyOnce } from "@utils/onlyOnce";
@@ -56,11 +58,19 @@ export function isPluginEnabled(p: string) {
     const plugin = Plugins[p];
     if (!plugin) return false;
 
-    return (
-        plugin.required ||
-        plugin.isDependency ||
-        (Settings as any)?.plugins?.[p]?.enabled
-    ) ?? false;
+    if (plugin.required || plugin.isDependency) return true;
+
+    // FASE 3 — Modo seguro: ningún plugin se carga.
+    if (SAFE_MODE.active) return false;
+
+    // En web/reporter (sin backend nativo) se mantiene el comportamiento previo.
+    if (!ENABLED_PLUGINS_ACTIVE) {
+        return (Settings as any)?.plugins?.[p]?.enabled ?? false;
+    }
+
+    // FASE 3 — enabled-plugins.json es la fuente de verdad del estado ON/OFF.
+    // (settings.json deja de gobernar el arranque de plugins.)
+    return ENABLED_PLUGINS[p]?.enabled ?? false;
 }
 
 export function isSettingHidden(settings: any, setting: any) {
@@ -132,6 +142,7 @@ export function pluginRequiresRestart(p: Plugin) {
 
 export const startAllPlugins = traceFunction("startAllPlugins", function startAllPlugins(target: StartAt) {
     logger.info(`Starting plugins (stage ${target})`);
+    const loadTimes: PluginLoadTimes = {};
     for (const name in Plugins) {
         if (isPluginEnabled(name) && (!IS_REPORTER || isReporterTestable(Plugins[name], ReporterTestable.Start))) {
             const p = Plugins[name];
@@ -139,8 +150,22 @@ export const startAllPlugins = traceFunction("startAllPlugins", function startAl
             const startAt = p.startAt ?? StartAt.WebpackReady;
             if (startAt !== target) continue;
 
+            const start = performance.now();
             startPlugin(Plugins[name]);
+            if (target === StartAt.WebpackReady) {
+                const ms = Math.round(performance.now() - start);
+                loadTimes[name] = (loadTimes[name] ?? 0) + ms;
+                if (ms > 500) {
+                    logger.warn(`[FASE 3] Plugin ${name} tardó ${ms}ms en iniciar (>500ms)`);
+                }
+            }
         }
+    }
+    // FASE 3 — persistir tiempos de carga para diagnóstico
+    if (target === StartAt.WebpackReady && !SAFE_MODE.active && ENABLED_PLUGINS_ACTIVE) {
+        try {
+            VencordNative.settings.setPluginLoadTimes(loadTimes);
+        } catch { }
     }
 });
 
@@ -378,6 +403,32 @@ export const initPluginManager = onlyOnce(function init() {
     const pluginsValues = Object.values(Plugins);
     const settings = Settings.plugins;
 
+    // -----------------------------------------------------------------------
+    // FASE 3 — Migración inicial: si enabled-plugins.json está vacío (primera
+    // vez tras la migración), habilitar solo los 10 primeros plugins
+    // alfabéticamente (excluyendo APIs/core, que van aparte). El resto OFF.
+    // -----------------------------------------------------------------------
+    if (!SAFE_MODE.active) {
+        const hasAnyFlags = Object.keys(ENABLED_PLUGINS).length > 0;
+        const alreadySeeded = (SettingsStore.plain as any)[FIRST_TEN_PLUGINS];
+        if (!hasAnyFlags && !alreadySeeded) {
+            const firstTen = pluginsValues
+                .filter(p => !p.required && !p.isDependency && !p.name.startsWith("_"))
+                .map(p => p.name)
+                .sort((a, b) => a.localeCompare(b))
+                .slice(0, 10);
+            for (const name of firstTen) {
+                ENABLED_PLUGINS[name] = { enabled: true };
+                if (ENABLED_PLUGINS_ACTIVE) {
+                    try { VencordNative.settings.setPluginEnabled(name, true); } catch { }
+                }
+            }
+            (SettingsStore.plain as any)[FIRST_TEN_PLUGINS] = true;
+            SettingsStore.markAsChanged();
+            logger.info("[FASE 3] enabled-plugins.json seeded; plugins ON:", firstTen.join(", "));
+        }
+    }
+
     const pluginKeysToBind: Array<keyof PluginDef & `${"on" | "render"}${string}`> = [
         "onBeforeMessageEdit", "onBeforeMessageSend", "onMessageClick",
         "renderChatBarButton", "renderMemberListDecorator", "renderMessageAccessory", "renderMessageDecoration", "renderMessagePopoverButton",
@@ -452,6 +503,22 @@ export const initPluginManager = onlyOnce(function init() {
         Plugins[p].isDependency = true;
         settings[p].enabled = true;
     }
+
+    // FASE 3 — sync unidireccional settings.json → enabled-plugins.json:
+    // la UI (PluginCard) escribe en settings.plugins.X.enabled; aquí reflejamos
+    // el cambio en enabled-plugins.json, que es lo que decide el arranque.
+    SettingsStore.addGlobalChangeListener((_, path) => {
+        if (typeof path !== "string" || !path.startsWith("plugins.")) return;
+        const name = path.slice("plugins.".length).split(".")[0];
+        if (!name || !(name in Plugins)) return;
+        const plugin = Plugins[name];
+        if (plugin.required || plugin.isDependency) return;
+        const enabled = !!(Settings as any).plugins?.[name]?.enabled;
+        if (ENABLED_PLUGINS_ACTIVE) {
+            ENABLED_PLUGINS[name] = { ...(ENABLED_PLUGINS[name] ?? {}), enabled };
+            try { VencordNative.settings.setPluginEnabled(name, enabled); } catch { }
+        }
+    });
 
     for (const p of pluginsValues) {
         if (p.settings) {
