@@ -234,7 +234,7 @@ export function PresetManager({ section, guildId }: PresetManagerProps) {
                                 disabled={currentPage === 1}
                                 onClick={() => handlePageChange(currentPage - 1)}
                             >
-                                â†
+                                ←
                             </Button>
                             <div className={cl("page")}>
                                 <input
@@ -260,7 +260,7 @@ export function PresetManager({ section, guildId }: PresetManagerProps) {
                                 disabled={currentPage === totalPages}
                                 onClick={() => handlePageChange(currentPage + 1)}
                             >
-                                â†’
+                                →
                             </Button>
                         </div>
                     )}

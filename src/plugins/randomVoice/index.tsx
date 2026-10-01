@@ -130,7 +130,7 @@ function RandomVoiceKeybindSettings() {
 function formatKeybind(keybind: string | string[]) {
     const keybindString = Array.isArray(keybind) ? keybind.join("+") : keybind;
     return IS_MAC
-        ? keybindString.replace(/Control/gi, "^").replace(/Meta|Command|Cmd/gi, "âŒ˜").replace(/Alt|Option/gi, "âŒ¥").replace(/Shift/gi, "â‡§")
+        ? keybindString.replace(/Control/gi, "^").replace(/Meta|Command|Cmd/gi, "⌘").replace(/Alt|Option/gi, "⌥").replace(/Shift/gi, "⇧")
         : keybindString;
 }
 

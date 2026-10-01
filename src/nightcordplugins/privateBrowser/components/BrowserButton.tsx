@@ -14,7 +14,7 @@ import { browserBase64 } from "../icon";
 
 type ExtensionInfo = { id: string; name: string; version: string; description: string; iconUrl: string; dir: string; };
 
-// â”€â”€â”€ Extension Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Extension Panel ─────────────────────────────────────────────────────────
 
 let extPanelEl: HTMLDivElement | null = null;
 let extPanelVisible = false;
@@ -202,7 +202,7 @@ async function renderExtPanel() {
             removeBtn.onclick = async () => {
                 removeBtn.disabled = true;
                 await Native.removeExtension(ext.id).catch(() => {});
-                showExtNotif(`ðŸ—‘ Removed: ${ext.name}`, "#80848e");
+                showExtNotif(`🗑 Removed: ${ext.name}`, "#80848e");
                 renderExtPanel();
             };
 
@@ -226,7 +226,7 @@ async function renderExtPanel() {
     extPanelEl.appendChild(footer);
 }
 
-// â”€â”€â”€ Tab State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Tab State ────────────────────────────────────────────────────────────────
 
 type Tab = { id: string; url: string; title: string; };
 
@@ -274,7 +274,7 @@ function getSearchUrl(query: string): string {
 /** Persist current tabs to localStorage (only when persistTabs is on). */
 function saveTabs() {
     if (!settings.store?.persistTabs) {
-        // Option is off â€” wipe any leftover saved state so next startup is always fresh
+        // Option is off — wipe any leftover saved state so next startup is always fresh
         try { localStorage.removeItem(TABS_STORAGE_KEY); } catch {}
         try { localStorage.removeItem(ACTIVE_TAB_STORAGE_KEY); } catch {}
         return;
@@ -375,7 +375,7 @@ function switchWebviewTab(tabId: string) {
     if (wv) wv.style.display = "block";
 }
 
-// â”€â”€â”€ BrowserButton Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── BrowserButton Component ─────────────────────────────────────────────────
 
 export function BrowserButton() {
     const [hovered, setHovered] = React.useState(false);

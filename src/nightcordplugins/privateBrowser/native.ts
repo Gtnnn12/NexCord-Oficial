@@ -125,7 +125,7 @@ export async function navigateFrame(action: "back" | "forward" | "reload"): Prom
 }
 
 
-// â”€â”€â”€ Extension Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Extension Management ────────────────────────────────────────────────────
 
 const EXTENSIONS_DIR = path.join(app.getPath("userData"), "NexCord-extensions");
 

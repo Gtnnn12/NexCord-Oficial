@@ -10,14 +10,14 @@ import definePlugin from "@utils/types";
 const STYLE_ID = "NexCord-hide-native-buttons";
 
 const CSS = `
-/* â”€â”€ NexCord : suppression boutons natifs Discord non dÃ©sirÃ©s â”€â”€ */
+/* ── NexCord : suppression boutons natifs Discord non désirés ── */
 [aria-label="Open Logs"],
 [aria-label="Help"],
 [aria-label="Aide"],
 [aria-label="DevTools"],
 [aria-label="Last Meadow Online"],
 [aria-label="Inbox"],
-[aria-label="BoÃ®te de rÃ©ception"],
+[aria-label="Boîte de réception"],
 [aria-label="Bandeja de entrada"] {
     display: none !important;
     width: 0 !important;

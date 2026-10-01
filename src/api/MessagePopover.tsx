@@ -69,7 +69,7 @@ function VencordPopoverButtons(props: { Component: React.ComponentType<MessagePo
 
     const { messagePopoverButtons } = useSettings(["uiElements.messagePopoverButtons.*"]).uiElements;
 
-    // â”€â”€ Stealth Mode Bypass â”€â”€
+    // ── Stealth Mode Bypass ──
     try {
         const { isStealthModeEnabled } = require("./HeaderBar");
         if (isStealthModeEnabled()) return null;

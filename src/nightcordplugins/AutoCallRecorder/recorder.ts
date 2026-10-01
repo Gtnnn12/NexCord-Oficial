@@ -299,7 +299,7 @@ export function stopRecording(): Promise<void> {
 
         try {
             if (mediaRecorder.state !== "inactive") {
-                // requestData() flushes the last partial chunk â†’ triggers ondataavailable
+                // requestData() flushes the last partial chunk → triggers ondataavailable
                 // BEFORE onstop fires, so the chunk will be in pendingChunkPromises
                 // when Promise.allSettled runs inside onstop.
                 mediaRecorder.requestData();

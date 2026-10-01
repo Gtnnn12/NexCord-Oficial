@@ -207,7 +207,7 @@ export default definePlugin({
                         };
                     } catch (err) {
                         sendBotMessage(ctx.channel.id, {
-                            content: "Sorry, couldn't fetch a cat picture right now ðŸ˜¿"
+                            content: "Sorry, couldn't fetch a cat picture right now 😿"
                         });
                     }
                 })();
@@ -343,7 +343,7 @@ export default definePlugin({
                 for (let i = number; i >= 0; i--) {
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     sendBotMessage(ctx.channel.id, {
-                        content: i === 0 ? "ðŸŽ‰ Go! ðŸŽ‰" : `${i}...`
+                        content: i === 0 ? "🎉 Go! 🎉" : `${i}...`
                     });
                 }
             },
@@ -399,7 +399,7 @@ export default definePlugin({
             description: "Sends a lenny face",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " ( Í¡Â° ÍœÊ– Í¡Â°)"
+                content: findOption(opts, "message", "") + " ( ͡° ͜ʖ ͡°)"
             }),
         },
         {
@@ -674,90 +674,90 @@ export default definePlugin({
         },
         {
             name: "dissatisfaction",
-            description: " ï¼žï¹ï¼œ",
+            description: " ＞﹏＜",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + " ï¼žï¹ï¼œ",
+                content: findOption(opts, "message", "") + " " + " ＞﹏＜",
             }),
         },
         {
             name: "smug",
-            description: "à² _à² ",
+            description: "ಠ_ಠ",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "à² _à² ",
+                content: findOption(opts, "message", "") + " " + "ಠ_ಠ",
             }),
         },
         {
             name: "happy",
-            description: "ãƒ½(Â´â–½`)/",
+            description: "ヽ(´▽`)/",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "ãƒ½(Â´â–½`)/",
+                content: findOption(opts, "message", "") + " " + "ヽ(´▽`)/",
             }),
         },
         {
             name: "crying",
-            description: "à²¥_à²¥",
+            description: "ಥ_ಥ",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "à²¥_à²¥",
+                content: findOption(opts, "message", "") + " " + "ಥ_ಥ",
             }),
         },
         {
             name: "angry",
-            description: "ãƒ½(ï½€Ð”Â´)ï¾‰",
+            description: "ヽ(｀Д´)ﾉ",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "ãƒ½(ï½€Ð”Â´)ï¾‰",
+                content: findOption(opts, "message", "") + " " + "ヽ(｀Д´)ﾉ",
             }),
         },
         {
             name: "anger",
-            description: "ãƒ½(ï½`çš¿â€²ï½)ï¾‰",
+            description: "ヽ(ｏ`皿′ｏ)ﾉ",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "ãƒ½(ï½`çš¿â€²ï½)ï¾‰",
+                content: findOption(opts, "message", "") + " " + "ヽ(ｏ`皿′ｏ)ﾉ",
             }),
         },
         {
             name: "joy",
-            description: "<(ï¿£ï¸¶ï¿£)>",
+            description: "<(￣︶￣)>",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "<(ï¿£ï¸¶ï¿£)>",
+                content: findOption(opts, "message", "") + " " + "<(￣︶￣)>",
             }),
         },
         {
             name: "blush",
-            description: "à«® Ë¶áµ” áµ• áµ”Ë¶ áƒ",
+            description: "૮ ˶ᵔ ᵕ ᵔ˶ ა",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "à«® Ë¶áµ” áµ• áµ”Ë¶ áƒ",
+                content: findOption(opts, "message", "") + " " + "૮ ˶ᵔ ᵕ ᵔ˶ ა",
             }),
         },
         {
             name: "confused",
-            description: "(â€¢à¸´_â€¢à¸´)?",
+            description: "(•ิ_•ิ)?",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(â€¢à¸´_â€¢à¸´)?",
+                content: findOption(opts, "message", "") + " " + "(•ิ_•ิ)?",
             }),
         },
         {
             name: "sleeping",
-            description: "(á´—_á´—)",
+            description: "(ᴗ_ᴗ)",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(á´—_á´—)",
+                content: findOption(opts, "message", "") + " " + "(ᴗ_ᴗ)",
             }),
         },
         {
             name: "laughing",
-            description: "o(â‰§â–½â‰¦)o",
+            description: "o(≧▽≦)o",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "o(â‰§â–½â‰¦)o",
+                content: findOption(opts, "message", "") + " " + "o(≧▽≦)o",
             }),
         },
         /*
@@ -765,98 +765,98 @@ export default definePlugin({
         */
         {
             name: "giving",
-            description: "(ï¾‰â—•ãƒ®â—•)ï¾‰*:ï½¥ï¾Ÿâœ§",
+            description: "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(ï¾‰â—•ãƒ®â—•)ï¾‰*:ï½¥ï¾Ÿâœ§",
+                content: findOption(opts, "message", "") + " " + "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
             }),
         },
         {
             name: "peace",
-            description: "âœŒ(â—•â€¿-)âœŒ",
+            description: "✌(◕‿-)✌",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "âœŒ(â—•â€¿-)âœŒ",
+                content: findOption(opts, "message", "") + " " + "✌(◕‿-)✌",
             }),
         },
         {
             name: "ending1",
-            description: "áª à£ªÖ¸ Û° Í™âŠ¹",
+            description: "Ꮺ ָ࣪ ۰ ͙⊹",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "áª à£ªÖ¸ Û° Í™âŠ¹",
+                content: findOption(opts, "message", "") + " " + "Ꮺ ָ࣪ ۰ ͙⊹",
             }),
         },
         {
             name: "uwu",
-            description: "(>â©Š<)",
+            description: "(>⩊<)",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(>â©Š<)",
+                content: findOption(opts, "message", "") + " " + "(>⩊<)",
             }),
         },
         {
             name: "comfy",
-            description: "(â”€â€¿â€¿â”€)â™¡",
+            description: "(─‿‿─)♡",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(â”€â€¿â€¿â”€)â™¡",
+                content: findOption(opts, "message", "") + " " + "(─‿‿─)♡",
             }),
         },
         {
             name: "lovehappy",
-            description: "(*â‰§Ï‰â‰¦*)",
+            description: "(*≧ω≦*)",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(*â‰§Ï‰â‰¦*)",
+                content: findOption(opts, "message", "") + " " + "(*≧ω≦*)",
             }),
         },
         {
             name: "loveee",
-            description: "(â„ â„>â„ â–½ â„<â„ â„)",
+            description: "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(â„ â„>â„ â–½ â„<â„ â„)",
+                content: findOption(opts, "message", "") + " " + "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)",
             }),
         },
         {
             name: "give",
-            description: "(ãƒŽ= â©Š = )ãƒŽ",
+            description: "(ノ= ⩊ = )ノ",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(ãƒŽ= â©Š = )ãƒŽ",
+                content: findOption(opts, "message", "") + " " + "(ノ= ⩊ = )ノ",
             }),
         },
         {
             name: "lovegive",
-            description: "áƒ¦ã‚â—¡â•¹)ãƒŽâ™¡",
+            description: "ღゝ◡╹)ノ♡",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "áƒ¦ã‚â—¡â•¹)ãƒŽâ™¡",
+                content: findOption(opts, "message", "") + " " + "ღゝ◡╹)ノ♡",
             }),
         },
         {
             name: "music",
-            description: "(ï¿£â–½ï¿£)/â™«â€¢Â¨â€¢.Â¸Â¸â™ª",
+            description: "(￣▽￣)/♫•¨•.¸¸♪",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "(ï¿£â–½ï¿£)/â™«â€¢Â¨â€¢.Â¸Â¸â™ª",
+                content: findOption(opts, "message", "") + " " + "(￣▽￣)/♫•¨•.¸¸♪",
             }),
         },
         {
             name: "stars",
-            description: ".ð–¥” Ý Ë–à¹‹ à£­ â­‘",
+            description: ".𖥔 ݁ ˖๋ ࣭ ⭑",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + ".ð–¥” Ý Ë–à¹‹ à£­ â­‘",
+                content: findOption(opts, "message", "") + " " + ".𖥔 ݁ ˖๋ ࣭ ⭑",
             }),
         },
         {
             name: "lovegiving",
-            description: "â¸œ(ï½¡Ëƒ áµ• Ë‚ )â¸â™¡",
+            description: "⸜(｡˃ ᵕ ˂ )⸝♡",
             options: [OptionalMessageOption],
             execute: opts => ({
-                content: findOption(opts, "message", "") + " " + "â¸œ(ï½¡Ëƒ áµ• Ë‚ )â¸â™¡",
+                content: findOption(opts, "message", "") + " " + "⸜(｡˃ ᵕ ˂ )⸝♡",
             }),
         }
     ],

@@ -15,7 +15,7 @@ import Canvas from "./Canvas";
 import CharSelectModal from "./Picker";
 
 export default function SekaiStickersModal({ modalProps, settings }: { modalProps: RenderModalProps; settings: any; }) {
-    const [text, setText] = React.useState<string>("å¥ã§ãƒ¼ã‹ã‚ã„ã„");
+    const [text, setText] = React.useState<string>("奏でーかわいい");
     const [character, setChracter] = React.useState<number>(49);
     const [fontSize, setFontSize] = React.useState<number>(characters[character].defaultText.s);
     const [rotate, setRotate] = React.useState<number>(characters[character].defaultText.r);

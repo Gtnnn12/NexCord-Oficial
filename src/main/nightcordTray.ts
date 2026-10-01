@@ -92,7 +92,7 @@ export function initNexCordTray(injectorPath: string) {
                 }
             });
 
-            console.log("[NexCord] Tray created âœ“", iconPath ?? "(icon from exe)");
+            console.log("[NexCord] Tray created ✓", iconPath ?? "(icon from exe)");
         } catch (e) {
             console.error("[NexCord] Failed to create tray:", e);
         }

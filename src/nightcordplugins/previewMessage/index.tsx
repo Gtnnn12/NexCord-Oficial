@@ -13,7 +13,7 @@ import { sendMessage } from "@utils/discord";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { t } from "../autoTranslateNightcord";
 
-// â”€â”€ Stores â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Stores ─────────────────────────────────────────────────────────────────
 
 const ReadStateStore = findByPropsLazy("getUnreadCount", "getMentionCount");
 const MessageStore = findByPropsLazy("getMessages");
@@ -25,7 +25,7 @@ const SelectedChannelStore = findByPropsLazy("getChannelId", "getVoiceChannelId"
 const RestAPI = findByPropsLazy("get", "post");
 const Endpoints = findByPropsLazy("MESSAGES");
 
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helpers ────────────────────────────────────────────────────────────────
 
 function getAvatarUrl(user: any): string {
     if (!user) return "https://cdn.discordapp.com/embed/avatars/0.png";
@@ -51,11 +51,11 @@ function formatHeaderTime(ts: string | number | Date): string {
     const now = new Date();
     const isToday = d.toDateString() === now.toDateString();
     const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    if (isToday) return `Aujourd'hui Ã  ${timeStr}`;
+    if (isToday) return `Aujourd'hui à ${timeStr}`;
 
     const yesterday = new Date();
     yesterday.setDate(now.getDate() - 1);
-    if (d.toDateString() === yesterday.toDateString()) return `Hier Ã  ${timeStr}`;
+    if (d.toDateString() === yesterday.toDateString()) return `Hier à ${timeStr}`;
 
     return `${d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "numeric" })} ${timeStr}`;
 }
@@ -72,7 +72,7 @@ function formatDateDivider(ts: string | number | Date): string {
     return d.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 }
 
-// â”€â”€ Tooltip Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tooltip Component ──────────────────────────────────────────────────────
 
 function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
     const [messages, setMessages] = React.useState<any[]>([]);
@@ -170,7 +170,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
 
     const title = recipientUser
         ? (recipientUser.globalName ?? recipientUser.username)
-        : (channel?.name ?? t("AperÃ§u du chat"));
+        : (channel?.name ?? t("Aperçu du chat"));
 
     const channelAvatar = recipientUser
         ? getAvatarUrl(recipientUser)
@@ -268,7 +268,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                                                         <img src={getAvatarUrl(m.referencedMessage.author)} className="pm-reply-avatar" alt="" />
                                                         <span className="pm-reply-name">@{m.referencedMessage.author?.global_name ?? m.referencedMessage.author?.username ?? "User"}</span>
                                                         <span className="pm-reply-content">
-                                                            {m.referencedMessage.content || (m.referencedMessage.attachments?.length ? "ðŸ“Ž [PiÃ¨ce jointe]" : "...")}
+                                                            {m.referencedMessage.content || (m.referencedMessage.attachments?.length ? "📎 [Pièce jointe]" : "...")}
                                                         </span>
                                                     </div>
                                                 )}
@@ -299,7 +299,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                                                                     <img key={att.id || aIdx} src={att.proxy_url || att.url} alt="" className="pm-attachment-img" />
                                                                 ) : (
                                                                     <div key={att.id || aIdx} className="pm-attachment-file">
-                                                                        <span>ðŸ“Ž {att.filename}</span>
+                                                                        <span>📎 {att.filename}</span>
                                                                     </div>
                                                                 );
                                                             })}
@@ -333,7 +333,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                         <input
                             type="text"
                             className="pm-input-field"
-                            placeholder={t("RÃ©pondre Ã  {name}...").replace("{name}", title)}
+                            placeholder={t("Répondre à {name}...").replace("{name}", title)}
                             value={replyText}
                             onChange={e => setReplyText(e.target.value)}
                             onKeyDown={e => {
@@ -357,7 +357,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
 
 const SafeTooltip = ErrorBoundary.wrap(Tooltip, { noop: true });
 
-// â”€â”€ Tooltip portal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tooltip portal ─────────────────────────────────────────────────────────
 
 let container: HTMLDivElement | null = null;
 let hideTimer: any = null;
@@ -388,7 +388,7 @@ function hide(delay = 150) {
     hideTimer = setTimeout(() => renderFn?.(null), delay);
 }
 
-// â”€â”€ DOM Scanning â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DOM Scanning ───────────────────────────────────────────────────────────
 
 function getChannelId(el: Element): string | null {
     const anchor = el.matches("a[href]") ? el : el.querySelector("a[href]");
@@ -435,7 +435,7 @@ function scan(root: Document | Element = document) {
     });
 }
 
-// â”€â”€ MutationObserver â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── MutationObserver ───────────────────────────────────────────────────────
 
 let observer: MutationObserver | null = null;
 
@@ -464,7 +464,7 @@ function _onChannelSelect() {
     hide(0);
 }
 
-// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin ─────────────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "PreviewMessage",

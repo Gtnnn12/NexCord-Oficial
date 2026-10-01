@@ -142,7 +142,7 @@ export const PluginCards = ErrorBoundary.wrap(function PluginCards({ message }: 
         );
     });
 
-    // Process components Ã¢â‚¬â€ Equibot (equicord.org / vencord.dev)
+    // Process components â€â€ Equibot (equicord.org / vencord.dev)
     const components = (message.components?.[0] as any)?.components;
     if (message.author.id === EQUIBOT_USER_ID && components?.length >= 4) {
         const description = components[1]?.content;
@@ -167,7 +167,7 @@ export const PluginCards = ErrorBoundary.wrap(function PluginCards({ message }: 
         }
     }
 
-    // Process components Ã¢â‚¬â€ NexCord Bot (domain, Component v2 Container format)
+    // Process components â€â€ NexCord Bot (domain, Component v2 Container format)
     if (message.author.id === NexCord_BOT_USER_ID) {
         const containerComponents = (message.components?.[0] as any)?.components;
         if (containerComponents?.length >= 3) {

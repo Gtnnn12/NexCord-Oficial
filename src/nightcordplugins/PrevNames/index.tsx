@@ -25,7 +25,7 @@ function useUserStatus(userId: string): UserStatus {
         const update = () => {
             try { setStatus(PresenceStore.getStatus(userId) ?? "offline"); } catch {}
         };
-        // PresenceStore dispatches on flux â€” poll on mount is enough for a modal
+        // PresenceStore dispatches on flux — poll on mount is enough for a modal
         update();
         // Optional: subscribe if PresenceStore exposes an addChangeListener
         if (typeof PresenceStore.addChangeListener === "function") {
@@ -45,7 +45,7 @@ const STATUS_COLOR: Record<UserStatus, string> = {
     offline:   "#80848e",
 };
 
-// â”€â”€â”€ API â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── API ──────────────────────────────────────────────────────────────────────
 
 const API_BASE = `https://api.${domain}/api`;
 
@@ -126,7 +126,7 @@ function HighlightText({ text, search }: { text: string; search: string }) {
     );
 }
 
-// â”€â”€â”€ SVG Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── SVG Icons ────────────────────────────────────────────────────────────────
 
 const CopyIcon = () => (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -189,7 +189,7 @@ const SortIcon = ({ asc }: { asc: boolean }) => (
     </svg>
 );
 
-// â”€â”€â”€ CopyBtn â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CopyBtn ──────────────────────────────────────────────────────────────────
 
 function CopyBtn({ text, label }: { text: string; label?: string }) {
     const [copied, setCopied] = useState(false);
@@ -209,7 +209,7 @@ function CopyBtn({ text, label }: { text: string; label?: string }) {
     );
 }
 
-// â”€â”€â”€ Name Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Name Card ────────────────────────────────────────────────────────────────
 
 function NameCard({ entry, index, isLatest, isOldest, search }: {
     entry: PrevNameEntry; index: number; isLatest: boolean; isOldest: boolean; search: string;
@@ -264,7 +264,7 @@ function NameCard({ entry, index, isLatest, isOldest, search }: {
     );
 }
 
-// â”€â”€â”€ Skeleton Loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Skeleton Loading ────────────────────────────────────────────────────────
 
 function SkeletonCard({ index }: { index: number }) {
     return (
@@ -286,7 +286,7 @@ function SkeletonCard({ index }: { index: number }) {
     );
 }
 
-// â”€â”€â”€ User Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── User Banner ──────────────────────────────────────────────────────────────
 
 function UserBanner({ onClose, userId, bannerHash, accentColor }: {
     onClose: () => void;
@@ -321,7 +321,7 @@ function UserBanner({ onClose, userId, bannerHash, accentColor }: {
     );
 }
 
-// â”€â”€â”€ Status Badge (pixel-perfect Discord style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Status Badge (pixel-perfect Discord style) ───────────────────────────────
 
 function StatusBadge({ userId }: { userId: string }) {
     const status = useUserStatus(userId);
@@ -374,7 +374,7 @@ function StatusBadge({ userId }: { userId: string }) {
     );
 }
 
-// â”€â”€â”€ Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Modal ────────────────────────────────────────────────────────────────────
 
 function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
     modalProps: any;
@@ -435,10 +435,10 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
     return (
         <ModalRoot {...modalProps} size={ModalSize.MEDIUM} className="vc-pn-modal-root">
 
-            {/* â”€â”€ Banner â”€â”€ */}
+            {/* ── Banner ── */}
             <UserBanner onClose={modalProps.onClose} userId={userId} bannerHash={bannerHash} />
 
-            {/* â”€â”€ Header â”€â”€ */}
+            {/* ── Header ── */}
             <div className="vc-pn-header">
                 {/* Avatar */}
                 <div className="vc-pn-avatar-wrap">
@@ -489,7 +489,7 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
                                 <span className="vc-pn-stat-value">
                                     {all.length > 0
                                         ? new Date(all[all.length - 1].date).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-                                        : "â€”"}
+                                        : "—"}
                                 </span>
                             </div>
                         </div>
@@ -497,7 +497,7 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
                 )}
             </div>
 
-            {/* â”€â”€ Content â”€â”€ */}
+            {/* ── Content ── */}
             <ModalContent className="vc-pn-content">
 
                 {/* Loading */}
@@ -513,8 +513,8 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
                     <div className="vc-pn-alert vc-pn-alert--warn">
                         <div className="vc-pn-alert-icon"><ClockIcon size={20} color="#f0b232" /></div>
                         <div className="vc-pn-alert-body">
-                            <span className="vc-pn-alert-title" style={{ color: "#f0b232" }}>Server waking upâ€¦</span>
-                            <span className="vc-pn-alert-desc" style={{ color: "#ffffff" }}>The API server was sleeping (Render free tier). It usually takes 30â€“60s to start. Please retry.</span>
+                            <span className="vc-pn-alert-title" style={{ color: "#f0b232" }}>Server waking up…</span>
+                            <span className="vc-pn-alert-desc" style={{ color: "#ffffff" }}>The API server was sleeping (Render free tier). It usually takes 30–60s to start. Please retry.</span>
                         </div>
                         <button onClick={load} className="vc-pn-retry-btn">Retry</button>
                     </div>
@@ -569,7 +569,7 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
                                 </svg>
                                 <input
                                     type="text"
-                                    placeholder="Search a usernameâ€¦"
+                                    placeholder="Search a username…"
                                     value={search}
                                     onChange={e => setSearch(e.target.value)}
                                     onFocus={() => setSearchFocused(true)}
@@ -603,7 +603,7 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
                         <div className="vc-pn-list" style={{ position: "relative" }}>
                             {filtered.length === 0 ? (
                                 <div className="vc-pn-no-results">
-                                    No results for Â« <strong>{search}</strong> Â»
+                                    No results for « <strong>{search}</strong> »
                                 </div>
                             ) : (
                                 filtered.map((entry, i) => (
@@ -625,7 +625,7 @@ function PrevNamesModal({ modalProps, userId, username, avatarHash }: {
     );
 }
 
-// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function openPrevNamesModal(userId: string, username: string, avatarHash?: string | null) {
     const key = openModal(props => (
@@ -638,7 +638,7 @@ function openPrevNamesModal(userId: string, username: string, avatarHash?: strin
     ));
 }
 
-// â”€â”€â”€ Context Menu Patch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Context Menu Patch ───────────────────────────────────────────────────────
 
 const userCtxPatch: NavContextMenuPatchCallback = (children, props) => {
     const userId: string | undefined = props?.user?.id;
@@ -654,11 +654,11 @@ const userCtxPatch: NavContextMenuPatchCallback = (children, props) => {
     );
 };
 
-// â”€â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Plugin ───────────────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "PrevNames",
-    description: "Shows the username history of a user. Right-click â†’ PrevNames.",
+    description: "Shows the username history of a user. Right-click → PrevNames.",
     authors: [{ name: "you",
      id: 0n }],
     dependencies: ["ContextMenuAPI"],
@@ -667,7 +667,7 @@ export default definePlugin({
         const style = document.createElement("style");
         style.id = "vc-prevnames-style";
         style.textContent = `
-            /* â”€â”€ Keyframes â”€â”€ */
+            /* ── Keyframes ── */
             @keyframes vc-pn-spin { to { transform: rotate(360deg); } }
             @keyframes vc-pn-fadeUp {
                 from { opacity: 0; transform: translateY(10px); }
@@ -683,7 +683,7 @@ export default definePlugin({
                 100% { transform: scale(1); opacity: 1; }
             }
 
-            /* â”€â”€ Modal Root â”€â”€ */
+            /* ── Modal Root ── */
             .vc-pn-modal-root {
                 border-radius: 16px !important;
                 overflow: hidden !important;
@@ -691,7 +691,7 @@ export default definePlugin({
                 box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(88,101,242,0.08) !important;
             }
 
-            /* â”€â”€ Banner â”€â”€ */
+            /* ── Banner ── */
             .vc-pn-banner {
                 height: 120px;
                 position: relative;
@@ -713,7 +713,7 @@ export default definePlugin({
                 z-index: 10;
             }
 
-            /* â”€â”€ Header â”€â”€ */
+            /* ── Header ── */
             .vc-pn-header {
                 padding: 0 20px 18px 20px;
                 background: var(--background-secondary);
@@ -722,7 +722,7 @@ export default definePlugin({
                 overflow: visible;
             }
 
-            /* â”€â”€ Avatar â”€â”€ */
+            /* ── Avatar ── */
             .vc-pn-avatar-wrap {
                 position: relative;
                 margin-top: -44px;
@@ -763,7 +763,7 @@ export default definePlugin({
                 flex-shrink: 0;
             }
 
-            /* â”€â”€ User info â”€â”€ */
+            /* ── User info ── */
             .vc-pn-user-info { margin-bottom: 14px; }
             .vc-pn-username-row {
                 display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
@@ -783,7 +783,7 @@ export default definePlugin({
                 padding: 2px 8px; border-radius: 5px;
             }
 
-            /* â”€â”€ Stats â”€â”€ */
+            /* ── Stats ── */
             .vc-pn-stats { display: flex; gap: 10px; }
             .vc-pn-stat {
                 flex: 1;
@@ -812,10 +812,10 @@ export default definePlugin({
             }
             .vc-pn-stat-value { font-size: 13px; font-weight: 700; color: #ffffff; }
 
-            /* â”€â”€ Content â”€â”€ */
+            /* ── Content ── */
             .vc-pn-content { padding: 18px 20px 22px !important; }
 
-            /* â”€â”€ Section label â”€â”€ */
+            /* ── Section label ── */
             .vc-pn-section-label {
                 font-size: 10.5px; font-weight: 700;
                 color: rgba(255,255,255,0.4);
@@ -823,7 +823,7 @@ export default definePlugin({
                 margin-bottom: 14px; padding-left: 2px;
             }
 
-            /* â”€â”€ Toolbar â”€â”€ */
+            /* ── Toolbar ── */
             .vc-pn-toolbar {
                 display: flex; gap: 8px; margin-bottom: 14px; align-items: stretch;
             }
@@ -876,7 +876,7 @@ export default definePlugin({
                 box-shadow: 0 2px 10px rgba(88,101,242,0.12);
             }
 
-            /* â”€â”€ Timeline list â”€â”€ */
+            /* ── Timeline list ── */
             .vc-pn-list {
                 max-height: 330px;
                 overflow-y: auto;
@@ -889,7 +889,7 @@ export default definePlugin({
             }
             .vc-pn-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
 
-            /* â”€â”€ Card (timeline row) â”€â”€ */
+            /* ── Card (timeline row) ── */
             .vc-pn-card {
                 display: flex;
                 gap: 0;
@@ -1023,7 +1023,7 @@ export default definePlugin({
                 font-weight: 800;
             }
 
-            /* â”€â”€ Copy button â”€â”€ */
+            /* ── Copy button ── */
             .vc-pn-copy-btn {
                 background: rgba(255,255,255,0.04);
                 border: 1px solid rgba(255,255,255,0.06);
@@ -1049,7 +1049,7 @@ export default definePlugin({
             }
             .vc-pn-copy-label { font-size: 11px; }
 
-            /* â”€â”€ Alerts â”€â”€ */
+            /* ── Alerts ── */
             .vc-pn-alert {
                 display: flex; align-items: flex-start; gap: 14px;
                 padding: 16px 18px; border-radius: 12px;
@@ -1079,7 +1079,7 @@ export default definePlugin({
             .vc-pn-retry-btn:hover { background: #4752c4; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(88,101,242,0.3); }
             .vc-pn-retry-btn:active { transform: translateY(0); }
 
-            /* â”€â”€ Empty â”€â”€ */
+            /* ── Empty ── */
             .vc-pn-empty {
                 display: flex; flex-direction: column; align-items: center;
                 padding: 48px 0; gap: 10px;
@@ -1098,14 +1098,14 @@ export default definePlugin({
                 text-align: center; max-width: 260px; line-height: 1.5;
             }
 
-            /* â”€â”€ No results â”€â”€ */
+            /* ── No results ── */
             .vc-pn-no-results {
                 text-align: center; padding: 28px 0;
                 color: rgba(255,255,255,0.4); font-size: 13.5px;
                 animation: vc-pn-fadeUp 0.25s ease both;
             }
 
-            /* â”€â”€ Skeleton â”€â”€ */
+            /* ── Skeleton ── */
             .vc-pn-skeleton {
                 background: linear-gradient(90deg,
                     rgba(255,255,255,0.03) 25%,

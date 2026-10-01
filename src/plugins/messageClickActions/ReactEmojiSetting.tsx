@@ -187,7 +187,7 @@ function EmojiPreview({ value }: { value: string; }) {
 }
 
 export function ReactEmojiSetting({ setValue }: PluginSettingComponentProps) {
-    const [emoji, setEmoji] = useState(settings.store.reactEmoji ?? "ðŸ’€");
+    const [emoji, setEmoji] = useState(settings.store.reactEmoji ?? "💀");
 
     return (
         <div>

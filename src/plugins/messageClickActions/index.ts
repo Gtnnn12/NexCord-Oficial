@@ -194,7 +194,7 @@ export const settings = definePluginSettings({
         type: OptionType.COMPONENT,
         description: "Emoji to use for react actions.",
         component: ReactEmojiSetting,
-        default: "ðŸ’€"
+        default: "💀"
     },
     addAdditionalReacts: {
         type: OptionType.BOOLEAN,

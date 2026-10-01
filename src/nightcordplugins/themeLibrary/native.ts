@@ -23,5 +23,5 @@ export async function downloadTheme(_: IpcMainInvokeEvent, dir: PathLike, theme:
     const path = join(dir.toString(), `${theme.name}.theme.css`);
     const download = await fetch(`https://themes.equicord.org/api/download/${theme.id}`);
     const content = await download.text();
-    writeFileSync(path, content);
+    writeFileSync(path, content, "utf8");
 }

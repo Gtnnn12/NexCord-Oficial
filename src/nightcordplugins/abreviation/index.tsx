@@ -19,7 +19,7 @@ interface AbbrevEntry {
     phrase: string;
 }
 
-// â”€â”€ DataStore helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DataStore helpers ──────────────────────────────────────────────────────────
 
 let cachedEntries: AbbrevEntry[] = [];
 
@@ -34,7 +34,7 @@ async function saveEntries(entries: AbbrevEntry[]) {
     await DataStore.set(DS_KEY, entries);
 }
 
-// â”€â”€ UI Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── UI Component ───────────────────────────────────────────────────────────────
 
 function AbbreviationManager() {
     const [entries, setEntries] = useState<AbbrevEntry[]>([]);
@@ -139,7 +139,7 @@ function AbbreviationManager() {
                             <span style={{ color: "#fff", fontWeight: 600, minWidth: 80 }}>
                                 {e.abbrev}
                             </span>
-                            <span style={{ color: "#b5bac1" }}>â†’</span>
+                            <span style={{ color: "#b5bac1" }}>→</span>
                             <span style={{ color: "#fff", flex: 1 }}>
                                 {e.phrase}
                             </span>
@@ -156,7 +156,7 @@ function AbbreviationManager() {
                                     fontWeight: 600,
                                 }}
                             >
-                                âœ•
+                                ✕
                             </button>
                         </div>
                     ))}
@@ -166,7 +166,7 @@ function AbbreviationManager() {
     );
 }
 
-// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Settings ───────────────────────────────────────────────────────────────────
 
 const settings = definePluginSettings({
     matchMode: {
@@ -189,7 +189,7 @@ const settings = definePluginSettings({
     },
 });
 
-// â”€â”€ Pre-send listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Pre-send listener ──────────────────────────────────────────────────────────
 
 function onPreSend(_channelId: string, messageObj: { content: string; }) {
     if (!messageObj.content) return;
@@ -225,7 +225,7 @@ function onPreSend(_channelId: string, messageObj: { content: string; }) {
     }
 }
 
-// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin ─────────────────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "Abbreviation",

@@ -1002,7 +1002,7 @@ function AliasRow({ alias, emojiRef }: { alias: string; emojiRef: StoredEmojiRef
                 ) : (
                     <BaseText weight="semibold">:{alias}:</BaseText>
                 )}
-                <BaseText className={cl("row-arrow")}>â†’</BaseText>
+                <BaseText className={cl("row-arrow")}>→</BaseText>
                 <EmojiPreview emojiRef={emojiRef} />
                 <BaseText>{`:${normalizeEmojiName(emojiRef.name)}:`}</BaseText>
                 {error && <BaseText className={cl("row-error")}>{error}</BaseText>}

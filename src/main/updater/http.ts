@@ -79,7 +79,7 @@ async function getUpdates() {
 }
 
 /**
- * Step 1 â€” download the zip and stage it to a temp folder.
+ * Step 1 — download the zip and stage it to a temp folder.
  * Does NOT touch any running files. Returns true when the zip is staged.
  */
 async function stageUpdate(): Promise<boolean> {
@@ -131,7 +131,7 @@ async function stageUpdate(): Promise<boolean> {
                     stagingDir: STAGING_DIR,
                     destDir: __dirname,
                     createdAt: Date.now()
-                }));
+                }), "utf8");
 
                 pendingDownloadUrl = null;
                 pendingVersion = null;
@@ -146,5 +146,5 @@ async function stageUpdate(): Promise<boolean> {
 ipcMain.handle(IpcEvents.GET_REPO, serializeErrors(() => REPO_URL));
 ipcMain.handle(IpcEvents.GET_UPDATES, serializeErrors(getUpdates));
 ipcMain.handle(IpcEvents.UPDATE, serializeErrors(fetchUpdates));
-// BUILD is now "stage update" â€” actual file swap happens on next startup via NexCord-index.js
+// BUILD is now "stage update" — actual file swap happens on next startup via NexCord-index.js
 ipcMain.handle(IpcEvents.BUILD, serializeErrors(stageUpdate));

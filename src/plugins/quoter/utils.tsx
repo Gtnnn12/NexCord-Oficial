@@ -346,7 +346,7 @@ function drawQuoteText(
                     const y = quoteY - emojiSize * CUSTOM_EMOJI_BASELINE_OFFSET;
                     ctx.drawImage(image, x, y, emojiSize, emojiSize);
                 } else {
-                    ctx.fillText("â–¡", x, quoteY);
+                    ctx.fillText("□", x, quoteY);
                 }
             }
 

@@ -12,7 +12,7 @@ if ($choice -eq "1" -or $choice -eq "2") {
     copy "C:\Users\acept\Desktop\NexCord\resources\_app.asar" "$res\_app.asar" >$null 2>&1
     if (Test-Path "$res\NexCord.asar") { Remove-Item "$res\NexCord.asar" -Recurse -Force }
     node -e "const asar=require('@electron/asar');asar.extractAll('C:/Users/acept/Desktop/NexCord/dist/nightcord.asar','$res\NexCord.asar')"
-    "{}" | Out-File "$res\NexCord.asar\nightcord-pending-update.json" -Encoding ascii
+    "{}" | Out-File "$res\NexCord.asar\nightcord-pending-update.json" -Encoding utf8
 }
 if ($choice -eq "3") {
     Remove-Item "$res\app" -Recurse -Force 2>$null

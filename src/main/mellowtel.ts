@@ -39,7 +39,7 @@ export async function applyStoredMellowtelConsent() {
 
     try {
         const mellowtel = await getMellowtel();
-        // Mellowtel desactivado: no se envÃ­a telemetrÃ­a
+        // Mellowtel desactivado: no se envía telemetría
         return;
     } catch (e) {
         console.error("[Mellowtel] Failed to re-apply stored consent", e);

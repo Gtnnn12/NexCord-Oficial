@@ -169,7 +169,7 @@ const ProgressBarInner = () => {
                 />
             </div>
             <div className={cl("progress-file")}>
-                {state.fileName || ""}{state.currentServiceLabel ? ` â€¢ ${state.currentServiceLabel}` : ""}
+                {state.fileName || ""}{state.currentServiceLabel ? ` • ${state.currentServiceLabel}` : ""}
             </div>
         </div>
     );

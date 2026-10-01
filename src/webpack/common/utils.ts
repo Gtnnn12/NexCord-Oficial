@@ -220,7 +220,7 @@ export const MessageTypeSets: t.MessageTypeSets = findByPropsLazy("REPLYABLE", "
 export const CloudUploader = findLazy(m => m.prototype?.trackUploadFinished);
 export const ChannelActions = findByPropsLazy("selectChannel", "preload");
 
-// â”€â”€â”€ Re-exports for compatibility with Equicord/Vencord plugins â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Re-exports for compatibility with Equicord/Vencord plugins ────────────────
 
 // Modal API (from @utils/modal)
 export { closeAllModals, closeModal, ModalRoot as Modal, ModalCloseButton,ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal, openModalLazy } from "@utils/modal";

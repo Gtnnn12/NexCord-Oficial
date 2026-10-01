@@ -254,7 +254,7 @@ export const DeeplLanguages = {
     "mr": "Marathi",
     "mn": "Mongolian",
     "ne": "Nepali",
-    "nb": "Norwegian (BokmÃ¥l)",
+    "nb": "Norwegian (Bokmål)",
     "oc": "Occitan",
     "om": "Oromo",
     "pag": "Pangasinan",

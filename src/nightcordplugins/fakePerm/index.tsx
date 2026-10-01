@@ -338,7 +338,7 @@ export default definePlugin({
         }
     ],
 
-    // â”€â”€â”€ Runtime PermissionStore & GuildMemberStore overrides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ─── Runtime PermissionStore & GuildMemberStore overrides ────────────────
     _origCan: null as ((...a: any[]) => any) | null,
     _origGetChannelPerms: null as ((...a: any[]) => any) | null,
     _origGetGuildPerms: null as ((...a: any[]) => any) | null,
@@ -469,7 +469,7 @@ export default definePlugin({
         }
     },
 
-    // â”€â”€â”€ GuildMemberStore Interception for Fake Nicknames & Roles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ─── GuildMemberStore Interception for Fake Nicknames & Roles ────────────
     _patchMemberStore() {
         if (GuildMemberStore) {
             if (!this._origGetMember && typeof GuildMemberStore.getMember === "function") {
@@ -554,7 +554,7 @@ export default definePlugin({
         }
     },
 
-    // â”€â”€â”€ VoiceState & RestAPI Interception for Mute/Deafen/Disconnect/Move/Nick/Roles â”€
+    // ─── VoiceState & RestAPI Interception for Mute/Deafen/Disconnect/Move/Nick/Roles ─
     _patchVoiceStore() {
         if (VoiceStateStore) {
             if (!this._origGetVoiceState && typeof VoiceStateStore.getVoiceStateForUser === "function") {
@@ -880,7 +880,7 @@ export default definePlugin({
     options: {
         enabled: {
             type: OptionType.BOOLEAN,
-            description: "Enable fake permissions (admin UI) â€” visual only, server still checks real perms",
+            description: "Enable fake permissions (admin UI) — visual only, server still checks real perms",
             default: false,
             onChange(v: boolean) {
                 isEnabled = Boolean(v);

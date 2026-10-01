@@ -50,20 +50,20 @@ interface IVoiceChannelEffectSendEvent {
     animationId: number;
 }
 
-const MOYAI = "ðŸ—¿";
+const MOYAI = "🗿";
 const MOYAI_URL = "https://github.com/Equicord/Equibored/raw/main/sounds/moyai/moyai.mp3";
 const MOYAI_URL_HD = "https://github.com/Equicord/Equibored/raw/main/sounds/moyai/moyai.wav";
 
 const settings = definePluginSettings({
     volume: {
-        description: "Volume of the ðŸ—¿ðŸ—¿ðŸ—¿",
+        description: "Volume of the 🗿🗿🗿",
         type: OptionType.SLIDER,
         markers: makeRange(0, 1, 0.1),
         default: 0.5,
         stickToMarkers: false
     },
     quality: {
-        description: "Quality of the ðŸ—¿ðŸ—¿ðŸ—¿",
+        description: "Quality of the 🗿🗿🗿",
         type: OptionType.SELECT,
         options: [
             { label: "Normal", value: "Normal", default: true },
@@ -71,7 +71,7 @@ const settings = definePluginSettings({
         ],
     },
     triggerWhenUnfocused: {
-        description: "Trigger the ðŸ—¿ even when the window is unfocused",
+        description: "Trigger the 🗿 even when the window is unfocused",
         type: OptionType.BOOLEAN,
         default: true
     },
@@ -90,7 +90,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "Moyai",
     authors: [Devs.Megu, Devs.Nuckyz],
-    description: "Plays a ðŸ—¿ sound effect whenever a moyai emoji is sent, reacted, or used as a voice effect in your current channel.",
+    description: "Plays a 🗿 sound effect whenever a moyai emoji is sent, reacted, or used as a voice effect in your current channel.",
     tags: ["Fun"],
     settings,
 

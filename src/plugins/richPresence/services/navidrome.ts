@@ -227,7 +227,7 @@ async function getActivity(signal?: AbortSignal): Promise<Activity | null> {
         const largeText = customFormat(nd_largeTextString, track);
         if (largeText) {
             if (Number(nd_activityType ?? 2) === 0) {
-                stateString = stateString ? `${stateString} â€¢ ${largeText}` : largeText;
+                stateString = stateString ? `${stateString} • ${largeText}` : largeText;
             } else {
                 assets.large_text = largeText;
             }

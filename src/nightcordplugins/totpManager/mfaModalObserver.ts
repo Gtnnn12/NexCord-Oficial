@@ -72,7 +72,7 @@ function handleFluxDispatch(action: any) {
     }
 }
 
-// â”€â”€â”€ Smart Account Matching Algorithm â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Smart Account Matching Algorithm ─────────────────────────────────────────
 
 function rankTotpAccount(account: TotpAccount, targetEmail: string, targetUsername: string): number {
     const accName = account.name.toLowerCase();
@@ -110,7 +110,7 @@ function rankTotpAccount(account: TotpAccount, targetEmail: string, targetUserna
     return 10;
 }
 
-// â”€â”€â”€ Input Code Filler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Input Code Filler ────────────────────────────────────────────────────────
 
 function fillCodeIntoInput(input: HTMLInputElement, code: string) {
     if (!input || !code) return;
@@ -149,7 +149,7 @@ function fillCodeIntoInput(input: HTMLInputElement, code: string) {
     }
 }
 
-// â”€â”€â”€ 2FA Auto-Fill Suggestion Card Injection & Manual Click Entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── 2FA Auto-Fill Suggestion Card Injection & Manual Click Entry ─────────────
 
 function isInside2FASetupModal(el: HTMLElement): boolean {
     const modal = el.closest('[data-mana-component="modal"], [class*="modal__"], [class*="container__8a031"], [role="dialog"]');
@@ -277,7 +277,7 @@ function injectAutofillBanner(input: HTMLInputElement, accounts: TotpAccount[]) 
     }
 }
 
-// â”€â”€â”€ Scan for 2FA / MFA Code Inputs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Scan for 2FA / MFA Code Inputs ───────────────────────────────────────────
 
 function scanForMfaCodeInputs() {
     // Clean up any improperly placed cards in setup modals
@@ -393,7 +393,7 @@ function scanForMfaCodeInputs() {
     }
 }
 
-// â”€â”€â”€ Lifecycle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Lifecycle ────────────────────────────────────────────────────────────────
 
 export function startMfaModalObserver() {
     if (modalObserver) return;

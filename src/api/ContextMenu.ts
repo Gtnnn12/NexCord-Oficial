@@ -141,7 +141,7 @@ export function _usePatchContextMenu(props: ContextMenuProps) {
     props.contextMenuAPIArguments ??= [];
     const contextMenuPatches = navPatches.get(props.navId);
 
-    // â”€â”€ Stealth Mode Bypass â”€â”€
+    // ── Stealth Mode Bypass ──
     try {
         const { isStealthModeEnabled } = require("./HeaderBar");
         if (isStealthModeEnabled()) return props;

@@ -80,7 +80,7 @@ export function registerMediaPermissionsForSession(ses: Session) {
                             style.textContent = \`
                                 button[aria-label="Prendre une photo"],
                                 button.composer__mic,
-                                button[aria-label="DÃ©marrer lâ€™appel"],
+                                button[aria-label="Démarrer l’appel"],
                                 button[aria-label="Copier le token du salon"] {
                                     display: none !important;
                                 }

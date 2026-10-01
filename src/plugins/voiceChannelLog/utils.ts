@@ -17,7 +17,7 @@ export const cl = classNameFactory("vc-voice-channel-log-");
 const EmojiManager = findByPropsLazy("getEmojiColors", "getURL");
 
 export function getEmojiUrl(emoji?: Emoji): string {
-    if (!emoji) return EmojiManager.getURL("â“");
+    if (!emoji) return EmojiManager.getURL("❓");
     return emoji.id ? `https://cdn.discordapp.com/emojis/${emoji.id}.png?size=32` : EmojiManager.getURL(emoji.name);
 }
 

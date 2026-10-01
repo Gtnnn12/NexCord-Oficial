@@ -60,7 +60,7 @@ export function setBadgeCount(count: number, targetWin: BrowserWindow = mainWin)
                     app.dock!.setBadge("");
                     break;
                 }
-                app.dock!.setBadge(count === -1 ? "â€¢" : count.toString());
+                app.dock!.setBadge(count === -1 ? "•" : count.toString());
             }
             break;
         case "win32": {

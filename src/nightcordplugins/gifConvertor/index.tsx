@@ -26,7 +26,7 @@ import { t } from "../autoTranslateNightcord";
 
 import { encodeGIF } from "./gifEncoder";
 
-// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 type Stage = "idle" | "converting" | "preview" | "sending" | "error";
 
@@ -35,7 +35,7 @@ interface PopoverPosition {
     left: number;   // px from left of viewport (centre of button)
 }
 
-// â”€â”€â”€ Utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Utilities ────────────────────────────────────────────────────────────────
 
 async function sendGIF(gifBlob: Blob, filename: string) {
     const channelId = SelectedChannelStore.getChannelId();
@@ -78,7 +78,7 @@ async function sendGIF(gifBlob: Blob, filename: string) {
     });
 }
 
-// â”€â”€â”€ Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Icons ────────────────────────────────────────────────────────────────────
 
 function GifIcon({ active }: { active?: boolean }) {
     return (
@@ -123,7 +123,7 @@ function UploadImageIcon() {
     );
 }
 
-// â”€â”€â”€ Popover component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Popover component ────────────────────────────────────────────────────────
 
 interface PopoverProps {
     position: PopoverPosition;
@@ -234,7 +234,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
         >
             {/* Header */}
             <div className="nc-gifconv-header">
-                <span className="nc-gifconv-title">{t("âœ¦ GIF Convertor")}</span>
+                <span className="nc-gifconv-title">{t("✦ GIF Convertor")}</span>
                 <button className="nc-gifconv-close" onClick={onClose} aria-label="Close">
                     <CloseIcon />
                 </button>
@@ -270,12 +270,12 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                             {isDragOver ? t("Release to convert!") : t("Drop media here")}
                         </span>
                         <span className="nc-gifconv-dropzone-sub">
-                            {t("or click to browse Â· Ctrl+V to paste")}<br />
-                            {t("Images & Videos (MP4, WebMâ€¦)")}
+                            {t("or click to browse · Ctrl+V to paste")}<br />
+                            {t("Images & Videos (MP4, WebM…)")}
                         </span>
                     </div>
                     {stage === "error" && (
-                        <div className="nc-gifconv-error">âš  {errorMsg}</div>
+                        <div className="nc-gifconv-error">⚠ {errorMsg}</div>
                     )}
                 </>
             )}
@@ -285,7 +285,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                 <div className="nc-gifconv-loading">
                     <div className="nc-gifconv-spinner" />
                     <span className="nc-gifconv-loading-label">
-                        {t("Converting to GIFâ€¦ ")} {progress > 0 && `(${Math.round(progress * 100)}%)`}
+                        {t("Converting to GIF… ")} {progress > 0 && `(${Math.round(progress * 100)}%)`}
                     </span>
                 </div>
             )}
@@ -294,7 +294,7 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
             {stage === "preview" && previewUrl && (
                 <div className="nc-gifconv-preview-wrap">
                     <img src={previewUrl} alt={t("GIF preview")} className="nc-gifconv-preview-img" />
-                    <span className="nc-gifconv-preview-label">{t("Preview Â· ")}{filename}</span>
+                    <span className="nc-gifconv-preview-label">{t("Preview · ")}{filename}</span>
                     <div className="nc-gifconv-actions">
                         <button
                             className="nc-gifconv-btn nc-gifconv-btn-secondary"
@@ -305,13 +305,13 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
                                 setPreviewUrl(null);
                             }}
                         >
-                            {t("â† Try Again")}
+                            {t("← Try Again")}
                         </button>
                         <button
                             className="nc-gifconv-btn nc-gifconv-btn-primary"
                             onClick={handleSend}
                         >
-                            {t("âœ¦ Send GIF")}
+                            {t("✦ Send GIF")}
                         </button>
                     </div>
                 </div>
@@ -321,14 +321,14 @@ function GifConvertorPopover({ position, onClose }: PopoverProps) {
             {stage === "sending" && (
                 <div className="nc-gifconv-loading">
                     <div className="nc-gifconv-spinner" />
-                    <span className="nc-gifconv-loading-label">{t("Uploadingâ€¦")}</span>
+                    <span className="nc-gifconv-loading-label">{t("Uploading…")}</span>
                 </div>
             )}
         </div>
     );
 }
 
-// â”€â”€â”€ ChatBar button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── ChatBar button ───────────────────────────────────────────────────────────
 
 const GifConvertorChatBarButton: ChatBarButtonFactory = ({ isMainChat }) => {
     const [open, setOpen] = React.useState(false);
@@ -384,7 +384,7 @@ const GifConvertorChatBarButton: ChatBarButtonFactory = ({ isMainChat }) => {
     );
 };
 
-// â”€â”€â”€ Plugin definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Plugin definition ────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "GifConvertor",

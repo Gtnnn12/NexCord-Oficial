@@ -72,22 +72,22 @@ async function muteAllServers() {
     const guildIds = Object.keys(guilds);
 
     Toasts.show({
-        message: "Muting all and clearing notificationsâ€¦",
+        message: "Muting all and clearing notifications…",
         type: Toasts.Type.MESSAGE,
         id: Toasts.genId(),
     });
 
-    // Ã‰tape 1 : Marquer tout comme lu (systÃ¨me Equicord)
+    // Étape 1 : Marquer tout comme lu (système Equicord)
     markAllAsRead();
 
-    // Ã‰tape 2 : Muter les serveurs
+    // Étape 2 : Muter les serveurs
     if (guildIds.length > 0) {
         let count = 0;
         const updateSettings = findByPropsLazy("updateGuildNotificationSettings");
 
         for (const id of guildIds) {
             try {
-                // Ack individuel (sÃ©curitÃ©)
+                // Ack individuel (sécurité)
                 try { await RestAPI.post({ url: `/guilds/${id}/ack`, body: {} }); } catch { }
 
                 const settings = {
@@ -139,7 +139,7 @@ const guildContextPatch = (children: any, { guild }: { guild?: any; }) => {
 export default definePlugin({
     name: "MuteAllServers",
     enabledByDefault: false,
-    description: "Right-click a server â†’ mute all servers and mark all as read in one click.",
+    description: "Right-click a server → mute all servers and mark all as read in one click.",
     authors: [{ name: "NexCord",
      id: 0n }],
 

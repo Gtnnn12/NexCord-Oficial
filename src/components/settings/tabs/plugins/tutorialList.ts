@@ -3,7 +3,7 @@
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
- * AUTO-GENERATED â€” do not edit by hand.
+ * AUTO-GENERATED — do not edit by hand.
  * Update by running: node scripts/updateTutorialList.mjs
  */
 

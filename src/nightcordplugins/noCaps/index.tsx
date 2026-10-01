@@ -13,7 +13,7 @@ import plugins from "~plugins";
 
 import { t } from "../autoTranslateNightcord";
 
-// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Settings ───────────────────────────────────────────────────────────────────
 
 export const settings = definePluginSettings({
     isActive: {
@@ -56,7 +56,7 @@ const COMMON_ACRONYMS = new Set([
     "TLDR", "DM", "PM", "OOF", "WTF", "WTH", "EZ", "WP", "SMH", "IRL", "FR"
 ]);
 
-// â”€â”€ Icon Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Icon Component ─────────────────────────────────────────────────────────────
 
 function NoCapsIcon({ enabled }: { enabled: boolean; }) {
     return (
@@ -100,8 +100,8 @@ const NoCapsChatBarButton: ChatBarButtonFactory = ({ type }) => {
     };
 
     const tooltip = enabled
-        ? t("NoCaps: enabled â€” click to disable")
-        : t("NoCaps: disabled â€” click to enable");
+        ? t("NoCaps: enabled — click to disable")
+        : t("NoCaps: disabled — click to enable");
 
     return (
         <ChatBarButton
@@ -117,7 +117,7 @@ const NoCapsChatBarButton: ChatBarButtonFactory = ({ type }) => {
     );
 };
 
-// â”€â”€ Helper: Process text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helper: Process text ───────────────────────────────────────────────────────
 
 export function convertNoCaps(text: string): string {
     if (!text || typeof text !== "string") return text;
@@ -184,7 +184,7 @@ export function convertNoCaps(text: string): string {
     return converted;
 }
 
-// â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin Definition ──────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "NoCaps",

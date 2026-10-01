@@ -16,7 +16,7 @@ import { handle } from "./utils/ipcWrappers";
 import { makeLinksOpenExternally } from "./utils/makeLinksOpenExternally";
 import { loadView } from "./vesktopStatic";
 
-// NexCord native defaults â€” no external prefs file, always on
+// NexCord native defaults — no external prefs file, always on
 const NexCord_PREFS = { defaultPlugins: true, autoUpdate: true } as const;
 
 export const installerPrefs = NexCord_PREFS;

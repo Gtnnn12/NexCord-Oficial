@@ -62,11 +62,11 @@ export const enum IpcEvents {
 
     SET_WINDOW_BACKGROUND_MATERIAL = "NexCordSetWindowBackgroundMaterial",
 
-    // SoundCord Player Ã¢â‚¬â€ thumbnail toolbar Windows
+    // SoundCord Player â€â€ thumbnail toolbar Windows
     SET_THUMBAR_BUTTONS = "SoundCordSetThumbarButtons",
     THUMBAR_BUTTON_CLICK = "SoundCordThumbarButtonClick",
 
-    // NexCord Updater Ã¢â‚¬â€ tÃƒÂ©lÃƒÂ©charge un exe depuis une URL et le lance
+    // NexCord Updater â€â€ télécharge un exe depuis une URL et le lance
     NexCord_DOWNLOAD_AND_RUN = "NexCordDownloadAndRun",
 
     // VB-Audio Virtual Cable (Windows only)
@@ -80,22 +80,22 @@ export const enum IpcEvents {
     MELLOWTEL_SET_CONSENT = "NexCordMellowtelSetConsent",
     MELLOWTEL_GET_CONSENT = "NexCordMellowtelGetConsent",
 
-    // WorldBomb Ã¢â‚¬â€ Simulation Clavier/Souris Native
+    // WorldBomb â€â€ Simulation Clavier/Souris Native
     WORLD_BOMB_TYPE = "WorldBombType",
     WORLD_BOMB_PRESS_ENTER = "WorldBombPressEnter",
     WORLD_BOMB_PRESS_BACKSPACE = "WorldBombPressBackspace",
     WORLD_BOMB_CLICK = "WorldBombClick",
-    // SÃƒÂ©quence complÃƒÂ¨te en un seul appel systÃƒÂ¨me (clic + frappe + enter)
+    // Séquence complète en un seul appel système (clic + frappe + enter)
     WORLD_BOMB_SEQUENCE = "WorldBombSequence",
     // Position actuelle du curseur souris (pour calibration)
     WORLD_BOMB_GET_CURSOR_POS = "WorldBombGetCursorPos",
-    // Ouvre la fenÃƒÂªtre externe Stream Proof
+    // Ouvre la fenêtre externe Stream Proof
     WORLD_BOMB_OPEN_WINDOW = "WorldBombOpenWindow",
-    // Ferme la fenÃƒÂªtre externe Stream Proof
+    // Ferme la fenêtre externe Stream Proof
     WORLD_BOMB_CLOSE_WINDOW = "WorldBombCloseWindow",
     // Modifie la protection Stream Proof
     WORLD_BOMB_SET_STREAM_PROOF = "WorldBombSetStreamProof",
-    // Redimensionne la fenÃƒÂªtre externe
+    // Redimensionne la fenêtre externe
     WORLD_BOMB_RESIZE_WINDOW = "WorldBombResizeWindow",
     // Modifie la protection Stream Proof globale
     SET_CONTENT_PROTECTION = "NexCordSetContentProtection"

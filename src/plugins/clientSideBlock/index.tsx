@@ -100,7 +100,7 @@ function hiddenReplyComponent() {
         case "displayText":
             return <Paragraph style={{ marginTop: "0px", marginBottom: "0px" }}>
                 <i>
-                    â†“ Replying to blocked message
+                    ↓ Replying to blocked message
                 </i>
             </Paragraph>;
         case "hideReply":

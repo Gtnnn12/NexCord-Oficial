@@ -46,7 +46,7 @@ function makeAutoStartLinuxDesktop(): AutoStart {
             `;
 
             mkdirSync(dir, { recursive: true });
-            writeFileSync(file, desktopFile);
+            writeFileSync(file, desktopFile, "utf8");
         },
         disable: () => rmSync(file, { force: true })
     };

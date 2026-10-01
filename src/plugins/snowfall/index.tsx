@@ -136,7 +136,7 @@ class CopleSnow {
         minSize: 10,
         maxSize: 30,
         type: "text" as "text" | "solid" | "image",
-        content: "â„" as string | string[],
+        content: "❄" as string | string[],
         fadeOut: true,
         autoplay: true,
         interval: 200
@@ -417,7 +417,7 @@ const SnowfallManager: React.FC = () => {
                 };
 
                 if (newSettings.type === "image") updateOptions.content = SNOWFLAKE_SVGS;
-                else if (newSettings.type === "text") updateOptions.content = "â„";
+                else if (newSettings.type === "text") updateOptions.content = "❄";
 
                 snow.updateOptions(updateOptions);
             }

@@ -123,7 +123,7 @@ function CopyIcon() {
     );
 }
 
-// â”€â”€â”€ TOTP Account Card Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── TOTP Account Card Component ──────────────────────────────────────────────
 
 interface TotpCardProps {
     account: TotpAccount;
@@ -277,7 +277,7 @@ function TotpAccountCard({ account, onEdit, onDelete }: TotpCardProps) {
     );
 }
 
-// â”€â”€â”€ Add / Edit Account Form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Add / Edit Account Form ──────────────────────────────────────────────────
 
 interface AddEditModalProps {
     account?: TotpAccount | null;
@@ -379,7 +379,7 @@ export function AddEditAccountModal({ account, onClose, onSaved }: AddEditModalP
                     variant="none"
                     onClick={onClose}
                 >
-                    âœ•
+                    ✕
                 </Button>
             </div>
 
@@ -475,7 +475,7 @@ export function AddEditAccountModal({ account, onClose, onSaved }: AddEditModalP
     );
 }
 
-// â”€â”€â”€ Settings Panel (Embedded directly inside Plugin Settings) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Settings Panel (Embedded directly inside Plugin Settings) ────────────────
 
 export function TotpSettingsPanel() {
     const [accounts, setAccounts] = useState<TotpAccount[]>(getCachedTotpAccounts());
@@ -638,7 +638,7 @@ export function TotpSettingsPanel() {
                     {accounts.length > 0 && (
                         <div style={{ marginTop: 12 }}>
                             <TextInput
-                                placeholder={t("Search accounts by name or issuerâ€¦")}
+                                placeholder={t("Search accounts by name or issuer…")}
                                 value={search}
                                 onChange={(val: string) => setSearch(val)}
                             />
@@ -702,7 +702,7 @@ export function TotpSettingsPanel() {
     );
 }
 
-// â”€â”€â”€ Quick Modal (Accessible from Header Button or /2fa slash command) â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Quick Modal (Accessible from Header Button or /2fa slash command) ─────────
 
 export function TotpModal({ onClose }: { onClose: () => void }) {
     return (
@@ -713,7 +713,7 @@ export function TotpModal({ onClose }: { onClose: () => void }) {
                     variant="none"
                     onClick={onClose}
                 >
-                    âœ•
+                    ✕
                 </Button>
             </div>
             <TotpSettingsPanel />

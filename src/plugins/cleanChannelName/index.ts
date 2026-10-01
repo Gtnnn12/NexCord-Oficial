@@ -10,9 +10,9 @@ import { Channel } from "@vencord/discord-types";
 import { ChannelStore } from "@webpack/common";
 
 const SMALL_CAPS: Record<string, string> = {
-    "á´€": "a", "Ê™": "b", "á´„": "c", "á´…": "d", "á´‡": "e", "êœ°": "f", "É¢": "g", "Êœ": "h", "Éª": "i", "á´Š": "j",
-    "á´‹": "k", "ÊŸ": "l", "á´": "m", "É´": "n", "á´": "o", "á´˜": "p", "Ç«": "q", "Ê€": "r", "êœ±": "s", "á´›": "t",
-    "á´œ": "u", "á´ ": "v", "á´¡": "w", "x": "x", "Ê": "y", "á´¢": "z",
+    "ᴀ": "a", "ʙ": "b", "ᴄ": "c", "ᴅ": "d", "ᴇ": "e", "ꜰ": "f", "ɢ": "g", "ʜ": "h", "ɪ": "i", "ᴊ": "j",
+    "ᴋ": "k", "ʟ": "l", "ᴍ": "m", "ɴ": "n", "ᴏ": "o", "ᴘ": "p", "ǫ": "q", "ʀ": "r", "ꜱ": "s", "ᴛ": "t",
+    "ᴜ": "u", "ᴠ": "v", "ᴡ": "w", "x": "x", "ʏ": "y", "ᴢ": "z",
 };
 
 const ORIGINAL_NAME = Symbol("cleanChannelName.original");
@@ -23,7 +23,7 @@ function computeClean(name: string, type: number): string {
     const separator = [2, 4].includes(type) ? " " : "-";
     const cleaned = name
         .normalize("NFKC")
-        .replace(/[á´€Ê™á´„á´…á´‡êœ°É¢ÊœÉªá´Šá´‹ÊŸá´É´á´á´˜Ç«Ê€êœ±á´›á´œá´ á´¡xÊá´¢]/g, m => SMALL_CAPS[m])
+        .replace(/[ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢ]/g, m => SMALL_CAPS[m])
         .replace(/[^ -~]?\p{Extended_Pictographic}[^ -~]?/ug, "")
         .replace(/-?\|-?/g, separator)
         .replace(/-?[^\p{Letter} -~]-?/ug, separator)

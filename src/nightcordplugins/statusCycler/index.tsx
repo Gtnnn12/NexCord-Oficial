@@ -713,7 +713,7 @@ function EmojiSetting() {
             <Flex alignItems="center" gap="8px">
                 <TextArea
                     value={emojis}
-                    placeholder={"ðŸ˜€\n<:custom:123456789012345678>\n<a:animated:123456789012345678>"}
+                    placeholder={"😀\n<:custom:123456789012345678>\n<a:animated:123456789012345678>"}
                     onChange={value => {
                         setAccountState({ emojis: value });
                         restartWithFirstEmoji();
@@ -749,7 +749,7 @@ function EmojiSetting() {
                                 aria-label={t("Add emoji from Discord")}
                                 className="vc-status-cycler-emoji-button"
                             >
-                                ðŸ¤“
+                                🤓
                             </Clickable>
                         </div>
                     )}

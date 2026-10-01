@@ -12,7 +12,7 @@ import { ThemesTab, ChangelogTab, PluginsTab, BackupAndRestoreTab, UpdaterTab, V
 import IconsTab from "@nightcordplugins/iconViewer/components/IconsTab";
 import { CreateThemeTab } from "@components/settings/tabs/createTheme/CreateThemeTab";
 
-// â”€â”€ Tab definitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tab definitions ──────────────────────────────────────────────────────────
 
 interface TabDef {
     id: string;
@@ -84,7 +84,7 @@ const TABS: TabDef[] = [
     },
 ];
 
-// â”€â”€ Modal inner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Modal inner ───────────────────────────────────────────────────────────────
 
 function NightcordModalInner({ onClose }: { onClose: () => void; }) {
     const [hovered, setHovered] = useState<string | null>(null);
@@ -148,7 +148,7 @@ function NightcordModalInner({ onClose }: { onClose: () => void; }) {
                 </div>
             </div>
 
-            {/* Right side â€” content */}
+            {/* Right side — content */}
             <div className="nc-modal-content">
                 <div className="nc-modal-content-header">
                     <span className="nc-modal-content-title">
@@ -204,7 +204,7 @@ function NightcordModalInner({ onClose }: { onClose: () => void; }) {
     );
 }
 
-// â”€â”€ Modal wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Modal wrapper ─────────────────────────────────────────────────────────────
 
 function NightcordModal({ modalProps }: { modalProps: ModalProps; }) {
     return (

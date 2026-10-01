@@ -153,7 +153,7 @@ export function EquicordTranslatorModal() {
                     </Flex>
                     <div className="vc-translate-modal-paragraph">
                         <Paragraph>
-                            Awarded to contributors who expand Equicordâ€™s language support by translating content for the community.
+                            Awarded to contributors who expand Equicord’s language support by translating content for the community.
                         </Paragraph>
                     </div>
                 </ModalContent>

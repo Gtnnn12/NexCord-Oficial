@@ -221,6 +221,6 @@ function parseColor(str: string, type: ColorType): string {
         case ColorType.HEX:
             return str[0] === "#" ? str : `#${str}`;
         case ColorType.HSL:
-            return str.replace("Â°", "");
+            return str.replace("°", "");
     }
 }

@@ -91,5 +91,5 @@ export const replaceRegexp = (reg: string) => {
 export const regex = [
     { reg: /rgb\(\v\c\v\c\v\)/g, type: ColorType.RGB },
     { reg: /rgba\(\v\c\v\c\v(\c|\/?)\s*\f\)/g, type: ColorType.RGBA },
-    { reg: /hsl\(\vÂ°?\c\s*?\d+%?\s*?\c\s*?\d+%?\s*?\)/g, type: ColorType.HSL },
+    { reg: /hsl\(\v°?\c\s*?\d+%?\s*?\c\s*?\d+%?\s*?\)/g, type: ColorType.HSL },
 ].map(v => { v.reg = replaceRegexp(v.reg.source); return v; });

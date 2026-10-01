@@ -25,7 +25,7 @@ export function Collapsible({ title, children }) {
                         marginLeft: "auto",
                         color: "var(--text-muted)",
                         paddingRight: "5px"
-                    }}>{isOpen ? "â–¼" : "â–¶"}</div>
+                    }}>{isOpen ? "▼" : "▶"}</div>
                     <Heading tag="h4">{title}</Heading>
                 </div>
             </TextButton>

@@ -33,7 +33,7 @@ export const settings = definePluginSettings({
     }
 });
 
-// â”€â”€ Etat global â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Etat global ───────────────────────────────────────────────────────────────
 let followedId: string | null = null;
 let followedName: string = "";
 let followedChannel: string | null = null;
@@ -84,7 +84,7 @@ function joinChannel(channelId: string) {
     } catch { }
 }
 
-// â”€â”€ Timer d'inactivite : unfollow auto apres delai d'inactivite â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Timer d'inactivite : unfollow auto apres delai d'inactivite ───────────
 function resetInactivityTimer() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
     lastActivity = Date.now();
@@ -145,7 +145,7 @@ function checkFollowedUser() {
     }
 }
 
-// â”€â”€ Listener voix â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Listener voix ─────────────────────────────────────────────────────────────
 function onVoiceStateUpdates(data: any) {
     if (!followedId) return;
     const states: any[] = Array.isArray(data?.voiceStates) ? data.voiceStates
@@ -198,7 +198,7 @@ function stopFlux() {
     if (fastCheckInterval) { clearInterval(fastCheckInterval); fastCheckInterval = null; }
 }
 
-// â”€â”€ Follow / Unfollow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Follow / Unfollow ─────────────────────────────────────────────────────────
 export async function follow(userId: string) {
     const user = UserStore?.getUser?.(userId);
     const name = user?.globalName ?? user?.username ?? userId;
@@ -224,7 +224,7 @@ export async function follow(userId: string) {
         if (myCh !== followedChannel) {
             if (isUserStreaming()) {
                 Toasts.show({
-                    message: `Suivi activÃ©, mais impossible de rejoindre ${followedName} pendant que vous streamez`,
+                    message: `Suivi activé, mais impossible de rejoindre ${followedName} pendant que vous streamez`,
                     type: Toasts.Type.FAILURE,
                     id: Toasts.genId()
                 });
@@ -256,7 +256,7 @@ function joinFollowed() {
     resetInactivityTimer();
 }
 
-// â”€â”€ Icone coeur â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Icone coeur ───────────────────────────────────────────────────────────────
 function HeartIcon({ filled = false }: { filled?: boolean; }) {
     return (
         <svg width="18" height="18" viewBox="0 0 24 24">
@@ -269,7 +269,7 @@ function HeartIcon({ filled = false }: { filled?: boolean; }) {
     );
 }
 
-// â”€â”€ Bouton HeaderBar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Bouton HeaderBar ──────────────────────────────────────────────────────────
 // Clic gauche = rejoindre son vocal
 // Clic droit  = unfollow
 function FollowHeaderButton() {
@@ -290,14 +290,14 @@ function FollowHeaderButton() {
     return (
         <HeaderBarButton
             icon={() => <HeartIcon filled={true} />}
-            tooltip={t("{name} â€” Clic: join voice | Right click: unfollow").replace("{name}", followedName)}
+            tooltip={t("{name} — Clic: join voice | Right click: unfollow").replace("{name}", followedName)}
             onClick={handleClick}
             onContextMenu={handleClick}
         />
     );
 }
 
-// â”€â”€ Context menu â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Context menu ──────────────────────────────────────────────────────────────
 const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
     const userId: string | undefined = props?.user?.id;
     if (!userId) return;
@@ -315,7 +315,7 @@ const ctxPatch: NavContextMenuPatchCallback = (children, props) => {
 export default definePlugin({
     name: "FollowUser",
     enabledByDefault: true,
-    description: "Follows a user in voice channels. Right-click user â†’ Follow User. White heart in header = active following (left-click = join voice channel, right-click = unfollow). Auto-unfollows after inactivity.",
+    description: "Follows a user in voice channels. Right-click user → Follow User. White heart in header = active following (left-click = join voice channel, right-click = unfollow). Auto-unfollows after inactivity.",
     authors: [{ name: "NexCord",
      id: 0n }],
     settings,

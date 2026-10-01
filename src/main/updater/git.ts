@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-// Intentionnellement vide â€” NexCord ne supporte pas le mode git updater.
+// Intentionnellement vide — NexCord ne supporte pas le mode git updater.

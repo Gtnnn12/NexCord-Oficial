@@ -106,7 +106,7 @@ function disableStreamProof() {
     });
 }
 
-// â”€â”€ Eye Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Eye Icons ──────────────────────────────────────────────────────────────────
 
 function EyeIcon({ height = 20, width = 20 }: { height?: number; width?: number; }) {
     return (
@@ -146,7 +146,7 @@ function EyeSlashIcon({ height = 20, width = 20 }: { height?: number; width?: nu
     );
 }
 
-// â”€â”€ Chat Bar Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Chat Bar Button ────────────────────────────────────────────────────────────
 
 const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
     useStateFromStores([StreamerModeStore, StreamStore, RTCConnectionStore], () => isStreaming());
@@ -165,8 +165,8 @@ const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
 
     const active = streamProofActive;
     const tooltip = active
-        ? t("StreamProof : ON â€” click to disable")
-        : t("StreamProof : OFF â€” click to enable");
+        ? t("StreamProof : ON — click to disable")
+        : t("StreamProof : OFF — click to enable");
 
     return (
         <ChatBarButton tooltip={tooltip} onClick={toggle}>
@@ -177,7 +177,7 @@ const StreamProofButton: ChatBarButtonFactory = ({ isMainChat }) => {
     );
 };
 
-// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin ─────────────────────────────────────────────────────────────────────
 
 export default definePlugin({
     name: "StreamProof",

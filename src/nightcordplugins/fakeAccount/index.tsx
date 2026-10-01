@@ -16,7 +16,7 @@ const UserProfileStore = findStoreLazy("UserProfileStore");
 const EmojiStore = findStoreLazy("EmojiStore");
 const DS_KEY = "fakeAccount_switcher";
 
-// â”€â”€ Global State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Global State ────────────────────────────────────────────────────────────
 let fakeAccounts: any[] = [];
 let activeFakeId: string | null = null;
 let realUserSnapshot: any = null;
@@ -24,7 +24,7 @@ let _store: any = null;
 let _origGetUsers: (() => any[]) | null = null;
 let _origGetValidUsers: (() => any[]) | null = null;
 
-// â”€â”€ Store Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Store Validation ────────────────────────────────────────────────────
 // Critical Guard: waitFor("getUsers","getValidUsers","getHasLoggedInAccounts") can match
 // several Webpack stores that share these method names. If we patch the wrong store
 // (e.g., a permissions or channels store), corrupted results make all rooms disappear
@@ -42,8 +42,8 @@ function isMultiAccountStore(mod: any): boolean {
         const users = mod.getUsers();
         if (!Array.isArray(users)) return false;
 
-        // Si des users sont prÃ©sents, ils doivent avoir une structure de account Discord
-        // (id string + tokenStatus number) â€” caractÃ©ristique exclusive du MultiAccountStore
+        // Si des users sont présents, ils doivent avoir une structure de account Discord
+        // (id string + tokenStatus number) — caractéristique exclusive du MultiAccountStore
         if (users.length > 0) {
             const first = users[0];
             if (typeof first !== "object" || first === null) return false;
@@ -59,7 +59,7 @@ function isMultiAccountStore(mod: any): boolean {
             }
         }
 
-        // VÃ©rification finale anti-EmojiStore : EmojiStore a souvent "getFrequentlyUsedEmojis"
+        // Vérification finale anti-EmojiStore : EmojiStore a souvent "getFrequentlyUsedEmojis"
         if (typeof mod.getFrequentlyUsedEmojis === "function") return false;
 
         return true;
@@ -68,7 +68,7 @@ function isMultiAccountStore(mod: any): boolean {
     }
 }
 
-// â”€â”€ Store Patch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Store Patch ─────────────────────────────────────────────────────────
 function patchStore() {
     if (!_store || _origGetUsers) return;
 
@@ -121,7 +121,7 @@ function unpatchStore() {
     _store.emitChange?.();
 }
 
-// â”€â”€ simulateSwitch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── simulateSwitch ─────────────────────────────────────────────────────────
 function simulateSwitch(fake: any) {
     const me = UserStore.getCurrentUser();
     if (!me) return;
@@ -170,7 +170,7 @@ function simulateSwitch(fake: any) {
     _store?.emitChange?.();
 }
 
-// â”€â”€ restoreRealAccount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── restoreRealAccount ─────────────────────────────────────────────────────
 function restoreRealAccount() {
     if (!realUserSnapshot) return;
     const me = UserStore.getCurrentUser();
@@ -207,7 +207,7 @@ function restoreRealAccount() {
     _store?.emitChange?.();
 }
 
-// â”€â”€ Switch action subscriptions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Switch action subscriptions ──────────────────────────────────
 function onSwitchFailure(action: any) {
     const userId = action.userId ?? action.user_id ?? action.id;
     const fake = fakeAccounts.find(f => f.id === userId);
@@ -222,7 +222,7 @@ function onSwitchAttempt(action: any) {
     simulateSwitch(fake);
 }
 
-// â”€â”€ DISCONNECT Handler (removal) of a fake account â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DISCONNECT Handler (removal) of a fake account ──────────────────
 function onRemoveAccount(action: any) {
     const userId = action.userId ?? action.user_id ?? action.id;
     if (!userId) return;
@@ -271,7 +271,7 @@ function addToSwitcher(userId: string) {
     _store?.emitChange?.();
 }
 
-// â”€â”€ UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── UI ─────────────────────────────────────────────────────────────────────
 function RestoreIcon() {
     return (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -290,7 +290,7 @@ function RestoreButton() {
     return (
         <HeaderBarButton
             icon={RestoreIcon}
-            tooltip={t("Fake account active â€” click to restore your real account")}
+            tooltip={t("Fake account active — click to restore your real account")}
             onClick={() => { restoreRealAccount(); setActive(false); }}
         />
     );
@@ -321,11 +321,11 @@ const ctxPatch: NavContextMenuPatchCallback = (children, { user }) => {
     }
 };
 
-// â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin ─────────────────────────────────────────────────────────────────
 export default definePlugin({
     name: "FakeSwitcher",
     enabledByDefault: false,
-    description: "Right-click â†’ add a user to the switcher. Click in the switcher â†’ your profile takes their appearance locally.",
+    description: "Right-click → add a user to the switcher. Click in the switcher → your profile takes their appearance locally.",
     authors: [{ name: "NexCord",
      id: 0n }],
     dependencies: ["HeaderBarAPI"],

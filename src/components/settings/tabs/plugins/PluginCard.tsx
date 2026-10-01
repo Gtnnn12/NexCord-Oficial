@@ -184,7 +184,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                 <ModalHeader separator={false} style={{ padding: "20px 24px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", flexDirection: "column", flex: 1, gap: 4 }}>
                         <Text variant="heading-xl/bold" style={{ color: "#ffffff", fontSize: "20px", fontWeight: 700, margin: 0 }}>
-                            {plugin.name} â€“ {t("Tutorial")}
+                            {plugin.name} – {t("Tutorial")}
                         </Text>
                         <Text variant="text-sm/normal" style={{ color: "#949ba4", fontSize: "14px", margin: 0 }}>
                             {t("Watch full plugin guide and feature demonstration")}
@@ -368,9 +368,9 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     const isNexCord = !PluginMeta[plugin.name]?.userPlugin;
     const iconType = isNexCord ? "NexCord" : "other";
 
-    // Le systÃ¨me de like ne s'applique qu'aux plugins NexCord (pas Vencord/Equicord,
-    // pas User Plugins), et jamais aux plugins required (y compris ceux affichÃ©s comme
-    // required parce qu'une dÃ©pendance active en a besoin, d'oÃ¹ le check sur `disabled`).
+    // Le système de like ne s'applique qu'aux plugins NexCord (pas Vencord/Equicord,
+    // pas User Plugins), et jamais aux plugins required (y compris ceux affichés comme
+    // required parce qu'une dépendance active en a besoin, d'où le check sur `disabled`).
     const isNexCordFolderPlugin = PluginMeta[plugin.name]?.folderName?.startsWith("src/nightcordplugins/") ?? false;
     const canShowLikeBadge = !plugin.required && !disabled;
 

@@ -13,7 +13,7 @@ import { React } from "@webpack/common";
 
 import { t } from "../autoTranslateNightcord";
 
-// â”€â”€ Settings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Settings ───────────────────────────────────────────────────────────────────
 
 export const settings = definePluginSettings({
     autoExpand: {
@@ -160,7 +160,7 @@ function injectScrollbarStyle(rawHtml: string): string {
     return `${scrollbarStyle}${rawHtml}`;
 }
 
-// â”€â”€ Single HTML Preview Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Single HTML Preview Card ──────────────────────────────────────────────────
 
 function HtmlCard({ item }: { item: HtmlItem; }) {
     const [isExpanded, setIsExpanded] = React.useState(settings.store.autoExpand);
@@ -288,7 +288,7 @@ function HtmlCard({ item }: { item: HtmlItem; }) {
                         <button
                             className="phtml-btn phtml-scale-badge"
                             onClick={cycleScale}
-                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% â€” ${t("Click to change zoom")}`}
+                            title={`${t("Scale")}: ${Math.round(scaleMode * 100)}% — ${t("Click to change zoom")}`}
                         >
                             <span>{Math.round(scaleMode * 100)}%</span>
                         </button>
@@ -410,7 +410,7 @@ function HtmlCard({ item }: { item: HtmlItem; }) {
     );
 }
 
-// â”€â”€ Message Accessory Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Message Accessory Component ────────────────────────────────────────────────
 
 function HtmlPreviewAccessory({ message }: { message: any; }) {
     const items = React.useMemo(() => {
@@ -428,7 +428,7 @@ function HtmlPreviewAccessory({ message }: { message: any; }) {
     );
 }
 
-// â”€â”€ Plugin Definition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Plugin Definition ──────────────────────────────────────────────────────────
 
 const ACCESSORY_ID = "NexCord-html-preview";
 

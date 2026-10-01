@@ -220,7 +220,7 @@ export default definePlugin({
     },
 
     start() {
-        // Force disable outgoing auto-translate â€” only incoming is supported
+        // Force disable outgoing auto-translate — only incoming is supported
         settings.store.autoTranslate = false;
 
         setOnAutoTranslateReceivedToggled((enabled) => {

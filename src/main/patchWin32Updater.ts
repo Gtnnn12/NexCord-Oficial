@@ -59,10 +59,10 @@ function patchResourcesDir(resourcesDir: string) {
         writeFileSync(join(appDir, "package.json"), JSON.stringify({
             name: "discord",
             main: "index.js"
-        }, null, 2));
+        }, null, 2), "utf8");
 
         const indexJs = [
-            "// NexCord Injector â€” auto-generated",
+            "// NexCord Injector — auto-generated",
             "\"use strict\";",
             "const path = require(\"path\");",
             "const fs = require(\"fs\");",
@@ -78,7 +78,7 @@ function patchResourcesDir(resourcesDir: string) {
             ""
         ].join("\n");
 
-        writeFileSync(join(appDir, "index.js"), indexJs);
+        writeFileSync(join(appDir, "index.js"), indexJs, "utf8");
         console.info(`[NexCord] Successfully injected into ${resourcesDir}`);
     } catch (err) {
         console.error(`[NexCord] Failed to auto-inject into ${resourcesDir}:`, err);

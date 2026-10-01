@@ -46,7 +46,7 @@ export const timeFormats: Record<string, TimeFormat> = {
     tooltipFormat: {
         name: "Tooltip",
         description: "Time format to use on tooltips",
-        default: "LLLL â€¢ [relative]",
+        default: "LLLL • [relative]",
         offset: 0,
     },
     ariaLabelFormat: {

@@ -31,7 +31,7 @@ export async function saveOwnPluginConfig(pluginName: string, token: string, set
     return response.json();
 }
 
-// No in-memory cache here â€” caching is handled by callers (e.g. publicProfilesCache in customProfile)
+// No in-memory cache here — caching is handled by callers (e.g. publicProfilesCache in customProfile)
 export async function getPublicPluginConfig(pluginName: string, userId: string) {
     try {
         const nativeFetch = (window as any).VencordNative?.pluginHelpers?.MultiInstance?.fetchPublicConfig;

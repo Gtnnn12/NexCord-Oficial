@@ -26,7 +26,7 @@ New-Item -ItemType Directory -Path "$res\NexCord.asar" -Force | Out-Null
 
 node -e "require("@electron/asar").extractAll("C:/Users/acept/Desktop/NexCord/dist/nightcord.asar","$res\NexCord.asar")"
 
-"{}" | Out-File "$res\NexCord.asar\nightcord-pending-update.json" -Encoding ascii
+"{}" | Out-File "$res\NexCord.asar\nightcord-pending-update.json" -Encoding utf8
 
 Start-Process "$($discordApp.FullName)\Discord.exe"
 Write-Host "NexCord instalado!" -ForegroundColor Green

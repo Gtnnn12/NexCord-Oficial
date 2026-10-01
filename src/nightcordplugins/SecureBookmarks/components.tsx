@@ -99,7 +99,7 @@ function BookmarkImages({ bookmark }: { bookmark: VisibleBookmark; }) {
     );
 }
 
-// â”€â”€ Lock icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Lock icon ────────────────────────────────────────────────────────────────
 function LockIcon() {
     return (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ function WarningIcon() {
     );
 }
 
-// â”€â”€ Unlock view â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Unlock view ─────────────────────────────────────────────────────────────
 interface UnlockViewProps {
     onUnlock: (password: string) => void;
 }
@@ -153,7 +153,7 @@ function UnlockView({ onUnlock }: UnlockViewProps) {
                 <TextInput
                     value={password}
                     onChange={setPassword}
-                    placeholder={t("Enter your passwordâ€¦")}
+                    placeholder={t("Enter your password…")}
                     type="password"
                     autoComplete="current-password"
                     onKeyDown={handleKeyDown}
@@ -176,7 +176,7 @@ function UnlockView({ onUnlock }: UnlockViewProps) {
     );
 }
 
-// â”€â”€ Bookmarks list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Bookmarks list ──────────────────────────────────────────────────────────
 interface BookmarksListProps {
     password: string;
 }
@@ -236,7 +236,7 @@ function BookmarksList({ password }: BookmarksListProps) {
 
     if (pending) return (
         <div className={cl("empty")}>
-            <BaseText size="sm" color="text-muted">{t("Loading your bookmarksâ€¦")}</BaseText>
+            <BaseText size="sm" color="text-muted">{t("Loading your bookmarks…")}</BaseText>
         </div>
     );
 
@@ -329,7 +329,7 @@ function BookmarksList({ password }: BookmarksListProps) {
     );
 }
 
-// â”€â”€ Main modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Main modal ──────────────────────────────────────────────────────────────
 interface SecureBookmarksModalProps {
     modalProps: RenderModalProps;
     close: () => void;
@@ -362,7 +362,7 @@ function SecureBookmarksModalInner({ modalProps, close }: SecureBookmarksModalPr
             <ModalContent style={{ padding: "16px 20px" }}>
                 {!protection ? (
                     <div className={cl("empty")}>
-                        <BaseText size="sm" color="text-muted">{t("Loadingâ€¦")}</BaseText>
+                        <BaseText size="sm" color="text-muted">{t("Loading…")}</BaseText>
                     </div>
                 ) : passwordNeeded && !password ? (
                     <div className={cl("no-password")}>

@@ -20,12 +20,12 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Transcription language. Auto-detect may occasionally hallucinate English.",
         options: [
-            { label: "French (FranÃ§ais)", value: "fr", default: true },
+            { label: "French (Français)", value: "fr", default: true },
             { label: "English (Anglais)", value: "en" },
-            { label: "Spanish (EspaÃ±ol)", value: "es" },
+            { label: "Spanish (Español)", value: "es" },
             { label: "German (Deutsch)", value: "de" },
             { label: "Italian (Italiano)", value: "it" },
-            { label: "Portuguese (PortuguÃªs)", value: "pt" },
+            { label: "Portuguese (Português)", value: "pt" },
             { label: "Auto-detect", value: "" }
         ],
         restartNeeded: false,
@@ -73,13 +73,13 @@ function insertText(text: string) {
 async function transcribe(blob: Blob): Promise<string> {
     const language = settings.store.language?.trim() || undefined;
     const apiKey = await getGroqKey();
-    if (!apiKey) throw new Error(t("API key missing â€” Configure your key in Settings â†’ NexCordAI"));
+    if (!apiKey) throw new Error(t("API key missing — Configure your key in Settings → NexCordAI"));
 
     const form = new FormData();
     form.append("file", blob, "audio.webm");
     form.append("model", "whisper-large-v3-turbo");
     form.append("response_format", "text");
-    form.append("prompt", "Ceci est une dictÃ©e vocale en franÃ§ais. Ne pas traduire en anglais. Ne pas gÃ©nÃ©rer de texte si il n'y a que du silence.");
+    form.append("prompt", "Ceci est une dictée vocale en français. Ne pas traduire en anglais. Ne pas générer de texte si il n'y a que du silence.");
     if (language) form.append("language", language);
 
     const res = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
@@ -128,13 +128,13 @@ const VoiceDictationButton: ChatBarButtonFactory = ({ isMainChat }) => {
             if (text) {
                 const t = text.trim();
                 const isHallucination =
-                    /^(merci|thanks?|thank you|music|â™ª|ðŸŽµ|\.\.\.|\.\s*)+$/i.test(t) ||
+                    /^(merci|thanks?|thank you|music|♪|🎵|\.\.\.|\.\s*)+$/i.test(t) ||
                     /sous[- ]?titr/i.test(t) ||
-                    /radio[- ]?canada|sociÃ©tÃ© radio/i.test(t) ||
-                    /merci .*(regard|Ã©couter|suivi)|thanks? .*watch/i.test(t) ||
+                    /radio[- ]?canada|société radio/i.test(t) ||
+                    /merci .*(regard|écouter|suivi)|thanks? .*watch/i.test(t) ||
                     /transcri(ption|t)\s*(par|by)/i.test(t) ||
                     /^(.{1,15})\1{2,}$/i.test(t.replace(/\s+/g, "")) ||
-                    /^[\s.,!?â€¦\-â€“â€”]+$/.test(t);
+                    /^[\s.,!?…\-–—]+$/.test(t);
                 if (!isHallucination) insertText(text + " ");
             }
         } catch (e: any) {

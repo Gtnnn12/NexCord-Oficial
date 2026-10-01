@@ -124,5 +124,5 @@ function createNexCordMenuItems(): MenuItemConstructorOptions[] {
 }
 
 export function patchTrayMenu(): void {
-    // No longer patching tray menu â€” NexCord manages its own tray in patcher.ts
+    // No longer patching tray menu — NexCord manages its own tray in patcher.ts
 }

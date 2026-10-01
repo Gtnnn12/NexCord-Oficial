@@ -679,9 +679,9 @@ input:checked + .nc-wb-switch-slider:before {
 </head>
 <body>
 <div class="nc-wb-overlay">
-    <div class="nc-wb-close" id="btn-close">âœ•</div>
+    <div class="nc-wb-close" id="btn-close">✕</div>
     <div class="nc-wb-header" id="drag-header">
-        <h3>ðŸŽ¯ WordBomb Helper</h3>
+        <h3>🎯 WordBomb Helper</h3>
     </div>
     
     <!-- Home View -->
@@ -761,7 +761,7 @@ input:checked + .nc-wb-switch-slider:before {
 
     <!-- Footer -->
     <div class="nc-wb-footer">
-        <div class="nc-wb-settings-btn" id="btn-settings">âš™</div>
+        <div class="nc-wb-settings-btn" id="btn-settings">⚙</div>
         <div class="nc-wb-status-footer" id="status-footer">LPS: 50 | Error: 0%</div>
     </div>
 </div>
@@ -845,7 +845,7 @@ input:checked + .nc-wb-switch-slider:before {
                         const textObj = Object.values(pages)[0];
                         if (textObj && textObj.extract) {
                             themeWords.clear();
-                            const words = textObj.extract.toLowerCase().match(/[a-zÃ Ã¢Ã§Ã©Ã¨ÃªÃ«Ã®Ã¯Ã´Ã»Ã¹Ã¼Ã¿Ã±Ã¦Å“]+/g) || [];
+                            const words = textObj.extract.toLowerCase().match(/[a-zàâçéèêëîïôûùüÿñæœ]+/g) || [];
                             words.forEach(w => {
                                 if (w.length > 3) themeWords.add(w);
                             });
@@ -870,12 +870,12 @@ input:checked + .nc-wb-switch-slider:before {
         if (isSettingsOpen) {
             homeView.style.display = 'none';
             settingsView.style.display = 'flex';
-            btnSettings.innerText = 'âœ•';
+            btnSettings.innerText = '✕';
             window.worldBombAPI.resize(326, 450);
         } else {
             settingsView.style.display = 'none';
             homeView.style.display = 'flex';
-            btnSettings.innerText = 'âš™';
+            btnSettings.innerText = '⚙';
             
             // Adjust height based on definition container visibility
             const hasDef = document.getElementById('definition-container').style.display !== 'none';
@@ -1168,7 +1168,7 @@ ipcMain.handle(IpcEvents.GET_QUICK_CSS, (event) => {
 });
 ipcMain.handle(IpcEvents.SET_QUICK_CSS, (event, css) => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
-    return writeFileSync(QUICK_CSS_PATH, css);
+    return writeFileSync(QUICK_CSS_PATH, css, "utf8");
 });
 
 ipcMain.handle(IpcEvents.GET_THEMES_DIR, (event) => {

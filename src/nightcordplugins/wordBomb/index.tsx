@@ -6,7 +6,7 @@
 
 import { t } from "../autoTranslateNightcord";
 /*
- * NexCord â€“ WorldBomb Assistant Plugin
+ * NexCord – WorldBomb Assistant Plugin
  * Inspired by "cheat worldbomb" Python scripts.
  */
 
@@ -25,7 +25,7 @@ const TrophyIcon = (props: any) => (
 export default definePlugin({
     name: "WordBomb",
     enabledByDefault: false,
-    description: "Assistant BombParty/WordBomb avec overlay persistant, IA intÃ©grÃ©e et alphabet track.",
+    description: "Assistant BombParty/WordBomb avec overlay persistant, IA intégrée et alphabet track.",
     authors: [{ name: "NexCord",
      id: 0n }],
     dependencies: ["HeaderBarAPI"],
