@@ -13,7 +13,7 @@ const {
 
 const { join } = require("path");
 
-const NEXCORD_VERSION = "1.26.4";
+const NEXCORD_VERSION = "1.26.7";
 const DISCORD_VERSION = "1.0.9254";
 
 function killNexCord() {
